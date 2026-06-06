@@ -1,0 +1,29 @@
+{
+  "id": "1.1",
+  "title": "What is Java?",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "Java is a high-level, object-oriented programming language created by James Gosling at Sun Microsystems in 1995.\n\nThe big idea behind Java is WORA — Write Once, Run Anywhere. You write code once, compile it into bytecode, and that bytecode runs on any machine with a Java Virtual Machine (JVM). It doesn't matter if you're on Windows, Mac, Linux, or a microwave with WiFi.\n\nJava is:\n• Object-Oriented — everything is built around objects and classes\n• Strongly Typed — you must declare what type a variable is\n• Garbage Collected — memory is managed for you\n• Platform Independent — thanks to the JVM\n\nIn this course, we follow the CS22301 syllabus — OOP concepts first, then deeper into how Java makes OOP happen.",
+    "openingDialogue": "Java was literally designed to run on a toaster~ Well, almost. Let me explain! ☕"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "This lesson is conceptual — no code to break yet! We'll get to that very soon. Phase 2 starts mattering from Lesson 1.3 onward~"
+  },
+  "phase3": {
+    "prompt": "Quick check! Which of these is a Java feature?\n\nA) Platform dependent — runs only on Windows\nB) Uses pointers like C/C++\nC) Write Once, Run Anywhere (WORA)\nD) Manual memory management required",
+    "validationPattern": {
+      "mcqAnswer": "C"
+    },
+    "dialogueHints": [
+      "Think about what makes Java special compared to C...",
+      "The JVM is the key. What does it make possible?"
+    ],
+    "solution": null,
+    "openingDialogue": "Alright, time to see if you were listening~ 👀"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,93 @@
+.phase-indicator {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0 4px;
+}
+
+.phase-connectors {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  display: flex;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.phase-connector {
+  flex: 1;
+  height: 2px;
+  background: var(--color-border);
+  transition: background var(--transition-base);
+  margin: 0 44px; /* approx tab width halves */
+}
+
+.phase-connector--done {
+  background: var(--color-pink-dark);
+}
+
+.phase-tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--transition-fast);
+  flex: 1;
+}
+
+.phase-tab:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.phase-tab-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  transition: all var(--transition-base);
+}
+
+.phase-tab--active .phase-tab-icon {
+  border-color: var(--color-pink);
+  background: var(--color-pink-glow);
+  color: var(--color-pink-light);
+  box-shadow: var(--shadow-pink);
+}
+
+.phase-tab--done .phase-tab-icon {
+  border-color: var(--color-success);
+  background: var(--color-success-glow);
+  color: var(--color-success);
+}
+
+.phase-tab-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+}
+
+.phase-tab--active .phase-tab-label {
+  color: var(--color-pink-light);
+}
+
+.phase-tab--done .phase-tab-label {
+  color: var(--color-success);
+}

@@ -1,0 +1,35 @@
+.bottombar {
+  grid-area: bottombar;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  z-index: 10;
+}
+
+.bottombar-left {
+  flex-shrink: 0;
+}
+
+.bottombar-center {
+  flex: 1;
+  min-width: 0;
+}
+
+.bottombar-right {
+  flex-shrink: 0;
+}
+
+.bottombar-level {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-family: var(--font-ui);
+}
+
+.bottombar-level strong {
+  color: var(--color-xp);
+  font-size: 1rem;
+  margin-left: 2px;
+}

@@ -1,0 +1,31 @@
+.xp-display {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-ui);
+}
+
+.xp-icon {
+  color: var(--color-xp);
+  font-size: 0.9rem;
+  animation: xp-pulse 2s ease-in-out infinite;
+}
+
+.xp-value {
+  color: var(--color-xp);
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.xp-label {
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@keyframes xp-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.6; }
+}

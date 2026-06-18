@@ -1,0 +1,31 @@
+{
+  "id": "1.12",
+  "title": "Methods",
+  "type": "coding",
+  "phase1": {
+    "code": "public class MethodsExample {\n    public static void main(String[] args) {\n        // Calling methods\n        System.out.println(\"Sum of 5 and 3: \" + add(5, 3));\n        System.out.println(\"Sum of 7, 8, and 9: \" + add(7, 8, 9));\n        System.out.println(\"Factorial of 5: \" + factorial(5));\n        sayHello(\"Alice\");\n        \n        // Method overloading\n        System.out.println(\"Area of circle (radius 3): \" + area(3));\n        System.out.println(\"Area of rectangle (4x5): \" + area(4, 5));\n    }\n    \n    // Method with parameters and return value\n    static int add(int a, int b) {\n        return a + b;\n    }\n    \n    // Method overloading\n    static int add(int a, int b, int c) {\n        return a + b + c;\n    }\n    \n    // Method with a loop\n    static int factorial(int n) {\n        int result = 1;\n        for (int i = 2; i <= n; i++) {\n            result *= i;\n        }\n        return result;\n    }\n    \n    // Void method (returns nothing)\n    static void sayHello(String name) {\n        System.out.println(\"Hello, \" + name + \"!\");\n    }\n    \n    // Another overloaded method\n    static double area(double radius) {\n        return Math.PI * radius * radius;\n    }\n    \n    static int area(int length, int width) {\n        return length * width;\n    }\n}",
+    "output": "Sum of 5 and 3: 8\nSum of 7, 8, and 9: 24\nFactorial of 5: 120\nHello, Alice!\nArea of circle (radius 3): 28.274333882308138\nArea of rectangle (4x5): 20",
+    "explanation": "Methods are reusable blocks of code:\n\nDeclaration: static returnType name(parameters) { body }\n\nReturn types: void (returns nothing) or a data type\n\nParameters: variables passed into the method\n\nMethod overloading: same name, different parameters\n• Different number of parameters\n• Different types of parameters\n\nBenefits of methods:\n• Code reuse — write once, use many times\n• Organization — break complex problems into smaller pieces\n• Readability — meaningful method names\n\nPro tip: Make methods do ONE thing and do it well!"
+  },
+  "phase2": {
+    "brokenCode": "public class MethodsExample {\n    public static void main(String[] args) {\n        System.out.println(\"Sum: \" + add(5, 3));\n    }\n    \n    // Forgetting to declare return type\n    static add(int a, int b) {\n        return a + b;\n    }\n}",
+    "errorMessage": "MethodsExample.java:7: error: invalid method declaration; return type required\n    static add(int a, int b) {\n           ^\n1 error",
+    "explanation": "Every method MUST have a return type! Even void must be explicitly declared.\n\nCorrect: static int add(int a, int b)\nor: static void add(int a, int b)\n\nAlways include the return type in your method declaration."
+  },
+  "phase3": {
+    "prompt": "Write a program with these methods:\n1. multiply(int a, int b) — returns a * b\n2. multiply(int a, int b, int c) — returns a * b * c (overloaded)\n3. printMessage(String msg) — prints \"=== [msg] ===\"\n\nCall all three methods from main.",
+    "validationPattern": {
+      "required": ["static int", "static void", "overloading"],
+      "forbidden": [],
+      "fullRegex": "static\\s+int\\s+multiply\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)[\\s\\S]*static\\s+int\\s+multiply\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)[\\s\\S]*static\\s+void\\s+printMessage"
+    },
+    "dialogueHints": [
+      "The first multiply takes 2 parameters, the second takes 3 (overloading)",
+      "printMessage should be void — it just prints",
+      "Call all methods in main with test values"
+    ],
+    "solution": "public class MethodPractice {\n    public static void main(String[] args) {\n        System.out.println(\"2 * 3 = \" + multiply(2, 3));\n        System.out.println(\"2 * 3 * 4 = \" + multiply(2, 3, 4));\n        printMessage(\"Welcome to Java\");\n    }\n    \n    static int multiply(int a, int b) {\n        return a * b;\n    }\n    \n    static int multiply(int a, int b, int c) {\n        return a * b * c;\n    }\n    \n    static void printMessage(String msg) {\n        System.out.println(\"=== \" + msg + \" ===\");\n    }\n}",
+    "openingDialogue": "Time to create your own reusable blocks — methods! 🛠️"
+  },
+  "xpReward": 10
+}

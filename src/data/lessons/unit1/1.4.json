@@ -1,0 +1,32 @@
+{
+  "id": "1.4",
+  "title": "Data Types & Variables",
+  "type": "coding",
+  "phase1": {
+    "code": "public class DataTypesExample {\n    public static void main(String[] args) {\n        // Primitive types\n        int age = 25;\n        double price = 19.99;\n        char grade = 'A';\n        boolean isJavaFun = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"Price: $\" + price);\n        System.out.println(\"Grade: \" + grade);\n        System.out.println(\"Is Java fun? \" + isJavaFun);\n    }\n}",
+    "output": "Age: 25\nPrice: $19.99\nGrade: A\nIs Java fun? true",
+    "explanation": "Java has 8 primitive data types. We're using 4 here:\n\nint — whole numbers (no decimals)\ndouble — decimal numbers\nchar — a single character in single quotes ''\nboolean — true or false\n\nVariable declaration: type name = value;\n\nNaming rules:\n• Can start with letter, underscore _, or dollar sign $\n• Can't start with a number\n• Can't use reserved keywords (int, class, etc.)\n• Use camelCase: myVariableName\n\nSout tip: System.out.println can combine strings with variables using the + operator!",
+    "openingDialogue": "Variables are like labeled boxes — you put values in them and give them names! 📦"
+  },
+  "phase2": {
+    "brokenCode": "public class DataTypesExample {\n    public static void main(String[] args) {\n        int age = 25;\n        double price = 19.99;\n        char grade = \"A\";\n        boolean isJavaFun = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"Price: $\" + price);\n        System.out.println(\"Grade: \" + grade);\n        System.out.println(\"Is Java fun? \" + isJavaFun);\n    }\n}",
+    "errorMessage": "DataTypesExample.java:5: error: incompatible types: String cannot be converted to char\n        char grade = \"A\";\n                     ^\n1 error",
+    "explanation": "char uses SINGLE quotes 'A' — double quotes \"A\" is for String (text). This is a classic beginner error!\n\nJava is strongly typed — you can't assign a String to a char variable. The compiler caught this and told you exactly what went wrong."
+  },
+  "phase3": {
+    "prompt": "Create a program with variables for:\n• A student's age (int) — set to 20\n• Their GPA (double) — set to 3.75\n• Their first initial (char) — set to 'J'\n• Whether they're enrolled (boolean) — set to true\n\nPrint all 4 values with descriptive labels.",
+    "validationPattern": {
+      "required": ["int", "double", "char", "boolean", "System.out.println"],
+      "forbidden": [],
+      "fullRegex": "public\\s+class\\s+\\w+\\s*\\{[\\s\\S]*int\\s+\\w+\\s*=\\s*20\\s*;[\\s\\S]*double\\s+\\w+\\s*=\\s*3\\.75\\s*;[\\s\\S]*char\\s+\\w+\\s*=\\s*'J'\\s*;[\\s\\S]*boolean\\s+\\w+\\s*=\\s*true\\s*;[\\s\\S]*System\\.out\\.println\\s*\\([\\s\\S]*\\)\\s*;[\\s\\S]*\\}"
+    },
+    "dialogueHints": [
+      "You need 4 variables — one of each type mentioned.",
+      "Make sure char uses single quotes: 'J' not \"J\".",
+      "Print them using System.out.println with descriptive labels."
+    ],
+    "solution": "public class StudentInfo {\n    public static void main(String[] args) {\n        int age = 20;\n        double gpa = 3.75;\n        char initial = 'J';\n        boolean enrolled = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n        System.out.println(\"Initial: \" + initial);\n        System.out.println(\"Enrolled: \" + enrolled);\n    }\n}",
+    "openingDialogue": "Alright, show me you can handle these variables~ 🎯"
+  },
+  "xpReward": 10
+}

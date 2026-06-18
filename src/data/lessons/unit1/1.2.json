@@ -1,0 +1,29 @@
+{
+  "id": "1.2",
+  "title": "Setting Up & Your First Program",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "Before writing Java code, you need three things:\n\n1. JDK (Java Development Kit) — includes the compiler (javac) and runtime (JRE)\n2. An IDE or text editor — IntelliJ, Eclipse, VS Code, or even Notepad!\n3. Understanding the two-step process:\n   • javac compiles .java files into .class bytecode\n   • java runs the bytecode on the JVM\n\nThink of it like cooking: javac is the prep work (chopping ingredients), java is the actual cooking (making the meal). The JVM is the stove that works with any kitchen!\n\nPopular IDEs:\n• IntelliJ IDEA — industry standard, very popular\n• Eclipse — free, open-source, lots of plugins\n• VS Code — lightweight, modern\n\nPro tip: Start with VS Code or IntelliJ Community Edition — they're free and great for beginners!",
+    "openingDialogue": "Time to set up your workspace! Don't worry, I'll guide you through it step by step~ 🛠️"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code yet! But a common mistake beginners make is downloading the wrong JDK version. Always check: 'java -version' and 'javac -version' in your terminal to verify both are installed correctly."
+  },
+  "phase3": {
+    "prompt": "What is the correct sequence to compile and run a Java program?\n\nA) java → javac → run\nB) compile → write code → run\nC) javac → java\nD) write code → javac → java",
+    "validationPattern": {
+      "mcqAnswer": "D"
+    },
+    "dialogueHints": [
+      "What's the difference between javac and java?",
+      "You compile first, then execute."
+    ],
+    "solution": null,
+    "openingDialogue": "Let's check if you got the workflow right~ 🤔"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "1.9",
+  "title": "Loops — for & while",
+  "type": "coding",
+  "phase1": {
+    "code": "public class LoopsExample {\n    public static void main(String[] args) {\n        // For loop — count from 1 to 5\n        System.out.println(\"=== For Loop ===\");\n        for (int i = 1; i <= 5; i++) {\n            System.out.println(\"Count: \" + i);\n        }\n        \n        // While loop — add numbers until sum > 20\n        System.out.println(\"=== While Loop ===\");\n        int sum = 0;\n        int counter = 1;\n        while (sum <= 20) {\n            sum += counter;\n            System.out.println(\"Adding \" + counter + \", sum = \" + sum);\n            counter++;\n        }\n        \n        // Do-while — runs at least once\n        System.out.println(\"=== Do-While Loop ===\");\n        int num = 0;\n        do {\n            System.out.println(\"This runs at least once! num = \" + num);\n            num++;\n        } while (num < 3);\n        \n        // Break and continue\n        System.out.println(\"=== Break & Continue ===\");\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) {\n                System.out.println(\"Breaking at \" + i);\n                break;  // Exits loop\n            }\n            if (i % 2 == 0) {\n                continue;  // Skips even numbers\n            }\n            System.out.println(\"Odd number: \" + i);\n        }\n    }\n}",
+    "output": "=== For Loop ===\nCount: 1\nCount: 2\nCount: 3\nCount: 4\nCount: 5\n=== While Loop ===\nAdding 1, sum = 1\nAdding 2, sum = 3\nAdding 3, sum = 6\nAdding 4, sum = 10\nAdding 5, sum = 15\nAdding 6, sum = 21\n=== Do-While Loop ===\nThis runs at least once! num = 0\nThis runs at least once! num = 1\nThis runs at least once! num = 2\n=== Break & Continue ===\nOdd number: 1\nOdd number: 3\nOdd number: 5\nBreaking at 6",
+    "explanation": "Loops repeat code multiple times:\n\nFor loop: when you know how many times to repeat\nfor (initialization; condition; increment) {\n    // code to repeat\n}\n\nWhile loop: when you need to loop until a condition changes\nwhile (condition) {\n    // code to repeat\n}\n\nDo-while: ALWAYS runs at least once, then checks condition\ndo {\n    // code to repeat at least once\n} while (condition);\n\nLoop control:\n• break — exits the loop completely\n• continue — skips to the next iteration\n\n⚠️ Be careful with infinite loops: while (true) without a break is dangerous!"
+  },
+  "phase2": {
+    "brokenCode": "public class LoopsExample {\n    public static void main(String[] args) {\n        int sum = 0;\n        int counter = 1;\n        while (counter <= 5) {\n            sum += counter;\n            System.out.println(\"Sum: \" + sum);\n            // Missing counter increment!\n        }\n        System.out.println(\"Final sum: \" + sum);\n    }\n}",
+    "errorMessage": "(Program runs forever! No error message — but the code never stops.)\n\nSum: 1\nSum: 2\nSum: 3\nSum: 4\nSum: 5\nSum: 6\nSum: 7\n... infinite ...",
+    "explanation": "This is an infinite loop! counter never changes, so counter <= 5 is ALWAYS true.\n\nThe fix: counter++ inside the loop so it eventually becomes 6 and the condition becomes false.\n\nAlways check: does your loop variable change? Is there a path to exit?\n\nTips to avoid infinite loops:\n• Make sure your condition will become false\n• Use break as an escape hatch\n• Print debugging messages to track variables"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Uses a for loop to print numbers 10 down to 1\n2. Uses a while loop to add numbers 1 to 100 and print the sum (5050)",
+    "validationPattern": {
+      "required": ["for", "while", "System.out.println"],
+      "forbidden": [],
+      "fullRegex": "for\\s*\\([\\s\\S]*\\)[\\s\\S]*while\\s*\\([\\s\\S]*\\)[\\s\\S]*5050"
+    },
+    "dialogueHints": [
+      "For the for loop: start at 10, run while >= 1, decrement each time",
+      "For the while loop: start sum=0, num=1, add until num=100",
+      "Print the final sum to verify it's 5050"
+    ],
+    "solution": "public class LoopPractice {\n    public static void main(String[] args) {\n        // For loop descending\n        System.out.println(\"Counting down:\");\n        for (int i = 10; i >= 1; i--) {\n            System.out.println(i);\n        }\n        \n        // While loop sum\n        int sum = 0;\n        int num = 1;\n        while (num <= 100) {\n            sum += num;\n            num++;\n        }\n        System.out.println(\"Sum of 1-100: \" + sum);\n    }\n}",
+    "openingDialogue": "Time to loop — don't get caught in an infinite one! 🔄"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "1.11",
+  "title": "2D Arrays & Matrices",
+  "type": "coding",
+  "phase1": {
+    "code": "public class TwoDArrayExample {\n    public static void main(String[] args) {\n        // 2D array declaration\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        System.out.println(\"Row count: \" + matrix.length);\n        System.out.println(\"Column count: \" + matrix[0].length);\n        \n        // Accessing elements\n        System.out.println(\"Element at [1][2]: \" + matrix[1][2]);\n        \n        // Printing the matrix\n        System.out.println(\"=== Matrix ===\");\n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < matrix[row].length; col++) {\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();  // New line after each row\n        }\n        \n        // Creating a 2D array with different row sizes (jagged array)\n        int[][] jagged = new int[3][];\n        jagged[0] = new int[]{1, 2};\n        jagged[1] = new int[]{3, 4, 5};\n        jagged[2] = new int[]{6, 7, 8, 9};\n        \n        System.out.println(\"=== Jagged Array ===\");\n        for (int i = 0; i < jagged.length; i++) {\n            for (int j = 0; j < jagged[i].length; j++) {\n                System.out.print(jagged[i][j] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "output": "Row count: 3\nColumn count: 3\nElement at [1][2]: 6\n=== Matrix ===\n1 2 3 \n4 5 6 \n7 8 9 \n=== Jagged Array ===\n1 2 \n3 4 5 \n6 7 8 9",
+    "explanation": "2D arrays are arrays of arrays! Think of them as grids with rows and columns:\n\nDeclaration: type[][] name = {{row1}, {row2}, ...};\n\nAccess: name[row][col] — row then column\n\nRows: matrix.length\nColumns: matrix[row].length\n\nNested loops: outer loop iterates rows, inner loop iterates columns\n\nJagged arrays: each row can have different lengths!\n\nCommon use cases:\n• Matrices (math operations)\n• Game boards (tic-tac-toe, chess)\n• Tabular data (spreadsheets)\n\nPro tip: Always use nested for loops to traverse 2D arrays!"
+  },
+  "phase2": {
+    "brokenCode": "public class TwoDArrayExample {\n    public static void main(String[] args) {\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        // Wrong column length in loop\n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < 4; col++) {  // Should be matrix[row].length\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "errorMessage": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3\n        at TwoDArrayExample.main(TwoDArrayExample.java:11)",
+    "explanation": "The inner loop tries to access column 3 (index 3), but each row has only 3 columns (indices 0,1,2).\n\nAlways use matrix[row].length for the inner loop condition — never hardcode the column count!\n\nSafe pattern:\nfor (int row = 0; row < matrix.length; row++) {\n    for (int col = 0; col < matrix[row].length; col++) {\n        // safe access\n    }\n}"
+  },
+  "phase3": {
+    "prompt": "Create a 2x3 matrix (2 rows, 3 columns) with values:\nRow 1: 1, 2, 3\nRow 2: 4, 5, 6\n\nPrint the matrix in a grid format.",
+    "validationPattern": {
+      "required": ["int[][]", "matrix.length", "matrix[row].length"],
+      "forbidden": [],
+      "fullRegex": "int\\s*\\[\\s*\\]\\s*\\[\\s*\\]\\s*\\w+\\s*=\\s*\\{[\\s\\S]*\\{[^}]*\\}[\\s\\S]*\\{[^}]*\\}[\\s\\S]*\\}[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*0[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*0[\\s\\S]*matrix\\[\\w+\\]\\.length"
+    },
+    "dialogueHints": [
+      "Initialize with int[][] matrix = {{1,2,3},{4,5,6}};",
+      "Use nested for loops: outer for rows, inner for columns",
+      "Use matrix[row].length to get column count"
+    ],
+    "solution": "public class MatrixPractice {\n    public static void main(String[] args) {\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6}\n        };\n        \n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < matrix[row].length; col++) {\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
+    "openingDialogue": "Let's go 2D! Grids and matrices, oh my~ 🎯"
+  },
+  "xpReward": 10
+}

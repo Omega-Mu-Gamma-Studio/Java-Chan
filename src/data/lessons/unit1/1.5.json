@@ -1,0 +1,31 @@
+{
+  "id": "1.5",
+  "title": "Type Casting & Literals",
+  "type": "coding",
+  "phase1": {
+    "code": "public class CastingExample {\n    public static void main(String[] args) {\n        // Widening (implicit) — safe, automatic\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        // Narrowing (explicit) — can lose data!\n        double pi = 3.14159;\n        int roughPi = (int) pi;\n        System.out.println(\"double to int: \" + roughPi);\n        \n        // Literals\n        int hex = 0xFF;        // hexadecimal\n        int binary = 0b1010;   // binary\n        char letter = 'A';     // char literal\n        String text = \"Hello\"; // String literal\n        \n        System.out.println(\"Hex: \" + hex);\n        System.out.println(\"Binary: \" + binary);\n    }\n}",
+    "output": "int to double: 100.0\ndouble to int: 3\nHex: 255\nBinary: 10",
+    "explanation": "Type casting is converting one type to another:\n\nWidening (implicit): int → double, char → int\n• Happens automatically\n• Safe — no data loss\n\nNarrowing (explicit): double → int\n• Must use (targetType) cast\n• Can lose precision (3.14159 becomes 3)\n\nLiterals are fixed values written directly in code:\n• 0xFF = 255 in hexadecimal (starts with 0x)\n• 0b1010 = 10 in binary (starts with 0b)\n• 'A' = char literal\n• \"Hello\" = String literal\n\nRemember: String is NOT a primitive — it's a class, but Java treats it specially with literals!"
+  },
+  "phase2": {
+    "brokenCode": "public class CastingExample {\n    public static void main(String[] args) {\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        double pi = 3.14159;\n        int roughPi = pi;  // Missing cast!\n        System.out.println(\"double to int: \" + roughPi);\n    }\n}",
+    "errorMessage": "CastingExample.java:8: error: incompatible types: possible lossy conversion from double to int\n        int roughPi = pi;\n                      ^\n1 error",
+    "explanation": "Java won't let you assign a double to an int without explicit casting because you might lose the decimal part!\n\nTo fix it, you must use explicit casting: (int) pi\n\nThis is Java protecting you from accidentally losing data. Always use (type) when narrowing!"
+  },
+  "phase3": {
+    "prompt": "Write code that:\n1. Declares a double variable with value 9.87\n2. Casts it to an int (prints the result)\n3. Declares an int variable with value 42\n4. Widens it to a double (prints the result)",
+    "validationPattern": {
+      "required": ["double", "int", "(int)", "System.out.println"],
+      "forbidden": [],
+      "fullRegex": "double\\s+\\w+\\s*=\\s*9\\.87\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*\\(int\\)\\s*\\w+\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*42\\s*;[\\s\\S]*double\\s+\\w+\\s*=\\s*\\w+\\s*;[\\s\\S]*"
+    },
+    "dialogueHints": [
+      "For the double to int conversion, use (int) in front of the variable.",
+      "Widening is automatic — just assign the int to a double variable.",
+      "Make sure to print both converted values!"
+    ],
+    "solution": "public class CastingPractice {\n    public static void main(String[] args) {\n        double decimal = 9.87;\n        int truncated = (int) decimal;\n        System.out.println(\"Double to int: \" + truncated);\n        \n        int whole = 42;\n        double widened = whole;\n        System.out.println(\"Int to double: \" + widened);\n    }\n}",
+    "openingDialogue": "Let's practice playing with types — don't drop any data! 🎪"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "1.13",
+  "title": "Strings",
+  "type": "coding",
+  "phase1": {
+    "code": "public class StringsExample {\n    public static void main(String[] args) {\n        String str1 = \"Hello\";\n        String str2 = \"World\";\n        \n        // String concatenation\n        String combined = str1 + \" \" + str2 + \"!\";\n        System.out.println(\"Concatenated: \" + combined);\n        \n        // Common String methods\n        String text = \"  Java Programming  \";\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"Trimmed: '\" + text.trim() + \"'\");\n        System.out.println(\"Uppercase: \" + text.toUpperCase());\n        System.out.println(\"Lowercase: \" + text.toLowerCase());\n        System.out.println(\"Contains 'Java'? \" + text.contains(\"Java\"));\n        System.out.println(\"Character at index 6: \" + text.charAt(6));\n        System.out.println(\"Substring (6 to 10): '\" + text.substring(6, 10) + \"'\");\n        \n        // String comparison\n        String a = \"Hello\";\n        String b = \"Hello\";\n        String c = new String(\"Hello\");\n        \n        System.out.println(\"a == b? \" + (a == b));  // true (same reference)\n        System.out.println(\"a == c? \" + (a == c));  // false (different objects)\n        System.out.println(\"a.equals(c)? \" + a.equals(c));  // true (same content)\n        \n        // Strings are immutable!\n        String original = \"Java\";\n        String modified = original.toUpperCase();\n        System.out.println(\"Original: \" + original);  // Still \"Java\"\n        System.out.println(\"Modified: \" + modified);  // \"JAVA\"\n    }\n}",
+    "output": "Concatenated: Hello World!\nLength: 19\nTrimmed: 'Java Programming'\nUppercase:   JAVA PROGRAMMING  \nLowercase:   java programming  \nContains 'Java'? true\nCharacter at index 6: r\nSubstring (6 to 10): 'Prog'\na == b? true\na == c? false\na.equals(c)? true\nOriginal: Java\nModified: JAVA",
+    "explanation": "Strings are objects (not primitives) that represent text:\n\nKey methods:\n• length() — returns number of characters\n• charAt(index) — gets character at position\n• substring(start, end) — extracts portion\n• toUpperCase() / toLowerCase() — case conversion\n• trim() — removes leading/trailing spaces\n• contains(substring) — checks if substring exists\n• equals(other) — compares content (not reference!)\n\nImportant: Strings are IMMUTABLE!\n• Methods return NEW strings, don't modify the original\n• Use equals() NOT == for comparing content\n\n⚠️ Very Common Mistake: Using == instead of .equals() for Strings\n\nPro tip: Use .equalsIgnoreCase() for case-insensitive comparison."
+  },
+  "phase2": {
+    "brokenCode": "public class StringsExample {\n    public static void main(String[] args) {\n        String str1 = \"Hello\";\n        String str2 = new String(\"Hello\");\n        \n        // Using == instead of .equals()\n        if (str1 == str2) {\n            System.out.println(\"They are equal!\");\n        } else {\n            System.out.println(\"They are NOT equal!\");\n        }\n    }\n}",
+    "errorMessage": "They are NOT equal!\n\n(No error — but the logic is WRONG! str1 and str2 have the same content but == says they're different.)",
+    "explanation": "This is the String Trap! \n\n== checks if str1 and str2 point to the SAME memory location.\nstr1 and str2 are different objects, so == returns false even though the content is the same.\n\nAlways use .equals() for comparing String content:\nstr1.equals(str2) // true ✅\n\nFor case-insensitive: str1.equalsIgnoreCase(str2)"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Declares a String: \"  Java is Fun  \"\n2. Prints its length\n3. Prints it trimmed\n4. Prints it in uppercase\n5. Prints the character at index 5\n6. Prints the substring from index 2 to 6",
+    "validationPattern": {
+      "required": ["length()", "trim()", "toUpperCase", "charAt", "substring"],
+      "forbidden": [],
+      "fullRegex": "\\.length\\s*\\(\\s*\\)[\\s\\S]*\\.trim\\s*\\(\\s*\\)[\\s\\S]*\\.toUpperCase\\s*\\(\\s*\\)[\\s\\S]*\\.charAt\\s*\\(\\s*\\w+\\s*\\)[\\s\\S]*\\.substring\\s*\\(\\s*\\w+\\s*,\\s*\\w+\\s*\\)"
+    },
+    "dialogueHints": [
+      "Use the trim() method to remove spaces at both ends",
+      "charAt(index) — remember indexing starts at 0",
+      "substring(start, end) — end is exclusive"
+    ],
+    "solution": "public class StringPractice {\n    public static void main(String[] args) {\n        String text = \"  Java is Fun  \";\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"Trimmed: '\" + text.trim() + \"'\");\n        System.out.println(\"Uppercase: \" + text.toUpperCase());\n        System.out.println(\"Char at 5: \" + text.charAt(5));\n        System.out.println(\"Substring (2-6): '\" + text.substring(2, 6) + \"'\");\n    }\n}",
+    "openingDialogue": "Strings are your friends — they hold all the text! 📝"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "1.14",
+  "title": "Intro to OOP — Classes & Objects",
+  "type": "coding",
+  "phase1": {
+    "code": "// Student.java — the class (blueprint)\nclass Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor\n    Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n    \n    // Method\n    void displayInfo() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n        System.out.println(\"---\");\n    }\n}\n\n// Main class\npublic class Main {\n    public static void main(String[] args) {\n        // Creating objects (instances)\n        Student alice = new Student(\"Alice\", 20, 3.8);\n        Student bob = new Student(\"Bob\", 22, 3.2);\n        \n        // Accessing fields\n        System.out.println(\"Alice's name: \" + alice.name);\n        \n        // Calling methods\n        alice.displayInfo();\n        bob.displayInfo();\n        \n        // this keyword\n        // Inside the constructor, this refers to the current object\n        // this.name = name; assigns the parameter to the field\n    }\n}",
+    "output": "Alice's name: Alice\nName: Alice\nAge: 20\nGPA: 3.8\n---\nName: Bob\nAge: 22\nGPA: 3.2\n---",
+    "explanation": "Object-Oriented Programming (OOP) is about modeling real-world things:\n\nClass: blueprint/template (e.g., Student)\n• Defines what properties (fields) and behaviors (methods) objects will have\n\nObject: instance of a class (e.g., alice, bob)\n• Actual thing with specific values\n\nFields: variables that hold data (name, age, gpa)\n\nMethods: functions that define behavior (displayInfo)\n\nConstructor: special method that creates objects\n• Called with 'new' keyword\n• Same name as class\n• No return type\n\nthis keyword: refers to the current object\n• Used to distinguish between field and parameter with same name\n\nKey OOP concept: Classes are reusable blueprints!"
+  },
+  "phase2": {
+    "brokenCode": "class Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor missing return type\n    void Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student alice = new Student(\"Alice\", 20, 3.8);\n    }\n}",
+    "errorMessage": "Main.java:16: error: constructor Student in class Student cannot be applied to given types;\n        Student alice = new Student(\"Alice\", 20, 3.8);\n                        ^\n  required: no arguments\n  found: String,int,double\n1 error",
+    "explanation": "void Student(...) is a METHOD, not a CONSTRUCTOR!\n\nConstructors:\n• Have NO return type (not even void)\n• Must have the SAME name as the class\n\nCorrect: Student(String name, int age, double gpa)\n\nMistake: void Student(String name, int age, double gpa) ← this is a method\n\nThe compiler can't find a constructor that takes parameters!"
+  },
+  "phase3": {
+    "prompt": "Create a class called Book with:\n• Fields: title (String), author (String), pages (int)\n• Constructor that initializes all fields\n• Method: displayInfo() that prints all book info\n\nIn main, create 2 Book objects and call displayInfo() on both.",
+    "validationPattern": {
+      "required": ["class Book", "constructor", "new Book", "displayInfo"],
+      "forbidden": [],
+      "fullRegex": "class\\s+Book\\s*\\{[\\s\\S]*Book\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*void\\s+displayInfo\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*\\}[\\s\\S]*new\\s+Book\\s*\\("
+    },
+    "dialogueHints": [
+      "Fields should be instance variables (not static)",
+      "Constructor takes parameters and uses this.field = parameter",
+      "displayInfo should print using System.out.println"
+    ],
+    "solution": "class Book {\n    String title;\n    String author;\n    int pages;\n    \n    Book(String title, String author, int pages) {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n    \n    void displayInfo() {\n        System.out.println(\"Title: \" + title);\n        System.out.println(\"Author: \" + author);\n        System.out.println(\"Pages: \" + pages);\n        System.out.println(\"---\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Book book1 = new Book(\"1984\", \"George Orwell\", 328);\n        Book book2 = new Book(\"Sapiens\", \"Yuval Noah Harari\", 512);\n        \n        book1.displayInfo();\n        book2.displayInfo();\n    }\n}",
+    "openingDialogue": "Time to create your first class! The blueprint of the future~ 🏗️"
+  },
+  "xpReward": 10
+}

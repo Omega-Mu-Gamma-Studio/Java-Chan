@@ -1,0 +1,31 @@
+{
+  "id": "1.6",
+  "title": "Operators",
+  "type": "coding",
+  "phase1": {
+    "code": "public class OperatorsExample {\n    public static void main(String[] args) {\n        // Arithmetic\n        int a = 10, b = 3;\n        System.out.println(\"a + b = \" + (a + b));\n        System.out.println(\"a - b = \" + (a - b));\n        System.out.println(\"a * b = \" + (a * b));\n        System.out.println(\"a / b = \" + (a / b));\n        System.out.println(\"a % b = \" + (a % b));\n        \n        // Relational\n        System.out.println(\"a > b? \" + (a > b));\n        System.out.println(\"a == b? \" + (a == b));\n        \n        // Logical\n        boolean x = true, y = false;\n        System.out.println(\"x && y = \" + (x && y));\n        System.out.println(\"x || y = \" + (x || y));\n        System.out.println(\"!x = \" + !x);\n        \n        // Ternary\n        int max = (a > b) ? a : b;\n        System.out.println(\"Max: \" + max);\n    }\n}",
+    "output": "a + b = 13\na - b = 7\na * b = 30\na / b = 3\na % b = 1\na > b? true\na == b? false\nx && y = false\nx || y = true\n!x = false\nMax: 10",
+    "explanation": "Java has several types of operators:\n\nArithmetic: + - * / %\n• / does integer division (10/3 = 3, not 3.333)\n• % gives remainder (10%3 = 1)\n\nRelational: > < >= <= == !=\n• Compare values, returns boolean\n\nLogical: && (AND), || (OR), ! (NOT)\n• && — both must be true\n• || — at least one must be true\n• ! — flips the value\n\nTernary: condition ? valueIfTrue : valueIfFalse\n• Shorthand for if-else\n• (a > b) ? a : b means \"if a > b, use a, otherwise use b\"\n\nPro tip: Use parentheses to make operator order clear!"
+  },
+  "phase2": {
+    "brokenCode": "public class OperatorsExample {\n    public static void main(String[] args) {\n        int a = 10, b = 3;\n        System.out.println(\"a / b = \" + a / b);  // Problem!\n        System.out.println(\"a + b = \" + (a + b));\n    }\n}",
+    "errorMessage": "OperatorsExample.java:4: error: bad operand types for binary operator '+'\n        System.out.println(\"a / b = \" + a / b);\n                                      ^\n  first type:  String\n  second type: int",
+    "explanation": "Java evaluates left to right with operator precedence!\n\n\"a / b = \" + a / b is evaluated as (\"a / b = \" + a) / b — you can't divide a string by an int!\n\nThe fix: use parentheses to force the division first:\n\"a / b = \" + (a / b)\n\nAlways wrap arithmetic in parentheses when combining with strings!"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Creates variables x=15, y=4\n2. Prints: x + y = 19, x - y = 11, x * y = 60, x / y = 3, x % y = 3\n3. Uses ternary to print which is bigger: \"15 is bigger\" or \"4 is bigger\"",
+    "validationPattern": {
+      "required": ["%", "/", "ternary", "System.out.println"],
+      "forbidden": [],
+      "fullRegex": "int\\s+\\w+\\s*=\\s*15\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*4\\s*;[\\s\\S]*\\+\\s*\\w+\\s*[\\s\\S]*\\-\\s*\\w+[\\s\\S]*\\*\\s*\\w+[\\s\\S]*\\/\\s*\\w+[\\s\\S]*%\\s*\\w+[\\s\\S]*\\?.*:.*"
+    },
+    "dialogueHints": [
+      "Use the ternary operator: condition ? value1 : value2",
+      "Integer division 15/4 gives 3 (no decimal)",
+      "Use String concatenation to build your output messages."
+    ],
+    "solution": "public class OperatorsPractice {\n    public static void main(String[] args) {\n        int x = 15, y = 4;\n        System.out.println(\"x + y = \" + (x + y));\n        System.out.println(\"x - y = \" + (x - y));\n        System.out.println(\"x * y = \" + (x * y));\n        System.out.println(\"x / y = \" + (x / y));\n        System.out.println(\"x % y = \" + (x % y));\n        System.out.println((x > y) ? \"15 is bigger\" : \"4 is bigger\");\n    }\n}",
+    "openingDialogue": "Time to crunch some numbers! Show me what you've got~ 🧮"
+  },
+  "xpReward": 10
+}

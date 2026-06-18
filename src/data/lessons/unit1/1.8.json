@@ -1,0 +1,31 @@
+{
+  "id": "1.8",
+  "title": "Control Flow — if/else",
+  "type": "coding",
+  "phase1": {
+    "code": "import java.util.Scanner;\n\npublic class IfElseExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your grade (0-100): \");\n        int score = scanner.nextInt();\n        \n        if (score >= 90) {\n            System.out.println(\"Grade: A — Excellent!\");\n        } else if (score >= 80) {\n            System.out.println(\"Grade: B — Good job!\");\n        } else if (score >= 70) {\n            System.out.println(\"Grade: C — Not bad!\");\n        } else if (score >= 60) {\n            System.out.println(\"Grade: D — Need some work!\");\n        } else {\n            System.out.println(\"Grade: F — Keep trying!\");\n        }\n        \n        // Switch statement\n        System.out.print(\"Enter a day number (1-7): \");\n        int day = scanner.nextInt();\n        \n        switch (day) {\n            case 1:\n                System.out.println(\"Monday\");\n                break;\n            case 2:\n                System.out.println(\"Tuesday\");\n                break;\n            case 3:\n                System.out.println(\"Wednesday\");\n                break;\n            case 4:\n                System.out.println(\"Thursday\");\n                break;\n            case 5:\n                System.out.println(\"Friday\");\n                break;\n            case 6:\n            case 7:\n                System.out.println(\"Weekend!\");\n                break;\n            default:\n                System.out.println(\"Invalid day!\");\n        }\n        \n        scanner.close();\n    }\n}",
+    "output": "Enter your grade (0-100): 85\nGrade: B — Good job!\nEnter a day number (1-7): 6\nWeekend!",
+    "explanation": "if/else controls which code runs based on conditions:\n\nif (condition) {\n    // runs if condition is true\n} else if (anotherCondition) {\n    // runs if first condition false, this one true\n} else {\n    // runs if all conditions false\n}\n\nImportant: order matters! if (score >= 90) checked BEFORE if (score >= 80)\n\nSwitch statement: cleaner for checking multiple specific values:\n• case value: — runs if expression matches\n• break — exits the switch\n• default — runs if no case matches\n\n⚠️ Missing break causes fallthrough — the code continues to the next case!"
+  },
+  "phase2": {
+    "brokenCode": "import java.util.Scanner;\n\npublic class IfElseExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your grade (0-100): \");\n        int score = scanner.nextInt();\n        \n        if (score >= 90) \n            System.out.println(\"Grade: A — Excellent!\");\n            System.out.println(\"You're a star!\");  // Problem!\n        else if (score >= 80) {\n            System.out.println(\"Grade: B — Good job!\");\n        }\n        scanner.close();\n    }\n}",
+    "errorMessage": "IfElseExample.java:11: error: 'else' without 'if'\n        else if (score >= 80) {\n        ^\n1 error",
+    "explanation": "Without braces {}, only the FIRST statement belongs to the if block. The second println is NOT in the if block, so the else doesn't match any if statement!\n\nAlways use {} even for single statements — it prevents this error and makes the code clearer:\n\nif (score >= 90) {\n    System.out.println(\"Grade: A — Excellent!\");\n    System.out.println(\"You're a star!\");\n}\n\nRule: Use braces always. It's safer and more readable!"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Asks the user for a temperature (int)\n2. Prints:\n   • \"Too hot!\" if temp > 35\n   • \"Just right\" if temp between 20 and 35\n   • \"Too cold!\" if temp < 20",
+    "validationPattern": {
+      "required": ["Scanner", "if", "else if", "else"],
+      "forbidden": [],
+      "fullRegex": "if\\s*\\([\\s\\S]*\\)[\\s\\S]*else\\s+if\\s*\\([\\s\\S]*\\)[\\s\\S]*else\\s*\\{"
+    },
+    "dialogueHints": [
+      "Use if for temp > 35, else if for 20-35, else for < 20",
+      "Remember: else if conditions are checked in order.",
+      "Use Scanner to get user input."
+    ],
+    "solution": "import java.util.Scanner;\n\npublic class Temperature {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter temperature: \");\n        int temp = scanner.nextInt();\n        \n        if (temp > 35) {\n            System.out.println(\"Too hot!\");\n        } else if (temp >= 20 && temp <= 35) {\n            System.out.println(\"Just right\");\n        } else {\n            System.out.println(\"Too cold!\");\n        }\n        \n        scanner.close();\n    }\n}",
+    "openingDialogue": "Let's make decisions — if/else style! 🤔"
+  },
+  "xpReward": 10
+}

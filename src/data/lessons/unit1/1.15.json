@@ -1,0 +1,31 @@
+{
+  "id": "1.15",
+  "title": "Access Modifiers & Encapsulation",
+  "type": "coding",
+  "phase1": {
+    "code": "class Person {\n    // Private fields — hidden from outside\n    private String name;\n    private int age;\n    \n    // Constructor\n    Person(String name, int age) {\n        this.name = name;\n        setAge(age);  // Use setter for validation\n    }\n    \n    // Getters (public)\n    public String getName() {\n        return name;\n    }\n    \n    public int getAge() {\n        return age;\n    }\n    \n    // Setters with validation\n    public void setName(String name) {\n        if (name != null && !name.trim().isEmpty()) {\n            this.name = name;\n        } else {\n            System.out.println(\"Invalid name!\");\n        }\n    }\n    \n    public void setAge(int age) {\n        if (age >= 0 && age <= 150) {\n            this.age = age;\n        } else {\n            System.out.println(\"Invalid age! Must be 0-150.\");\n        }\n    }\n    \n    // Public method\n    public void displayInfo() {\n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n    }\n}\n\npublic class EncapsulationExample {\n    public static void main(String[] args) {\n        Person person = new Person(\"Alice\", 25);\n        \n        // Accessing through getters\n        System.out.println(\"Name: \" + person.getName());\n        System.out.println(\"Age: \" + person.getAge());\n        \n        // Using setters\n        person.setName(\"Bob\");\n        person.setAge(30);\n        person.displayInfo();\n        \n        // Trying invalid values\n        person.setAge(-5);   // Invalid!\n        person.setAge(200);  // Invalid!\n        \n        // Can't access private fields directly:\n        // person.name = \"Charlie\";  // ERROR!\n        // person.age = 99;          // ERROR!\n    }\n}",
+    "output": "Name: Alice\nAge: 25\nName: Bob, Age: 30\nInvalid age! Must be 0-150.\nInvalid age! Must be 0-150.",
+    "explanation": "Encapsulation is about controlling access to data:\n\nAccess Modifiers:\n• public — accessible from anywhere\n• private — accessible only within the class (most secure)\n• protected — accessible in package + subclasses\n• (default) — accessible within the package\n\nGetters/Setters (accessors/mutators):\n• Getters: return private field values\n• Setters: update with validation\n\nWhy encapsulate?\n1. Control — validate data before setting\n2. Security — prevent invalid states\n3. Maintainability — change implementation without breaking code\n\nKey rule: Always make fields private! Use public getters/setters.\n\nBenefits: Hide implementation details, protect data integrity."
+  },
+  "phase2": {
+    "brokenCode": "class Person {\n    private String name;\n    private int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class EncapsulationExample {\n    public static void main(String[] args) {\n        Person person = new Person(\"Alice\", 25);\n        \n        // Trying to access private field directly\n        System.out.println(person.name);\n        person.age = 30;\n    }\n}",
+    "errorMessage": "EncapsulationExample.java:11: error: name has private access in Person\n        System.out.println(person.name);\n                                 ^\nEncapsulationExample.java:12: error: age has private access in Person\n        person.age = 30;\n               ^\n2 errors",
+    "explanation": "You can't access private fields from outside the class! This is the ENTIRE POINT of encapsulation.\n\nTo fix, add public getters and setters:\npublic String getName() { return name; }\npublic void setName(String name) { this.name = name; }\n\nThen use: person.getName() and person.setName(\"Bob\")\n\nPrivate means private — only the class itself can touch it."
+  },
+  "phase3": {
+    "prompt": "Create a BankAccount class with:\n• Private fields: owner (String), balance (double)\n• Constructor\n• Getters for both\n• deposit(double amount) — adds to balance (must be positive)\n• withdraw(double amount) — subtracts from balance (can't go negative)\n• displayInfo() method\n\nTest by creating an account and doing deposits/withdrawals.",
+    "validationPattern": {
+      "required": ["private", "getBalance", "deposit", "withdraw"],
+      "forbidden": ["public class"],
+      "fullRegex": "private\\s+\\w+\\s+\\w+[\\s\\S]*public\\s+\\w+\\s+get\\w+[\\s\\S]*void\\s+deposit[\\s\\S]*void\\s+withdraw[\\s\\S]*"
+    },
+    "dialogueHints": [
+      "Fields should be private, getters public",
+      "deposit should check if amount > 0",
+      "withdraw should check if enough balance"
+    ],
+    "solution": "class BankAccount {\n    private String owner;\n    private double balance;\n    \n    BankAccount(String owner, double initialBalance) {\n        this.owner = owner;\n        this.balance = initialBalance;\n    }\n    \n    public String getOwner() {\n        return owner;\n    }\n    \n    public double getBalance() {\n        return balance;\n    }\n    \n    public void deposit(double amount) {\n        if (amount > 0) {\n            balance += amount;\n            System.out.println(\"Deposited $\" + amount);\n        } else {\n            System.out.println(\"Deposit must be positive!\");\n        }\n    }\n    \n    public void withdraw(double amount) {\n        if (amount > 0 && amount <= balance) {\n            balance -= amount;\n            System.out.println(\"Withdrew $\" + amount);\n        } else {\n            System.out.println(\"Insufficient balance or invalid amount!\");\n        }\n    }\n    \n    public void displayInfo() {\n        System.out.println(\"Owner: \" + owner + \", Balance: $\" + balance);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(\"Alice\", 1000);\n        account.deposit(500);\n        account.withdraw(200);\n        account.displayInfo();\n        account.withdraw(1500);  // Should fail\n    }\n}",
+    "openingDialogue": "Time to lock down your data! Encapsulation is your shield~ 🛡️"
+  },
+  "xpReward": 10
+}

@@ -1,0 +1,31 @@
+{
+  "id": "1.10",
+  "title": "Arrays",
+  "type": "coding",
+  "phase1": {
+    "code": "public class ArraysExample {\n    public static void main(String[] args) {\n        // Declaration and initialization\n        int[] numbers = {10, 20, 30, 40, 50};\n        \n        // Accessing elements\n        System.out.println(\"First element: \" + numbers[0]);\n        System.out.println(\"Last element: \" + numbers[4]);\n        \n        // Array length\n        System.out.println(\"Array length: \" + numbers.length);\n        \n        // Looping through array\n        System.out.println(\"=== For loop ===\");\n        for (int i = 0; i < numbers.length; i++) {\n            System.out.println(\"numbers[\" + i + \"] = \" + numbers[i]);\n        }\n        \n        // For-each loop\n        System.out.println(\"=== For-each loop ===\");\n        for (int num : numbers) {\n            System.out.println(num);\n        }\n        \n        // Declaring empty array\n        String[] names = new String[3];\n        names[0] = \"Alice\";\n        names[1] = \"Bob\";\n        names[2] = \"Charlie\";\n        \n        System.out.println(\"Names: \" + names[0] + \", \" + names[1] + \", \" + names[2]);\n    }\n}",
+    "output": "First element: 10\nLast element: 50\nArray length: 5\n=== For loop ===\nnumbers[0] = 10\nnumbers[1] = 20\nnumbers[2] = 30\nnumbers[3] = 40\nnumbers[4] = 50\n=== For-each loop ===\n10\n20\n30\n40\n50\nNames: Alice, Bob, Charlie",
+    "explanation": "Arrays store multiple values of the SAME type:\n\nDeclaration: type[] name = {values};\nor: type[] name = new type[size];\n\nAccess: name[index] — index starts at 0!\nLength: name.length (no parentheses!)\n\nCommon mistake: ArrayIndexOutOfBoundsException — accessing an index >= length\n\nFor loop vs For-each:\n• For loop: gives you index control, can modify elements\n• For-each: cleaner syntax, but read-only (can't modify array)\n\n⚠️ Arrays are fixed size! You can't add or remove elements after creation.\n\nPro tip: Use for-each for loops where you just need to read values."
+  },
+  "phase2": {
+    "brokenCode": "public class ArraysExample {\n    public static void main(String[] args) {\n        int[] numbers = {10, 20, 30, 40, 50};\n        \n        // Trying to access index 5 (which doesn't exist)\n        System.out.println(numbers[5]);\n    }\n}",
+    "errorMessage": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5\n        at ArraysExample.main(ArraysExample.java:6)",
+    "explanation": "ArrayIndexOutOfBoundsException! You tried to access index 5, but valid indices are 0,1,2,3,4.\n\nRemember: arrays are 0-indexed. The last index is length - 1.\n\nAlways check: is my index < array.length?\n\nA safe pattern:\nif (index >= 0 && index < array.length) {\n    // safe to access\n}"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Creates an array of 5 integers: 5, 10, 15, 20, 25\n2. Prints each element using a for loop\n3. Prints each element using a for-each loop",
+    "validationPattern": {
+      "required": ["int[]", "for", "for-each"],
+      "forbidden": [],
+      "fullRegex": "int\\s*\\[\\s*\\]\\s*\\w+\\s*=\\s*\\{[^}]*\\}[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*0[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*:"
+    },
+    "dialogueHints": [
+      "Initialize the array with {5, 10, 15, 20, 25}",
+      "For loop: use i < array.length",
+      "For-each: for (int num : numbers)"
+    ],
+    "solution": "public class ArrayPractice {\n    public static void main(String[] args) {\n        int[] numbers = {5, 10, 15, 20, 25};\n        \n        System.out.println(\"=== For loop ===\");\n        for (int i = 0; i < numbers.length; i++) {\n            System.out.println(numbers[i]);\n        }\n        \n        System.out.println(\"=== For-each loop ===\");\n        for (int num : numbers) {\n            System.out.println(num);\n        }\n    }\n}",
+    "openingDialogue": "Time to store multiple values in one variable! 📚"
+  },
+  "xpReward": 10
+}

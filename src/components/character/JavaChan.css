@@ -1,87 +1,71 @@
-/* ---- Character Widget ---- */
+/* ══════════════════════════════════════════
+   JAVA-CHAN CHARACTER — WIDGET & DOMAIN
+   ══════════════════════════════════════════ */
+
+/* ── Widget container ── */
 .javachan-widget {
   position: fixed;
-  bottom: calc(var(--bottombar-height) + 12px);
-  right: 12px;
-  width: var(--javachan-width);
+  bottom: calc(var(--bottombar-height) + 8px);
+  right: 8px;
+  width: var(--javachan-width);        /* 180px from globals */
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   z-index: 20;
-  pointer-events: none; /* let clicks fall through unless on dialogue */
+  pointer-events: none;
 }
 
-/* ---- Sprite / Placeholder ---- */
-.javachan-sprite {
-  width: var(--javachan-width);
-  height: var(--javachan-height);
+/* ── Sprite wrapper (handles bob animation) ── */
+.javachan-sprite-wrap {
+  width: 180px;
+  height: 220px;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  pointer-events: none;
 }
 
-.javachan-sprite img {
+/* ── Actual sprite image ── */
+.javachan-sprite-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  image-rendering: pixelated; /* crisp if pixel art */
+  object-position: bottom center;
+  /* mix-blend-mode applied inline for black-bg sprites */
+  filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
 }
 
-.javachan-placeholder {
-  width: 140px;
-  height: 160px;
-  background: linear-gradient(160deg, var(--color-surface-2), var(--color-surface));
-  border: 2px solid var(--color-border-accent);
-  border-radius: var(--radius-xl) var(--radius-xl) var(--radius-lg) var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: var(--shadow-pink);
-}
-
-.javachan-emoji {
-  font-size: 1.6rem;
-  line-height: 1;
-  font-family: var(--font-ui);
-  color: var(--color-pink-light);
-}
-
-.javachan-name {
-  font-family: var(--font-display);
-  font-size: 0.85rem;
-  color: var(--color-pink);
-  letter-spacing: 0.05em;
-}
-
-/* Expression tints on placeholder */
-.javachan-sprite--happy .javachan-placeholder    { border-color: var(--color-success); box-shadow: 0 0 20px var(--color-success-glow); }
-.javachan-sprite--sad .javachan-placeholder      { border-color: var(--color-blue); opacity: 0.85; }
-.javachan-sprite--thinking .javachan-placeholder { border-color: var(--color-purple); }
-.javachan-sprite--surprised .javachan-placeholder{ border-color: var(--color-warning); box-shadow: 0 0 20px rgba(255,204,110,0.2); }
-
-/* ---- Dialogue Bubble ---- */
+/* ── Dialogue bubble ── */
 .dialogue-bubble {
   position: relative;
   background: var(--color-surface-2);
   border: 1px solid var(--color-border-accent);
   border-radius: var(--radius-md);
-  padding: 10px 14px;
-  max-width: 200px;
+  padding: 9px 13px;
+  max-width: 210px;
+  width: max-content;
   pointer-events: all;
   cursor: pointer;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-md), 0 0 12px rgba(255,110,180,0.1);
+  text-align: left;
+  font-family: var(--font-ui);
+  background-color: var(--color-surface-2); /* override button default */
+  color: var(--color-text);
+}
+
+.dialogue-bubble:hover {
+  border-color: var(--color-pink);
 }
 
 .dialogue-bubble p {
-  font-size: 0.82rem;
-  line-height: 1.5;
-  color: var(--color-text);
+  font-size: 0.81rem;
+  line-height: 1.55;
   margin: 0;
+  color: var(--color-text);
 }
 
+/* Tail pointing down toward the sprite */
 .dialogue-tail {
   position: absolute;
   bottom: -8px;
@@ -97,7 +81,7 @@
 .dialogue-tail::after {
   content: '';
   position: absolute;
-  bottom: 2px;
+  top: -9px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
@@ -107,70 +91,84 @@
   border-top: 7px solid var(--color-surface-2);
 }
 
-/* ---- Domain Expansion ---- */
+/* ══════════════════════════════════════════
+   DOMAIN EXPANSION
+   ══════════════════════════════════════════ */
+
 .domain-expansion {
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse at center, rgba(255,110,180,0.15) 0%, rgba(15,15,26,0.97) 70%);
-  z-index: 100;
+  z-index: 200;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  /* Dark bg with orange tint to match her palette */
+  background: rgba(10, 8, 5, 0.93);
+}
+
+/* Radial orange-pink glow in center */
+.domain-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 60%,
+      rgba(255, 120, 20, 0.18) 0%,
+      rgba(255, 80, 160, 0.08) 50%,
+      transparent 80%);
+  pointer-events: none;
 }
 
 .domain-content {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 20px;
+  padding: 32px;
   text-align: center;
-  padding: 40px;
+  max-width: 560px;
 }
 
-.domain-sprite {
-  width: 280px;
-  height: 320px;
+.domain-sprite-wrap {
+  width: 300px;
+  height: 360px;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
 }
 
-.domain-sprite img {
+.domain-sprite-img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 0 40px var(--color-pink));
-}
-
-.domain-emoji {
-  font-size: 3.5rem;
-  color: var(--color-pink-light);
-  font-family: var(--font-ui);
-  filter: drop-shadow(0 0 20px var(--color-pink));
+  object-position: bottom center;
+  filter: drop-shadow(0 0 40px rgba(255, 140, 0, 0.5))
+          drop-shadow(0 0 80px rgba(255, 80, 160, 0.2));
 }
 
 .domain-dialogue {
-  max-width: 480px;
-  font-size: 1.1rem;
-  line-height: 1.7;
+  max-width: 440px;
+  font-size: 1.05rem;
+  line-height: 1.75;
   color: var(--color-text);
-  background: rgba(26, 26, 46, 0.8);
-  border: 1px solid var(--color-border-accent);
+  background: rgba(20, 16, 10, 0.85);
+  border: 1px solid rgba(255, 140, 0, 0.25);
   border-radius: var(--radius-lg);
-  padding: 20px 28px;
-  backdrop-filter: blur(4px);
+  padding: 18px 26px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 30px rgba(255,120,20,0.1);
 }
 
 .domain-tap-hint {
-  font-size: 0.75rem;
-  color: var(--color-text-faint);
-  letter-spacing: 0.1em;
+  font-size: 0.72rem;
+  color: rgba(255, 200, 120, 0.4);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  animation: blink 1.5s ease-in-out infinite;
+  animation: domain-blink 1.8s ease-in-out infinite;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 0.3; }
+@keyframes domain-blink {
+  0%, 100% { opacity: 0.25; }
   50%       { opacity: 1; }
 }

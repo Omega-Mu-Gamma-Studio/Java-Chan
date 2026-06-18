@@ -36,13 +36,13 @@ const LessonCanvas = ({ onComplete }) => {
   const handlePhaseChange = (phase) => {
     setPhase(phase);
     if (phase === 1) {
-      setExpression('idle');
+      setExpression('idle');          // teaching.png — hands out, explaining
       setDialogue(phase1?.openingDialogue || null);
     } else if (phase === 2) {
-      setExpression('thinking');
+      setExpression('happy');         // oops.png — "watch me break this on purpose~"
       setDialogue(phase2?.openingDialogue || "Now watch what happens when something goes wrong~");
     } else if (phase === 3) {
-      setExpression('idle');
+      setExpression('surprised');     // excited.png — "your turn, let's GO"
       setDialogue(phase3?.openingDialogue || "Your turn! Give it a shot ✎");
     }
   };
@@ -83,19 +83,24 @@ const LessonCanvas = ({ onComplete }) => {
       }
     } else {
       play('error');
-      setExpression('sad');
 
-      // Escalating dialogue based on attempt count
+      // Escalating dialogue AND expressions based on attempt count
       const hintLines = phase3?.dialogueHints || [];
       if (currentAttempts >= SOLUTION_THRESHOLD && !showSolution) {
+        // Attempt 5+: full frustration, show solution
+        setExpression('sad');          // frustrated.png — hair-grabbing rage
         setShowSolution(true);
         setUsedSolution(true);
         setDialogue("Okay okay... let me show you. Study it carefully! 📖");
       } else if (currentAttempts >= HINT_THRESHOLD && hintLines.length > 0) {
+        // Attempt 2-4: thinking mode, giving hints
+        setExpression('thinking');    // thinking.png — chin-on-hand, measured
         setUsedHint(true);
         const hintIdx = Math.min(currentAttempts - HINT_THRESHOLD, hintLines.length - 1);
         setDialogue(hintLines[hintIdx]);
       } else {
+        // First wrong attempt: oops/embarrassed energy
+        setExpression('happy');       // oops.png — "oops, not quite~"
         setDialogue(result.message);
       }
     }

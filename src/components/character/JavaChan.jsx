@@ -1,136 +1,197 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useLessonStore from '../../store/lessonStore';
 import './JavaChan.css';
 
 /**
- * JavaChan.jsx
- * 
- * The character component. Always visible at bottom-right.
- * 
- * Expressions: idle | happy | sad | thinking | surprised | domain
- * 
- * Phase 1: uses emoji/CSS placeholder
- * Phase 3: swap sprite src to Live2D canvas
- * 
- * The ONLY thing that changes in Phase 3 is what's inside .javachan-sprite.
- * All the surrounding logic (dialogue, domain expansion, expressions) stays.
+ * JavaChan.jsx — Real sprite version
+ *
+ * Expression → Sprite mapping:
+ *   idle        → teaching.png   (relaxed hands-out, default state)
+ *   idle-sleep  → idle-sleeping.png  (zzz, shown after inactivity)
+ *   happy       → oops.png       (sheepish grin, "good try / almost!")
+ *   thinking    → thinking.png   (chin on hand, hint mode)
+ *   sad         → frustrated.png (hair-grabbing rage, 5+ wrong attempts)
+ *   surprised   → excited.png    (fist pump, great reaction)
+ *   domain      → excited.png    (fullscreen fist pump on perfect answer)
+ *
+ * Background handling:
+ *   - teaching.png / thinking.png / frustrated.png → transparent PNG, render normally
+ *   - oops.png / idle-sleeping.png / excited.png   → black background PNG,
+ *     use mix-blend-mode: screen to drop the black
  */
 
-// Placeholder sprites — replace with real art paths when commissioned
 const SPRITE_MAP = {
-  idle:      null, // null = use emoji placeholder
-  happy:     null,
-  sad:       null,
-  thinking:  null,
-  surprised: null,
-  domain:    null,
+  idle:        { src: '/sprites/teaching.png',      blend: false },
+  'idle-sleep':{ src: '/sprites/idle-sleeping.png', blend: true  },
+  happy:       { src: '/sprites/oops.png',          blend: true  },
+  thinking:    { src: '/sprites/thinking.png',       blend: false },
+  sad:         { src: '/sprites/frustrated.png',    blend: false },
+  surprised:   { src: '/sprites/excited.png',       blend: true  },
+  domain:      { src: '/sprites/excited.png',       blend: true  },
 };
 
-const EMOJI_MAP = {
-  idle:      '(´• ω •`)',
-  happy:     '(＾▽＾)',
-  sad:       '(ｔ ﹏ ｔ)',
-  thinking:  '(´･_･`)?',
-  surprised: '(⊙_⊙)!',
-  domain:    '✦ (ᗒᗨᗕ) ✦',
-};
+// How long (ms) of no interaction before she falls asleep
+const IDLE_SLEEP_DELAY = 45000;
 
 const JavaChan = () => {
-  const { javaChanExpression, currentDialogue, advanceDialogue } = useLessonStore();
-  const [idleFrame, setIdleFrame] = useState(0);
+  const {
+    javaChanExpression,
+    currentDialogue,
+    advanceDialogue,
+    setExpression,
+  } = useLessonStore();
 
-  const isDomain = javaChanExpression === 'domain';
+  const [displayExpression, setDisplayExpression] = useState('idle');
+  const sleepTimerRef = useRef(null);
 
-  // Idle animation — alternates between 2 poses every 2s
+  // Sync expression from store, but intercept 'idle' to maybe show sleep
   useEffect(() => {
-    if (javaChanExpression !== 'idle') return;
-    const interval = setInterval(() => {
-      setIdleFrame(f => (f + 1) % 2);
-    }, 2000);
-    return () => clearInterval(interval);
+    if (javaChanExpression !== 'idle') {
+      setDisplayExpression(javaChanExpression);
+      // Reset sleep timer on any non-idle expression
+      clearTimeout(sleepTimerRef.current);
+      sleepTimerRef.current = setTimeout(() => {
+        // Only sleep if we're back to idle by then
+        setDisplayExpression(prev => prev === 'idle' ? 'idle-sleep' : prev);
+      }, IDLE_SLEEP_DELAY);
+    } else {
+      setDisplayExpression('idle');
+      // Start sleep countdown
+      clearTimeout(sleepTimerRef.current);
+      sleepTimerRef.current = setTimeout(() => {
+        setDisplayExpression('idle-sleep');
+      }, IDLE_SLEEP_DELAY);
+    }
+    return () => clearTimeout(sleepTimerRef.current);
   }, [javaChanExpression]);
 
-  const spriteSrc = SPRITE_MAP[javaChanExpression];
+  // Wake up on any user interaction
+  useEffect(() => {
+    const wake = () => {
+      if (displayExpression === 'idle-sleep') {
+        setDisplayExpression('idle');
+        clearTimeout(sleepTimerRef.current);
+        sleepTimerRef.current = setTimeout(() => {
+          setDisplayExpression('idle-sleep');
+        }, IDLE_SLEEP_DELAY);
+      }
+    };
+    window.addEventListener('mousemove', wake);
+    window.addEventListener('keydown', wake);
+    return () => {
+      window.removeEventListener('mousemove', wake);
+      window.removeEventListener('keydown', wake);
+    };
+  }, [displayExpression]);
+
+  const isDomain = displayExpression === 'domain';
+  const sprite = SPRITE_MAP[displayExpression] || SPRITE_MAP.idle;
+
+  // Bob animation — only for idle/teaching, not sleep/frustrated
+  const shouldBob = ['idle', 'happy', 'surprised'].includes(displayExpression);
 
   return (
     <>
-      {/* Domain Expansion overlay */}
+      {/* ── Domain Expansion Overlay ── */}
       <AnimatePresence>
         {isDomain && (
           <motion.div
             className="domain-expansion"
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.1 }}
-            transition={{ duration: 0.4, ease: 'easeOut' }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35 }}
             onClick={advanceDialogue}
           >
+            {/* Radial glow burst */}
+            <div className="domain-glow" />
+
             <div className="domain-content">
-              <div className="domain-sprite">
-                {spriteSrc
-                  ? <img src={spriteSrc} alt="Java-chan domain expansion" />
-                  : <span className="domain-emoji">{EMOJI_MAP.domain}</span>
-                }
-              </div>
+              <motion.div
+                className="domain-sprite-wrap"
+                initial={{ scale: 0.7, y: 40 }}
+                animate={{ scale: 1, y: 0 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              >
+                <img
+                  src={sprite.src}
+                  alt="Java-chan excited"
+                  className="domain-sprite-img"
+                  style={sprite.blend ? { mixBlendMode: 'screen' } : {}}
+                  draggable={false}
+                />
+              </motion.div>
+
               {currentDialogue && (
                 <motion.div
                   className="domain-dialogue"
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
+                  transition={{ delay: 0.25 }}
                 >
                   {currentDialogue}
                 </motion.div>
               )}
-              <span className="domain-tap-hint">tap to continue</span>
+
+              <motion.span
+                className="domain-tap-hint"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+              >
+                tap anywhere to continue
+              </motion.span>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      {/* Normal character widget */}
+      {/* ── Normal Widget ── */}
       {!isDomain && (
         <div className="javachan-widget">
           {/* Dialogue bubble */}
           <AnimatePresence mode="wait">
             {currentDialogue && (
-              <motion.div
+              <motion.button
                 key={currentDialogue}
                 className="dialogue-bubble"
-                initial={{ opacity: 0, y: 8, scale: 0.95 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.95 }}
-                transition={{ duration: 0.2 }}
+                initial={{ opacity: 0, y: 10, scale: 0.93 }}
+                animate={{ opacity: 1, y: 0,  scale: 1 }}
+                exit={{    opacity: 0, y: -6, scale: 0.95 }}
+                transition={{ duration: 0.18 }}
                 onClick={advanceDialogue}
+                aria-label="Dismiss dialogue"
               >
                 <p>{currentDialogue}</p>
                 <span className="dialogue-tail" />
-              </motion.div>
+              </motion.button>
             )}
           </AnimatePresence>
 
-          {/* Character sprite / placeholder */}
+          {/* Sprite */}
           <motion.div
-            className={`javachan-sprite javachan-sprite--${javaChanExpression} javachan-idle-${idleFrame}`}
-            animate={javaChanExpression === 'idle'
-              ? { y: [0, -4, 0] }
-              : { y: 0 }
-            }
-            transition={javaChanExpression === 'idle'
-              ? { duration: 2, repeat: Infinity, ease: 'easeInOut' }
-              : {}
+            className="javachan-sprite-wrap"
+            animate={shouldBob ? { y: [0, -5, 0] } : { y: 0 }}
+            transition={shouldBob
+              ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+              : { duration: 0.3 }
             }
           >
-            {spriteSrc
-              ? <img src={spriteSrc} alt={`Java-chan ${javaChanExpression}`} draggable={false} />
-              : (
-                <div className="javachan-placeholder">
-                  <span className="javachan-emoji">{EMOJI_MAP[javaChanExpression] || EMOJI_MAP.idle}</span>
-                  <span className="javachan-name">Java-chan</span>
-                </div>
-              )
-            }
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={displayExpression}
+                src={sprite.src}
+                alt={`Java-chan ${displayExpression}`}
+                className="javachan-sprite-img"
+                style={sprite.blend ? { mixBlendMode: 'screen' } : {}}
+                draggable={false}
+                initial={{ opacity: 0, scale: 0.92 }}
+                animate={{ opacity: 1, scale: 1   }}
+                exit={{    opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              />
+            </AnimatePresence>
           </motion.div>
         </div>
       )}

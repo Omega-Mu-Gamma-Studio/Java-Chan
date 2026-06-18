@@ -1,0 +1,31 @@
+{
+  "id": "2.6",
+  "title": "Interfaces",
+  "type": "coding",
+  "phase1": {
+    "code": "// Interface — 100% abstract (until Java 8+)\ninterface Drawable {\n    // Constants (public static final by default)\n    String DEFAULT_COLOR = \"Black\";\n    \n    // Abstract methods (public abstract by default)\n    void draw();\n    \n    // Default method (Java 8+) — provides default implementation\n    default void display() {\n        System.out.println(\"Displaying with \" + DEFAULT_COLOR + \" color\");\n    }\n    \n    // Static method (Java 8+)\n    static void info() {\n        System.out.println(\"Drawable interface v1.0\");\n    }\n}\n\ninterface Resizable {\n    void resize(double factor);\n}\n\n// Class can implement multiple interfaces\nclass Circle implements Drawable, Resizable {\n    double radius;\n    String color;\n    \n    Circle(double radius) {\n        this.radius = radius;\n        this.color = Drawable.DEFAULT_COLOR;\n    }\n    \n    @Override\n    public void draw() {\n        System.out.println(\"Drawing a circle with radius \" + radius + \" (color: \" + color + \")\");\n    }\n    \n    @Override\n    public void resize(double factor) {\n        radius *= factor;\n        System.out.println(\"Resized circle to radius \" + radius);\n    }\n    \n    // Override default method (optional)\n    @Override\n    public void display() {\n        System.out.println(\"Custom display: Circle with radius \" + radius);\n    }\n}\n\nclass Square implements Drawable {\n    double side;\n    \n    Square(double side) {\n        this.side = side;\n    }\n    \n    @Override\n    public void draw() {\n        System.out.println(\"Drawing a square with side \" + side);\n    }\n}\n\npublic class InterfaceExample {\n    public static void main(String[] args) {\n        Drawable.info();  // Call static interface method\n        \n        Circle circle = new Circle(5);\n        Square square = new Square(4);\n        \n        circle.draw();\n        circle.display();\n        circle.resize(2);\n        \n        System.out.println(\"---\");\n        \n        square.draw();\n        square.display();  // Uses default implementation\n        \n        // Polymorphism with interfaces\n        Drawable[] drawables = {circle, square};\n        System.out.println(\"--- Drawing all ---\");\n        for (Drawable d : drawables) {\n            d.draw();\n        }\n    }\n}",
+    "output": "Drawable interface v1.0\nDrawing a circle with radius 5.0 (color: Black)\nCustom display: Circle with radius 5.0\nResized circle to radius 10.0\n---\nDrawing a square with side 4.0\nDisplaying with Black color\n--- Drawing all ---\nDrawing a circle with radius 10.0 (color: Black)\nDrawing a square with side 4.0",
+    "explanation": "Interfaces define a contract that classes must follow:\n\nKey features:\n• 100% abstract (pre-Java 8) — methods have no body\n• All methods are public abstract by default\n• All fields are public static final by default\n• A class can implement MULTIPLE interfaces\n\nDefault methods (Java 8+):\n• Provide default implementation\n• Can be overridden\n• Maintains backward compatibility\n\nStatic methods (Java 8+):\n• Belong to the interface, not classes\n• Called via InterfaceName.method()\n\nInterface vs Abstract Class:\n• Interface: multiple inheritance, no state (fields)\n• Abstract class: single inheritance, can have state\n\nWhen to use interfaces:\n• Define capabilities (what a class can do)\n• Multiple inheritance of type\n• Unrelated classes share behavior"
+  },
+  "phase2": {
+    "brokenCode": "interface Drawable {\n    void draw();\n}\n\nclass Circle implements Drawable {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    // Forgetting the 'public' modifier (it's needed!)\n    void draw() {\n        System.out.println(\"Drawing circle\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Circle c = new Circle(5);\n        c.draw();\n    }\n}",
+    "errorMessage": "Circle.java:10: error: draw() in Circle cannot implement draw() in Drawable\n    void draw() {\n         ^\n  attempting to assign weaker access privileges; was public\n1 error",
+    "explanation": "Interface methods are implicitly public. When implementing, you must use public!\n\nThe error says you're trying to assign weaker access (package-private) than the interface requires (public).\n\nFIX: public void draw() { ... }\n\nAlways use public when implementing interface methods!"
+  },
+  "phase3": {
+    "prompt": "Create an interface Playable with:\n• void play()\n• default void stop() — prints \"Stopping playback\"\n\nCreate MusicPlayer and VideoPlayer classes that implement Playable:\n• MusicPlayer: play() prints \"Playing music 🎵\"\n• VideoPlayer: play() prints \"Playing video 🎬\"\n\nIn main, create both and call play() and stop() on each.",
+    "validationPattern": {
+      "required": ["interface Playable", "implements Playable", "@Override", "default"],
+      "forbidden": [],
+      "fullRegex": "interface\\s+Playable\\s*\\{[\\s\\S]*default\\s+void\\s+stop[\\s\\S]*\\}[\\s\\S]*class\\s+\\w+\\s+implements\\s+Playable[\\s\\S]*public\\s+void\\s+play\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "Playable interface needs play() and a default stop()",
+      "Both classes must implement play()",
+      "stop() is already provided by default — can use as-is"
+    ],
+    "solution": "interface Playable {\n    void play();\n    \n    default void stop() {\n        System.out.println(\"Stopping playback\");\n    }\n}\n\nclass MusicPlayer implements Playable {\n    @Override\n    public void play() {\n        System.out.println(\"Playing music 🎵\");\n    }\n}\n\nclass VideoPlayer implements Playable {\n    @Override\n    public void play() {\n        System.out.println(\"Playing video 🎬\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Playable music = new MusicPlayer();\n        Playable video = new VideoPlayer();\n        \n        music.play();\n        music.stop();\n        \n        video.play();\n        video.stop();\n    }\n}",
+    "openingDialogue": "Interfaces are contracts — sign them and deliver! 📋"
+  },
+  "xpReward": 10
+}

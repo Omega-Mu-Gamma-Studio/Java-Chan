@@ -1,0 +1,31 @@
+{
+  "id": "2.5",
+  "title": "Abstract Classes",
+  "type": "coding",
+  "phase1": {
+    "code": "// Abstract class — can't be instantiated\nabstract class Shape {\n    String color;\n    \n    Shape(String color) {\n        this.color = color;\n    }\n    \n    // Concrete method\n    void displayColor() {\n        System.out.println(\"Color: \" + color);\n    }\n    \n    // Abstract method — no body\n    abstract double area();\n    \n    // Another abstract method\n    abstract double perimeter();\n}\n\nclass Circle extends Shape {\n    double radius;\n    \n    Circle(String color, double radius) {\n        super(color);\n        this.radius = radius;\n    }\n    \n    @Override\n    double area() {\n        return Math.PI * radius * radius;\n    }\n    \n    @Override\n    double perimeter() {\n        return 2 * Math.PI * radius;\n    }\n}\n\nclass Rectangle extends Shape {\n    double width, height;\n    \n    Rectangle(String color, double width, double height) {\n        super(color);\n        this.width = width;\n        this.height = height;\n    }\n    \n    @Override\n    double area() {\n        return width * height;\n    }\n    \n    @Override\n    double perimeter() {\n        return 2 * (width + height);\n    }\n}\n\npublic class AbstractExample {\n    public static void main(String[] args) {\n        // Shape shape = new Shape(\"Red\"); // ERROR! Can't instantiate abstract class\n        \n        Circle circle = new Circle(\"Red\", 5);\n        Rectangle rect = new Rectangle(\"Blue\", 4, 6);\n        \n        circle.displayColor();\n        System.out.println(\"Circle area: \" + circle.area());\n        System.out.println(\"Circle perimeter: \" + circle.perimeter());\n        \n        System.out.println(\"---\");\n        \n        rect.displayColor();\n        System.out.println(\"Rectangle area: \" + rect.area());\n        System.out.println(\"Rectangle perimeter: \" + rect.perimeter());\n        \n        // Polymorphism with abstract classes\n        Shape[] shapes = {circle, rect};\n        System.out.println(\"--- Using polymorphism ---\");\n        for (Shape s : shapes) {\n            s.displayColor();\n            System.out.println(\"Area: \" + s.area());\n        }\n    }\n}",
+    "output": "Color: Red\nCircle area: 78.53981633974483\nCircle perimeter: 31.41592653589793\n---\nColor: Blue\nRectangle area: 24.0\nRectangle perimeter: 20.0\n--- Using polymorphism ---\nColor: Red\nArea: 78.53981633974483\nColor: Blue\nArea: 24.0",
+    "explanation": "Abstract classes are partial blueprints:\n\nabstract keyword:\n• Can't be instantiated (no 'new Shape()')\n• Can have abstract methods (no body)\n• Can have concrete methods (with body)\n• Can have fields and constructors\n\nAbstract methods:\n• Declared without body: abstract double area();\n• Must be implemented by non-abstract subclasses\n• Used to define a contract\n\nWhen to use abstract classes:\n• Share common code among subclasses\n• Template for subclasses\n• Partial implementation\n\nKey difference from interfaces:\n• Abstract class can have state (fields)\n• Abstract class can have implementation\n\nSubclasses MUST implement ALL abstract methods (unless they're abstract too)."
+  },
+  "phase2": {
+    "brokenCode": "abstract class Shape {\n    abstract double area();\n}\n\nclass Circle extends Shape {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    // Forgetting to implement area()\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Circle c = new Circle(5);\n    }\n}",
+    "errorMessage": "Circle.java:10: error: Circle is not abstract and does not override abstract method area() in Shape\nclass Circle extends Shape {\n^\n1 error",
+    "explanation": "Circle doesn't implement the abstract method area() from Shape.\n\nA non-abstract subclass MUST implement ALL abstract methods from its parent.\n\nOptions:\n1. Implement area() in Circle\n2. Make Circle abstract (but then you can't instantiate it)\n\nThe compiler forces you to implement all abstract methods!"
+  },
+  "phase3": {
+    "prompt": "Create an abstract class Appliance with:\n• Field: brand (String)\n• Constructor\n• Concrete method: turnOn() — prints \"[brand] is turning on\"\n• Abstract method: operate()\n\nCreate WashingMachine and Microwave subclasses:\n• Each implements operate() with their own behavior\n• WashingMachine: prints \"[brand] is washing clothes\"\n• Microwave: prints \"[brand] is heating food\"\n\nIn main, create an array of Appliance and call both methods on each.",
+    "validationPattern": {
+      "required": ["abstract class Appliance", "abstract void operate", "extends Appliance", "turnOn"],
+      "forbidden": [],
+      "fullRegex": "abstract\\s+class\\s+Appliance\\s*\\{[\\s\\S]*abstract\\s+void\\s+operate\\s*\\([\\s\\S]*\\)\\s*;[\\s\\S]*\\}[\\s\\S]*class\\s+\\w+\\s+extends\\s+Appliance[\\s\\S]*void\\s+operate\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "Appliance is abstract — it can have concrete methods too!",
+      "Subclasses must implement operate()",
+      "Use Appliance[] array for polymorphism"
+    ],
+    "solution": "abstract class Appliance {\n    String brand;\n    \n    Appliance(String brand) {\n        this.brand = brand;\n    }\n    \n    void turnOn() {\n        System.out.println(brand + \" is turning on\");\n    }\n    \n    abstract void operate();\n}\n\nclass WashingMachine extends Appliance {\n    WashingMachine(String brand) {\n        super(brand);\n    }\n    \n    @Override\n    void operate() {\n        System.out.println(brand + \" is washing clothes\");\n    }\n}\n\nclass Microwave extends Appliance {\n    Microwave(String brand) {\n        super(brand);\n    }\n    \n    @Override\n    void operate() {\n        System.out.println(brand + \" is heating food\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Appliance[] appliances = {\n            new WashingMachine(\"Samsung\"),\n            new Microwave(\"Panasonic\")\n        };\n        \n        for (Appliance a : appliances) {\n            a.turnOn();\n            a.operate();\n            System.out.println(\"---\");\n        }\n    }\n}",
+    "openingDialogue": "Abstract classes: the incomplete blueprint! 🏗️"
+  },
+  "xpReward": 10
+}

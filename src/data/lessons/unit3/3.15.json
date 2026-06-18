@@ -1,0 +1,30 @@
+{
+  "id": "3.15",
+  "title": "Unit 3 Review — Robust Programs",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "🎉 Congratulations! You've completed Unit 3 — Exception Handling & File I/O! Let's review everything and look at the big picture.\n\n--- Unit 3 Recap ---\n\n1. Exceptions — handling unexpected events\n   • Checked (compile-time) vs Unchecked (runtime)\n   • try-catch-finally structure\n   • throw (create) vs throws (declare)\n\n2. Custom Exceptions — domain-specific errors\n   • Extend Exception (checked) or RuntimeException (unchecked)\n   • Meaningful error messages\n\n3. try-with-resources — automatic resource cleanup\n   • AutoCloseable interface\n   • No more finally blocks for closing\n\n4. Built-in Exceptions — know your enemies\n   • NullPointerException, ArrayIndexOutOfBoundsException\n   • ClassCastException, NumberFormatException\n   • ArithmeticException, IllegalArgumentException\n   • IOException, FileNotFoundException\n   • InterruptedException\n\n5. Byte Streams — raw binary data\n   • FileInputStream, FileOutputStream\n   • Reading/writing bytes\n   • Best for binary files (images, audio, etc.)\n\n6. Character Streams — text data\n   • FileReader, FileWriter\n   • Reading/writing characters\n   • Best for text files (handles encoding)\n\n7. Buffered Streams — performance boost\n   • BufferedReader, BufferedWriter\n   • readLine(), newLine()\n   • Wrapping pattern\n\n8. PrintWriter — formatted output\n   • println(), printf()\n   • Autoflush option\n   • Formatted tables\n\n9. File Class — file operations\n   • Exists, create, delete, rename\n   • List directory contents\n   • File metadata\n\n10. Serialization — save/restore objects\n    • Serializable interface\n    • transient fields (not serialized)\n    • ObjectInputStream/ObjectOutputStream\n\n11. NIO — modern file handling\n    • Path interface\n    • Files utility class\n    • readAllBytes(), readAllLines()\n\n12. CSV — data exchange format\n    • Reading/writing CSV files\n    • Splitting and parsing fields\n    • Handling edge cases\n\n--- Defensive Programming Mindset ---\n\nAlways assume the worst:\n• Files might not exist\n• Input might be invalid\n• Network might fail\n• Memory might be low\n\nBest practices:\n1. Validate all inputs\n2. Handle exceptions gracefully\n3. Provide meaningful error messages\n4. Use try-with-resources\n5. Log errors (not just print)\n6. Fail fast with clear messages\n7. Don't ignore exceptions (empty catch blocks)\n\n--- What's Next? Unit 4 — Collections & Threads ---\n\nYou'll learn:\n• ArrayList, HashMap, HashSet\n• Generics\n• Sorting and searching\n• Multithreading basics\n• Concurrency\n\nYou're building real, robust applications now! 💪",
+    "openingDialogue": "Unit 3 complete! You've made your programs robust and reliable! 🛡️"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should never catch exceptions — I'll just let them crash.\"\n\nActually: You should catch exceptions and handle them gracefully, but only when you can do something useful with them.\n\nBad pattern:\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    // Empty catch — swallowing exceptions!\n}\n\nGood pattern:\ntry {\n    riskyOperation();\n} catch (IOException e) {\n    // Log the error and recover\n    System.err.println(\"IO Error: \" + e.getMessage());\n    // Could use a default value\n}\n\nRemember: Don't swallow exceptions!\n\nAnother misconception: \"File I/O is always slow.\"\n\nActually: Buffered streams and NIO make I/O much faster. Reading 1MB at a time is faster than reading 1 byte at a time!"
+  },
+  "phase3": {
+    "prompt": "Which practice makes a program MORE robust?\n\nA) Using empty catch blocks to ignore all exceptions\nB) Checking for null before accessing objects\nC) Reading one byte at a time from a large file\nD) Not closing files after use\nE) Using System.out.println() for all errors\n\nSelect the BEST practice.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Think about defensive programming — what prevents errors?",
+      "What's the most common mistake that causes NullPointerException?",
+      "Which practice actively prevents problems from occurring?"
+    ],
+    "solution": null,
+    "openingDialogue": "Final check! What makes code robust? 🤔"
+  },
+  "xpReward": 15
+}

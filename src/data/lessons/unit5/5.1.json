@@ -1,0 +1,29 @@
+{
+  "id": "5.1",
+  "title": "Intro to JavaFX",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "JavaFX is the modern GUI framework for Java desktop applications.\n\n--- JavaFX vs Swing ---\n\nSwing (old):\n• Older, still supported\n• Heavyweight components\n• More complex event handling\n• Not hardware accelerated\n\nJavaFX (modern):\n• Newer, actively developed\n• Lightweight, hardware accelerated\n• CSS styling support\n• FXML for UI design\n• Built-in animation\n• Better for modern UIs\n\n--- Key Concepts ---\n\nApplication Class:\n• Entry point for JavaFX applications\n• Extend Application and override start()\n• launch() method starts the application\n\nStage:\n• The main window/top-level container\n• Each application has a primary Stage\n• Can create additional stages (windows)\n\nScene:\n• Container for all UI components\n• Holds the scene graph\n• Can be switched (navigation)\n\nScene Graph:\n• Tree of nodes (UI elements)\n• Parent nodes contain child nodes\n• Root node is the top of the scene graph\n\n--- JavaFX Thread ---\n\nJavaFX has its own thread:\n• Platform.runLater() — schedule code on JavaFX thread\n• All UI updates MUST happen on JavaFX thread\n• Background tasks should use separate threads\n\n--- Setting Up JavaFX ---\n\nRequirements:\n• Java 8+ (Java 11+ requires separate JavaFX SDK)\n• JavaFX SDK or Maven/Gradle dependencies\n• For Java 11+: add --module-path and --add-modules\n\nMaven dependency:\n<dependency>\n    <groupId>org.openjfx</groupId>\n    <artifactId>javafx-controls</artifactId>\n    <version>17.0.2</version>\n</dependency>\n\n--- Common JavaFX Components ---\n\nControls:\n• Button, Label, TextField, TextArea\n• CheckBox, RadioButton, ComboBox\n• ListView, TableView, TreeView\n\nLayouts:\n• VBox, HBox, GridPane, BorderPane\n• StackPane, FlowPane, AnchorPane\n\nProperties and Bindings:\n• Observable properties (StringProperty, IntegerProperty)\n• Bindings for automatic updates\n\nFXML:\n• XML-based UI design\n• Separate UI from logic\n• Scene Builder for visual design\n\nCSS Styling:\n• CSS-like syntax for styling\n• -fx- properties (JavaFX specific)\n• Can use external stylesheets\n\nAnimation:\n• Timeline, KeyFrame, KeyValue\n• Transitions (Translate, Fade, Rotate)\n\nJavaFX is the future of Java desktop development!"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"JavaFX is dead and Swing is the only option.\"\n\nActually: JavaFX is actively maintained and is the recommended choice for new desktop applications. Oracle still supports JavaFX, and the open-source community continues to develop it.\n\nAnother misconception: \"JavaFX is only for simple UIs.\"\n\nActually: JavaFX can create complex, professional UIs with:\n• Charts and graphs\n• 3D graphics\n• Web views (embedded browser)\n• Media playback (audio/video)\n• Complex animations\n\nYou can build full-featured applications with JavaFX!"
+  },
+  "phase3": {
+    "prompt": "Which statement about JavaFX is TRUE?\n\nA) JavaFX doesn't support CSS styling\nB) All UI updates must happen on the JavaFX Application Thread\nC) JavaFX applications don't use a main() method\nD) JavaFX is older than Swing\n\nSelect the CORRECT statement.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Think about how JavaFX handles UI updates...",
+      "CSS styling is a JavaFX feature.",
+      "Which framework came first, Swing or JavaFX?"
+    ],
+    "solution": null,
+    "openingDialogue": "JavaFX — modern GUI for modern apps! 🎨"
+  },
+  "xpReward": 10
+}

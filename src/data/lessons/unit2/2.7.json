@@ -1,0 +1,31 @@
+{
+  "id": "2.7",
+  "title": "Multiple Interfaces",
+  "type": "coding",
+  "phase1": {
+    "code": "interface Drivable {\n    void drive();\n    \n    default void honk() {\n        System.out.println(\"Beep!\");\n    }\n}\n\ninterface Flyable {\n    void fly();\n    \n    default void honk() {\n        System.out.println(\"Honk from Flyable!\");\n    }\n}\n\ninterface Swimmable {\n    void swim();\n}\n\n// Class implementing multiple interfaces\nclass FlyingCar implements Drivable, Flyable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on roads\");\n    }\n    \n    @Override\n    public void fly() {\n        System.out.println(\"Flying in the sky\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n    \n    // Resolving default method conflict\n    @Override\n    public void honk() {\n        Drivable.super.honk();  // Choose which default to use\n        // Or provide custom: System.out.println(\"Super honk!\");\n    }\n}\n\nclass AmphibiousVehicle implements Drivable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on land\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n}\n\npublic class MultipleInterfacesExample {\n    public static void main(String[] args) {\n        FlyingCar flyingCar = new FlyingCar();\n        flyingCar.drive();\n        flyingCar.fly();\n        flyingCar.swim();\n        flyingCar.honk();\n        \n        System.out.println(\"---\");\n        \n        // Polymorphism with multiple interfaces\n        AmphibiousVehicle amphib = new AmphibiousVehicle();\n        \n        Drivable asDrivable = amphib;\n        Swimmable asSwimmable = amphib;\n        \n        asDrivable.drive();\n        asSwimmable.swim();\n        \n        System.out.println(\"--- Checking instanceof ---\");\n        System.out.println(\"flyingCar instanceof Drivable: \" + (flyingCar instanceof Drivable));\n        System.out.println(\"flyingCar instanceof Flyable: \" + (flyingCar instanceof Flyable));\n        System.out.println(\"flyingCar instanceof Swimmable: \" + (flyingCar instanceof Swimmable));\n    }\n}",
+    "output": "Driving on roads\nFlying in the sky\nSwimming in water\nBeep!\n---\nDriving on land\nSwimming in water\n--- Checking instanceof ---\nflyingCar instanceof Drivable: true\nflyingCar instanceof Flyable: true\nflyingCar instanceof Swimmable: true",
+    "explanation": "Java supports multiple interface inheritance:\n\nA class can implement ANY number of interfaces:\n• class FlyingCar implements Drivable, Flyable, Swimmable\n\nBenefits:\n• Mix-and-match capabilities\n• Different classes can share behaviors\n\nDefault method conflicts:\n• If two interfaces have same default method\n• Must OVERRIDE and resolve the conflict\n• Use InterfaceName.super.methodName() to call specific interface's default\n\nType checking:\n• instanceof works with all implemented interfaces\n• Can assign to any interface type\n\nMultiple interfaces allow for flexible design without the problems of multiple class inheritance (diamond problem)."
+  },
+  "phase2": {
+    "brokenCode": "interface A {\n    default void hello() {\n        System.out.println(\"Hello from A\");\n    }\n}\n\ninterface B {\n    default void hello() {\n        System.out.println(\"Hello from B\");\n    }\n}\n\nclass C implements A, B {\n    // Forgetting to resolve the conflict\n    public static void main(String[] args) {\n        C obj = new C();\n        obj.hello();  // Which one?\n    }\n}",
+    "errorMessage": "C.java:17: error: class C inherits unrelated defaults for hello() from types A and B\nclass C implements A, B {\n^\n1 error",
+    "explanation": "Both A and B have a default method hello(). C inherits from both, causing a conflict.\n\nThe compiler doesn't know which hello() to use!\n\nFIX: Override hello() in C and resolve the conflict:\n\n@Override\npublic void hello() {\n    A.super.hello();  // Choose A's version\n    // or B.super.hello();\n    // or custom implementation\n}\n\nAlways resolve default method conflicts explicitly!"
+  },
+  "phase3": {
+    "prompt": "Create interfaces:\n1. Eatable — void eat()\n2. Sleepable — void sleep()\n3. Playable — void play()\n\nCreate a class Pet that implements all three.\nIn main, create a Pet and call all three methods.",
+    "validationPattern": {
+      "required": ["interface Eatable", "interface Sleepable", "interface Playable", "implements", "eat", "sleep", "play"],
+      "forbidden": [],
+      "fullRegex": "interface\\s+Eatable[\\s\\S]*interface\\s+Sleepable[\\s\\S]*interface\\s+Playable[\\s\\S]*class\\s+\\w+\\s+implements\\s+Eatable\\s*,\\s*Sleepable\\s*,\\s*Playable"
+    },
+    "dialogueHints": [
+      "Create three separate interfaces, each with one method",
+      "Pet implements all three",
+      "Call all three methods in main"
+    ],
+    "solution": "interface Eatable {\n    void eat();\n}\n\ninterface Sleepable {\n    void sleep();\n}\n\ninterface Playable {\n    void play();\n}\n\nclass Pet implements Eatable, Sleepable, Playable {\n    @Override\n    public void eat() {\n        System.out.println(\"Pet is eating\");\n    }\n    \n    @Override\n    public void sleep() {\n        System.out.println(\"Pet is sleeping\");\n    }\n    \n    @Override\n    public void play() {\n        System.out.println(\"Pet is playing\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Pet pet = new Pet();\n        pet.eat();\n        pet.sleep();\n        pet.play();\n    }\n}",
+    "openingDialogue": "Why settle for one when you can have many? Multiple interfaces! 🎯"
+  },
+  "xpReward": 10
+}

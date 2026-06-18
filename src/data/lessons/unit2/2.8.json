@@ -1,0 +1,31 @@
+{
+  "id": "2.8",
+  "title": "Packages",
+  "type": "coding",
+  "phase1": {
+    "code": "// File: com/mycompany/util/MathUtils.java\npackage com.mycompany.util;\n\npublic class MathUtils {\n    public static int add(int a, int b) {\n        return a + b;\n    }\n    \n    public static int multiply(int a, int b) {\n        return a * b;\n    }\n    \n    public static int factorial(int n) {\n        int result = 1;\n        for (int i = 2; i <= n; i++) {\n            result *= i;\n        }\n        return result;\n    }\n}\n\n// File: com/mycompany/app/Main.java\npackage com.mycompany.app;\n\nimport com.mycompany.util.MathUtils;\n// Import entire package: import com.mycompany.util.*;\n\npublic class Main {\n    public static void main(String[] args) {\n        // Using the imported class\n        System.out.println(\"Add: \" + MathUtils.add(10, 5));\n        System.out.println(\"Multiply: \" + MathUtils.multiply(10, 5));\n        System.out.println(\"Factorial of 5: \" + MathUtils.factorial(5));\n        \n        // Built-in packages\n        // java.lang.* — automatically imported (String, Math, System)\n        // java.util.* — Scanner, ArrayList, HashMap\n        // java.io.* — File I/O\n        \n        java.util.ArrayList<String> list = new java.util.ArrayList<>();\n        list.add(\"Hello\");\n        list.add(\"World\");\n        System.out.println(\"ArrayList: \" + list);\n        \n        // Using fully qualified name without import\n        java.util.HashMap<String, Integer> map = new java.util.HashMap<>();\n        map.put(\"Key\", 42);\n        System.out.println(\"HashMap: \" + map);\n    }\n}",
+    "output": "Add: 15\nMultiply: 50\nFactorial of 5: 120\nArrayList: [Hello, World]\nHashMap: {Key=42}",
+    "explanation": "Packages organize classes into namespaces:\n\nPackage declaration:\n• package com.mycompany.util;\n• Must be FIRST line in file\n• Follows reverse domain name convention\n\nImport statements:\n• import com.mycompany.util.MathUtils; — imports specific class\n• import com.mycompany.util.*; — imports all classes in package\n• java.lang is automatically imported\n\nWhy use packages:\n• Avoid naming conflicts\n• Organize code logically\n• Control access (protected/package-private)\n\nCommon built-in packages:\n• java.lang — String, Math, System (auto-imported)\n• java.util — Scanner, ArrayList, HashMap\n• java.io — File, BufferedReader\n• java.time — LocalDate, LocalDateTime\n\nFully Qualified Name: package.Class (without import)\n• Example: java.util.ArrayList<String>()"
+  },
+  "phase2": {
+    "brokenCode": "// File: Main.java\n// Missing import statement!\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"Hello\");\n    }\n}",
+    "errorMessage": "Main.java:5: error: cannot find symbol\n        ArrayList<String> list = new ArrayList<>();\n        ^\n  symbol:   class ArrayList\n  location: class Main\nMain.java:5: error: cannot find symbol\n        ArrayList<String> list = new ArrayList<>();\n                                      ^\n  symbol:   class ArrayList\n  location: class Main\n2 errors",
+    "explanation": "ArrayList is in the java.util package, but you haven't imported it!\n\nFIX: Add import at the top:\nimport java.util.ArrayList;\n\nOr use the fully qualified name:\njava.util.ArrayList<String> list = new java.util.ArrayList<>();\n\nRemember: Only java.lang is automatically imported. All other packages need explicit import statements."
+  },
+  "phase3": {
+    "prompt": "Create a package structure:\n• com.example.shapes\n• In it, create Rectangle and Circle classes with area() methods\n• In a Main class (can be in same file), import and use both shapes\n\nNote: For simplicity, we'll put everything in one file with package declarations.",
+    "validationPattern": {
+      "required": ["package", "import", "com.example.shapes", "area"],
+      "forbidden": [],
+      "fullRegex": "package\\s+com\\.example\\.shapes[\\s\\S]*import\\s+com\\.example\\.shapes\\.[\\s\\S]*area\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "Use package com.example.shapes; in both shape classes",
+      "Main can be in default package or different package",
+      "Import both classes and use them"
+    ],
+    "solution": "package com.example.shapes;\n\nclass Rectangle {\n    double width, height;\n    \n    Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n    \n    double area() {\n        return width * height;\n    }\n}\n\npackage com.example.shapes;\n\nclass Circle {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    double area() {\n        return Math.PI * radius * radius;\n    }\n}\n\n// Main class\nimport com.example.shapes.Rectangle;\nimport com.example.shapes.Circle;\n\npublic class Main {\n    public static void main(String[] args) {\n        Rectangle rect = new Rectangle(5, 10);\n        Circle circle = new Circle(7);\n        \n        System.out.println(\"Rectangle area: \" + rect.area());\n        System.out.println(\"Circle area: \" + circle.area());\n    }\n}",
+    "openingDialogue": "Packages keep your code organized! 📦"
+  },
+  "xpReward": 10
+}

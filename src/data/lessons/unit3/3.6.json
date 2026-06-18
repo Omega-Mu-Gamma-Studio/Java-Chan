@@ -1,0 +1,30 @@
+{
+  "id": "3.6",
+  "title": "Common Built-in Exceptions",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "Here are the most common Java exceptions you'll encounter:\n\n--- 1. NullPointerException (Unchecked) ---\n\nWhen: Trying to call a method on a null reference\n\nString str = null;\nstr.length(); // NPE!\n\nFIX: Always check for null:\nif (str != null) {\n    int len = str.length();\n}\n\n--- 2. ArrayIndexOutOfBoundsException (Unchecked) ---\n\nWhen: Accessing an array index outside 0 to length-1\n\nint[] arr = {1, 2, 3};\narr[5] = 10; // Index 5 out of bounds!\n\nFIX: Check index bounds:\nif (index >= 0 && index < arr.length) {\n    arr[index] = value;\n}\n\n--- 3. ClassCastException (Unchecked) ---\n\nWhen: Invalid downcasting\n\nAnimal animal = new Dog();\nCat cat = (Cat) animal; // Dog can't be cast to Cat!\n\nFIX: Use instanceof before casting:\nif (animal instanceof Cat) {\n    Cat cat = (Cat) animal;\n}\n\n--- 4. NumberFormatException (Unchecked) ---\n\nWhen: Converting invalid string to number\n\nint num = Integer.parseInt(\"123abc\"); // \"123abc\" not a valid number!\n\nFIX: Try-catch or validate input:\ntry {\n    int num = Integer.parseInt(input);\n} catch (NumberFormatException e) {\n    System.out.println(\"Invalid number format!\");\n}\n\n--- 5. ArithmeticException (Unchecked) ---\n\nWhen: Math error (division by zero)\n\nint result = 100 / 0; // division by zero!\n\nFIX: Check divisor before division:\nif (divisor != 0) {\n    int result = 100 / divisor;\n}\n\n--- 6. IllegalArgumentException (Unchecked) ---\n\nWhen: Invalid argument passed to method\n\nsetAge(-5); // age can't be negative!\n\nFIX: Validate before using:\nif (age < 0) {\n    throw new IllegalArgumentException(\"Age can't be negative!\");\n}\n\n--- 7. IndexOutOfBoundsException (Unchecked) ---\n\nWhen: Invalid index for list/array\n\nArrayList<String> list = new ArrayList<>();\nlist.get(5); // Index 5 out of bounds!\n\nFIX: Check size():\nif (index >= 0 && index < list.size()) {\n    String item = list.get(index);\n}\n\n--- 8. FileNotFoundException (Checked) ---\n\nWhen: File doesn't exist\n\nnew FileReader(\"missing.txt\"); // File not found!\n\nFIX: Try-catch or check if file exists:\nFile file = new File(\"missing.txt\");\nif (file.exists()) {\n    FileReader reader = new FileReader(file);\n}\n\n--- 9. IOException (Checked) ---\n\nWhen: I/O operation fails\n\nreader.read(); // I/O error!\n\nFIX: Try-catch with proper error handling:\ntry {\n    reader.read();\n} catch (IOException e) {\n    System.out.println(\"I/O Error: \" + e.getMessage());\n}\n\n--- 10. InterruptedException (Checked) ---\n\nWhen: Thread is interrupted while sleeping/waiting\n\nThread.sleep(1000); // might be interrupted!\n\nFIX: Try-catch:\ntry {\n    Thread.sleep(1000);\n} catch (InterruptedException e) {\n    Thread.currentThread().interrupt(); // restore status\n}\n\nRemember:\n• Unchecked exceptions = programming errors (fix the code)\n• Checked exceptions = external problems (handle gracefully)",
+    "openingDialogue": "Know your enemy! Let's learn the most common exceptions~ 🐛"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"NullPointerException means the variable is undefined.\"\n\nActually: null means the variable has no object reference. The variable exists, but doesn't point to any object.\n\nString str = null;  // str exists, but points to nothing\nstr.length();       // NPE because null doesn't have a length\n\nFix: Initialize your variables properly!\n\nAnother misconception: \"IOException should be ignored.\"\n\nActually: I/O errors happen frequently (file not found, disk full, permission denied). Always handle them gracefully with meaningful user feedback."
+  },
+  "phase3": {
+    "prompt": "Which exception would be thrown by the following code?\n\nString[] names = {\"Alice\", \"Bob\"};\nSystem.out.println(names[2]);\n\nA) NullPointerException\nB) ArrayIndexOutOfBoundsException\nC) NumberFormatException\nD) ClassCastException\nE) ArithmeticException\n\nSelect the correct exception.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Look at the array declaration — how many elements does it have?",
+      "What's the highest valid index?",
+      "What happens when you try to access an index that doesn't exist?"
+    ],
+    "solution": null,
+    "openingDialogue": "Quick quiz! Which exception is this? 🤔"
+  },
+  "xpReward": 10
+}

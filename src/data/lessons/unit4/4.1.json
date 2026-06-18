@@ -1,0 +1,29 @@
+{
+  "id": "4.1",
+  "title": "Collections Framework Overview",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "The Collections Framework provides a unified architecture for storing and manipulating groups of objects.\n\nThink of collections like different types of containers:\n• List = an ordered list (like a shopping list)\n• Set = unique items only (like a set of dinner plates)\n• Map = key-value pairs (like a dictionary)\n• Queue = FIFO processing (like a line at a store)\n\n--- Collection Hierarchy ---\n\nIterable (root)\n    └── Collection\n        ├── List\n        │   ├── ArrayList\n        │   ├── LinkedList\n        │   └── Vector (legacy)\n        ├── Set\n        │   ├── HashSet\n        │   ├── TreeSet\n        │   └── LinkedHashSet\n        └── Queue\n            ├── LinkedList\n            └── PriorityQueue\n\nMap (separate hierarchy)\n    ├── HashMap\n    ├── TreeMap\n    └── LinkedHashMap\n\n--- When to Use Which ---\n\nArrayList:\n• Fast random access by index\n• Fast iteration\n• Good for: storing and accessing data by position\n\nLinkedList:\n• Fast insertion/removal at beginning/end\n• Good for: implementing stacks, queues\n\nHashSet:\n• Fast lookup, no duplicates\n• No order guaranteed\n• Good for: removing duplicates, membership testing\n\nTreeSet:\n• Sorted order\n• Good for: sorted unique elements\n\nHashMap:\n• Fast key-value lookup\n• No order guaranteed\n• Good for: dictionaries, caches, counts\n\nTreeMap:\n• Sorted keys\n• Good for: sorted key-value pairs\n\n--- Key Interfaces ---\n\nCollection:\n• Basic operations: add, remove, contains, size, isEmpty\n\nList:\n• Ordered collection, allows duplicates\n• Index-based access: get(index), set(index, element)\n\nSet:\n• No duplicates, no order (usually)\n• Based on equals() and hashCode()\n\nMap:\n• Key-value pairs, unique keys\n• put(key, value), get(key), containsKey(key)\n\nQueue:\n• FIFO (First-In-First-Out)\n• offer(), poll(), peek()\n\n--- Choosing the Right Collection ---\n\nAsk yourself:\n1. Do I need duplicates? → List (yes) / Set (no)\n2. Do I need order? → List, TreeSet, LinkedHashMap\n3. Do I need fast lookup? → HashMap, HashSet\n4. Do I need sorting? → TreeSet, TreeMap\n5. Do I need FIFO? → Queue\n\nPro tip: Use the most general interface (List, Set, Map) in your code, not the specific implementation!"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"I should always use ArrayList because it's the most popular.\"\n\nActually: ArrayList isn't always the best choice! If you're frequently inserting/deleting at the beginning of a list, LinkedList would be more efficient.\n\nExample:\n• ArrayList: O(1) for get, O(n) for insert at beginning\n• LinkedList: O(n) for get, O(1) for insert at beginning\n\nChoose based on your specific use case!\n\nAnother misconception: \"HashSet is faster than TreeSet.\"\n\nActually: HashSet is O(1) for operations, TreeSet is O(log n). If you need sorted order, TreeSet is your only choice, but if you don't need order, HashSet is faster."
+  },
+  "phase3": {
+    "prompt": "Which collection should you use for:\n\n\"A list of students where you frequently need to access students by their ID number\"\n\nA) ArrayList\nB) LinkedList\nC) HashSet\nD) HashMap\n\nSelect the BEST choice.",
+    "validationPattern": {
+      "mcqAnswer": "D"
+    },
+    "dialogueHints": [
+      "Think about what you're using to access the data...",
+      "ID number → key, student → value",
+      "What collection stores key-value pairs?"
+    ],
+    "solution": null,
+    "openingDialogue": "Collections — choose the right container for the job! 📦"
+  },
+  "xpReward": 10
+}

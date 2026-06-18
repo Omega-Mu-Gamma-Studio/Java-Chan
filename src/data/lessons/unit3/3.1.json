@@ -1,0 +1,30 @@
+{
+  "id": "3.1",
+  "title": "What Are Exceptions?",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "Exceptions are unexpected events that occur during program execution. They disrupt the normal flow of your program.\n\nThink of it like driving a car:\n• Normal flow: you drive smoothly to your destination\n• Exception: a sudden flat tire — you need to handle it (pull over, change tire)\n• Error: the engine explodes — program crashes (can't recover)\n\n--- Exception Hierarchy ---\n\nThrowable (root)\n├── Error (serious, can't recover)\n│   ├── OutOfMemoryError\n│   ├── StackOverflowError\n│   └── VirtualMachineError\n└── Exception (can handle)\n    ├── RuntimeException (unchecked)\n    │   ├── NullPointerException\n    │   ├── ArrayIndexOutOfBoundsException\n    │   ├── ArithmeticException\n    │   └── ClassCastException\n    └── Checked Exceptions\n        ├── IOException\n        ├── FileNotFoundException\n        ├── SQLException\n        └── InterruptedException\n\n--- Checked vs Unchecked ---\n\nChecked Exceptions (compile-time):\n• Must be handled (try-catch) or declared (throws)\n• Compiler forces you to deal with them\n• Examples: IOException, FileNotFoundException, SQLException\n\nUnchecked Exceptions (runtime):\n• Happen due to programming errors\n• Not required to be handled (but you should)\n• Examples: NullPointerException, ArrayIndexOutOfBoundsException\n\nError:\n• Serious problems, typically can't recover\n• Examples: OutOfMemoryError, StackOverflowError\n\n--- Reading Stack Traces ---\n\nThe stack trace tells you:\n1. What exception occurred\n2. Where it happened (file and line number)\n3. The call stack (which methods called what)\n\nExample stack trace:\nException in thread \"main\" java.lang.NullPointerException\n    at MyProgram.main(MyProgram.java:12)\n    at MyProgram.processData(MyProgram.java:8)\n    at MyProgram.init(MyProgram.java:4)\n\nRead from bottom to top to trace the flow!\n\nWhy exceptions are good:\n• They prevent crashes from bad data\n• They tell you what went wrong\n• They allow graceful recovery",
+    "openingDialogue": "Exceptions are your program's way of saying 'Houston, we have a problem!' 🚨"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code yet!\n\nCommon misconception: \"All exceptions must be caught with try-catch.\"\n\nActually: Only CHECKED exceptions must be caught or declared. Unchecked exceptions (RuntimeException) can be left unhandled (but they'll crash your program).\n\nFor example:\n• FileNotFoundException (checked) → must handle\n• NullPointerException (unchecked) → optional to handle\n\nAlways handle exceptions that can realistically occur!"
+  },
+  "phase3": {
+    "prompt": "Which statement about exceptions is TRUE?\n\nA) NullPointerException is a checked exception\nB) All exceptions must be caught with try-catch\nC) RuntimeException and its subclasses are unchecked exceptions\nD) Errors can be caught and recovered from\nE) Stack traces only show the line where the exception occurred\n\nSelect the CORRECT statement.",
+    "validationPattern": {
+      "mcqAnswer": "C"
+    },
+    "dialogueHints": [
+      "Think about which exceptions the compiler forces you to handle.",
+      "Remember: RuntimeException is special — it doesn't require handling.",
+      "Errors are serious problems that typically can't be recovered."
+    ],
+    "solution": null,
+    "openingDialogue": "Quick check! What do you know about exceptions? 🤔"
+  },
+  "xpReward": 10
+}

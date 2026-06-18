@@ -1,0 +1,31 @@
+{
+  "id": "2.3",
+  "title": "The super Keyword",
+  "type": "coding",
+  "phase1": {
+    "code": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n        System.out.println(\"Person constructor called\");\n    }\n    \n    void introduce() {\n        System.out.println(\"Hi, I'm \" + name + \". I'm \" + age + \" years old.\");\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    String major;\n    \n    Student(String name, int age, String studentId, String major) {\n        super(name, age);  // Calls parent constructor FIRST\n        this.studentId = studentId;\n        this.major = major;\n        System.out.println(\"Student constructor called\");\n    }\n    \n    @Override\n    void introduce() {\n        super.introduce();  // Call parent's version\n        System.out.println(\"My student ID is \" + studentId);\n        System.out.println(\"I'm majoring in \" + major);\n    }\n}\n\npublic class SuperExample {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\", \"Computer Science\");\n        System.out.println(\"---\");\n        student.introduce();\n    }\n}",
+    "output": "Person constructor called\nStudent constructor called\n---\nHi, I'm Alice. I'm 20 years old.\nMy student ID is S12345\nI'm majoring in Computer Science",
+    "explanation": "The super keyword is used to access parent class members:\n\n1. super() — call parent constructor\n   • Must be the FIRST statement in child constructor\n   • If not called, Java automatically calls super() (no-arg constructor)\n\n2. super.method() — call parent method\n   • Used when overriding — extends parent behavior\n   • Can call parent's version even if you overrode it\n\n3. super.field — access parent field\n   • If child has same field name\n\nConstructor Chaining:\n• Child constructor calls parent constructor\n• Parent constructor calls its parent (Object class)\n• Chain continues until Object\n\n⚠️ If parent doesn't have a no-arg constructor, you MUST call super() with parameters!"
+  },
+  "phase2": {
+    "brokenCode": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    \n    Student(String name, int age, String studentId) {\n        // Missing super(name, age);\n        this.studentId = studentId;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\");\n    }\n}",
+    "errorMessage": "Test.java:14: error: constructor Person in class Person cannot be applied to given types;\n    Student(String name, int age, String studentId) {\n    ^\n  required: String,int\n  found: no arguments\n  reason: actual and formal argument lists differ in length\n1 error",
+    "explanation": "Person doesn't have a no-argument constructor, but the Student constructor doesn't call super() with parameters.\n\nJava tries to call super() (no args) automatically, but it doesn't exist!\n\nThe fix: super(name, age); must be the first line in the child constructor.\n\nRemember: If parent has no no-arg constructor, you MUST explicitly call super() with the right parameters."
+  },
+  "phase3": {
+    "prompt": "Create Employee class with:\n• Fields: name (String), salary (double)\n• Constructor\n• Method: work() — prints \"[name] is working\"\n\nCreate Manager subclass with:\n• Field: department (String)\n• Constructor with super()\n• Override work() — prints \"[name] is managing the [department] department\"\n• Also call super.work() in the override\n\nIn main, create a Manager and call work().",
+    "validationPattern": {
+      "required": ["super", "super.work", "extends", "@Override"],
+      "forbidden": [],
+      "fullRegex": "class\\s+Manager\\s+extends\\s+Employee[\\s\\S]*super\\s*\\([\\s\\S]*\\)[\\s\\S]*super\\.work\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "Constructor: Manager(String name, double salary, String department) { super(name, salary); this.department = department; }",
+      "Override work(): call super.work() then add new behavior",
+      "Use super() to call parent constructor"
+    ],
+    "solution": "class Employee {\n    String name;\n    double salary;\n    \n    Employee(String name, double salary) {\n        this.name = name;\n        this.salary = salary;\n    }\n    \n    void work() {\n        System.out.println(name + \" is working\");\n    }\n}\n\nclass Manager extends Employee {\n    String department;\n    \n    Manager(String name, double salary, String department) {\n        super(name, salary);\n        this.department = department;\n    }\n    \n    @Override\n    void work() {\n        super.work();\n        System.out.println(name + \" is managing the \" + department + \" department\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Manager manager = new Manager(\"Bob\", 75000, \"IT\");\n        manager.work();\n    }\n}",
+    "openingDialogue": "Super is your connection to the parent class! 🔗"
+  },
+  "xpReward": 10
+}

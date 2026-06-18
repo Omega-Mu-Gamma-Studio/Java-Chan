@@ -1,0 +1,29 @@
+{
+  "id": "4.10",
+  "title": "Intro to Multithreading",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "Multithreading allows a program to run multiple tasks simultaneously:\n\n--- Process vs Thread ---\n\nProcess:\n• An instance of a program running\n• Has its own memory space\n• Heavyweight\n• Example: Running your IDE, browser, and game simultaneously\n\nThread:\n• A lightweight unit of execution within a process\n• Shares memory with other threads\n• Lightweight (cheaper to create)\n• Example: A web browser loading multiple tabs concurrently\n\n--- Concurrency vs Parallelism ---\n\nConcurrency:\n• Multiple tasks making progress, but not necessarily at the same time\n• One CPU core, tasks take turns\n• Example: Single-core CPU running multiple programs\n\nParallelism:\n• Multiple tasks running at exactly the same time\n• Multiple CPU cores\n• Example: Multi-core CPU running multiple programs simultaneously\n\n--- Thread Lifecycle ---\n\n1. NEW — Created but not started (Thread t = new Thread())\n2. RUNNABLE — Ready to run (t.start())\n3. RUNNING — Actually executing (CPU time)\n4. BLOCKED — Waiting for a lock or I/O\n5. WAITING — Waiting indefinitely for notification\n6. TIMED_WAITING — Waiting for a specific time\n7. TERMINATED — Finished execution\n\n--- Why Multithreading? ---\n\nBenefits:\n• Better CPU utilization\n• Responsive UI (don't freeze)\n• Efficient I/O operations\n• Better performance on multi-core systems\n\nChallenges:\n• Race conditions (data corruption)\n• Deadlocks (threads waiting forever)\n• Complexity in debugging\n• Hard to reason about\n\n--- Common Use Cases ---\n\n• Web servers handling multiple requests\n• GUI applications (UI thread + background tasks)\n• Download managers (multiple files simultaneously)\n• Database operations (parallel queries)\n• Batch processing (split data across threads)\n\n--- Java Thread Support ---\n\nJava has built-in multithreading support:\n• Thread class\n• Runnable interface\n• synchronized keyword\n• wait/notify/notifyAll\n• Executor framework\n• java.util.concurrent package\n\nIn the next lessons, we'll learn how to create and manage threads!"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"More threads always means better performance.\"\n\nActually: More threads can reduce performance due to:\n• Context switching overhead\n• Memory consumption\n• Increased complexity\n• Limited CPU cores\n\nRecommendation: Number of threads ≈ Number of CPU cores (for CPU-bound tasks)\n\nAnother misconception: \"Threads are completely independent and don't interact.\"\n\nActually: Threads share memory and resources. This is what causes race conditions and deadlocks!\n\nExample of a race condition:\nTwo threads both increment a shared counter: counter++\nThread A reads counter (5), Thread B reads counter (5)\nBoth increment (6), both write (6) — Should be 7!\n\nAlways use synchronization when sharing data between threads!"
+  },
+  "phase3": {
+    "prompt": "Which statement about multithreading is TRUE?\n\nA) Adding more threads always makes a program faster\nB) Threads share memory and can access the same data\nC) A process cannot have multiple threads\nD) All threads run in parallel on all CPUs\nE) Threads never interact with each other\n\nSelect the CORRECT statement.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Think about what threads share...",
+      "Do threads share memory or have their own?",
+      "Is it always faster to have more threads?"
+    ],
+    "solution": null,
+    "openingDialogue": "Multithreading — doing multiple things at once! 🧵"
+  },
+  "xpReward": 10
+}

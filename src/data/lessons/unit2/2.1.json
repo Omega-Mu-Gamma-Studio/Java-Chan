@@ -1,0 +1,31 @@
+{
+  "id": "2.1",
+  "title": "Inheritance Basics",
+  "type": "coding",
+  "phase1": {
+    "code": "// Parent class (superclass)\nclass Animal {\n    String name;\n    int age;\n    \n    Animal(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    void eat() {\n        System.out.println(name + \" is eating.\");\n    }\n    \n    void sleep() {\n        System.out.println(name + \" is sleeping.\");\n    }\n}\n\n// Child class (subclass) - inherits from Animal\nclass Dog extends Animal {\n    String breed;\n    \n    Dog(String name, int age, String breed) {\n        super(name, age);  // Call parent constructor\n        this.breed = breed;\n    }\n    \n    void bark() {\n        System.out.println(name + \" says: Woof! Woof!\");\n    }\n}\n\n// Another subclass\nclass Cat extends Animal {\n    Cat(String name, int age) {\n        super(name, age);\n    }\n    \n    void meow() {\n        System.out.println(name + \" says: Meow~\");\n    }\n}\n\npublic class InheritanceExample {\n    public static void main(String[] args) {\n        Dog dog = new Dog(\"Rex\", 3, \"German Shepherd\");\n        Cat cat = new Cat(\"Whiskers\", 2);\n        \n        // Dog has access to Animal methods\n        dog.eat();\n        dog.sleep();\n        dog.bark();\n        \n        System.out.println(\"---\");\n        \n        // Cat has access to Animal methods\n        cat.eat();\n        cat.sleep();\n        cat.meow();\n        \n        // IS-A relationship\n        System.out.println(\"Dog is an Animal? \" + (dog instanceof Animal));\n        System.out.println(\"Cat is an Animal? \" + (cat instanceof Animal));\n    }\n}",
+    "output": "Rex is eating.\nRex is sleeping.\nRex says: Woof! Woof!\n---\nWhiskers is eating.\nWhiskers is sleeping.\nWhiskers says: Meow~\nDog is an Animal? true\nCat is an Animal? true",
+    "explanation": "Inheritance lets a class inherit properties and methods from another class:\n\nKey concepts:\n• extends keyword — Dog extends Animal\n• Superclass (parent) — Animal\n• Subclass (child) — Dog, Cat\n• IS-A relationship — Dog IS-A Animal\n\nBenefits of inheritance:\n• Code reuse — child inherits parent's methods/fields\n• Extensibility — add new features without modifying parent\n• Hierarchical classification — organize related classes\n\nsuper keyword: calls parent constructor or methods\n• super(name, age) — must be first line in child constructor\n\nInheritance tree: Animal → Dog, Animal → Cat\n\n⚠️ Java supports SINGLE inheritance only — a class can extend only ONE parent class!"
+  },
+  "phase2": {
+    "brokenCode": "// Missing 'extends' keyword!\nclass Dog extends Animal {\n    String breed;\n    \n    Dog(String name, int age, String breed) {\n        super(name, age);  // Error! Animal doesn't exist in this context\n        this.breed = breed;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog(\"Rex\", 3, \"German Shepherd\");\n    }\n}",
+    "errorMessage": "Test.java:8: error: cannot find symbol\n        super(name, age);  // Error! Animal doesn't exist in this context\n        ^\n  symbol: variable super\n  location: class Dog\nTest.java:4: error: incompatible types: Dog cannot be converted to Animal\nclass Dog extends Animal {\n                   ^\n  class Animal not found\n2 errors",
+    "explanation": "The Dog class is trying to extend Animal, but there's no Animal class defined!\n\nSuper must exist before you can extend it. The compiler needs to see the parent class first.\n\nFIX: Make sure the parent class (Animal) is defined BEFORE the child class (Dog).\n\nIn Java, you can define multiple classes in one file, but the parent class must be accessible."
+  },
+  "phase3": {
+    "prompt": "Create a Vehicle class with:\n• Fields: brand (String), speed (int)\n• Constructor\n• Method: accelerate() — prints \"[brand] is accelerating!\"\n\nCreate a Car subclass that:\n• Extends Vehicle\n• Adds field: model (String)\n• Constructor calls super\n• Method: honk() — prints \"[brand] [model] says: Beep beep!\"\n\nIn main, create a Car and call accelerate() and honk().",
+    "validationPattern": {
+      "required": ["class Vehicle", "class Car extends Vehicle", "super", "accelerate", "honk"],
+      "forbidden": [],
+      "fullRegex": "class\\s+Vehicle\\s*\\{[\\s\\S]*\\}[\\s\\S]*class\\s+Car\\s+extends\\s+Vehicle\\s*\\{[\\s\\S]*super\\s*\\([\\s\\S]*\\)[\\s\\S]*void\\s+honk\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}[\\s\\S]*\\}"
+    },
+    "dialogueHints": [
+      "Car must use 'extends Vehicle'",
+      "Constructor: Car(String brand, int speed, String model) { super(brand, speed); this.model = model; }",
+      "Both classes need proper methods"
+    ],
+    "solution": "class Vehicle {\n    String brand;\n    int speed;\n    \n    Vehicle(String brand, int speed) {\n        this.brand = brand;\n        this.speed = speed;\n    }\n    \n    void accelerate() {\n        System.out.println(brand + \" is accelerating!\");\n    }\n}\n\nclass Car extends Vehicle {\n    String model;\n    \n    Car(String brand, int speed, String model) {\n        super(brand, speed);\n        this.model = model;\n    }\n    \n    void honk() {\n        System.out.println(brand + \" \" + model + \" says: Beep beep!\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Car car = new Car(\"Toyota\", 120, \"Camry\");\n        car.accelerate();\n        car.honk();\n    }\n}",
+    "openingDialogue": "Let's build a family tree! Classes can inherit from each other~ 🌳"
+  },
+  "xpReward": 10
+}

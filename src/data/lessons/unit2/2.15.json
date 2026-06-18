@@ -1,0 +1,30 @@
+{
+  "id": "2.15",
+  "title": "Unit 2 Review — Design Patterns Intro",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "🎉 Congratulations! You've completed Unit 2 — OOP Deep Dive! Let's review what you've learned and see where we're going next.\n\n--- Unit 2 Recap ---\n\n1. Inheritance — reuse code with extends\n   • IS-A relationship\n   • super keyword for parent access\n\n2. Method Overriding — provide specific implementations\n   • @Override annotation\n   • Runtime polymorphism\n\n3. Polymorphism — many forms\n   • Compile-time (overloading)\n   • Runtime (overriding)\n   • Upcasting and downcasting\n\n4. Abstract Classes — partial blueprints\n   • abstract methods without body\n   • Can have concrete methods and fields\n\n5. Interfaces — full contracts\n   • implements multiple\n   • Default and static methods (Java 8+)\n\n6. Packages — organize code\n   • import statements\n   • Reverse domain naming\n\n7. Static — class-level members\n   • Shared across all instances\n   • Static blocks and methods\n\n8. Final — no changes allowed\n   • Final variables, methods, classes\n\n9. Inner Classes — classes inside classes\n   • Non-static, static, local, anonymous\n\n10. Enums — fixed set of constants\n    • Can have fields and methods\n    • Type-safe\n\n11. Object Class — root of all classes\n    • toString(), equals(), hashCode()\n\n12. Wrappers — primitives as objects\n    • Autoboxing and unboxing\n\n--- What's Next? Design Patterns! ---\n\nYou've learned the tools of OOP. Now learn how to use them effectively!\n\nDesign Patterns are reusable solutions to common problems:\n\nStrategy Pattern — enables swapping algorithms at runtime\n• Instead of hardcoding behavior, use interfaces\n• Example: Payment methods (CreditCard, PayPal, Crypto)\n\nComposition over Inheritance:\n• Favor has-a over is-a\n• More flexible, easier to test\n\nYou'll see these patterns in action in future projects!\n\nJava Ecosystem Map:\n• Core Java (you're here!)\n• Java EE / Jakarta (enterprise)\n• Spring Framework (most popular)\n• Android (mobile)\n• Desktop (JavaFX, Swing)\n\nKeep going — you're building a solid foundation! 💪",
+    "openingDialogue": "Unit 2 complete! Let's review everything and see what's next~ 🎉"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual review — no broken code here!\n\nCommon misconception: \"Inheritance is always the best choice for code reuse.\"\n\nActually, composition is often better:\n• More flexible\n• Avoids tight coupling\n• Easier to test\n\nExample of composition over inheritance:\nInstead of: class Car extends Engine\nUse: class Car { Engine engine; }\n\nDesign patterns help you make the right choice!"
+  },
+  "phase3": {
+    "prompt": "Which statement about OOP concepts is TRUE?\n\nA) A class can extend multiple classes (multiple inheritance)\nB) Interfaces can have concrete methods using default keyword (Java 8+)\nC) Abstract classes can't have constructors\nD) The equals() method compares object references by default\nE) Static methods can access instance variables\nF) final classes can be extended\n\nSelect the CORRECT statement.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Think about Java's inheritance rules...",
+      "Remember what default methods are!",
+      "Check each option carefully — only one is correct."
+    ],
+    "solution": null,
+    "openingDialogue": "Final check! Which of these do you know? 🤔"
+  },
+  "xpReward": 15
+}

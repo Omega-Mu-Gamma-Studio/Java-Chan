@@ -1,0 +1,32 @@
+{
+  "id": "5.2",
+  "title": "Your First JavaFX Window",
+  "type": "coding",
+  "phase1": {
+    "code": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class FirstJavaFXWindow extends Application {\n    \n    @Override\n    public void start(Stage primaryStage) {\n        // Create a Label (text node)\n        Label label = new Label(\"Hello, JavaFX!\");\n        \n        // Create a layout container\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        \n        // Create a Scene\n        Scene scene = new Scene(root, 400, 300);\n        \n        // Set up the Stage\n        primaryStage.setTitle(\"My First JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}\n\n// Alternative: Using VBox for vertical layout\nclass SecondJavaFXWindow extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Create multiple controls\n        Label label1 = new Label(\"Welcome to JavaFX!\");\n        Label label2 = new Label(\"This is a second label.\");\n        \n        // VBox arranges nodes vertically\n        javafx.scene.layout.VBox root = new javafx.scene.layout.VBox(10);\n        root.getChildren().addAll(label1, label2);\n        \n        Scene scene = new Scene(root, 400, 300);\n        \n        primaryStage.setTitle(\"Second JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "output": "(Window appears with text: 'Hello, JavaFX!')",
+    "explanation": "This is your first JavaFX window!\n\nApplication class:\n• Extend Application and override start()\n• launch() starts the application\n\nstart(Stage primaryStage):\n• Called after launch()\n• Contains all UI setup code\n\nStage:\n• The main window\n• setTitle() — sets window title\n• setScene() — sets the content\n• show() — makes window visible\n\nScene:\n• Container for all UI nodes\n• Takes root node and size\n\nStackPane:\n• Layout that stacks nodes on top of each other\n• Centers children by default\n\nNode:\n• Any UI element (Label, Button, etc.)\n• root.getChildren().add() adds nodes\n\nKey steps:\n1. Create UI nodes (Label, Button, etc.)\n2. Create layout (StackPane, VBox, etc.)\n3. Add nodes to layout\n4. Create Scene with layout\n5. Set Scene on Stage\n6. Show Stage\n\n⚠️ Always run JavaFX on the JavaFX Application Thread"
+  },
+  "phase2": {
+    "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Forgot to import javafx.stage.Stage\n        // Or using wrong import\n        Label label = new Label(\"Hello\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
+    "errorMessage": "Test.java:9: error: cannot find symbol\n    public void start(Stage primaryStage) {\n                     ^\n  symbol:   class Stage\n  location: class Test\n1 error",
+    "explanation": "You forgot to import javafx.stage.Stage!\n\nFIX: Add import statement:\nimport javafx.stage.Stage;\n\nOr use the fully qualified name:\njavafx.stage.Stage primaryStage\n\nAlways check your imports when using JavaFX classes!"
+  },
+  "phase3": {
+    "prompt": "Write a JavaFX program that:\n1. Creates a Stage with title \"My JavaFX App\"\n2. Creates a Label with text \"Welcome to JavaFX!\"\n3. Uses a StackPane as the root layout\n4. Creates a Scene with size 500x400\n5. Shows the window\n\nInherit from Application and use launch() in main.",
+    "validationPattern": {
+      "required": ["extends Application", "start", "Stage", "Scene", "StackPane", "show"],
+      "forbidden": [],
+      "fullRegex": "extends\\s+Application[\\s\\S]*start\\s*\\([\\s\\S]*Stage[\\s\\S]*\\)[\\s\\S]*new\\s+Scene[\\s\\S]*new\\s+StackPane[\\s\\S]*show\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "Extend Application and override start()",
+      "Create StackPane root, add Label to it",
+      "Scene scene = new Scene(root, 500, 400)",
+      "primaryStage.setScene(scene); primaryStage.show();"
+    ],
+    "solution": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class FirstWindow extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Label label = new Label(\"Welcome to JavaFX!\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 500, 400);\n        primaryStage.setTitle(\"My JavaFX App\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "openingDialogue": "Let's create your first JavaFX window! 🪟"
+  },
+  "xpReward": 10
+}

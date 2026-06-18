@@ -1,0 +1,31 @@
+{
+  "id": "2.10",
+  "title": "Final Keyword",
+  "type": "coding",
+  "phase1": {
+    "code": "// final class — can't be extended\nfinal class ImmutableClass {\n    // final variable — must be initialized once\n    final int value;\n    \n    // Static final constant\n    static final double PI = 3.14159;\n    \n    ImmutableClass(int value) {\n        this.value = value;  // Initialized in constructor\n    }\n    \n    void display() {\n        System.out.println(\"Value: \" + value);\n        System.out.println(\"PI: \" + PI);\n        // value = 10;  // ERROR! Can't modify final variable\n        // PI = 3.0;    // ERROR! Can't modify final constant\n    }\n}\n\n// Can't extend a final class\n// class SubClass extends ImmutableClass { } // ERROR!\n\n// Regular class with final methods\nclass Parent {\n    // final method — can't be overridden\n    final void cannotOverride() {\n        System.out.println(\"This method is final!\");\n    }\n    \n    void canOverride() {\n        System.out.println(\"This method can be overridden\");\n    }\n}\n\nclass Child extends Parent {\n    @Override\n    void canOverride() {\n        System.out.println(\"Overridden successfully!\");\n    }\n    \n    // Can't override final method\n    /*\n    @Override\n    void cannotOverride() {  // ERROR!\n        System.out.println(\"Trying to override\");\n    }\n    */\n}\n\npublic class FinalExample {\n    public static void main(String[] args) {\n        // final local variables\n        final int MAX_ATTEMPTS = 3;\n        // MAX_ATTEMPTS = 5;  // ERROR! Can't modify\n        \n        System.out.println(\"Max attempts: \" + MAX_ATTEMPTS);\n        \n        ImmutableClass obj = new ImmutableClass(42);\n        obj.display();\n        \n        // obj.value = 100;  // ERROR! Can't modify\n        \n        Child child = new Child();\n        child.canOverride();\n        child.cannotOverride();  // Uses parent's final version\n    }\n}",
+    "output": "Max attempts: 3\nValue: 42\nPI: 3.14159\nOverridden successfully!\nThis method is final!",
+    "explanation": "The 'final' keyword prevents changes:\n\nfinal variables: cannot be reassigned\n• Must be initialized once\n• Can be initialized in constructor\n• Constants: static final\n\nfinal methods: cannot be overridden\n• Subclasses can't change the behavior\n• Provides protection against accidental overriding\n\nfinal classes: cannot be extended\n• No subclasses allowed\n• Used for immutable classes (String, Integer)\n\nCommon uses:\n• public static final int MAX_SIZE = 100; — constants\n• final class String — prevents inheritance\n• final void run() — prevents overriding\n\nfinal vs static:\n• final: can't change value\n• static: belongs to class (shared)\n\nImmutable classes: all fields final, no setters, class final"
+  },
+  "phase2": {
+    "brokenCode": "final class Parent {\n    int value = 5;\n}\n\nclass Child extends Parent {  // ERROR! Can't extend final class\n    void display() {\n        System.out.println(\"Child\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Child child = new Child();\n    }\n}",
+    "errorMessage": "Test.java:6: error: cannot inherit from final Parent\nclass Child extends Parent {  // ERROR! Can't extend final class\n                  ^\n1 error",
+    "explanation": "Parent is declared final, so it can't be extended.\n\nThis is intentional — final classes are meant to be 'closed' for inheritance.\n\nCommon final classes in Java:\n• String\n• Integer, Double, etc. (wrapper classes)\n• Math\n\nIf you need to use a final class, you can't create subclasses. Use composition instead."
+  },
+  "phase3": {
+    "prompt": "Create a class Config with:\n• static final int MAX_USERS = 100\n• static final String APP_NAME = \"MyApp\"\n• final field: version (String) — set via constructor\n• final method: displayVersion() — prints the version\n\nIn main, create a Config object and display everything.",
+    "validationPattern": {
+      "required": ["static final", "final String", "final void", "displayVersion"],
+      "forbidden": [],
+      "fullRegex": "static\\s+final\\s+int\\s+\\w+[\\s\\S]*static\\s+final\\s+String\\s+\\w+[\\s\\S]*final\\s+String\\s+\\w+[\\s\\S]*final\\s+void\\s+displayVersion"
+    },
+    "dialogueHints": [
+      "MAX_USERS and APP_NAME are constants (static final)",
+      "version is final but initialized in constructor",
+      "displayVersion is final — can't be overridden"
+    ],
+    "solution": "class Config {\n    static final int MAX_USERS = 100;\n    static final String APP_NAME = \"MyApp\";\n    final String version;\n    \n    Config(String version) {\n        this.version = version;\n    }\n    \n    final void displayVersion() {\n        System.out.println(\"Version: \" + version);\n    }\n    \n    void displayConfig() {\n        System.out.println(\"App: \" + APP_NAME);\n        System.out.println(\"Max users: \" + MAX_USERS);\n        displayVersion();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Config config = new Config(\"1.0.0\");\n        config.displayConfig();\n    }\n}",
+    "openingDialogue": "Final means final — no take-backs! 🔒"
+  },
+  "xpReward": 10
+}

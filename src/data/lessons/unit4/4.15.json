@@ -1,0 +1,30 @@
+{
+  "id": "4.15",
+  "title": "Unit 4 Review — Choosing the Right Tool",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "🎉 Congratulations! You've completed Unit 4 — Collections & Multithreading! Let's review everything and help you choose the right tool for the job.\n\n--- Unit 4 Recap ---\n\n1. Collections Framework\n   • List, Set, Map, Queue interfaces\n   • ArrayList, LinkedList, HashSet, TreeSet\n   • HashMap, TreeMap, PriorityQueue\n\n2. Generics\n   • Type safety at compile time\n   • Generic classes, methods, interfaces\n   • Wildcards: ? extends, ? super\n\n3. Comparable & Comparator\n   • Comparable: natural ordering (compareTo)\n   • Comparator: custom ordering (compare)\n   • Lambda comparators\n\n4. Iterator & For-Each\n   • Iterator: can remove elements\n   • ListIterator: bidirectional\n   • For-each: read-only, simple\n\n5. Stack, Queue & Deque\n   • Stack: LIFO (push, pop, peek)\n   • Queue: FIFO (offer, poll, peek)\n   • Deque: both ends (ArrayDeque best)\n\n6. Multithreading\n   • Process vs Thread\n   • Concurrency vs Parallelism\n   • Thread lifecycle\n\n7. Thread Creation\n   • Extend Thread\n   • Implement Runnable\n   • Lambda\n\n8. Thread Synchronization\n   • Race conditions\n   • synchronized keyword\n   • Synchronized methods vs blocks\n\n9. Inter-thread Communication\n   • wait(), notify(), notifyAll()\n   • Producer-Consumer pattern\n\n10. Executor Framework\n    • Thread pools (Fixed, Cached, Scheduled)\n    • Future for results\n    • Proper shutdown\n\n--- Choosing the Right Collection ---\n\nUse ArrayList when:\n• Need fast random access by index\n• Mostly adding at the end\n• Few insertions/deletions in the middle\n\nUse LinkedList when:\n• Frequent insertions/deletions at both ends\n• Implementing Stack/Queue\n• No need for random access\n\nUse HashSet when:\n• Need unique elements\n• Fast membership testing\n• No order required\n\nUse TreeSet when:\n• Need unique elements\n• Need sorted order\n\nUse HashMap when:\n• Need key-value pairs\n• Fast lookup\n• No order required\n\nUse TreeMap when:\n• Need key-value pairs\n• Need sorted keys\n\nUse PriorityQueue when:\n• Need to process items in priority order\n\nUse ArrayDeque when:\n• Need Stack or Queue\n• Better performance than Stack/LinkedList\n\n--- Thread Safety ---\n\nThread-safe collections:\n• ConcurrentHashMap (best for high concurrency)\n• CopyOnWriteArrayList (for read-heavy)\n• ConcurrentLinkedQueue\n• Collections.synchronizedList()\n\nAtomic operations:\n• AtomicInteger, AtomicLong\n• AtomicReference\n\nSynchronization:\n• synchronized methods\n• synchronized blocks\n• synchronized collections\n\n--- What's Next? Unit 5 — JavaFX GUI ---\n\nYou'll learn:\n• JavaFX basics (Stage, Scene, Layouts)\n• Controls (Button, Label, TextField)\n• Event handling\n• CSS styling\n• FXML for UI design\n• Animation\n\nYou're becoming a Java expert! 💪",
+    "openingDialogue": "Unit 4 complete! You've mastered collections and threads! 🎉"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should always use the most generic interface (List, Set, Map) everywhere.\"\n\nActually: Use the most specific interface that meets your needs. This makes your code more expressive and prevents unnecessary restrictions.\n\nExample:\n• If you need FIFO, use Queue (not List)\n• If you need unique elements, use Set (not List)\n• If you need sorted keys, use TreeMap (not HashMap)\n\nAnother misconception: \"synchronized is too slow, I should avoid it.\"\n\nActually: Synchronization is necessary for shared mutable state. Avoid it by:\n• Using immutable objects\n• Using thread-safe collections\n• Using atomic variables\n\nOnly synchronize when you need to!"
+  },
+  "phase3": {
+    "prompt": "You're building a student management system. You need:\n1. Fast lookup of students by ID\n2. No duplicate student entries\n3. Students should be sorted by name for printing\n\nWhich collection should you use?\n\nA) ArrayList with manual sorting\nB) HashSet\nC) TreeSet\nD) HashMap\nE) TreeMap\n\nSelect the BEST combination.",
+    "validationPattern": {
+      "mcqAnswer": "E"
+    },
+    "dialogueHints": [
+      "What collection provides key-value lookup AND sorting?",
+      "Think about what you need: lookup by ID → key, student → value",
+      "Sorted by name → sorted keys or sorted values?"
+    ],
+    "solution": null,
+    "openingDialogue": "Final check! Can you choose the right tool? 🧰"
+  },
+  "xpReward": 15
+}

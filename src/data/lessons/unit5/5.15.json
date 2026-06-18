@@ -1,0 +1,29 @@
+{
+  "id": "5.15",
+  "title": "Unit 5 Review & Course Wrap-Up",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "🎉 CONGRATULATIONS! 🎉\n\nYou've completed ALL 5 units of CS22301 — Object Oriented Programming with Java!\n\n--- Unit 5 Recap ---\n\n1. JavaFX Introduction\n   • Application, Stage, Scene\n   • JavaFX Application Thread\n\n2. First JavaFX Window\n   • Extending Application\n   • start() method\n   • Stage.show()\n\n3. Layouts\n   • VBox, HBox — vertical/horizontal\n   • GridPane — grid layout\n   • BorderPane — five regions\n\n4. Basic Controls\n   • Label, Button, TextField\n   • CheckBox, RadioButton\n   • ComboBox, ListView\n\n5. Event Handling\n   • setOnAction()\n   • Property listeners\n   • Lambda expressions\n\n6. CSS Styling\n   • Inline styles\n   • -fx- properties\n   • External stylesheets\n\n7. FXML\n   • XML UI definition\n   • @FXML annotation\n   • Controller classes\n   • Scene Builder\n\n8. Properties & Binding\n   • Observable properties\n   • Unidirectional binding\n   • Bidirectional binding\n\n9. ListView & TableView\n   • ObservableList\n   • PropertyValueFactory\n   • Cell factories\n\n10. Dialogs & Alerts\n    • Alert types\n    • Custom dialogs\n    • Input dialogs\n\n11. Animation\n    • Transitions (Translate, Fade, Rotate, Scale)\n    • Timeline\n    • KeyFrame\n\n12. Mini App\n    • To-Do List\n    • Calculator\n    • Contact Manager\n\n--- The Complete Java Journey ---\n\nUnit 1: Java Basics\n• Syntax, variables, loops, arrays, methods, Strings\n\nUnit 2: OOP Deep Dive\n• Inheritance, polymorphism, abstract classes, interfaces\n• Encapsulation, packages, static, final\n\nUnit 3: Exception Handling & I/O\n• try-catch, custom exceptions, streams\n• File I/O, serialization, NIO, CSV\n\nUnit 4: Collections & Threads\n• ArrayList, HashMap, HashSet\n• Generics, Comparable, Comparator\n• Multithreading, synchronization, executors\n\nUnit 5: JavaFX GUI\n• All the UI goodness!\n\n--- What's Next? ---\n\n🚀 Spring Framework:\n• Build web applications\n• Dependency injection\n• REST APIs\n• Spring Boot\n\n📱 Android Development:\n• Mobile apps with Java/Kotlin\n• Android Studio\n• Material Design\n\n🏢 Enterprise Java:\n• Jakarta EE\n• Microservices\n• JPA (database)\n• JMS (messaging)\n\n📊 Data Science:\n• Apache Spark\n• Data processing\n• Machine learning\n\n--- Java Ecosystem Map ---\n\nCore Java ← You are here!\n    ↓\n    ├── Web: Spring, Jakarta EE, Servlets\n    ├── Mobile: Android\n    ├── Desktop: JavaFX, Swing\n    ├── Big Data: Hadoop, Spark\n    ├── Cloud: AWS, Azure, GCP\n    └── Microservices: Spring Boot, Micronaut\n\n--- Java-chan's Final Words ---\n\nYou've come so far! From writing your first Hello World to building full GUI applications with JavaFX.\n\nRemember:\n• Keep practicing\n• Build projects\n• Read others' code\n• Stay curious\n\nJava is a powerful language with endless possibilities. You've built a solid foundation to explore all of them.\n\nHappy coding! ☕💻\n\n--- Course Complete! ---\n\n⭐ You've earned 75 lessons of XP!\n⭐ You're now ready for professional Java development!\n⭐ Go build something amazing!"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual review — no broken code!\n\nYou've completed the entire course! Here are some final tips:\n\n1. Keep Learning:\n   • Build projects\n   • Contribute to open source\n   • Read documentation\n\n2. Practice Regularly:\n   • Code every day\n   • Solve coding challenges\n   • Review previous lessons\n\n3. Stay Updated:\n   • Java releases every 6 months\n   • New features (records, pattern matching, etc.)\n   • Follow Java community\n\n4. Next Steps:\n   • Choose a specialization\n   • Build a portfolio\n   • Apply for jobs\n\nYou've got this! 💪"
+  },
+  "phase3": {
+    "prompt": "What is the recommended framework for building web applications with Java?\n\nA) JavaFX\nB) Swing\nC) Spring Framework\nD) Android SDK\n\nSelect the CORRECT answer.",
+    "validationPattern": {
+      "mcqAnswer": "C"
+    },
+    "dialogueHints": [
+      "Think about what's used for web development...",
+      "JavaFX and Swing are for desktop.",
+      "Android SDK is for mobile."
+    ],
+    "solution": null,
+    "openingDialogue": "One final question! What's next in your Java journey? 🤔"
+  },
+  "xpReward": 15
+}

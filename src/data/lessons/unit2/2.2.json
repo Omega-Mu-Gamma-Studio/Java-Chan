@@ -1,0 +1,31 @@
+{
+  "id": "2.2",
+  "title": "Method Overriding",
+  "type": "coding",
+  "phase1": {
+    "code": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override  // Annotation - tells compiler we're overriding\n    void makeSound() {\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Meow~ Meow~\");\n    }\n}\n\nclass Cow extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Moo! Moo!\");\n    }\n}\n\npublic class OverridingExample {\n    public static void main(String[] args) {\n        Animal animal = new Animal();\n        Dog dog = new Dog();\n        Cat cat = new Cat();\n        Cow cow = new Cow();\n        \n        animal.makeSound();  // Parent method\n        dog.makeSound();     // Overridden\n        cat.makeSound();     // Overridden\n        cow.makeSound();     // Overridden\n        \n        // Runtime polymorphism\n        System.out.println(\"--- Runtime Polymorphism ---\");\n        Animal myDog = new Dog();\n        Animal myCat = new Cat();\n        \n        myDog.makeSound();  // Calls Dog's version (runtime)\n        myCat.makeSound();  // Calls Cat's version (runtime)\n    }\n}",
+    "output": "Some generic animal sound\nWoof! Woof!\nMeow~ Meow~\nMoo! Moo!\n--- Runtime Polymorphism ---\nWoof! Woof!\nMeow~ Meow~",
+    "explanation": "Method overriding allows a subclass to provide a specific implementation of a method:\n\nKey rules for overriding:\n1. Same method name, parameters, return type\n2. Can't be more restrictive with access modifiers\n3. Can't throw broader checked exceptions\n\n@Override annotation:\n• Optional but recommended\n• Tells compiler: \"I'm overriding a method\"\n• Catches errors (if you misspell method name)\n\nRuntime Polymorphism:\n• Animal myDog = new Dog(); — Dog object referenced by Animal\n• Which method runs is determined at RUNTIME\n• The actual object type determines which version runs\n\nMethod overriding vs Overloading:\n• Override: same signature, different implementation\n• Overload: same name, different parameters\n\n⚠️ Can't override static methods — they belong to the class, not object!"
+  },
+  "phase2": {
+    "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makesSound() {  // Wrong method name!\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog();\n        dog.makeSound();  // Calls parent method, not the new one\n    }\n}",
+    "errorMessage": "Dog.java:8: error: method does not override or implement a method from a supertype\n    @Override\n    ^\n1 error\n\n(And if you remove @Override, it compiles but doesn't override! The parent method is still called.)",
+    "explanation": "The @Override annotation caught the error! The method name is 'makesSound' but the parent has 'makeSound'.\n\nWithout @Override, this would compile but NOT override the method. The Dog would still use Animal's makeSound()!\n\nThis is why @Override is useful — it ensures you're correctly overriding a parent method.\n\nAlways use @Override to avoid subtle bugs!"
+  },
+  "phase3": {
+    "prompt": "Create a class Shape with method area() that returns 0.0.\nCreate Rectangle and Circle subclasses that override area():\n• Rectangle: area = width * height\n• Circle: area = Math.PI * radius * radius\n\nIn main, create Shape references to Rectangle and Circle and print their areas.",
+    "validationPattern": {
+      "required": ["@Override", "area", "extends", "Math.PI"],
+      "forbidden": [],
+      "fullRegex": "class\\s+\\w+\\s+extends\\s+Shape[\\s\\S]*@Override[\\s\\S]*double\\s+area\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}"
+    },
+    "dialogueHints": [
+      "Rectangle should have fields width and height, Circle should have radius",
+      "Use the @Override annotation on both area() methods",
+      "Shape's area() should return 0.0 (or be abstract if you want)"
+    ],
+    "solution": "class Shape {\n    double area() {\n        return 0.0;\n    }\n}\n\nclass Rectangle extends Shape {\n    double width, height;\n    \n    Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n    \n    @Override\n    double area() {\n        return width * height;\n    }\n}\n\nclass Circle extends Shape {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    @Override\n    double area() {\n        return Math.PI * radius * radius;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Shape rect = new Rectangle(5, 10);\n        Shape circle = new Circle(7);\n        \n        System.out.println(\"Rectangle area: \" + rect.area());\n        System.out.println(\"Circle area: \" + circle.area());\n    }\n}",
+    "openingDialogue": "Time to override! Give methods a new twist~ 🔄"
+  },
+  "xpReward": 10
+}

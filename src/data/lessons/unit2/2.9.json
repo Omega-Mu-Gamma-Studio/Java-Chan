@@ -1,0 +1,31 @@
+{
+  "id": "2.9",
+  "title": "Static Members",
+  "type": "coding",
+  "phase1": {
+    "code": "class Counter {\n    // Instance variable — each object has its own\n    int instanceCount = 0;\n    \n    // Static variable — SHARED across all objects\n    static int staticCount = 0;\n    \n    // Static final constant (common pattern)\n    static final double PI = 3.14159;\n    \n    Counter() {\n        instanceCount++;\n        staticCount++;\n        System.out.println(\"Object created! Instance: \" + instanceCount + \n                         \", Static total: \" + staticCount);\n    }\n    \n    // Instance method\n    void displayInstance() {\n        System.out.println(\"Instance count for this object: \" + instanceCount);\n    }\n    \n    // Static method\n    static void displayStatic() {\n        System.out.println(\"Total objects created: \" + staticCount);\n        // Can't access instance variables here!\n        // System.out.println(instanceCount); // ERROR!\n    }\n}\n\npublic class StaticExample {\n    // Static block — runs when class loads\n    static {\n        System.out.println(\"Static block runs once when class loads\");\n    }\n    \n    public static void main(String[] args) {\n        // Accessing static members without objects\n        System.out.println(\"PI: \" + Counter.PI);\n        Counter.displayStatic();\n        \n        System.out.println(\"--- Creating objects ---\");\n        Counter c1 = new Counter();\n        Counter c2 = new Counter();\n        Counter c3 = new Counter();\n        \n        // Accessing instance members\n        c1.displayInstance();\n        c2.displayInstance();\n        \n        // Static member is shared\n        Counter.displayStatic();\n        \n        // Math class — all static\n        System.out.println(\"Math.PI: \" + Math.PI);\n        System.out.println(\"Math.sqrt(16): \" + Math.sqrt(16));\n        System.out.println(\"Math.pow(2, 3): \" + Math.pow(2, 3));\n    }\n}",
+    "output": "Static block runs once when class loads\nPI: 3.14159\nTotal objects created: 0\n--- Creating objects ---\nObject created! Instance: 1, Static total: 1\nObject created! Instance: 1, Static total: 2\nObject created! Instance: 1, Static total: 3\nInstance count for this object: 1\nInstance count for this object: 1\nTotal objects created: 3\nMath.PI: 3.141592653589793\nMath.sqrt(16): 4.0\nMath.pow(2, 3): 8.0",
+    "explanation": "Static members belong to the CLASS, not instances:\n\nStatic variables (class variables):\n• Shared across ALL objects\n• Only one copy exists\n• Declared with 'static'\n\nInstance variables: \n• Each object has its own copy\n• Not static\n\nStatic methods:\n• Called on class: ClassName.method()\n• Can't access instance members directly\n• Can't use 'this'\n\nStatic block:\n• Runs when class loads (once)\n• Used for initialization\n• Before main() runs\n\nstatic final constants:\n• Common pattern: public static final double PI = 3.14159;\n• Can't be changed\n\nMath class: all members are static! (utility class)\n\nWhen to use static:\n• Utility methods (Math.sqrt, Collections.sort)\n• Constants\n• Shared state (counters, configuration)"
+  },
+  "phase2": {
+    "brokenCode": "class Counter {\n    static int count = 0;\n    int instanceValue = 5;\n    \n    static void increment() {\n        count++;\n        // Trying to access instance variable from static method\n        instanceValue = 10;  // ERROR!\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Counter.increment();\n    }\n}",
+    "errorMessage": "Counter.java:8: error: non-static variable instanceValue cannot be referenced from a static context\n        instanceValue = 10;  // ERROR!\n        ^\n1 error",
+    "explanation": "Static methods can only access static members directly!\n\ninstanceValue is an instance variable — it belongs to an object. Since static methods don't have a 'this' reference, they can't access instance members.\n\nFixes:\n1. Make instanceValue static (if it should be shared)\n2. Access through an object: obj.instanceValue\n3. Don't access instance variables from static methods\n\nRemember: static context → only static members!"
+  },
+  "phase3": {
+    "prompt": "Create a Student class with:\n• Instance fields: name (String), grade (int)\n• Static field: schoolName (String) — shared by all students\n• Static method: setSchoolName(String name) — sets the school name\n• Constructor: sets name and grade\n• Method: displayInfo() — prints all info\n\nIn main, create 3 students, set school name once, and display all.",
+    "validationPattern": {
+      "required": ["static String", "static void", "static schoolName", "displayInfo"],
+      "forbidden": [],
+      "fullRegex": "static\\s+String\\s+\\w+[\\s\\S]*static\\s+void\\s+setSchoolName[\\s\\S]*displayInfo\\s*\\([\\s\\S]*\\)"
+    },
+    "dialogueHints": [
+      "schoolName is static — shared across all students",
+      "setSchoolName is static — called on the class (Student.setSchoolName(...))",
+      "displayInfo should be instance method (prints name, grade, schoolName)"
+    ],
+    "solution": "class Student {\n    String name;\n    int grade;\n    static String schoolName;\n    \n    static void setSchoolName(String name) {\n        schoolName = name;\n    }\n    \n    Student(String name, int grade) {\n        this.name = name;\n        this.grade = grade;\n    }\n    \n    void displayInfo() {\n        System.out.println(\"Name: \" + name + \", Grade: \" + grade + \n                         \", School: \" + schoolName);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student.setSchoolName(\"MIT\");\n        \n        Student s1 = new Student(\"Alice\", 11);\n        Student s2 = new Student(\"Bob\", 12);\n        Student s3 = new Student(\"Charlie\", 10);\n        \n        s1.displayInfo();\n        s2.displayInfo();\n        s3.displayInfo();\n    }\n}",
+    "openingDialogue": "Static means shared by all! 🌟"
+  },
+  "xpReward": 10
+}

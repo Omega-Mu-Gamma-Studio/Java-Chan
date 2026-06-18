@@ -1,0 +1,31 @@
+{
+  "id": "3.2",
+  "title": "try-catch-finally",
+  "type": "coding",
+  "phase1": {
+    "code": "import java.util.Scanner;\n\npublic class TryCatchExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        try {\n            System.out.print(\"Enter a number: \");\n            int num = scanner.nextInt();\n            \n            int result = 100 / num;\n            System.out.println(\"Result: \" + result);\n            \n            // This might cause an exception if string is invalid\n            int[] arr = {1, 2, 3};\n            System.out.println(\"Array[5]: \" + arr[5]);\n            \n        } catch (ArithmeticException e) {\n            // Catches division by zero\n            System.out.println(\"Error: Cannot divide by zero!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } catch (ArrayIndexOutOfBoundsException e) {\n            // Catches invalid array index\n            System.out.println(\"Error: Array index out of bounds!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } catch (Exception e) {\n            // Catches ANY other exception (should be last)\n            System.out.println(\"Error: Something went wrong!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } finally {\n            // Always runs — even if exception occurs\n            System.out.println(\"Finally block: Cleanup code here!\");\n            scanner.close();\n        }\n        \n        System.out.println(\"Program continues...\");\n    }\n}",
+    "output": "Enter a number: 0\nError: Cannot divide by zero!\nMessage: / by zero\nFinally block: Cleanup code here!\nProgram continues...\n\n--- OR ---\n\nEnter a number: 5\nResult: 20\nError: Array index out of bounds!\nMessage: Index 5 out of bounds for length 3\nFinally block: Cleanup code here!\nProgram continues...",
+    "explanation": "try-catch-finally handles exceptions gracefully:\n\ntry block:\n• Code that might throw an exception\n• If exception occurs, jumps to catch\n\ncatch block:\n• Handles specific exception types\n• Multiple catches for different exceptions\n• Order matters: specific → general (Exception last!)\n\nfinally block:\n• ALWAYS executes (even if exception occurs)\n• Used for cleanup (close files, release resources)\n• Runs even if catch block throws exception\n\nRules:\n1. try must have catch or finally (or both)\n2. catch blocks ordered from specific to general\n3. Exception as last catch catches everything\n\nCommon pattern:\n• try { risky code }\n• catch (SpecificException e) { handle it }\n• catch (Exception e) { handle everything else }\n• finally { cleanup }\n\nLife without try-catch: program crashes with scary error messages!\n\nWith try-catch: program recovers gracefully!"
+  },
+  "phase2": {
+    "brokenCode": "import java.util.Scanner;\n\npublic class TryCatchExample {\n    public static void main(String[] args) {\n        try {\n            System.out.print(\"Enter a number: \");\n            int num = new Scanner(System.in).nextInt();\n            int result = 100 / num;\n            System.out.println(\"Result: \" + result);\n        }\n        // Wrong order — generic before specific!\n        catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        catch (ArithmeticException e) {  // Unreachable!\n            System.out.println(\"Division by zero!\");\n        }\n    }\n}",
+    "errorMessage": "TryCatchExample.java:12: error: exception ArithmeticException has already been caught\n        catch (ArithmeticException e) {  // Unreachable!\n        ^\n1 error",
+    "explanation": "You can't catch ArithmeticException after catching Exception!\n\nException catches ALL exceptions (including ArithmeticException), so the ArithmeticException catch is unreachable.\n\nFIX: Order catches from most specific to most general:\n\ncatch (ArithmeticException e) { ... }        // Specific first\ncatch (ArrayIndexOutOfBoundsException e) { ... }\ncatch (Exception e) { ... }                  // Generic last\n\nAlways put the most specific exceptions first!"
+  },
+  "phase3": {
+    "prompt": "Write a program that:\n1. Creates a Scanner for user input\n2. In try block: asks for two numbers and divides first by second\n3. Catches ArithmeticException (division by zero)\n4. Catches Exception (for any other error)\n5. Has finally block that prints \"Operation complete\"\n\nTest it with both valid and invalid inputs.",
+    "validationPattern": {
+      "required": ["try", "catch", "ArithmeticException", "finally", "Scanner"],
+      "forbidden": [],
+      "fullRegex": "try\\s*\\{[\\s\\S]*catch\\s*\\(\\s*ArithmeticException[\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}[\\s\\S]*catch\\s*\\(\\s*Exception[\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}[\\s\\S]*finally\\s*\\{[\\s\\S]*\\}"
+    },
+    "dialogueHints": [
+      "Use try { risky code } catch (ArithmeticException e) { handle } catch (Exception e) { handle } finally { cleanup }",
+      "ArithmeticException catch should be BEFORE Exception catch",
+      "Finally block runs no matter what"
+    ],
+    "solution": "import java.util.Scanner;\n\npublic class DivisionExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        try {\n            System.out.print(\"Enter first number: \");\n            int a = scanner.nextInt();\n            System.out.print(\"Enter second number: \");\n            int b = scanner.nextInt();\n            \n            int result = a / b;\n            System.out.println(\"Result: \" + a + \" / \" + b + \" = \" + result);\n            \n        } catch (ArithmeticException e) {\n            System.out.println(\"Error: Cannot divide by zero!\");\n            \n        } catch (Exception e) {\n            System.out.println(\"Error: Something went wrong!\");\n            \n        } finally {\n            System.out.println(\"Operation complete\");\n            scanner.close();\n        }\n    }\n}",
+    "openingDialogue": "Time to catch exceptions — safely! 🎯"
+  },
+  "xpReward": 10
+}

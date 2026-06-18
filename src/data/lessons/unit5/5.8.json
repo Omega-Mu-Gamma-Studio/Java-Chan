@@ -1,0 +1,29 @@
+{
+  "id": "5.8",
+  "title": "FXML & Scene Builder Intro",
+  "type": "conceptual",
+  "phase1": {
+    "code": "",
+    "output": "",
+    "explanation": "FXML separates UI design from application logic:\n\n--- What is FXML? ---\n\nFXML is an XML-based language for defining JavaFX UIs:\n• Declarative UI design\n• Separates design from code\n• Easier to maintain\n• Visual design with Scene Builder\n\n--- Benefits of FXML ---\n\n1. Separation of Concerns:\n   • UI in FXML files (.fxml)\n   • Logic in Java controllers\n\n2. Visual Design:\n   • Scene Builder — drag-and-drop UI builder\n   • No coding for basic layouts\n   • WYSIWYG (What You See Is What You Get)\n\n3. Maintainability:\n   • Easier to modify UI\n   • Designers can work on FXML\n   • Developers work on controllers\n\n4. Reusability:\n   • Can include FXML files in others\n   • Custom components\n\n--- FXML Structure ---\n\nBasic FXML:\n```xml\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.scene.control.*?>\n<?import javafx.scene.layout.*?>\n\n<VBox xmlns=\"http://javafx.com/javafx/17\"\n      xmlns:fx=\"http://javafx.com/fxml/1\"\n      alignment=\"CENTER\" spacing=\"15\">\n\n    <Label text=\"Hello, FXML!\" />\n    <Button text=\"Click Me\" />\n\n</VBox>\n```\n\n--- Loading FXML ---\n\nIn your Java code:\n```java\nFXMLLoader loader = new FXMLLoader(getClass().getResource(\"example.fxml\"));\nParent root = loader.load();\nScene scene = new Scene(root, 400, 300);\n```\n\n--- Controller Class ---\n\nThe controller handles UI logic:\n\n```java\npublic class ExampleController {\n    @FXML\n    private Label label;\n    \n    @FXML\n    private Button button;\n    \n    @FXML\n    private void handleButtonClick() {\n        label.setText(\"Button clicked!\");\n    }\n}\n```\n\n--- @FXML Annotation ---\n\n@FXML marks fields and methods for FXML injection:\n• Fields: binds to FXML elements\n• Methods: event handlers\n\n--- Scene Builder ---\n\nScene Builder is a visual tool for creating FXML:\n• Drag and drop components\n• Set properties and styling\n• Generate FXML code\n• Preview UI\n\nBenefits of Scene Builder:\n• Faster UI development\n• Visual feedback\n• No need to memorize syntax\n\n--- Workflow ---\n\n1. Design UI in Scene Builder\n2. Save as .fxml file\n3. Create controller class\n4. Load FXML in Java application\n5. @FXML binds UI elements to controller\n6. Add event handlers\n\n--- When to Use FXML ---\n\nUse FXML for:\n• Complex UIs\n• Team projects (designers + developers)\n• When you want visual design\n\nUse Java code for:\n• Simple UIs\n• Dynamic UI generation\n• Programmatic layouts\n\nFXML is the recommended approach for professional JavaFX applications!"
+  },
+  "phase2": {
+    "brokenCode": "",
+    "errorMessage": "",
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"FXML is slower than writing Java code.\"\n\nActually: FXML is parsed once and has minimal overhead. The performance difference is negligible for most applications.\n\nAnother misconception: \"I need Scene Builder to use FXML.\"\n\nActually: You can write FXML by hand in any text editor! Scene Builder is optional but helpful.\n\nAnother misconception: \"FXML is just like HTML.\"\n\nActually: FXML is similar to HTML but has different tags and is specific to JavaFX. It's XML-based, not HTML."
+  },
+  "phase3": {
+    "prompt": "Which statement about FXML is TRUE?\n\nA) FXML files are written in HTML\nB) The @FXML annotation is used to bind UI elements to controller fields\nC) FXML can only be created with Scene Builder\nD) FXML makes JavaFX applications slower\n\nSelect the CORRECT statement.",
+    "validationPattern": {
+      "mcqAnswer": "B"
+    },
+    "dialogueHints": [
+      "Think about how FXML connects to Java code...",
+      "What does @FXML do?",
+      "Can you write FXML without Scene Builder?"
+    ],
+    "solution": null,
+    "openingDialogue": "FXML — separate design from code! 📄"
+  },
+  "xpReward": 10
+}

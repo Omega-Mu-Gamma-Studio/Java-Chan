@@ -15,7 +15,11 @@
   "phase3": {
     "prompt": "Create a class called Book with:\n• Fields: title (String), author (String), pages (int)\n• Constructor that initializes all fields\n• Method: displayInfo() that prints all book info\n\nIn main, create 2 Book objects and call displayInfo() on both.",
     "validationPattern": {
-      "required": ["class Book", "constructor", "new Book", "displayInfo"],
+      "required": [
+        "class Book",
+        "new Book",
+        "displayInfo"
+      ],
       "forbidden": [],
       "fullRegex": "class\\s+Book\\s*\\{[\\s\\S]*Book\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*void\\s+displayInfo\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*\\}[\\s\\S]*new\\s+Book\\s*\\("
     },

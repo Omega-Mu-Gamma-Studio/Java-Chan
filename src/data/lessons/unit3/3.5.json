@@ -15,7 +15,13 @@
   "phase3": {
     "prompt": "Write a program that:\n1. Uses try-with-resources to create a Scanner reading from a file called \"data.txt\"\n2. Reads and prints all lines from the file\n3. Catches IOException if file not found\n\nNote: For this exercise, assume the file exists with some sample text.",
     "validationPattern": {
-      "required": ["try", "Scanner", "AutoCloseable", "hasNextLine", "catch", "IOException"],
+      "required": [
+        "try",
+        "Scanner",
+        "hasNextLine",
+        "catch",
+        "IOException"
+      ],
       "forbidden": [],
       "fullRegex": "try\\s*\\(\\s*\\w+\\s+\\w+\\s*=\\s*new\\s+Scanner\\s*\\(\\s*new\\s+File\\s*\\([\\s\\S]*\\)\\s*\\)"
     },

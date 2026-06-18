@@ -15,7 +15,12 @@
   "phase3": {
     "prompt": "Write a program that:\n1. Creates 3 threads using Runnable interface\n2. Each thread prints numbers 1-5 with a 500ms delay\n3. Each thread has a name: \"Alpha\", \"Beta\", \"Gamma\"\n4. Start all 3 threads\n\nBonus: Use lambda syntax for one of them.",
     "validationPattern": {
-      "required": ["Runnable", "Thread", "start", "sleep", "getName"],
+      "required": [
+        "Thread",
+        "start",
+        "sleep",
+        "getName"
+      ],
       "forbidden": [],
       "fullRegex": "Runnable[\\s\\S]*new\\s+Thread[\\s\\S]*start\\s*\\([\\s\\S]*\\)[\\s\\S]*sleep[\\s\\S]*getName"
     },

@@ -15,7 +15,12 @@
   "phase3": {
     "prompt": "Create a class Library with:\n• Private field: name (String)\n• Inner class: Book with fields title, author\n• Method in Library: addBook(String title, String author) that creates a Book\n• Method: listBooks() that prints all books\n\nIn main, create a Library, add 2 books, and list them.",
     "validationPattern": {
-      "required": ["class Library", "class Book", "new Library()", "addBook"],
+      "required": [
+        "class Library",
+        "class Book",
+        "new Library(",
+        "addBook"
+      ],
       "forbidden": [],
       "fullRegex": "class\\s+Library\\s*\\{[\\s\\S]*class\\s+Book\\s*\\{[\\s\\S]*\\}[\\s\\S]*void\\s+addBook[\\s\\S]*void\\s+listBooks"
     },

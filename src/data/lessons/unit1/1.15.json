@@ -15,8 +15,13 @@
   "phase3": {
     "prompt": "Create a BankAccount class with:\n• Private fields: owner (String), balance (double)\n• Constructor\n• Getters for both\n• deposit(double amount) — adds to balance (must be positive)\n• withdraw(double amount) — subtracts from balance (can't go negative)\n• displayInfo() method\n\nTest by creating an account and doing deposits/withdrawals.",
     "validationPattern": {
-      "required": ["private", "getBalance", "deposit", "withdraw"],
-      "forbidden": ["public class"],
+      "required": [
+        "private",
+        "getBalance",
+        "deposit",
+        "withdraw"
+      ],
+      "forbidden": [],
       "fullRegex": "private\\s+\\w+\\s+\\w+[\\s\\S]*public\\s+\\w+\\s+get\\w+[\\s\\S]*void\\s+deposit[\\s\\S]*void\\s+withdraw[\\s\\S]*"
     },
     "dialogueHints": [

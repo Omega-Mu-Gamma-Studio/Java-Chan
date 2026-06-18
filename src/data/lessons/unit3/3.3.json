@@ -15,7 +15,11 @@
   "phase3": {
     "prompt": "Create a class Product with:\n• Fields: name (String), price (double)\n• Constructor with validation:\n  - If name is null or empty → throw IllegalArgumentException\n  - If price < 0 → throw IllegalArgumentException\n• Method: getDiscountedPrice(double discount) that:\n  - If discount < 0 or > 50 → throw IllegalArgumentException\n  - Returns price * (1 - discount/100)\n\nIn main, test with valid and invalid inputs.",
     "validationPattern": {
-      "required": ["throw new IllegalArgumentException", "throws", "try", "catch"],
+      "required": [
+        "throw new IllegalArgumentException",
+        "try",
+        "catch"
+      ],
       "forbidden": [],
       "fullRegex": "throw\\s+new\\s+IllegalArgumentException[\\s\\S]*throws\\s+IllegalArgumentException[\\s\\S]*try[\\s\\S]*catch\\s*\\(\\s*IllegalArgumentException"
     },

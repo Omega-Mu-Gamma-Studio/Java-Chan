@@ -15,7 +15,12 @@
   "phase3": {
     "prompt": "Write a program that:\n1. Creates variables x=15, y=4\n2. Prints: x + y = 19, x - y = 11, x * y = 60, x / y = 3, x % y = 3\n3. Uses ternary to print which is bigger: \"15 is bigger\" or \"4 is bigger\"",
     "validationPattern": {
-      "required": ["%", "/", "ternary", "System.out.println"],
+      "required": [
+        "%",
+        "/",
+        "?",
+        "System.out.println"
+      ],
       "forbidden": [],
       "fullRegex": "int\\s+\\w+\\s*=\\s*15\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*4\\s*;[\\s\\S]*\\+\\s*\\w+\\s*[\\s\\S]*\\-\\s*\\w+[\\s\\S]*\\*\\s*\\w+[\\s\\S]*\\/\\s*\\w+[\\s\\S]*%\\s*\\w+[\\s\\S]*\\?.*:.*"
     },

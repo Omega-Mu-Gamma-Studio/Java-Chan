@@ -15,7 +15,13 @@
   "phase3": {
     "prompt": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds three Labels: \"Item 1\", \"Item 2\", \"Item 3\"\n3. Creates an HBox with spacing 10\n4. Adds three Buttons: \"Add\", \"Edit\", \"Delete\"\n5. Nests the HBox inside the VBox (below the labels)\n6. Centers everything\n7. Shows the window with title \"Layout Practice\"",
     "validationPattern": {
-      "required": ["VBox", "HBox", "setSpacing", "setPadding", "getChildren", "Alignment"],
+      "required": [
+        "VBox",
+        "HBox",
+        "setPadding",
+        "getChildren",
+        "Pos.CENTER"
+      ],
       "forbidden": [],
       "fullRegex": "VBox\\s+\\w+\\s*=\\s*new\\s+VBox[\\s\\S]*setSpacing[\\s\\S]*setPadding[\\s\\S]*HBox[\\s\\S]*getChildren\\.addAll"
     },

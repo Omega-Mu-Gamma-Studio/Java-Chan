@@ -15,7 +15,10 @@
   "phase3": {
     "prompt": "Write a program with these methods:\n1. multiply(int a, int b) — returns a * b\n2. multiply(int a, int b, int c) — returns a * b * c (overloaded)\n3. printMessage(String msg) — prints \"=== [msg] ===\"\n\nCall all three methods from main.",
     "validationPattern": {
-      "required": ["static int", "static void", "overloading"],
+      "required": [
+        "static int",
+        "static void"
+      ],
       "forbidden": [],
       "fullRegex": "static\\s+int\\s+multiply\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)[\\s\\S]*static\\s+int\\s+multiply\\s*\\(\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*,\\s*int\\s+\\w+\\s*\\)[\\s\\S]*static\\s+void\\s+printMessage"
     },

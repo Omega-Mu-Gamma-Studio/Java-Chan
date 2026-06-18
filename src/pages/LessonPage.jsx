@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { useLesson } from '../hooks/useLesson';
 import { useProgress } from '../hooks/useProgress';
+import { loadUnit } from '../services/lessonService';
 import LessonCanvas from '../components/lesson/LessonCanvas';
 import './LessonPage.css';
 
@@ -9,18 +10,31 @@ const LessonPage = () => {
   const { lessonId } = useParams();
   const navigate = useNavigate();
   const { lesson, loading, error } = useLesson(lessonId);
-  const { setLastVisited } = useProgress();
+  const { setLastVisited, unlockUnit } = useProgress();
 
   useEffect(() => {
     if (lessonId) setLastVisited(lessonId);
   }, [lessonId]);
 
-  const handleComplete = () => {
-    // Navigate to next lesson or home
+  const handleComplete = async () => {
     const [unit, num] = lessonId.split('.').map(Number);
-    const nextId = `${unit}.${num + 1}`;
-    // Try next — LessonPage will show error if it doesn't exist
-    navigate(`/lesson/${nextId}`);
+
+    // Check if this is the last lesson of the current unit
+    try {
+      const unitData = await loadUnit(unit);
+      const isLastLesson = unitData.lessons[unitData.lessons.length - 1] === lessonId;
+
+      if (isLastLesson) {
+        // Unlock the next unit and send the student home
+        unlockUnit(unit + 1);
+        navigate('/');
+      } else {
+        navigate(`/lesson/${unit}.${num + 1}`);
+      }
+    } catch {
+      // Fallback: just try to go to the next lesson
+      navigate(`/lesson/${unit}.${num + 1}`);
+    }
   };
 
   if (loading) {

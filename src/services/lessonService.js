@@ -25,9 +25,21 @@ const UNIT_DATA = {
 
 const LESSON_DATA = {
   // Unit 1 — add entries as you write lesson files
-  '1.1': () => import('../data/lessons/unit1/1.1.json'),
-  // '1.2': () => import('../data/lessons/unit1/1.2.json'),
-  // ... up to 1.15
+  '1.1':  () => import('../data/lessons/unit1/1.1.json'),
+  '1.2':  () => import('../data/lessons/unit1/1.2.json'),
+  '1.3':  () => import('../data/lessons/unit1/1.3.json'),
+  '1.4':  () => import('../data/lessons/unit1/1.4.json'),
+  '1.5':  () => import('../data/lessons/unit1/1.5.json'),
+  '1.6':  () => import('../data/lessons/unit1/1.6.json'),
+  '1.7':  () => import('../data/lessons/unit1/1.7.json'),
+  '1.8':  () => import('../data/lessons/unit1/1.8.json'),
+  '1.9':  () => import('../data/lessons/unit1/1.9.json'),
+  '1.10': () => import('../data/lessons/unit1/1.10.json'),
+  '1.11': () => import('../data/lessons/unit1/1.11.json'),
+  '1.12': () => import('../data/lessons/unit1/1.12.json'),
+  '1.13': () => import('../data/lessons/unit1/1.13.json'),
+  '1.14': () => import('../data/lessons/unit1/1.14.json'),
+  '1.15': () => import('../data/lessons/unit1/1.15.json'),
 
   // Unit 2 (future)
   // '2.1': () => import('../data/lessons/unit2/2.1.json'),

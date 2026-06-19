@@ -40,14 +40,24 @@ export const SHOP_ITEMS = [
   {
     id: 'outfit-default',
     type: 'outfit',
-    name: 'Classic Uniform',
+    name: 'Classic Hoodie',
     requiredLevel: 1,
-    emoji: '👔',
-    accent: '#ff6eb4',
+    emoji: '🧡',
+    accent: '#ff8c42',
     filter: 'none',
-    spriteOverrides: null,
+    // The original orange/black hoodie sprites — always equipped by default
+    spriteOverrides: {
+      idle:         { src: '/sprites/teaching.png',      blend: false },
+      'idle-sleep': { src: '/sprites/idle-sleeping.png', blend: true  },
+      happy:        { src: '/sprites/oops.png',          blend: true  },
+      thinking:     { src: '/sprites/thinking.png',      blend: false },
+      sad:          { src: '/sprites/frustrated.png',    blend: false },
+      surprised:    { src: '/sprites/excited.png',       blend: true  },
+      domain:       { src: '/sprites/excited.png',       blend: true  },
+    },
     imageSrc: null,
-    description: "Java-chan's everyday look.",
+    description: "Java-chan's signature look. Always with you.",
+    isDefault: true, // marks this as the non-equippable base outfit
   },
   {
     id: 'outfit-hoodie',
@@ -56,8 +66,17 @@ export const SHOP_ITEMS = [
     requiredLevel: 2,
     emoji: '🧥',
     accent: '#6eb4ff',
-    filter: 'hue-rotate(150deg) saturate(1.15)',
-    spriteOverrides: null,
+    filter: 'none',
+    // Navy blue hoodie + jeans — real casual art
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/casual/teaching.png',   blend: false }, // hands-open presenting = confident idle
+      'idle-sleep': { src: '/sprites/uniforms/casual/idle.png',       blend: false }, // hand-on-cheek = sleepy/waiting
+      happy:        { src: '/sprites/uniforms/casual/oops.png',       blend: false }, // wave + squiggle = sheepish "almost!"
+      thinking:     { src: '/sprites/uniforms/casual/thinking.png',   blend: false }, // finger-to-lip ? = hint mode
+      sad:          { src: '/sprites/uniforms/casual/frustrated.png', blend: false }, // double fists + scribble = wrong answer rage
+      surprised:    { src: '/sprites/uniforms/casual/excited.png',    blend: false }, // double fist pump = correct!
+      domain:       { src: '/sprites/uniforms/casual/excited.png',    blend: false }, // fist pump fullscreen
+    },
     imageSrc: null,
     description: 'Off the clock, still ready to debug.',
   },
@@ -79,8 +98,17 @@ export const SHOP_ITEMS = [
     requiredLevel: 4,
     emoji: '🎀',
     accent: '#b46eff',
-    filter: 'hue-rotate(260deg) saturate(1.2)',
-    spriteOverrides: null,
+    filter: 'none',
+    // Sailor uniform real art
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/sailor/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/sailor/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/sailor/frustrated.png', blend: false },
+      thinking:     { src: '/sprites/uniforms/sailor/confused.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/sailor/oops.png',       blend: false },
+      surprised:    { src: '/sprites/uniforms/sailor/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/sailor/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Back to basics, sailor-collar edition.',
   },
@@ -156,7 +184,8 @@ export const SHOP_ITEMS = [
 ];
 
 export const WALLPAPERS = SHOP_ITEMS.filter((i) => i.type === 'wallpaper');
-export const OUTFITS = SHOP_ITEMS.filter((i) => i.type === 'outfit');
+export const OUTFITS = SHOP_ITEMS.filter((i) => i.type === 'outfit' && !i.isDefault);
+export const DEFAULT_OUTFIT = SHOP_ITEMS.find((i) => i.isDefault);
 
 export function getShopItem(id) {
   return SHOP_ITEMS.find((i) => i.id === id) || null;

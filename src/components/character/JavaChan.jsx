@@ -23,13 +23,12 @@ import './JavaChan.css';
  *     use mix-blend-mode: screen to drop the black
  *
  * Outfits (Shop):
- *   There's no real outfit art yet, so the equipped outfit's CSS
- *   `filter` (see src/data/shopItems.js) is applied to the sprite
- *   WRAPPER as a placeholder "alt costume" tint — it composes fine
- *   with the per-sprite blend-mode/drop-shadow tricks above since
- *   it lives on a separate element. Once an outfit has real
- *   `spriteOverrides`, swap SPRITE_MAP lookups below to use those
- *   instead and this filter step can be skipped for that outfit.
+ *   If the equipped outfit has `spriteOverrides`, those paths are used
+ *   instead of SPRITE_MAP — this is how the sailor uniform (outfit-default,
+ *   outfit-school) shows her real art. The CSS `filter` on the outfit is
+ *   still applied on top when set (e.g. outfit-school uses a purple tint
+ *   to visually distinguish from the default). Outfits without spriteOverrides
+ *   fall back to the base sprites + filter tint as a placeholder.
  */
 
 const SPRITE_MAP = {
@@ -55,12 +54,12 @@ const JavaChan = () => {
   const { equippedOutfit } = useProgress();
 
   const outfit = getShopItem(equippedOutfit);
-  // Real sprite art takes priority once it exists; until then, a CSS
-  // tint stands in for the "alt costume" look.
+  // Apply CSS filter if:
+  //   (a) outfit has no real sprite art → filter acts as the "alt costume" tint, OR
+  //   (b) outfit HAS real sprite art AND also sets a filter → intentional tint stack
+  //       (e.g. outfit-school reuses sailor sprites with a purple hue shift)
   const outfitFilter =
-    !outfit?.spriteOverrides && outfit?.filter && outfit.filter !== 'none'
-      ? outfit.filter
-      : null;
+    outfit?.filter && outfit.filter !== 'none' ? outfit.filter : null;
 
   const [displayExpression, setDisplayExpression] = useState('idle');
   const sleepTimerRef = useRef(null);
@@ -106,7 +105,13 @@ const JavaChan = () => {
   }, [displayExpression]);
 
   const isDomain = displayExpression === 'domain';
-  const sprite = SPRITE_MAP[displayExpression] || SPRITE_MAP.idle;
+  // If the equipped outfit has real sprite art for this expression, use it.
+  // Otherwise fall back to the base SPRITE_MAP.
+  const spriteOverrides = outfit?.spriteOverrides ?? null;
+  const sprite =
+    (spriteOverrides && spriteOverrides[displayExpression]) ||
+    SPRITE_MAP[displayExpression] ||
+    SPRITE_MAP.idle;
 
   // Bob animation — only for idle/teaching, not sleep/frustrated
   const shouldBob = ['idle', 'happy', 'surprised'].includes(displayExpression);

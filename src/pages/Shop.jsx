@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useProgress } from '../hooks/useProgress';
-import { WALLPAPERS, OUTFITS } from '../data/shopItems';
+import { WALLPAPERS, OUTFITS, DEFAULT_OUTFIT } from '../data/shopItems';
 import ProgressBar from '../components/ui/ProgressBar';
 import './Shop.css';
 
@@ -41,7 +41,7 @@ const ShopItemCard = ({ item, level, equipped, onEquip }) => {
       >
         {item.type === 'outfit' && !item.imageSrc && (
           <img
-            src="/sprites/teaching.png"
+            src={item.spriteOverrides?.idle?.src ?? '/sprites/teaching.png'}
             alt={item.name}
             className="shop-card-outfit-preview"
             style={{ filter: item.filter === 'none' ? undefined : item.filter }}
@@ -145,10 +145,51 @@ const Shop = () => {
       </section>
 
       <section className="shop-section">
+        <h2 className="shop-section-title">🧡 Default Outfit</h2>
+        <p className="shop-section-note">
+          Java-chan's signature look — always available, can't be removed.
+        </p>
+        <div className="shop-grid">
+          <motion.div
+            className="shop-card shop-card--equipped shop-card--default"
+            style={{ cursor: 'default' }}
+          >
+            <div
+              className="shop-card-thumb"
+              style={{ background: `radial-gradient(circle at 50% 30%, ${DEFAULT_OUTFIT.accent}22, transparent 70%)` }}
+            >
+              <img
+                src={DEFAULT_OUTFIT.spriteOverrides?.idle?.src ?? '/sprites/teaching.png'}
+                alt={DEFAULT_OUTFIT.name}
+                className="shop-card-outfit-preview"
+                draggable={false}
+              />
+              <span className="shop-card-equipped-badge">✓ Default</span>
+            </div>
+            <div className="shop-card-body">
+              <span className="shop-card-name">{DEFAULT_OUTFIT.emoji} {DEFAULT_OUTFIT.name}</span>
+              <p className="shop-card-desc">{DEFAULT_OUTFIT.description}</p>
+            </div>
+            <button
+              className={`btn shop-card-btn ${equippedOutfit === DEFAULT_OUTFIT.id ? 'btn-ghost' : 'btn-primary'}`}
+              disabled={equippedOutfit === DEFAULT_OUTFIT.id}
+              onClick={() => {
+                setOutfit(DEFAULT_OUTFIT.id);
+                setToast(`${DEFAULT_OUTFIT.name} equipped! 🧡`);
+                setTimeout(() => setToast(null), 1800);
+              }}
+            >
+              {equippedOutfit === DEFAULT_OUTFIT.id ? 'Always Equipped' : 'Wear Default'}
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      <section className="shop-section">
         <h2 className="shop-section-title">👘 Outfits</h2>
         <p className="shop-section-note">
-          Real outfit art is coming soon — these are tinted previews on Java-chan's
-          current sprite until then.
+          Unlock outfits as you level up — equip them to change Java-chan's look.
+          Some outfits use real art; others are tinted previews until new art arrives.
         </p>
         <div className="shop-grid">
           {OUTFITS.map((item) => (

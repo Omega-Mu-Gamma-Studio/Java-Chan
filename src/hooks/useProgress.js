@@ -16,6 +16,8 @@ export function useProgress() {
     xpToNextLevel: store.getXPToNextLevel(),
     lastVisited: store.lastVisited,
     unlockedUnits: store.unlockedUnits,
+    equippedWallpaper: store.equippedWallpaper,
+    equippedOutfit: store.equippedOutfit,
 
     isCompleted: store.isCompleted,
     isUnitUnlocked: store.isUnitUnlocked,
@@ -27,5 +29,7 @@ export function useProgress() {
     setLastVisited: store.setLastVisited,
     collectReward: store.collectReward,
     unlockUnit: store.unlockUnit,
+    setWallpaper: store.setWallpaper,
+    setOutfit: store.setOutfit,
   };
 }

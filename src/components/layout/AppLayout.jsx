@@ -3,6 +3,8 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '../ui/Sidebar';
 import BottomBar from '../ui/BottomBar';
 import JavaChan from '../character/JavaChan';
+import { useProgress } from '../../hooks/useProgress';
+import { getShopItem } from '../../data/shopItems';
 import './AppLayout.css';
 
 /**
@@ -18,6 +20,14 @@ import './AppLayout.css';
  */
 const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { equippedWallpaper } = useProgress();
+  const wallpaper = getShopItem(equippedWallpaper);
+
+  // Shop wallpapers are CSS gradients until real art is added —
+  // see src/data/shopItems.js for how to swap in imageSrc later.
+  const wallpaperStyle = wallpaper?.imageSrc
+    ? { backgroundImage: `url(${wallpaper.imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+    : { background: wallpaper?.gradient || 'var(--color-bg)' };
 
   return (
     <div className="app-layout">
@@ -50,7 +60,7 @@ const AppLayout = () => {
       </header>
 
       {/* Main content — React Router renders pages here */}
-      <main className="main-content">
+      <main className="main-content" style={wallpaperStyle}>
         <Outlet />
       </main>
 

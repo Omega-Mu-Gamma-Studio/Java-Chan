@@ -3,6 +3,7 @@ import AppLayout from './components/layout/AppLayout';
 import Home from './pages/Home';
 import LessonPage from './pages/LessonPage';
 import UnitPage from './pages/UnitPage';
+import Shop from './pages/Shop';
 
 // Phase 2 — imported but not active yet
 // import LoginPage from './pages/LoginPage';
@@ -22,6 +23,7 @@ function App() {
           <Route index element={<Home />} />
           <Route path="unit/:unitId" element={<UnitPage />} />
           <Route path="lesson/:lessonId" element={<LessonPage />} />
+          <Route path="shop" element={<Shop />} />
         </Route>
 
         {/* ---- Phase 2 Routes (Uncomment when ready) ---- */}

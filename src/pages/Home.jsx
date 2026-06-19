@@ -6,7 +6,7 @@ import './Home.css';
 
 const Home = () => {
   const navigate = useNavigate();
-  const { lastVisited, xp, level } = useProgress();
+  const { lastVisited, xp, level, isUnitUnlocked } = useProgress();
   const { setExpression, setDialogue } = useLessonStore();
 
   useEffect(() => {
@@ -49,26 +49,38 @@ const Home = () => {
         )}
       </div>
 
+      <div className="home-shop-banner" onClick={() => navigate('/shop')}>
+        <span className="home-shop-banner-icon">🛍️</span>
+        <div className="home-shop-banner-text">
+          <span className="home-shop-banner-title">Closet &amp; Decor</span>
+          <span className="home-shop-banner-sub">New wallpaper or outfit unlocks every level — Lv.{level} now</span>
+        </div>
+        <span className="home-shop-banner-arrow">→</span>
+      </div>
+
       <div className="home-units">
         <h2 className="home-section-title">Syllabus</h2>
         <div className="home-unit-list">
           {[
-            { id: 1, title: 'OOP & Java Fundamentals', lessons: 15, active: true },
-            { id: 2, title: 'Inheritance & Interfaces',  lessons: 15, active: false },
-            { id: 3, title: 'Exception Handling & I/O',  lessons: 15, active: false },
-            { id: 4, title: 'Collections & Threads',     lessons: 15, active: false },
-            { id: 5, title: 'JavaFX & UI',               lessons: 15, active: false },
-          ].map(unit => (
-            <div
-              key={unit.id}
-              className={`home-unit-card ${unit.active ? 'home-unit-card--active' : 'home-unit-card--locked'}`}
-              onClick={() => unit.active && navigate(`/unit/${unit.id}`)}
-            >
-              <span className="home-unit-number">Unit {unit.id}</span>
-              <span className="home-unit-title">{unit.title}</span>
-              <span className="home-unit-meta">{unit.active ? `${unit.lessons} lessons` : '🔒'}</span>
-            </div>
-          ))}
+            { id: 1, title: 'OOP & Java Fundamentals', lessons: 15 },
+            { id: 2, title: 'Inheritance & Interfaces',  lessons: 15 },
+            { id: 3, title: 'Exception Handling & I/O',  lessons: 15 },
+            { id: 4, title: 'Collections & Threads',     lessons: 15 },
+            { id: 5, title: 'JavaFX & UI',               lessons: 15 },
+          ].map(unit => {
+            const unlocked = isUnitUnlocked(unit.id);
+            return (
+              <div
+                key={unit.id}
+                className={`home-unit-card ${unlocked ? 'home-unit-card--active' : 'home-unit-card--locked'}`}
+                onClick={() => unlocked && navigate(`/unit/${unit.id}`)}
+              >
+                <span className="home-unit-number">Unit {unit.id}</span>
+                <span className="home-unit-title">{unit.title}</span>
+                <span className="home-unit-meta">{unlocked ? `${unit.lessons} lessons` : '🔒'}</span>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>

@@ -1,6 +1,8 @@
 import { useEffect, useState, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import useLessonStore from '../../store/lessonStore';
+import { useProgress } from '../../hooks/useProgress';
+import { getShopItem } from '../../data/shopItems';
 import './JavaChan.css';
 
 /**
@@ -19,6 +21,15 @@ import './JavaChan.css';
  *   - teaching.png / thinking.png / frustrated.png → transparent PNG, render normally
  *   - oops.png / idle-sleeping.png / excited.png   → black background PNG,
  *     use mix-blend-mode: screen to drop the black
+ *
+ * Outfits (Shop):
+ *   There's no real outfit art yet, so the equipped outfit's CSS
+ *   `filter` (see src/data/shopItems.js) is applied to the sprite
+ *   WRAPPER as a placeholder "alt costume" tint — it composes fine
+ *   with the per-sprite blend-mode/drop-shadow tricks above since
+ *   it lives on a separate element. Once an outfit has real
+ *   `spriteOverrides`, swap SPRITE_MAP lookups below to use those
+ *   instead and this filter step can be skipped for that outfit.
  */
 
 const SPRITE_MAP = {
@@ -41,6 +52,15 @@ const JavaChan = () => {
     advanceDialogue,
     setExpression,
   } = useLessonStore();
+  const { equippedOutfit } = useProgress();
+
+  const outfit = getShopItem(equippedOutfit);
+  // Real sprite art takes priority once it exists; until then, a CSS
+  // tint stands in for the "alt costume" look.
+  const outfitFilter =
+    !outfit?.spriteOverrides && outfit?.filter && outfit.filter !== 'none'
+      ? outfit.filter
+      : null;
 
   const [displayExpression, setDisplayExpression] = useState('idle');
   const sleepTimerRef = useRef(null);
@@ -113,6 +133,7 @@ const JavaChan = () => {
                 initial={{ scale: 0.7, y: 40 }}
                 animate={{ scale: 1, y: 0 }}
                 transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+                style={outfitFilter ? { filter: outfitFilter } : undefined}
               >
                 <img
                   src={sprite.src}
@@ -177,6 +198,7 @@ const JavaChan = () => {
               ? { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
               : { duration: 0.3 }
             }
+            style={outfitFilter ? { filter: outfitFilter } : undefined}
           >
             <AnimatePresence mode="wait">
               <motion.img

@@ -1,0 +1,221 @@
+.shop-page {
+  padding: 32px 32px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 880px;
+}
+
+/* ---- Header ---- */
+.shop-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.shop-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.shop-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  max-width: 480px;
+}
+
+/* ---- Level summary card ---- */
+.shop-level-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.shop-level-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.shop-level-badge {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-bg);
+  background: linear-gradient(135deg, var(--color-xp), #ffaa00);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.shop-level-count {
+  align-self: flex-end;
+  font-size: 0.74rem;
+  color: var(--color-text-faint);
+}
+
+/* ---- Sections ---- */
+.shop-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.shop-section-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: var(--color-pink-light);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.shop-section-note {
+  margin-top: -10px;
+  font-size: 0.78rem;
+  color: var(--color-text-faint);
+  font-style: italic;
+}
+
+.shop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 14px;
+}
+
+/* ---- Card ---- */
+.shop-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.shop-card:not(.shop-card--locked):hover {
+  border-color: var(--color-border-accent);
+  box-shadow: var(--shadow-md);
+}
+
+.shop-card--equipped {
+  border-color: var(--color-pink);
+  box-shadow: var(--shadow-pink);
+}
+
+.shop-card--locked {
+  opacity: 0.55;
+}
+
+.shop-card-thumb {
+  position: relative;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.shop-card-emoji {
+  font-size: 2.4rem;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.4));
+}
+
+.shop-card-outfit-preview {
+  height: 150%;
+  object-fit: contain;
+  object-position: bottom center;
+  transition: filter var(--transition-fast);
+}
+
+.shop-card-lock {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  background: rgba(10, 8, 12, 0.6);
+  backdrop-filter: blur(1px);
+}
+
+.shop-card-lock-icon {
+  font-size: 1.4rem;
+}
+
+.shop-card-lock-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shop-card-equipped-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: var(--color-bg);
+  background: var(--color-pink-light);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+}
+
+.shop-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px 4px;
+  flex: 1;
+}
+
+.shop-card-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.shop-card-desc {
+  font-size: 0.74rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.shop-card-btn {
+  margin: 12px 14px 14px;
+  align-self: stretch;
+  text-align: center;
+  font-size: 0.8rem;
+  padding: 9px 14px;
+}
+
+.shop-card-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* ---- Toast ---- */
+.shop-toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--bottombar-height) + 20px);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-pink);
+  color: var(--color-text);
+  padding: 10px 20px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-pink);
+  z-index: 60;
+  pointer-events: none;
+}

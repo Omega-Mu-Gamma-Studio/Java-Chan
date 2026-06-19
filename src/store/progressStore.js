@@ -26,9 +26,11 @@ const useProgressStore = create(
       lessonAttempts: {},         // { "1.1": 3, ... } — resets on completion
       xp: 0,
       level: 1,
-      unlockedUnits: [1],         // Unit 1 unlocked by default
+      unlockedUnits: [1, 2, 3, 4, 5], // All units unlocked by default
       lastVisited: null,          // lesson ID string
       rewardsCollected: [],       // array of reward IDs
+      equippedWallpaper: 'wallpaper-default', // shop item id
+      equippedOutfit: 'outfit-default',       // shop item id
 
       // ---- Actions ----
 
@@ -100,6 +102,15 @@ const useProgressStore = create(
         return get().rewardsCollected.includes(rewardId);
       },
 
+      /**
+       * Shop: equip a cosmetic. The Shop UI is responsible for only
+       * letting the player equip items they've reached the level for —
+       * this store just records the choice (same trust model as
+       * unlockUnit above).
+       */
+      setWallpaper: (itemId) => set({ equippedWallpaper: itemId }),
+      setOutfit: (itemId) => set({ equippedOutfit: itemId }),
+
       getXPToNextLevel: () => {
         const state = get();
         return xpForNextLevel(state.level) - state.xp;
@@ -120,9 +131,11 @@ const useProgressStore = create(
         lessonAttempts: {},
         xp: 0,
         level: 1,
-        unlockedUnits: [1],
+        unlockedUnits: [1, 2, 3, 4, 5],
         lastVisited: null,
         rewardsCollected: [],
+        equippedWallpaper: 'wallpaper-default',
+        equippedOutfit: 'outfit-default',
       }),
     }),
     {

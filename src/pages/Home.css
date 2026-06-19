@@ -43,6 +43,53 @@
   color: var(--color-text-faint);
 }
 
+.home-shop-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.home-shop-banner:hover {
+  background: var(--color-pink-glow);
+  border-color: var(--color-pink);
+  transform: translateY(-1px);
+}
+
+.home-shop-banner-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.home-shop-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.home-shop-banner-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+.home-shop-banner-sub {
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+}
+
+.home-shop-banner-arrow {
+  color: var(--color-pink);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
 .home-section-title {
   font-family: var(--font-display);
   font-size: 1.1rem;

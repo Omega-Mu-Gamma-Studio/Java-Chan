@@ -89,6 +89,19 @@ Phase 2 will add PostgreSQL, an Express API, and user accounts. No rewrite requi
 
 ---
 
+## Credits & Asset Generation
+
+**Character Art**: The sprites for Java-chan were generated using AI tools and 
+carefully curated for consistency by [@albertofelix08](https://github.com/albertofelix08). All character 
+designs are proprietary to Omega Mu Gamma Studio.
+
+**Note**: As a free, open-source educational project, we prioritized shipping 
+a complete learning experience over commissioning custom art. If you're an 
+artist interested in contributing official character designs, we'd love to 
+collaborate!
+
+---
+
 ## Part of the Omega Mu Gamma Studio
 
 Java-chan is the fifth tool from Omega Mu Gamma Studio, a student-built suite of open-source engineering and CS education tools.

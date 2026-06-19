@@ -103,9 +103,9 @@ export const SHOP_ITEMS = [
     spriteOverrides: {
       idle:         { src: '/sprites/uniforms/sailor/teaching.png',   blend: false },
       'idle-sleep': { src: '/sprites/uniforms/sailor/idle.png',       blend: false },
-      happy:        { src: '/sprites/uniforms/sailor/frustrated.png', blend: false },
-      thinking:     { src: '/sprites/uniforms/sailor/confused.png',   blend: false },
-      sad:          { src: '/sprites/uniforms/sailor/oops.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/sailor/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/sailor/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/sailor/frustrated.png', blend: false },
       surprised:    { src: '/sprites/uniforms/sailor/excited.png',    blend: false },
       domain:       { src: '/sprites/uniforms/sailor/excited.png',    blend: false },
     },

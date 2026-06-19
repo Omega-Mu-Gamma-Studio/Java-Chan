@@ -10,7 +10,7 @@ const Home = () => {
   const { setExpression, setDialogue } = useLessonStore();
 
   useEffect(() => {
-    setExpression('happy');
+    setExpression('idle');
     setDialogue("Welcome! Ready to learn Java? ✨");
   }, []);
 

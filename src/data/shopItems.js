@@ -5,24 +5,33 @@
  * One item unlocks per level (see MAX_LEVEL in utils/xpCalculator.js),
  * alternating between a wallpaper and a Java-chan outfit.
  *
- * ── PLACEHOLDER ART ──────────────────────────────────────────────
- * `imageSrc` is null for every item below — there's no real art yet.
+ * ── ART STATUS ───────────────────────────────────────────────────
+ * Wallpapers: all placeholders (CSS gradients, `imageSrc: null`).
  *
- *   Wallpapers: the Shop and AppLayout fall back to the CSS `gradient`
- *   string whenever imageSrc is missing.
+ * Outfits: real sprite art lives under /public/sprites/uniforms/<name>/,
+ * one PNG per expression (teaching/idle/oops/thinking/frustrated/excited),
+ * referenced via `spriteOverrides` — shaped exactly like JavaChan.jsx's
+ * SPRITE_MAP ({ idle: { src, blend }, ... }). Real-art outfits also set
+ * `filter: 'none'` since the tint was only ever a stand-in.
  *
- *   Outfits: there's no sprite art yet either, so instead of a broken
- *   <img>, both the Shop and JavaChan.jsx apply the outfit's CSS
- *   `filter` (hue-rotate/saturate/etc.) on top of her EXISTING
- *   sprites as a stand-in "alt costume" tint. `spriteOverrides` is
- *   reserved for real art later — shaped like JavaChan's SPRITE_MAP,
- *   e.g. { idle: '/sprites/outfits/hoodie/teaching.png', ... }.
+ *   ✅ outfit-default  (always-equipped base look)
+ *   ✅ outfit-hoodie   → /sprites/uniforms/casual/
+ *   ✅ outfit-school   → /sprites/uniforms/sailor/
+ *   ✅ outfit-magical  → /sprites/uniforms/mage/
+ *   ⏳ outfit-hacker   → still a CSS filter tint, no art yet
+ *   ⏳ outfit-legendary→ still a CSS filter tint, no art yet
  *
- * ── SWAPPING IN REAL ART LATER ───────────────────────────────────
- * Wallpaper:  set `imageSrc` to a path under /public/sprites/wallpapers/
- * Outfit:     set `spriteOverrides` to a full sprite map (see above)
- *             — once set, it takes priority over the CSS `filter`.
- * No other file needs to change.
+ * ── ADDING REAL ART FOR THE REMAINING OUTFITS ────────────────────
+ * 1. Drop 6 PNGs under /public/sprites/uniforms/<name>/, named
+ *    teaching/idle/oops/thinking/frustrated/excited.png (matches the
+ *    pattern of the default sprites at /public/sprites/).
+ * 2. Set that item's `spriteOverrides` to the same shape as the ✅
+ *    entries above, and set `filter: 'none'`.
+ * That's it — Shop.jsx and JavaChan.jsx both already read
+ * `spriteOverrides` automatically, no other file needs to change.
+ *
+ * Wallpapers follow the same idea: set `imageSrc` to a path under
+ * /public/sprites/wallpapers/ once art exists.
  */
 
 export const SHOP_ITEMS = [
@@ -130,8 +139,17 @@ export const SHOP_ITEMS = [
     requiredLevel: 6,
     emoji: '🪄',
     accent: '#ffd700',
-    filter: 'hue-rotate(45deg) saturate(1.4) brightness(1.05)',
-    spriteOverrides: null,
+    filter: 'none',
+    // Real mage art — gold/black sailor-style robe + glowing { / } staff
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/mage/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/mage/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/mage/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/mage/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/mage/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/mage/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/mage/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Transforms bugs into features. Allegedly.',
   },

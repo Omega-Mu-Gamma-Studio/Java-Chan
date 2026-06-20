@@ -31,5 +31,9 @@ export function useProgress() {
     unlockUnit: store.unlockUnit,
     setWallpaper: store.setWallpaper,
     setOutfit: store.setOutfit,
+
+    // Dev only — wired to triple-click on level badge in Shop
+    devMaxLevel: store.devMaxLevel,
+    devResetLevel: store.devResetLevel,
   };
 }

@@ -125,6 +125,10 @@ const useProgressStore = create(
         return Math.min(100, Math.round((progress / range) * 100));
       },
 
+      // ---- Dev helpers (triple-click cheat in Shop) ----
+      devMaxLevel: () => set({ xp: 9999, level: 10 }),
+      devResetLevel: () => set({ xp: 0, level: 1 }),
+
       // Phase 2: reset local state after syncing with server
       _resetForMigration: () => set({
         completedLessons: {},

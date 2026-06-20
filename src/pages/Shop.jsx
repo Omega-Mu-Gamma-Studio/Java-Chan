@@ -163,9 +163,28 @@ const Shop = () => {
     equippedOutfit,
     setWallpaper,
     setOutfit,
+    devMaxLevel,
+    devResetLevel,
   } = useProgress();
 
   const [toast, setToast] = useState(null);
+  const [devClicks, setDevClicks] = useState(0);
+
+  const handleDevClick = () => {
+    const next = devClicks + 1;
+    setDevClicks(next);
+    if (next >= 3) {
+      setDevClicks(0);
+      if (level >= 10) {
+        devResetLevel();
+        setToast('🔽 Dev: Reset to Level 1');
+      } else {
+        devMaxLevel();
+        setToast('🔼 Dev: Max Level Unlocked!');
+      }
+      setTimeout(() => setToast(null), 2000);
+    }
+  };
 
   const totalUnlocked = [...WALLPAPERS, ...OUTFITS, ...DOWNLOADABLE_WALLPAPERS].filter(
     (i) => level >= i.requiredLevel
@@ -193,7 +212,7 @@ const Shop = () => {
 
       <div className="shop-level-card">
         <div className="shop-level-row">
-          <span className="shop-level-badge">Lv.{level}</span>
+          <span className="shop-level-badge" onClick={handleDevClick} style={{ cursor: 'default', userSelect: 'none' }}>Lv.{level}</span>
           <ProgressBar
             value={levelProgress}
             label={level >= 10 ? 'Max level — everything unlocked' : `${xpToNextLevel} XP to level ${level + 1}`}

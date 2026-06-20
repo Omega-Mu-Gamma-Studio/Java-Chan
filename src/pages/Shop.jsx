@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useProgress } from '../hooks/useProgress';
-import { WALLPAPERS, OUTFITS, DEFAULT_OUTFIT } from '../data/shopItems';
+import { WALLPAPERS, OUTFITS, DEFAULT_OUTFIT, DOWNLOADABLE_WALLPAPERS } from '../data/shopItems';
 import ProgressBar from '../components/ui/ProgressBar';
 import './Shop.css';
 
@@ -80,6 +80,79 @@ const ShopItemCard = ({ item, level, equipped, onEquip }) => {
   );
 };
 
+/**
+ * DownloadWallpaperCard
+ *
+ * For the "Wallpapers" section — these are downloadable images,
+ * not equippable themes. Shows a Download button that triggers
+ * a native file download. Falls back to a gradient placeholder
+ * if imageSrc is null (art not yet added).
+ */
+const DownloadWallpaperCard = ({ item, level }) => {
+  const unlocked = level >= item.requiredLevel;
+  const [downloaded, setDownloaded] = useState(false);
+
+  const handleDownload = () => {
+    if (!item.imageSrc) return;
+    const a = document.createElement('a');
+    a.href = item.imageSrc;
+    a.download = item.fileName || 'javachan-wallpaper.png';
+    a.click();
+    setDownloaded(true);
+    setTimeout(() => setDownloaded(false), 2500);
+  };
+
+  return (
+    <motion.div
+      className={`shop-card shop-card--dl ${unlocked ? '' : 'shop-card--locked'}`}
+      whileHover={unlocked ? { y: -3 } : {}}
+      transition={{ duration: 0.15 }}
+    >
+      <div
+        className="shop-card-thumb"
+        style={
+          item.imageSrc
+            ? { backgroundImage: `url(${item.imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }
+            : { background: item.gradient }
+        }
+      >
+        {!item.imageSrc && (
+          <span className="shop-card-emoji">{item.emoji}</span>
+        )}
+        {!item.imageSrc && unlocked && (
+          <span className="shop-card-coming-soon">Coming Soon</span>
+        )}
+
+        {!unlocked && (
+          <div className="shop-card-lock">
+            <span className="shop-card-lock-icon">🔒</span>
+            <span className="shop-card-lock-label">Level {item.requiredLevel}</span>
+          </div>
+        )}
+      </div>
+
+      <div className="shop-card-body">
+        <span className="shop-card-name">{item.name}</span>
+        <p className="shop-card-desc">{item.description}</p>
+      </div>
+
+      <button
+        className={`btn shop-card-btn ${downloaded ? 'btn-ghost' : 'btn-primary'}`}
+        disabled={!unlocked || !item.imageSrc}
+        onClick={handleDownload}
+      >
+        {!unlocked
+          ? `🔒 Level ${item.requiredLevel}`
+          : !item.imageSrc
+            ? '🎨 Art Coming Soon'
+            : downloaded
+              ? '✓ Saved!'
+              : '⬇ Download'}
+      </button>
+    </motion.div>
+  );
+};
+
 const Shop = () => {
   const navigate = useNavigate();
   const {
@@ -94,10 +167,10 @@ const Shop = () => {
 
   const [toast, setToast] = useState(null);
 
-  const totalUnlocked = [...WALLPAPERS, ...OUTFITS].filter(
+  const totalUnlocked = [...WALLPAPERS, ...OUTFITS, ...DOWNLOADABLE_WALLPAPERS].filter(
     (i) => level >= i.requiredLevel
   ).length;
-  const totalItems = WALLPAPERS.length + OUTFITS.length;
+  const totalItems = WALLPAPERS.length + OUTFITS.length + DOWNLOADABLE_WALLPAPERS.length;
 
   const handleEquip = (item) => {
     if (item.type === 'wallpaper') setWallpaper(item.id);
@@ -113,7 +186,7 @@ const Shop = () => {
         <div>
           <h1 className="shop-title">Closet &amp; Decor</h1>
           <p className="shop-subtitle">
-            New gear unlocks every level — wallpapers and outfits, one at a time.
+            Unlock themes, wallpapers, and outfits as you level up — one per level.
           </p>
         </div>
       </div>
@@ -129,8 +202,12 @@ const Shop = () => {
         <span className="shop-level-count">{totalUnlocked} / {totalItems} unlocked</span>
       </div>
 
+      {/* ── Section 1: Themes ────────────────────────────────── */}
       <section className="shop-section">
-        <h2 className="shop-section-title">🖼️ Wallpapers</h2>
+        <h2 className="shop-section-title">🎨 Themes</h2>
+        <p className="shop-section-note">
+          Changes the background of the app. Equip one to set the vibe for your whole session.
+        </p>
         <div className="shop-grid">
           {WALLPAPERS.map((item) => (
             <ShopItemCard
@@ -144,6 +221,24 @@ const Shop = () => {
         </div>
       </section>
 
+      {/* ── Section 2: Wallpapers (downloadable) ─────────────── */}
+      <section className="shop-section">
+        <h2 className="shop-section-title">🖼️ Wallpapers</h2>
+        <p className="shop-section-note">
+          Downloadable art made for your phone or desktop. Unlock them as you level up, then save them straight to your device.
+        </p>
+        <div className="shop-grid">
+          {DOWNLOADABLE_WALLPAPERS.map((item) => (
+            <DownloadWallpaperCard
+              key={item.id}
+              item={item}
+              level={level}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* ── Section 3: Outfits ───────────────────────────────── */}
       <section className="shop-section">
         <h2 className="shop-section-title">🧡 Default Outfit</h2>
         <p className="shop-section-note">

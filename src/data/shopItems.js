@@ -205,6 +205,76 @@ export const WALLPAPERS = SHOP_ITEMS.filter((i) => i.type === 'wallpaper');
 export const OUTFITS = SHOP_ITEMS.filter((i) => i.type === 'outfit' && !i.isDefault);
 export const DEFAULT_OUTFIT = SHOP_ITEMS.find((i) => i.isDefault);
 
+/**
+ * DOWNLOADABLE_WALLPAPERS
+ *
+ * These are standalone art pieces the player can save to their device
+ * (phone/desktop wallpaper). They are NOT equipped — they have no
+ * effect on the app's appearance. The Shop renders a "Download" button
+ * that triggers a native download of the image file.
+ *
+ * Art lives under /public/wallpapers/<filename>.png (or .jpg).
+ * Set `imageSrc: null` until real art is ready — the card will show
+ * a gradient placeholder with the emoji centered.
+ *
+ * Fields:
+ *   id           – unique string
+ *   name         – display name
+ *   emoji        – shown in placeholder thumbnail
+ *   gradient     – CSS gradient for the placeholder background
+ *   accent       – glow / tint color
+ *   imageSrc     – path to the downloadable image (null = placeholder)
+ *   fileName     – suggested download filename (e.g. "javachan-sakura.png")
+ *   description  – flavor text
+ *   requiredLevel – unlock gate (same system as themes / outfits)
+ */
+export const DOWNLOADABLE_WALLPAPERS = [
+  {
+    id: 'dl-wallpaper-01',
+    name: 'Java-chan: Sakura Study',
+    emoji: '🌸',
+    gradient: 'linear-gradient(160deg, #2a1a2e 0%, #4a1a3e 60%, #1a0f1a 100%)',
+    accent: '#ffaad4',
+    imageSrc: null,         // swap in e.g. '/wallpapers/sakura-study.png' when art is ready
+    fileName: 'javachan-sakura-study.png',
+    description: 'Java-chan under a cherry blossom tree, textbook in hand.',
+    requiredLevel: 3,
+  },
+  {
+    id: 'dl-wallpaper-02',
+    name: 'Neon Night Compile',
+    emoji: '🌃',
+    gradient: 'linear-gradient(160deg, #0a0a1f 0%, #0d1b2a 55%, #1a2e4a 100%)',
+    accent: '#6eb4ff',
+    imageSrc: null,
+    fileName: 'javachan-neon-night.png',
+    description: 'Late-night session vibes — city glow, code scrolling.',
+    requiredLevel: 5,
+  },
+  {
+    id: 'dl-wallpaper-03',
+    name: 'Galaxy Stack',
+    emoji: '🌌',
+    gradient: 'linear-gradient(160deg, #0a0518 0%, #1a0f3e 55%, #2e1a4a 100%)',
+    accent: '#b46eff',
+    imageSrc: null,
+    fileName: 'javachan-galaxy-stack.png',
+    description: 'Among the stars, someone is still Stack Overflowing.',
+    requiredLevel: 7,
+  },
+  {
+    id: 'dl-wallpaper-04',
+    name: 'Golden Hour Debug',
+    emoji: '🌇',
+    gradient: 'linear-gradient(160deg, #2e1a0a 0%, #4a2e1a 55%, #1a0f0a 100%)',
+    accent: '#ffcc6e',
+    imageSrc: null,
+    fileName: 'javachan-golden-hour.png',
+    description: 'The build passed at sunset. A perfect moment.',
+    requiredLevel: 9,
+  },
+];
+
 export function getShopItem(id) {
   return SHOP_ITEMS.find((i) => i.id === id) || null;
 }

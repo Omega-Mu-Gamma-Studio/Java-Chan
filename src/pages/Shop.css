@@ -203,6 +203,28 @@
   opacity: 0.6;
 }
 
+/* ---- Download wallpaper card extras ---- */
+.shop-card--dl .shop-card-thumb {
+  position: relative;
+}
+
+.shop-card-coming-soon {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.6rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-faint);
+  background: rgba(10, 8, 12, 0.55);
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  backdrop-filter: blur(2px);
+}
+
 /* ---- Toast ---- */
 .shop-toast {
   position: fixed;

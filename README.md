@@ -329,7 +329,7 @@ Java-chan is the fifth tool from Omega Mu Gamma Studio — a student-built suite
 | [SeeDS](https://see-ds.vercel.app) | 3D data structure visualizer with drag-and-drop Playground mode |
 | [KMapX](https://kmapx.vercel.app) | Karnaugh map simplifier with don't-care support |
 | [EG Suite](https://eg-suite.vercel.app) | 3D Engineering Graphics simulator for ME22201 |
-| [GateLab](https://gatelab.vercel.app) | 3D digital logic playground for CS22303 |
+| [GateLab](https://gatelab.vercel.app) | 2D digital logic schematic playground (CS22303) |
 | **Java-chan** | Anime-guided Java tutor for CS22301 — *this repo* |
 
 ---

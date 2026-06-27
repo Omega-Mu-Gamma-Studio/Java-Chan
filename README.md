@@ -12,7 +12,7 @@
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055ff)](https://www.framer.com/motion/)
 [![MIT License](https://img.shields.io/badge/License-MIT-green)](./LICENSE)
 
-Built by [Omega Mu Gamma Studio](https://github.com/Omega-Mu-Gamma-Studio) · the team behind [SeeDS](https://see-ds.vercel.app), [KMapX](https://kmapx.vercel.app), [EG Suite](https://eg-suite.vercel.app), and [GateLab](https://gatelab.vercel.app)
+Built by [Omega Mu Gamma Studio](https://github.com/Omega-Mu-Gamma-Studio) · the team behind [SeeDS](https://see-ds.vercel.app), [KMapX](https://kmapx.vercel.app), [EG Suite](https://eg-suite.vercel.app), [GateLab](https://gatelab.vercel.app), [PlusPlus-Chan](https://plusplus-chan.vercel.app), [ArchVisor](https://arch-visor.vercel.app), and [ThermOS](https://thermos-omg.vercel.app).
 
 </div>
 
@@ -113,7 +113,15 @@ The shop has two sections — cosmetics that change the app itself, and download
 | 10 | Legendary Kimono 👘 | For students who made it |
 
 **Downloadable Wallpapers** (phone/desktop art, save to your device):
-- Sakura Study (Level 3) · Neon Night Compile (Level 5) · Galaxy Stack (Level 7) · Golden Hour Debug (Level 9)
+
+| Level | Wallpaper | Vibe |
+|-------|-----------|------|
+| 3 | Sakura Study 🌸 | Java-chan under a cherry blossom tree, textbook in hand |
+| 5 | Neon Night Compile 🌃 | Late-night session vibes — city glow, code scrolling |
+| 7 | Galaxy Stack 🌌 | Among the stars, someone is still Stack Overflowing |
+| 9 | Golden Hour Debug 🌇 | The build passed at sunset. A perfect moment |
+
+> The design rule for every wallpaper: **Java-chan belongs in warm worlds.** Golden light, lived-in spaces, and ordinary moments that feel like home. When the world is cool, she's the warmth inside it.
 
 ### ✨ Character & Expressions
 Java-chan has 6 distinct expressions that fire contextually throughout lessons:
@@ -130,6 +138,34 @@ Java-chan has 6 distinct expressions that fire contextually throughout lessons:
 Each equipped outfit has its own full set of 6 expression sprites — swapping outfits changes Java-chan's entire look, not just a filter.
 
 **Domain Expansion** — a fullscreen celebration effect fires on milestone level-ups, complete with confetti.
+
+---
+
+## Coming Soon 🔒
+
+The cosmetics system is built to grow. These appear as locked preview cards in the shop right now — you'll see them coming before they arrive.
+
+### Outfits
+
+| Outfit | Vibe | Notes |
+|--------|------|-------|
+| Barista ☕ | Apron, flower in her hair, latte art shaped like the Java logo | The pun was always in her character DNA. Coffee. Java. It writes itself |
+| Sports Day 🏃 | Tracksuit, hair in a ponytail, competitive energy | A completely different silhouette — every current outfit is loose/flowy |
+| Off the Clock 🌞 | Sundress, no flower accessory (she left it at home) | Warmer and more relaxed than anything in the current set |
+| Winter Coat 🧣 | Long warm coat, scarf, earmuffs | Her oranges and browns in a cozy winter palette. Pairs with Winter Hot Chocolate |
+
+### Downloadable Wallpapers
+
+The current wallpaper set hasn't fully left the study desk yet. Future drops put Java-chan in worlds she *belongs* in — warm, ordinary, and alive.
+
+| Wallpaper | Location | Colour Palette | Mood |
+|-----------|----------|----------------|------|
+| Morning Brew ☕ | Café window, early morning, Java logo coffee cup | Warm amber, soft orange, gold sunrise | She's not coding. She's just existing, smiling. No laptop in sight |
+| Convenience Store Night 🏪 | Walking out of a konbini, warm yellow light spilling out, onigiri in hand | Warm yellow, quiet residential dark | The "she has a life outside coding" wallpaper |
+| Rainy Afternoon Library 📚 | Warm academic library, velvet armchair, rain on tall windows | Rich oranges, deep reds, brown wood | Not the dark hacker room. A place where learning feels good |
+| Spring Festival 🏮 | Outdoor festival, lanterns strung above, cherry blossoms everywhere | Pinks, warm whites, golden lantern light | Her kimono outfit callback. Lanterns floating upward |
+| Rooftop at Golden Hour 🌆 | Rooftop railing, city behind her, sunset ahead | Deep amber, city gold, fading sky | The character poster shot. Java logo embroidered on her jacket. No laptop |
+| Winter Hot Chocolate ❄️ | Warm café by a frosted window, fairy lights, regular cute mug | Blue-white cold outside, warm amber inside | The only cool-toned wallpaper in the set — which makes it feel special |
 
 ---
 
@@ -329,7 +365,7 @@ Java-chan is the fifth tool from Omega Mu Gamma Studio — a student-built suite
 | [SeeDS](https://see-ds.vercel.app) | 3D data structure visualizer with drag-and-drop Playground mode |
 | [KMapX](https://kmapx.vercel.app) | Karnaugh map simplifier with don't-care support |
 | [EG Suite](https://eg-suite.vercel.app) | 3D Engineering Graphics simulator for ME22201 |
-| [GateLab](https://gatelab.vercel.app) | 3D digital logic playground for CS22303 |
+| [GateLab](https://gatelab.vercel.app) | 2D digital logic schematic playground (CS22303) |
 | **Java-chan** | Anime-guided Java tutor for CS22301 — *this repo* |
 
 ---

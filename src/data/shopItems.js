@@ -21,6 +21,12 @@
  *   ⏳ outfit-hacker   → still a CSS filter tint, no art yet
  *   ⏳ outfit-legendary→ still a CSS filter tint, no art yet
  *
+ * ── COMING SOON ITEMS ────────────────────────────────────────────
+ * Items with `comingSoon: true` are shown as locked preview cards in
+ * the shop — visible but not yet equippable. They do NOT count toward
+ * the unlocked tally. Set `spriteOverrides: null` for coming-soon outfits;
+ * the card will render a silhouetted preview of the base sprite.
+ *
  * ── ADDING REAL ART FOR THE REMAINING OUTFITS ────────────────────
  * 1. Drop 6 PNGs under /public/sprites/uniforms/<name>/, named
  *    teaching/idle/oops/thinking/frustrated/excited.png (matches the
@@ -78,13 +84,13 @@ export const SHOP_ITEMS = [
     filter: 'none',
     // Navy blue hoodie + jeans — real casual art
     spriteOverrides: {
-      idle:         { src: '/sprites/uniforms/casual/teaching.png',   blend: false }, // hands-open presenting = confident idle
-      'idle-sleep': { src: '/sprites/uniforms/casual/idle.png',       blend: false }, // hand-on-cheek = sleepy/waiting
-      happy:        { src: '/sprites/uniforms/casual/oops.png',       blend: false }, // wave + squiggle = sheepish "almost!"
-      thinking:     { src: '/sprites/uniforms/casual/thinking.png',   blend: false }, // finger-to-lip ? = hint mode
-      sad:          { src: '/sprites/uniforms/casual/frustrated.png', blend: false }, // double fists + scribble = wrong answer rage
-      surprised:    { src: '/sprites/uniforms/casual/excited.png',    blend: false }, // double fist pump = correct!
-      domain:       { src: '/sprites/uniforms/casual/excited.png',    blend: false }, // fist pump fullscreen
+      idle:         { src: '/sprites/uniforms/casual/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/casual/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/casual/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/casual/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/casual/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/casual/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/casual/excited.png',    blend: false },
     },
     imageSrc: null,
     description: 'Off the clock, still ready to debug.',
@@ -215,6 +221,61 @@ export const SHOP_ITEMS = [
     imageSrc: null,
     description: 'For students who reached Level 10. Respect.',
   },
+
+  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
+
+  {
+    id: 'outfit-barista',
+    type: 'outfit',
+    name: 'Barista',
+    requiredLevel: 2,
+    emoji: '☕',
+    accent: '#d4956a',
+    filter: 'none',
+    spriteOverrides: null,
+    imageSrc: null,
+    description: 'Apron, flower in her hair, latte art shaped like the Java logo. The pun was right there.',
+    comingSoon: true,
+  },
+  {
+    id: 'outfit-sports-day',
+    type: 'outfit',
+    name: 'Sports Day',
+    requiredLevel: 4,
+    emoji: '🏃',
+    accent: '#ff7043',
+    filter: 'none',
+    spriteOverrides: null,
+    imageSrc: null,
+    description: 'Tracksuit, ponytail, competitive energy. She would absolutely win.',
+    comingSoon: true,
+  },
+  {
+    id: 'outfit-off-the-clock',
+    type: 'outfit',
+    name: 'Off the Clock',
+    requiredLevel: 6,
+    emoji: '🌞',
+    accent: '#ffcc6e',
+    filter: 'none',
+    spriteOverrides: null,
+    imageSrc: null,
+    description: 'Sundress. No flower accessory — she left it at home. Fully off the clock.',
+    comingSoon: true,
+  },
+  {
+    id: 'outfit-winter-coat',
+    type: 'outfit',
+    name: 'Winter Coat',
+    requiredLevel: 8,
+    emoji: '🧣',
+    accent: '#a8c4e0',
+    filter: 'none',
+    spriteOverrides: null,
+    imageSrc: null,
+    description: 'Long warm coat, scarf, earmuffs. Her oranges and browns in winter palette. Pairs with Winter Hot Chocolate.',
+    comingSoon: true,
+  },
 ];
 
 export const WALLPAPERS = SHOP_ITEMS.filter((i) => i.type === 'wallpaper');
@@ -243,6 +304,11 @@ export const DEFAULT_OUTFIT = SHOP_ITEMS.find((i) => i.isDefault);
  *   fileName     – suggested download filename (e.g. "javachan-sakura.png")
  *   description  – flavor text
  *   requiredLevel – unlock gate (same system as themes / outfits)
+ *   comingSoon   – if true, shown as a preview card only (not yet downloadable)
+ *
+ * Design rule: Java-chan belongs in warm worlds. Golden light, lived-in
+ * spaces, and ordinary moments that feel like home. When the world is
+ * cool, she's the warmth inside it.
  */
 export const DOWNLOADABLE_WALLPAPERS = [
   {
@@ -251,7 +317,7 @@ export const DOWNLOADABLE_WALLPAPERS = [
     emoji: '🌸',
     gradient: 'linear-gradient(160deg, #2a1a2e 0%, #4a1a3e 60%, #1a0f1a 100%)',
     accent: '#ffaad4',
-    imageSrc: '/wallpapers/sakura-study.png',         // swap in e.g. '/wallpapers/sakura-study.png' when art is ready
+    imageSrc: '/wallpapers/sakura-study.png',
     fileName: 'javachan-sakura-study.png',
     description: 'Java-chan under a cherry blossom tree, textbook in hand.',
     requiredLevel: 3,
@@ -288,6 +354,81 @@ export const DOWNLOADABLE_WALLPAPERS = [
     fileName: 'javachan-golden-hour.png',
     description: 'The build passed at sunset. A perfect moment.',
     requiredLevel: 9,
+  },
+
+  // ─── Coming Soon ─────────────────────────────────────────────────────────────
+
+  {
+    id: 'dl-wallpaper-morning-brew',
+    name: 'Morning Brew',
+    emoji: '☕',
+    gradient: 'linear-gradient(160deg, #1a0e00 0%, #3d2200 55%, #2a1500 100%)',
+    accent: '#ffaa44',
+    imageSrc: null,
+    fileName: null,
+    description: 'Café window, early morning, Java logo coffee cup. She\'s not coding. She\'s just existing.',
+    requiredLevel: 3,
+    comingSoon: true,
+  },
+  {
+    id: 'dl-wallpaper-convenience-store',
+    name: 'Convenience Store Night',
+    emoji: '🏪',
+    gradient: 'linear-gradient(160deg, #0a0800 0%, #1a1400 55%, #0f0c00 100%)',
+    accent: '#ffe066',
+    imageSrc: null,
+    fileName: null,
+    description: 'Warm konbini light spilling onto a quiet street. Onigiri in hand. She has a life outside coding.',
+    requiredLevel: 5,
+    comingSoon: true,
+  },
+  {
+    id: 'dl-wallpaper-rainy-library',
+    name: 'Rainy Afternoon Library',
+    emoji: '📚',
+    gradient: 'linear-gradient(160deg, #1a0800 0%, #2e1500 55%, #1a0c00 100%)',
+    accent: '#cc7744',
+    imageSrc: null,
+    fileName: null,
+    description: 'Velvet armchair, rain on tall windows, warm lamp light. A Java book with dog-eared pages. Learning that feels good.',
+    requiredLevel: 5,
+    comingSoon: true,
+  },
+  {
+    id: 'dl-wallpaper-spring-festival',
+    name: 'Spring Festival',
+    emoji: '🏮',
+    gradient: 'linear-gradient(160deg, #2a1520 0%, #3d1a2a 55%, #1a0f18 100%)',
+    accent: '#ffb3c6',
+    imageSrc: null,
+    fileName: null,
+    description: 'Lanterns strung above, cherry blossoms everywhere, paper lanterns floating up. Her kimono outfit callback.',
+    requiredLevel: 7,
+    comingSoon: true,
+  },
+  {
+    id: 'dl-wallpaper-rooftop-golden-hour',
+    name: 'Rooftop at Golden Hour',
+    emoji: '🌆',
+    gradient: 'linear-gradient(160deg, #2e1000 0%, #4a2000 55%, #2e1800 100%)',
+    accent: '#ffaa00',
+    imageSrc: null,
+    fileName: null,
+    description: 'Rooftop railing, city behind her, sunset ahead. Java logo embroidered on her jacket. No laptop. Just the view.',
+    requiredLevel: 7,
+    comingSoon: true,
+  },
+  {
+    id: 'dl-wallpaper-winter-hot-chocolate',
+    name: 'Winter Hot Chocolate',
+    emoji: '❄️',
+    gradient: 'linear-gradient(160deg, #0a1020 0%, #0f1830 55%, #080e20 100%)',
+    accent: '#a0c8ff',
+    imageSrc: null,
+    fileName: null,
+    description: 'Blue-white cold outside, warm amber inside. Fairy lights. A regular mug, not a Java one. The only cool-toned wallpaper in the set.',
+    requiredLevel: 9,
+    comingSoon: true,
   },
 ];
 

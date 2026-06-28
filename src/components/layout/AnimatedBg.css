@@ -1,0 +1,86 @@
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ---- Aurora blobs ---- */
+.aurora {
+  position: absolute;
+  inset: 0;
+}
+
+.aurora__blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.28;
+  will-change: transform;
+}
+
+/* Blob 1 — top-left: her signature pink */
+.aurora__blob--1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(255, 110, 180, 0.55) 0%, transparent 70%);
+  top: -15%;
+  left: -10%;
+  animation: aurora-drift-1 22s ease-in-out infinite alternate;
+}
+
+/* Blob 2 — right: her soft blue accent */
+.aurora__blob--2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(110, 180, 255, 0.4) 0%, transparent 70%);
+  top: 20%;
+  right: -8%;
+  animation: aurora-drift-2 28s ease-in-out infinite alternate;
+}
+
+/* Blob 3 — bottom-center: her purple */
+.aurora__blob--3 {
+  width: 450px;
+  height: 450px;
+  background: radial-gradient(circle, rgba(180, 110, 255, 0.35) 0%, transparent 70%);
+  bottom: -10%;
+  left: 25%;
+  animation: aurora-drift-3 18s ease-in-out infinite alternate;
+}
+
+/* Blob 4 — mid-right: soft pink again, smaller presence */
+.aurora__blob--4 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, rgba(255, 110, 180, 0.3) 0%, transparent 70%);
+  top: 55%;
+  left: 55%;
+  animation: aurora-drift-4 24s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-drift-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(80px, 60px) scale(1.15); }
+}
+@keyframes aurora-drift-2 {
+  0%   { transform: translate(0, 0) scale(1.05); }
+  100% { transform: translate(-60px, 80px) scale(0.9); }
+}
+@keyframes aurora-drift-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(40px, -70px) scale(1.1); }
+}
+@keyframes aurora-drift-4 {
+  0%   { transform: translate(0, 0) scale(0.9); }
+  100% { transform: translate(-50px, -40px) scale(1.2); }
+}
+
+/* ---- Particle canvas ---- */
+.particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}

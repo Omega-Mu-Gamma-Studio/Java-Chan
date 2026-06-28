@@ -18,8 +18,8 @@
 
 /* ── Sprite wrapper (handles bob animation) ── */
 .javachan-sprite-wrap {
-  width: 180px;
-  height: 220px;
+  width: var(--javachan-width);
+  height: var(--javachan-height);
   display: flex;
   align-items: flex-end;
   justify-content: center;

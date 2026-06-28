@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from '../ui/Sidebar';
 import BottomBar from '../ui/BottomBar';
 import JavaChan from '../character/JavaChan';
+import AnimatedBg from './AnimatedBg';
 import { useProgress } from '../../hooks/useProgress';
 import { getShopItem } from '../../data/shopItems';
 import './AppLayout.css';
@@ -22,15 +23,17 @@ const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { equippedWallpaper } = useProgress();
   const wallpaper = getShopItem(equippedWallpaper);
+  const themeClass = wallpaper?.themeClass || '';
 
   // Shop wallpapers are CSS gradients until real art is added —
   // see src/data/shopItems.js for how to swap in imageSrc later.
   const wallpaperStyle = wallpaper?.imageSrc
     ? { backgroundImage: `url(${wallpaper.imageSrc})`, backgroundSize: 'cover', backgroundPosition: 'center' }
-    : { background: wallpaper?.gradient || 'var(--color-bg)' };
+    : {};
 
   return (
-    <div className="app-layout">
+    <div className={`app-layout ${themeClass}`}>
+      <AnimatedBg />
       {/* Sidebar overlay */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 

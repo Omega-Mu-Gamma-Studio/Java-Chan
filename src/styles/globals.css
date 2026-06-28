@@ -47,8 +47,8 @@
   /* --- Sizing --- */
   --sidebar-width:      280px;
   --bottombar-height:   64px;
-  --javachan-width:     180px;
-  --javachan-height:    220px;
+  --javachan-width:     240px;
+  --javachan-height:    320px;
   --topbar-height:      56px;
 
   /* --- Radii --- */
@@ -70,6 +70,54 @@
   --transition-base:   0.25s ease;
   --transition-slow:   0.4s ease;
   --transition-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ============================================
+   THEME OVERRIDES (shop-unlockable)
+   All themes override the pink family variables
+   so every component that reads --color-pink,
+   --color-pink-glow, --color-border-accent,
+   and --color-xp repaints automatically.
+   ============================================ */
+
+/* Sakura Compile — deeper cherry blossom, rose-magenta */
+.theme-sakura {
+  --color-pink:         #e8569a;
+  --color-pink-light:   #f5a0c8;
+  --color-pink-dark:    #b03070;
+  --color-pink-glow:    rgba(232, 86, 154, 0.25);
+  --color-border-accent:rgba(232, 86, 154, 0.35);
+  --color-xp:           #e8569a;
+}
+
+/* Neon Server Room — electric cyan-blue */
+.theme-neon {
+  --color-pink:         #5bc8ff;
+  --color-pink-light:   #9de3ff;
+  --color-pink-dark:    #2a9acc;
+  --color-pink-glow:    rgba(91, 200, 255, 0.22);
+  --color-border-accent:rgba(91, 200, 255, 0.3);
+  --color-xp:           #5bc8ff;
+}
+
+/* Platform at Dusk — warm amber-orange */
+.theme-dusk {
+  --color-pink:         #ff9a3c;
+  --color-pink-light:   #ffbf80;
+  --color-pink-dark:    #cc6a10;
+  --color-pink-glow:    rgba(255, 154, 60, 0.22);
+  --color-border-accent:rgba(255, 154, 60, 0.3);
+  --color-xp:           #ff9a3c;
+}
+
+/* Golden Hour Debug — deep gold */
+.theme-goldenhour {
+  --color-pink:         #ffd700;
+  --color-pink-light:   #ffe566;
+  --color-pink-dark:    #ccaa00;
+  --color-pink-glow:    rgba(255, 215, 0, 0.22);
+  --color-border-accent:rgba(255, 215, 0, 0.3);
+  --color-xp:           #ffd700;
 }
 
 /* ============================================

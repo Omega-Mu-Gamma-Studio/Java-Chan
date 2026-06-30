@@ -64,12 +64,12 @@ export const SHOP_ITEMS = [
     // The original orange/black hoodie sprites — always equipped by default
     spriteOverrides: {
       idle:         { src: '/sprites/teaching.png',      blend: false },
-      'idle-sleep': { src: '/sprites/idle-sleeping.png', blend: true  },
+      'idle-sleep': { src: '/sprites/idle.png', blend: true  },
       happy:        { src: '/sprites/oops.png',          blend: true  },
       thinking:     { src: '/sprites/thinking.png',      blend: false },
       sad:          { src: '/sprites/frustrated.png',    blend: false },
       surprised:    { src: '/sprites/excited.png',       blend: true  },
-      domain:       { src: '/sprites/excited.png',       blend: true  },
+      domain:       { src: '/sprites/domain.png',       blend: true  },
     },
     imageSrc: null,
     description: "Java-chan's signature look. Always with you.",

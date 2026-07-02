@@ -1,0 +1,67 @@
+.music-player {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background: var(--color-border);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+}
+
+.music-player-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: transform var(--transition-fast);
+}
+
+.music-player-toggle:hover {
+  transform: scale(1.15);
+}
+
+.music-player-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 64px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-2);
+  outline: none;
+  cursor: pointer;
+}
+
+.music-player-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--color-pink);
+  box-shadow: 0 0 6px var(--color-pink-glow);
+  cursor: pointer;
+}
+
+.music-player-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 50%;
+  background: var(--color-pink);
+  box-shadow: 0 0 6px var(--color-pink-glow);
+  cursor: pointer;
+}
+
+/* Hide the slider on very small widths so the topbar doesn't crowd */
+@media (max-width: 420px) {
+  .music-player-slider {
+    width: 40px;
+  }
+}

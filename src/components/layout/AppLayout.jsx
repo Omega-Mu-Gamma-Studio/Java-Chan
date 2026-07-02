@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from '../ui/Sidebar';
+import SiblingsPanel from '../ui/SiblingsPanel';
 import BottomBar from '../ui/BottomBar';
+import MusicPlayer from '../ui/MusicPlayer';
 import JavaChan from '../character/JavaChan';
 import AnimatedBg from './AnimatedBg';
 import { useProgress } from '../../hooks/useProgress';
@@ -21,6 +23,7 @@ import './AppLayout.css';
  */
 const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [siblingsOpen, setSiblingsOpen] = useState(false);
   const { equippedWallpaper } = useProgress();
   const wallpaper = getShopItem(equippedWallpaper);
   const themeClass = wallpaper?.themeClass || '';
@@ -37,11 +40,17 @@ const AppLayout = () => {
       {/* Sidebar overlay */}
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
+      {/* Sisters overlay */}
+      <SiblingsPanel isOpen={siblingsOpen} onClose={() => setSiblingsOpen(false)} />
+
       {/* Overlay backdrop */}
-      {sidebarOpen && (
+      {(sidebarOpen || siblingsOpen) && (
         <div
           className="sidebar-backdrop"
-          onClick={() => setSidebarOpen(false)}
+          onClick={() => {
+            setSidebarOpen(false);
+            setSiblingsOpen(false);
+          }}
         />
       )}
 
@@ -60,6 +69,18 @@ const AppLayout = () => {
           <span className="topbar-title-main">Java</span>
           <span className="topbar-title-accent">chan</span>
         </span>
+
+        <div className="topbar-actions">
+          <MusicPlayer />
+          <button
+            className="siblings-open-btn"
+            onClick={() => setSiblingsOpen(true)}
+            aria-label="Meet my sisters"
+            title="Meet my sisters"
+          >
+            👯‍♀️
+          </button>
+        </div>
       </header>
 
       {/* Main content — React Router renders pages here */}

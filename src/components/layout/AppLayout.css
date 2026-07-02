@@ -94,6 +94,33 @@
   text-shadow: 0 0 12px var(--color-pink-glow);
 }
 
+.topbar-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.siblings-open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  font-size: 1.15rem;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast), transform var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.siblings-open-btn:hover {
+  background: var(--color-border);
+  transform: scale(1.1);
+}
+
 /* ---- Main Content ---- */
 .main-content {
   grid-area: main;

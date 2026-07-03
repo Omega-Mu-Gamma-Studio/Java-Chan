@@ -36,6 +36,7 @@ const Home = () => {
 
   return (
     <div className="home-page">
+    <div className="home-main">
 
       {/* ── HERO ── */}
       <div className="home-hero">
@@ -137,8 +138,10 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ── MEET MY SISTERS ── */}
-      <MeetMySisters />
+    </div>
+
+    {/* ── MEET MY SISTERS (right rail) ── */}
+    <MeetMySisters />
 
     </div>
   );

@@ -1,9 +1,24 @@
 .home-page {
   padding: 36px 32px 48px;
+  display: grid;
+  grid-template-columns: minmax(0, 680px) minmax(240px, 300px);
+  align-items: start;
+  gap: 32px;
+  max-width: 1040px;
+}
+
+.home-main {
   display: flex;
   flex-direction: column;
   gap: 40px;
-  max-width: 680px;
+  min-width: 0;
+}
+
+@media (max-width: 960px) {
+  .home-page {
+    grid-template-columns: 1fr;
+    max-width: 680px;
+  }
 }
 
 /* ── HERO ── */

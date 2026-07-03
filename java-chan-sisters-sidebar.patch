@@ -1,0 +1,55 @@
+diff --git a/src/pages/Home.css b/src/pages/Home.css
+index c6eaa23..2ebeae8 100644
+--- a/src/pages/Home.css
++++ b/src/pages/Home.css
+@@ -1,9 +1,24 @@
+ .home-page {
+   padding: 36px 32px 48px;
++  display: grid;
++  grid-template-columns: minmax(0, 680px) minmax(240px, 300px);
++  align-items: start;
++  gap: 32px;
++  max-width: 1040px;
++}
++
++.home-main {
+   display: flex;
+   flex-direction: column;
+   gap: 40px;
+-  max-width: 680px;
++  min-width: 0;
++}
++
++@media (max-width: 960px) {
++  .home-page {
++    grid-template-columns: 1fr;
++    max-width: 680px;
++  }
+ }
+ 
+ /* ── HERO ── */
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index 444b3cc..99725e8 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -36,6 +36,7 @@ const Home = () => {
+ 
+   return (
+     <div className="home-page">
++    <div className="home-main">
+ 
+       {/* ── HERO ── */}
+       <div className="home-hero">
+@@ -137,8 +138,10 @@ const Home = () => {
+         </div>
+       </div>
+ 
+-      {/* ── MEET MY SISTERS ── */}
+-      <MeetMySisters />
++    </div>
++
++    {/* ── MEET MY SISTERS (right rail) ── */}
++    <MeetMySisters />
+ 
+     </div>
+   );

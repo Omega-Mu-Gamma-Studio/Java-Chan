@@ -226,9 +226,6 @@ export const SHOP_ITEMS = [
     imageSrc: null,
     description: 'For students who reached Level 10. Respect.',
   },
-
-  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
-
   {
     id: 'outfit-barista',
     type: 'outfit',
@@ -237,10 +234,18 @@ export const SHOP_ITEMS = [
     emoji: '☕',
     accent: '#d4956a',
     filter: 'none',
-    spriteOverrides: null,
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/barista/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/barista/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/barista/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/barista/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/barista/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/barista/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/barista/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Apron, flower in her hair, latte art shaped like the Java logo. The pun was right there.',
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     id: 'outfit-sports-day',
@@ -263,6 +268,9 @@ export const SHOP_ITEMS = [
     description: 'Track jacket, running shorts, ponytail. Competitive energy.',
     comingSoon: false,
   },
+  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
+
+
   {
     id: 'outfit-off-the-clock',
     type: 'outfit',

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useProgress } from '../hooks/useProgress';
 import useLessonStore from '../store/lessonStore';
+import MeetMySisters from '../components/home/MeetMySisters';
 import './Home.css';
 
 const UNITS = [
@@ -136,19 +137,8 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ── SISTER APP WHISPER ── */}
-      <a
-        className="home-sister-link"
-        href="https://plusplus-chan.vercel.app"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span className="home-sister-icon">⬡</span>
-        <span className="home-sister-text">
-          Enjoying this? Meet <strong>PlusPlus-chan</strong> — Java-chan's C++ sister.
-        </span>
-        <span className="home-sister-arrow">↗</span>
-      </a>
+      {/* ── MEET MY SISTERS ── */}
+      <MeetMySisters />
 
     </div>
   );

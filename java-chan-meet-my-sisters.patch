@@ -1,0 +1,784 @@
+diff --git a/README.md b/README.md
+index 2136d7e..0387f6d 100644
+--- a/README.md
++++ b/README.md
+@@ -352,6 +352,8 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
+ 
+ **Character Art**: Java-chan's sprites were generated using AI tools and hand-curated for expression consistency by [@albertofelix08](https://github.com/albertofelix08). All character designs are proprietary to Omega Mu Gamma Studio.
+ 
++**Music**: Java-chan's background music was composed by Aaron Felix J, Omega Mu Gamma Studio's Music Director.
++
+ **Note**: As a free, open-source educational tool, we prioritized shipping a complete learning experience over commissioning custom art. If you're an artist interested in contributing official character designs, reach out — we'd love to collaborate.
+ 
+ ---
+diff --git a/public/audio/README.md b/public/audio/README.md
+index 977711b..44a5398 100644
+--- a/public/audio/README.md
++++ b/public/audio/README.md
+@@ -1,13 +1,12 @@
+ # Background music
+ 
+-Drop your friend's track here as:
+-
+-    public/audio/bgm-main.mp3
++`bgm-main.mpeg` is Java-chan's official BGM track, composed by
++Aaron Felix J, Omega Mu Gamma Studio's Music Director.
+ 
+ That exact filename is what `src/hooks/useBgMusic.js` loads (see the
+ `BGM_SRC` constant near the top of that file — change it there if you'd
+-rather use a different filename or an .ogg/.wav file).
++rather swap in a different filename or an .ogg/.wav file).
+ 
+-It will loop automatically. Browsers block autoplay-with-sound until the
++It loops automatically. Browsers block autoplay-with-sound until the
+ visitor interacts with the page, so the hook retries playback on the
+ first click/keydown anywhere on the site — no extra code needed.
+diff --git a/src/components/home/MeetMySisters.css b/src/components/home/MeetMySisters.css
+new file mode 100644
+index 0000000..bd7b009
+--- /dev/null
++++ b/src/components/home/MeetMySisters.css
+@@ -0,0 +1,153 @@
++.sisters-rail {
++  display: flex;
++  flex-direction: column;
++  gap: 4px;
++  min-width: 0;
++  margin-top: 8px;
++}
++
++.sisters-title {
++  display: flex;
++  align-items: center;
++  gap: 10px;
++  font-family: var(--font-display);
++  font-size: 0.75rem;
++  color: var(--color-text-muted);
++  text-transform: uppercase;
++  letter-spacing: 0.14em;
++  margin-bottom: 2px;
++}
++
++.sisters-title-bar {
++  display: inline-block;
++  width: 3px;
++  height: 14px;
++  border-radius: 2px;
++  background: linear-gradient(to bottom, var(--color-pink), var(--color-purple));
++}
++
++.sisters-subtitle {
++  font-size: 0.76rem;
++  color: var(--color-text-faint);
++  margin-bottom: 14px;
++}
++
++.sisters-list {
++  display: flex;
++  flex-direction: column;
++  gap: 10px;
++}
++
++.sister-card {
++  position: relative;
++  display: flex;
++  align-items: center;
++  gap: 12px;
++  padding: 12px 14px;
++  border-radius: var(--radius-lg);
++  background: rgba(255, 255, 255, 0.025);
++  border: 1px solid var(--color-border);
++  backdrop-filter: blur(10px);
++  -webkit-backdrop-filter: blur(10px);
++  text-decoration: none;
++  color: inherit;
++  overflow: hidden;
++  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), transform var(--transition-fast);
++}
++
++.sister-card::before {
++  content: '';
++  position: absolute;
++  top: 0; left: 0; right: 0;
++  height: 2px;
++  background: linear-gradient(90deg, var(--sister-accent-dark), var(--sister-accent));
++  opacity: 0.85;
++}
++
++.sister-card:hover {
++  border-color: var(--sister-accent);
++  box-shadow: var(--shadow-md), 0 0 16px color-mix(in srgb, var(--sister-accent) 35%, transparent);
++  transform: translateY(-2px);
++}
++
++.sister-card:hover .sister-card-arrow {
++  opacity: 1;
++  transform: translate(2px, -2px);
++}
++
++.sister-card--self {
++  border-color: var(--color-border-accent);
++}
++
++.sister-card-badge {
++  flex-shrink: 0;
++  width: 40px;
++  height: 40px;
++  border-radius: var(--radius-md);
++  display: flex;
++  align-items: center;
++  justify-content: center;
++  font-size: 1.15rem;
++  background: linear-gradient(155deg, color-mix(in srgb, var(--sister-accent) 35%, transparent), color-mix(in srgb, var(--sister-accent-dark) 55%, transparent));
++  border: 1px solid color-mix(in srgb, var(--sister-accent) 45%, transparent);
++  box-shadow: 0 0 14px color-mix(in srgb, var(--sister-accent) 25%, transparent);
++}
++
++.sister-card-body {
++  display: flex;
++  flex-direction: column;
++  gap: 2px;
++  min-width: 0;
++}
++
++.sister-card-name {
++  font-size: 0.85rem;
++  font-weight: 700;
++  color: var(--color-text);
++  display: flex;
++  align-items: center;
++  gap: 6px;
++}
++
++.sister-card-you {
++  font-size: 0.6rem;
++  font-weight: 700;
++  text-transform: uppercase;
++  letter-spacing: 0.06em;
++  color: var(--color-pink-light);
++  background: var(--color-pink-glow);
++  border: 1px solid var(--color-border-accent);
++  padding: 1px 6px;
++  border-radius: var(--radius-full);
++}
++
++.sister-card-tagline {
++  font-size: 0.72rem;
++  line-height: 1.35;
++  color: var(--color-text-muted);
++  overflow: hidden;
++  text-overflow: ellipsis;
++  display: -webkit-box;
++  -webkit-line-clamp: 2;
++  -webkit-box-orient: vertical;
++}
++
++.sister-card-arrow {
++  flex-shrink: 0;
++  font-size: 0.9rem;
++  color: var(--sister-accent);
++  opacity: 0.5;
++  transition: opacity var(--transition-fast), transform var(--transition-fast);
++  align-self: flex-start;
++  margin-top: 2px;
++}
++
++@media (max-width: 1000px) {
++  .sisters-list {
++    flex-direction: row;
++    flex-wrap: wrap;
++  }
++  .sister-card {
++    flex: 1 1 220px;
++  }
++}
+diff --git a/src/components/home/MeetMySisters.jsx b/src/components/home/MeetMySisters.jsx
+new file mode 100644
+index 0000000..c0f0494
+--- /dev/null
++++ b/src/components/home/MeetMySisters.jsx
+@@ -0,0 +1,124 @@
++import './MeetMySisters.css';
++
++/**
++ * MeetMySisters
++ * A "family photo" rail — one card per sibling *-chan site in the studio.
++ * Home page only, always visible (no longer buried in a drawer). Each card
++ * carries that language's own accent color + a badge (glyph) instead of an
++ * imported image, so there's no external asset dependency and every card
++ * renders crisp regardless of what the target site looks like today.
++ */
++
++const SISTERS = [
++  {
++    id: 'java',
++    name: 'Java-chan',
++    lang: 'Java',
++    glyph: '☕',
++    tagline: 'Write once, run everywhere (eventually).',
++    url: 'https://java-chan.vercel.app',
++    accent: '#e76f00',
++    accentDark: '#8a4300',
++    isSelf: true,
++  },
++  {
++    id: 'cpp',
++    name: 'C++-chan',
++    lang: 'C++',
++    glyph: '⚙️',
++    tagline: 'Manages her own memory. Judges you for not.',
++    url: 'https://plusplus-chan.vercel.app',
++    accent: '#659ad2',
++    accentDark: '#2a4a75',
++  },
++  {
++    id: 'rust',
++    name: 'Rust-chan',
++    lang: 'Rust',
++    glyph: '🦀',
++    tagline: "Won't let you ship until it's actually safe.",
++    url: 'https://rust-chan.vercel.app',
++    accent: '#dea584',
++    accentDark: '#7a4f30',
++  },
++  {
++    id: 'go',
++    name: 'Go-chan',
++    lang: 'Go',
++    glyph: '⬡',
++    tagline: 'Simple, concurrent, gopher-approved.',
++    url: 'https://go-chan.vercel.app',
++    accent: '#00add8',
++    accentDark: '#00566c',
++  },
++  {
++    id: 'kotlin',
++    name: 'Kotlin-chan',
++    lang: 'Kotlin',
++    glyph: '◆',
++    tagline: "Java's cooler younger cousin.",
++    url: 'https://kotlin-chan.vercel.app',
++    accent: '#7f52ff',
++    accentDark: '#3f2880',
++  },
++  {
++    id: 'csharp',
++    name: 'C#-chan',
++    lang: 'C#',
++    glyph: '♯',
++    tagline: 'Elegant, structured, semicolon-loyal.',
++    url: 'https://sharp-chan.vercel.app',
++    accent: '#9b4f96',
++    accentDark: '#4d284b',
++  },
++  {
++    id: 'python',
++    name: 'Python-chan',
++    lang: 'Python',
++    glyph: '🐍',
++    tagline: 'Friendly, readable, a little bit magical.',
++    url: 'https://python-chan.vercel.app',
++    accent: '#4f9ed6',
++    accentDark: '#c9a227',
++  },
++];
++
++const MeetMySisters = () => {
++  return (
++    <aside className="sisters-rail" aria-label="Meet my sisters">
++      <h2 className="sisters-title">
++        <span className="sisters-title-bar" />
++        Meet My Sisters
++      </h2>
++      <p className="sisters-subtitle">Same studio. Different language. No mercy.</p>
++
++      <div className="sisters-list">
++        {SISTERS.map((s) => (
++          <a
++            key={s.id}
++            className={`sister-card ${s.isSelf ? 'sister-card--self' : ''}`}
++            href={s.url}
++            target="_blank"
++            rel="noopener noreferrer"
++            style={{
++              '--sister-accent': s.accent,
++              '--sister-accent-dark': s.accentDark,
++            }}
++          >
++            <span className="sister-card-badge">{s.glyph}</span>
++            <span className="sister-card-body">
++              <span className="sister-card-name">
++                {s.name}
++                {s.isSelf && <span className="sister-card-you">that's me</span>}
++              </span>
++              <span className="sister-card-tagline">{s.tagline}</span>
++            </span>
++            <span className="sister-card-arrow">↗</span>
++          </a>
++        ))}
++      </div>
++    </aside>
++  );
++};
++
++export default MeetMySisters;
+diff --git a/src/components/layout/AppLayout.css b/src/components/layout/AppLayout.css
+index 4994a40..0213bc9 100644
+--- a/src/components/layout/AppLayout.css
++++ b/src/components/layout/AppLayout.css
+@@ -101,26 +101,6 @@
+   gap: 10px;
+ }
+ 
+-.siblings-open-btn {
+-  display: flex;
+-  align-items: center;
+-  justify-content: center;
+-  width: 36px;
+-  height: 36px;
+-  background: none;
+-  border: none;
+-  font-size: 1.15rem;
+-  cursor: pointer;
+-  border-radius: var(--radius-sm);
+-  transition: background var(--transition-fast), transform var(--transition-fast);
+-  flex-shrink: 0;
+-}
+-
+-.siblings-open-btn:hover {
+-  background: var(--color-border);
+-  transform: scale(1.1);
+-}
+-
+ /* ---- Main Content ---- */
+ .main-content {
+   grid-area: main;
+diff --git a/src/components/layout/AppLayout.jsx b/src/components/layout/AppLayout.jsx
+index 03dc4d2..6bc9162 100644
+--- a/src/components/layout/AppLayout.jsx
++++ b/src/components/layout/AppLayout.jsx
+@@ -1,7 +1,6 @@
+ import { useState } from 'react';
+ import { Outlet } from 'react-router-dom';
+ import Sidebar from '../ui/Sidebar';
+-import SiblingsPanel from '../ui/SiblingsPanel';
+ import BottomBar from '../ui/BottomBar';
+ import MusicPlayer from '../ui/MusicPlayer';
+ import JavaChan from '../character/JavaChan';
+@@ -23,7 +22,6 @@ import './AppLayout.css';
+  */
+ const AppLayout = () => {
+   const [sidebarOpen, setSidebarOpen] = useState(false);
+-  const [siblingsOpen, setSiblingsOpen] = useState(false);
+   const { equippedWallpaper } = useProgress();
+   const wallpaper = getShopItem(equippedWallpaper);
+   const themeClass = wallpaper?.themeClass || '';
+@@ -40,17 +38,11 @@ const AppLayout = () => {
+       {/* Sidebar overlay */}
+       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+ 
+-      {/* Sisters overlay */}
+-      <SiblingsPanel isOpen={siblingsOpen} onClose={() => setSiblingsOpen(false)} />
+-
+       {/* Overlay backdrop */}
+-      {(sidebarOpen || siblingsOpen) && (
++      {sidebarOpen && (
+         <div
+           className="sidebar-backdrop"
+-          onClick={() => {
+-            setSidebarOpen(false);
+-            setSiblingsOpen(false);
+-          }}
++          onClick={() => setSidebarOpen(false)}
+         />
+       )}
+ 
+@@ -72,14 +64,6 @@ const AppLayout = () => {
+ 
+         <div className="topbar-actions">
+           <MusicPlayer />
+-          <button
+-            className="siblings-open-btn"
+-            onClick={() => setSiblingsOpen(true)}
+-            aria-label="Meet my sisters"
+-            title="Meet my sisters"
+-          >
+-            👯‍♀️
+-          </button>
+         </div>
+       </header>
+ 
+diff --git a/src/components/ui/SiblingsPanel.css b/src/components/ui/SiblingsPanel.css
+deleted file mode 100644
+index e888e82..0000000
+--- a/src/components/ui/SiblingsPanel.css
++++ /dev/null
+@@ -1,134 +0,0 @@
+-.siblings-panel {
+-  position: fixed;
+-  top: 0;
+-  right: 0;
+-  width: var(--sidebar-width);
+-  height: 100vh;
+-  background: var(--color-surface);
+-  border-left: 1px solid var(--color-border-accent);
+-  z-index: 50;
+-  display: flex;
+-  flex-direction: column;
+-  transform: translateX(100%);
+-  transition: transform var(--transition-slow);
+-  box-shadow: var(--shadow-lg);
+-}
+-
+-.siblings-panel--open {
+-  transform: translateX(0);
+-}
+-
+-.siblings-header {
+-  display: flex;
+-  align-items: center;
+-  justify-content: space-between;
+-  padding: 16px 20px;
+-  border-bottom: 1px solid var(--color-border);
+-}
+-
+-.siblings-title {
+-  font-family: var(--font-display);
+-  font-size: 1.2rem;
+-  color: var(--color-pink-light);
+-}
+-
+-.siblings-close {
+-  background: none;
+-  border: none;
+-  color: var(--color-text-muted);
+-  font-size: 1rem;
+-  cursor: pointer;
+-  padding: 4px 8px;
+-  border-radius: var(--radius-sm);
+-  transition: color var(--transition-fast), background var(--transition-fast);
+-}
+-
+-.siblings-close:hover {
+-  color: var(--color-text);
+-  background: var(--color-border);
+-}
+-
+-.siblings-subtitle {
+-  padding: 12px 20px 0;
+-  color: var(--color-text-muted);
+-  font-size: 0.8rem;
+-}
+-
+-.siblings-list {
+-  list-style: none;
+-  padding: 12px;
+-  overflow-y: auto;
+-  display: flex;
+-  flex-direction: column;
+-  gap: 10px;
+-}
+-
+-.siblings-card {
+-  display: flex;
+-  align-items: center;
+-  justify-content: space-between;
+-  gap: 8px;
+-  padding: 12px 14px;
+-  border-radius: var(--radius-md);
+-  background: var(--color-surface-2);
+-  border: 1px solid var(--color-border);
+-  border-left: 3px solid var(--accent, var(--color-pink));
+-  text-decoration: none;
+-  color: var(--color-text);
+-  cursor: pointer;
+-  transition: background var(--transition-fast), transform var(--transition-fast);
+-}
+-
+-.siblings-card:hover {
+-  background: var(--color-border);
+-  transform: translateX(-2px);
+-}
+-
+-.siblings-card--current {
+-  cursor: default;
+-  opacity: 0.75;
+-}
+-
+-.siblings-card--current:hover {
+-  transform: none;
+-  background: var(--color-surface-2);
+-}
+-
+-.siblings-card-text {
+-  display: flex;
+-  flex-direction: column;
+-  gap: 2px;
+-  min-width: 0;
+-}
+-
+-.siblings-card-name {
+-  font-weight: 700;
+-  font-size: 0.9rem;
+-  color: var(--accent, var(--color-pink-light));
+-}
+-
+-.siblings-card-tagline {
+-  font-size: 0.72rem;
+-  color: var(--color-text-muted);
+-  overflow: hidden;
+-  text-overflow: ellipsis;
+-  white-space: nowrap;
+-}
+-
+-.siblings-card-arrow {
+-  flex-shrink: 0;
+-  color: var(--color-text-muted);
+-  font-size: 0.9rem;
+-}
+-
+-.siblings-card-badge {
+-  flex-shrink: 0;
+-  font-size: 0.65rem;
+-  font-weight: 700;
+-  text-transform: uppercase;
+-  letter-spacing: 0.04em;
+-  color: var(--color-success);
+-  background: var(--color-success-glow);
+-  padding: 3px 8px;
+-  border-radius: var(--radius-full);
+-}
+diff --git a/src/components/ui/SiblingsPanel.jsx b/src/components/ui/SiblingsPanel.jsx
+deleted file mode 100644
+index cc2fc88..0000000
+--- a/src/components/ui/SiblingsPanel.jsx
++++ /dev/null
+@@ -1,53 +0,0 @@
+-import SIBLING_SITES from '../../data/siblings';
+-import './SiblingsPanel.css';
+-
+-/**
+- * SiblingsPanel.jsx
+- *
+- * Right-side drawer — mirror of Sidebar.jsx but slides in from the
+- * right edge. Lists the other -chan sites as external links.
+- */
+-const SiblingsPanel = ({ isOpen, onClose }) => {
+-  return (
+-    <aside className={`siblings-panel ${isOpen ? 'siblings-panel--open' : ''}`}>
+-      <div className="siblings-header">
+-        <span className="siblings-title">Meet My Sisters</span>
+-        <button className="siblings-close" onClick={onClose} aria-label="Close sisters panel">✕</button>
+-      </div>
+-
+-      <p className="siblings-subtitle">Same energy, different languages.</p>
+-
+-      <ul className="siblings-list">
+-        {SIBLING_SITES.map((site) => (
+-          <li key={site.id}>
+-            {site.current ? (
+-              <div className="siblings-card siblings-card--current" style={{ '--accent': site.accent }}>
+-                <div className="siblings-card-text">
+-                  <span className="siblings-card-name">{site.name}</span>
+-                  <span className="siblings-card-tagline">{site.tagline}</span>
+-                </div>
+-                <span className="siblings-card-badge">You're here</span>
+-              </div>
+-            ) : (
+-              <a
+-                className="siblings-card"
+-                href={site.url}
+-                target="_blank"
+-                rel="noopener noreferrer"
+-                style={{ '--accent': site.accent }}
+-              >
+-                <div className="siblings-card-text">
+-                  <span className="siblings-card-name">{site.name}</span>
+-                  <span className="siblings-card-tagline">{site.tagline}</span>
+-                </div>
+-                <span className="siblings-card-arrow">↗</span>
+-              </a>
+-            )}
+-          </li>
+-        ))}
+-      </ul>
+-    </aside>
+-  );
+-};
+-
+-export default SiblingsPanel;
+diff --git a/src/data/siblings.js b/src/data/siblings.js
+deleted file mode 100644
+index 46ceb3d..0000000
+--- a/src/data/siblings.js
++++ /dev/null
+@@ -1,61 +0,0 @@
+-/**
+- * siblings.js
+- *
+- * The rest of the -chan family. Each is its own deployed site.
+- * `current: true` marks the one the visitor is already on, so the
+- * panel can show a "you're here" state instead of a dead link.
+- */
+-const SIBLING_SITES = [
+-  {
+-    id: 'java',
+-    name: 'Java-chan',
+-    tagline: 'Write once, run everywhere (eventually)',
+-    url: 'https://java-chan.vercel.app',
+-    accent: '#e76f00',
+-    current: true,
+-  },
+-  {
+-    id: 'cpp',
+-    name: 'C++-chan',
+-    tagline: 'Fast, powerful, dangerously sharp',
+-    url: 'https://plusplus-chan.vercel.app',
+-    accent: '#659ad2',
+-  },
+-  {
+-    id: 'rust',
+-    name: 'Rust-chan',
+-    tagline: 'Memory-safe and fiercely independent',
+-    url: 'https://rust-chan.vercel.app',
+-    accent: '#dea584',
+-  },
+-  {
+-    id: 'go',
+-    name: 'Go-chan',
+-    tagline: 'Simple, concurrent, gopher-approved',
+-    url: 'https://go-chan.vercel.app',
+-    accent: '#00add8',
+-  },
+-  {
+-    id: 'kotlin',
+-    name: 'Kotlin-chan',
+-    tagline: "Java's cooler younger cousin",
+-    url: 'https://kotlin-chan.vercel.app',
+-    accent: '#7f52ff',
+-  },
+-  {
+-    id: 'csharp',
+-    name: 'C#-chan',
+-    tagline: 'Elegant, structured, semicolon-loyal',
+-    url: 'https://sharp-chan.vercel.app',
+-    accent: '#9b4f96',
+-  },
+-  {
+-    id: 'python',
+-    name: 'Python-chan',
+-    tagline: 'Friendly, readable, a little bit magical',
+-    url: 'https://python-chan.vercel.app',
+-    accent: '#ffd43b',
+-  },
+-];
+-
+-export default SIBLING_SITES;
+diff --git a/src/hooks/useBgMusic.js b/src/hooks/useBgMusic.js
+index d9b8fe2..63ed373 100644
+--- a/src/hooks/useBgMusic.js
++++ b/src/hooks/useBgMusic.js
+@@ -5,8 +5,9 @@ import storageService from '../services/storageService';
+  * useBgMusic()
+  *
+  * Loops a background music track for the whole app.
+- * Drop your track at /public/audio/bgm-main.mp3 (any filename works,
+- * just update BGM_SRC below).
++ * BGM composed by Aaron Felix J, Omega Mu Gamma Studio's Music Director.
++ * Track lives at /public/audio/bgm-main.mpeg — update BGM_SRC below if
++ * the filename changes.
+  *
+  * - Volume + mute are persisted to the same 'javachan-settings' bucket
+  *   useSound() already uses, under bgmVolume / bgmMuted.
+diff --git a/src/pages/Home.css b/src/pages/Home.css
+index 0664e59..c6eaa23 100644
+--- a/src/pages/Home.css
++++ b/src/pages/Home.css
+@@ -249,52 +249,3 @@
+   text-align: right;
+ }
+ 
+-/* ── SISTER LINK WHISPER ── */
+-.home-sister-link {
+-  display: flex;
+-  align-items: center;
+-  gap: 10px;
+-  padding: 11px 16px;
+-  border: 1px solid rgba(110, 180, 255, 0.15);
+-  border-radius: var(--radius-md);
+-  text-decoration: none;
+-  background: rgba(110, 180, 255, 0.03);
+-  transition: all var(--transition-base);
+-  margin-top: -8px;
+-}
+-
+-.home-sister-link:hover {
+-  border-color: rgba(110, 180, 255, 0.35);
+-  background: rgba(110, 180, 255, 0.07);
+-}
+-
+-.home-sister-icon {
+-  font-size: 1rem;
+-  color: var(--color-blue);
+-  opacity: 0.6;
+-  flex-shrink: 0;
+-}
+-
+-.home-sister-text {
+-  flex: 1;
+-  font-size: 0.78rem;
+-  color: var(--color-text-muted);
+-  line-height: 1.4;
+-}
+-
+-.home-sister-text strong {
+-  color: var(--color-blue-light);
+-  font-weight: 600;
+-}
+-
+-.home-sister-arrow {
+-  font-size: 0.8rem;
+-  color: var(--color-blue);
+-  opacity: 0.5;
+-  flex-shrink: 0;
+-  transition: opacity var(--transition-fast);
+-}
+-
+-.home-sister-link:hover .home-sister-arrow {
+-  opacity: 1;
+-}
+\ No newline at end of file
+diff --git a/src/pages/Home.jsx b/src/pages/Home.jsx
+index 1483510..444b3cc 100644
+--- a/src/pages/Home.jsx
++++ b/src/pages/Home.jsx
+@@ -2,6 +2,7 @@ import { useEffect } from 'react';
+ import { useNavigate } from 'react-router-dom';
+ import { useProgress } from '../hooks/useProgress';
+ import useLessonStore from '../store/lessonStore';
++import MeetMySisters from '../components/home/MeetMySisters';
+ import './Home.css';
+ 
+ const UNITS = [
+@@ -136,19 +137,8 @@ const Home = () => {
+         </div>
+       </div>
+ 
+-      {/* ── SISTER APP WHISPER ── */}
+-      <a
+-        className="home-sister-link"
+-        href="https://plusplus-chan.vercel.app"
+-        target="_blank"
+-        rel="noopener noreferrer"
+-      >
+-        <span className="home-sister-icon">⬡</span>
+-        <span className="home-sister-text">
+-          Enjoying this? Meet <strong>PlusPlus-chan</strong> — Java-chan's C++ sister.
+-        </span>
+-        <span className="home-sister-arrow">↗</span>
+-      </a>
++      {/* ── MEET MY SISTERS ── */}
++      <MeetMySisters />
+ 
+     </div>
+   );

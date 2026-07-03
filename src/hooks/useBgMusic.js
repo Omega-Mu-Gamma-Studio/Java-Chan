@@ -5,8 +5,9 @@ import storageService from '../services/storageService';
  * useBgMusic()
  *
  * Loops a background music track for the whole app.
- * Drop your track at /public/audio/bgm-main.mp3 (any filename works,
- * just update BGM_SRC below).
+ * BGM composed by Aaron Felix J, Omega Mu Gamma Studio's Music Director.
+ * Track lives at /public/audio/bgm-main.mpeg — update BGM_SRC below if
+ * the filename changes.
  *
  * - Volume + mute are persisted to the same 'javachan-settings' bucket
  *   useSound() already uses, under bgmVolume / bgmMuted.

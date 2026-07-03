@@ -352,6 +352,8 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 **Character Art**: Java-chan's sprites were generated using AI tools and hand-curated for expression consistency by [@albertofelix08](https://github.com/albertofelix08). All character designs are proprietary to Omega Mu Gamma Studio.
 
+**Music**: Java-chan's background music was composed by Aaron Felix J, Omega Mu Gamma Studio's Music Director.
+
 **Note**: As a free, open-source educational tool, we prioritized shipping a complete learning experience over commissioning custom art. If you're an artist interested in contributing official character designs, reach out — we'd love to collaborate.
 
 ---

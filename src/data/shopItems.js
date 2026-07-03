@@ -268,10 +268,7 @@ export const SHOP_ITEMS = [
     description: 'Track jacket, running shorts, ponytail. Competitive energy.',
     comingSoon: false,
   },
-  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
-
-
-  {
+    {
     id: 'outfit-off-the-clock',
     type: 'outfit',
     name: 'Off The Clock',
@@ -279,11 +276,23 @@ export const SHOP_ITEMS = [
     emoji: '🌞',
     accent: '#ffcc6e',
     filter: 'none',
-    spriteOverrides: null,
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/sundress/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/sundress/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/sundress/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/sundress/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/sundress/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/sundress/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/sundress/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Cream/orange sundress, relaxed and fully off the clock.',
-    comingSoon: true,
+    comingSoon: false,
   },
+  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
+
+
+
   {
     id: 'outfit-winter-coat',
     type: 'outfit',

@@ -289,8 +289,6 @@ export const SHOP_ITEMS = [
     description: 'Cream/orange sundress, relaxed and fully off the clock.',
     comingSoon: false,
   },
-  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
-
 
 
   {
@@ -301,10 +299,18 @@ export const SHOP_ITEMS = [
     emoji: '🧣',
     accent: '#a8c4e0',
     filter: 'none',
-    spriteOverrides: null,
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/winter/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/winter/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/winter/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/winter/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/winter/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/winter/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/winter/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Long warm coat, scarf, earmuffs. Winter-ready.',
-    comingSoon: true,
+    comingSoon: false,
   },
   {
     id: 'outfit-tshirt-shorts',
@@ -327,6 +333,8 @@ export const SHOP_ITEMS = [
     description: 'Orange/black tee, grey shorts, sneakers. Casual and comfy.',
     comingSoon: false,
   },
+  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
+
   {
     id: 'outfit-ripped-crop',
     type: 'outfit',

@@ -12,7 +12,7 @@
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-0055ff)](https://www.framer.com/motion/)
 [![License: PolyForm Noncommercial](https://img.shields.io/badge/License-PolyForm_Noncommercial-blue)](./LICENSE)
 
-Built by [Omega Mu Gamma Studio](https://github.com/Omega-Mu-Gamma-Studio) · the team behind [SeeDS](https://see-ds.vercel.app), [KMapX](https://kmapx.vercel.app), [EG Suite](https://eg-suite.vercel.app), [GateLab](https://gatelab.vercel.app), [PlusPlus-Chan](https://plusplus-chan.vercel.app), [ArchVisor](https://arch-visor.vercel.app), and [ThermOS](https://thermos-omg.vercel.app).
+Built by [Omega Mu Gamma Studio](https://github.com/Omega-Mu-Gamma-Studio) — Java-chan is the flagship of the **Chan series**, a family of anime-mascot programming tutors that also includes [Python-Chan](https://python-chan.vercel.app), [Rust-Chan](https://rust-chan.vercel.app), [Go-Chan](https://go-chan.vercel.app), [Sharp-Chan](https://sharp-chan.vercel.app) (C#), [Kotlin-Chan](https://kotlin-chan.vercel.app), and [PlusPlus-Chan](https://plusplus-chan.vercel.app) (C++). The studio also builds [SeeDS](https://see-ds.vercel.app), [KMapX](https://kmapx.vercel.app), [EG Suite](https://eg-suite.vercel.app), [GateLab](https://gatelab.vercel.app), [ArchVisor](https://arch-visor.vercel.app), [ThermOS](https://thermos-omg.vercel.app), and [BlockBeats](https://github.com/Omega-Mu-Gamma-Studio/BlockBeats).
 
 </div>
 
@@ -85,87 +85,70 @@ All five units are complete, published, and available from day one.
 ### 🎮 Progression & Rewards
 - **XP system** — earn XP on lesson completion; bonus XP for first-attempt success and hint-free runs
 - **10 levels** — clear thresholds (100 XP per level) with a persistent progress bar
-- **Level-gated cosmetics** — one new reward unlocks per level, alternating wallpapers and outfits
+- **Level-gated cosmetics** — odd levels unlock a new app theme; even levels unlock outfit choices (two at once from level 2–8, three at level 10)
 - **localStorage persistence** — no account needed, progress is saved in the browser
 
 ### 🎨 The Shop
-The shop has two sections — cosmetics that change the app itself, and downloadable wallpapers for your device.
+The shop has three sections — app-wide themes, character outfits, and downloadable wallpapers for your device. Everything below is live and unlockable; nothing in the shop is a locked preview anymore.
 
-**App Themes** (equippable backgrounds):
+**App Themes** (equippable backgrounds) — 5 total:
 
 | Level | Item | Style |
 |-------|------|-------|
 | 1 | Terminal Black 🖤 | The classic void |
-| 3 | Sakura Compile 🌸 | Cherry blossom dark |
-| 5 | Neon Server Room 🌃 | Late-night blue |
-| 7 | Galaxy Stack Overflow 🌌 | Deep space purple |
-| 9 | Golden Hour Bytecode 🌇 | Amber sunset |
+| 3 | Sakura Study 🌸 | Cherry blossom dark |
+| 5 | Neon Night Compile 🌃 | Late-night blue |
+| 7 | Platform at Dusk 🚉 | Train pulling in, golden light, day fading |
+| 9 | Golden Hour Debug 🌇 | Amber sunset |
 
-**Character Outfits** (equippable; all with full 6-expression sprite art):
+**Character Outfits** (equippable; all 12 now ship with full 6-expression sprite art — no filter-tint placeholders left):
 
-| Level | Outfit | Vibe |
-|-------|--------|------|
+| Level | Outfits | Vibe |
+|-------|---------|------|
 | 1 | Classic Hoodie 🧡 | Her signature look, always equipped |
-| 2 | Casual Hoodie 🧥 | Off the clock, still ready to debug |
-| 4 | School Uniform 🎀 | Sailor-collar edition |
-| 6 | Magical Girl Debugger 🪄 | Gold robe, glowing `{ }` staff |
-| 8 | Streetwear Hacker 🕶️ | All black, green cuffs |
-| 10 | Legendary Kimono 👘 | For students who made it |
+| 2 | Casual Hoodie 🧥 · Barista ☕ | Off-the-clock hoodie, or apron + Java-logo latte art |
+| 4 | School Uniform 🎀 · Sports Day 🏃 | Sailor-collar edition, or track jacket + ponytail |
+| 6 | Magical Girl Debugger 🪄 · Off The Clock 🌞 | Gold robe with glowing `{ }` staff, or a relaxed sundress |
+| 8 | Streetwear Hacker 🕶️ · Winter Coat 🧣 | All black with green cuffs, or scarf-and-earmuffs winter wear |
+| 10 | Legendary Kimono 👘 · Cozy Homewear 👕 · Casual Streetwear 🧢 | For students who made it — three ways to celebrate |
 
-**Downloadable Wallpapers** (phone/desktop art, save to your device):
+**Downloadable Wallpapers** (phone/desktop art, save to your device) — 10 total:
 
 | Level | Wallpaper | Vibe |
 |-------|-----------|------|
-| 3 | Sakura Study 🌸 | Java-chan under a cherry blossom tree, textbook in hand |
-| 5 | Neon Night Compile 🌃 | Late-night session vibes — city glow, code scrolling |
-| 7 | Galaxy Stack 🌌 | Among the stars, someone is still Stack Overflowing |
-| 9 | Golden Hour Debug 🌇 | The build passed at sunset. A perfect moment |
+| 1 | Sakura Study 🌸 | Java-chan under a cherry blossom tree, textbook in hand |
+| 3 | Neon Night Compile 🌃 | Late-night session vibes — city glow, code scrolling |
+| 5 | Platform at Dusk 🚉 | Train pulling in, golden light, the day fading |
+| 6 | Morning Brew ☕ | Café window, early morning, warm steam rising |
+| 7 | Golden Hour Debug 🌇 · Convenience Store Night 🏪 | The build passed at sunset — or a warm konbini glow on a quiet street |
+| 8 | Rainy Afternoon Library 📚 | Velvet armchair, rain on tall windows, warm lamp light |
+| 9 | Track Champion 🏆 · Beach Day 🏖️ | Victory-lap confetti, or sun and sand |
+| 10 | Winter Hot Chocolate ❄️ | Blue-white cold outside, warm amber inside, fairy lights |
 
 > The design rule for every wallpaper: **Java-chan belongs in warm worlds.** Golden light, lived-in spaces, and ordinary moments that feel like home. When the world is cool, she's the warmth inside it.
 
 ### ✨ Character & Expressions
-Java-chan has 6 distinct expressions that fire contextually throughout lessons:
+Java-chan has 7 distinct expression states that fire contextually throughout lessons:
 
 | State | Trigger |
 |-------|---------|
-| `teaching` | Phase 1 — explaining working code |
+| `idle` | Default state — also shown while explaining code in Phase 1 |
+| `idle-sleep` | 45 seconds of no interaction — she dozes off, and wakes on the next click or keypress |
 | `thinking` | Hint mode; waiting for input |
-| `excited` | Correct answer |
-| `oops` | Wrong answer (first few times) |
-| `frustrated` | Repeated wrong attempts |
-| `idle-sleeping` | Idle between interactions |
+| `happy` | Wrong answer, early attempts — a gentle "good try" reaction |
+| `sad` | Repeated wrong attempts |
+| `surprised` | Correct answer |
+| `domain` | A flawless, hint-free answer — triggers the fullscreen Domain Expansion overlay |
 
-Each equipped outfit has its own full set of 6 expression sprites — swapping outfits changes Java-chan's entire look, not just a filter.
+Each equipped outfit has its own full set of matching sprites — swapping outfits changes Java-chan's entire look, not just a filter.
 
-**Domain Expansion** — a fullscreen celebration effect fires on milestone level-ups, complete with confetti.
+**Domain Expansion** — a fullscreen celebration overlay fires on a perfect answer: a radial glow burst, her sprite front and center, the dialogue line, and a "tap anywhere to continue" prompt.
 
----
+### 👯 Meet My Sisters
+A family-photo rail on the home page linking out to every sibling Chan app in the studio — Python-chan, C++-chan, Rust-chan, Go-chan, Kotlin-chan, and C#-chan — each with its own accent color, glyph badge, and one-line tagline. No external image assets, so every card renders crisp no matter what the target site looks like today.
 
-## Coming Soon 🔒
-
-The cosmetics system is built to grow. These appear as locked preview cards in the shop right now — you'll see them coming before they arrive.
-
-### Outfits
-
-| Outfit | Vibe | Notes |
-|--------|------|-------|
-| Barista ☕ | Apron, flower in her hair, latte art shaped like the Java logo | The pun was always in her character DNA. Coffee. Java. It writes itself |
-| Sports Day 🏃 | Tracksuit, hair in a ponytail, competitive energy | A completely different silhouette — every current outfit is loose/flowy |
-| Off the Clock 🌞 | Sundress, no flower accessory (she left it at home) | Warmer and more relaxed than anything in the current set |
-| Winter Coat 🧣 | Long warm coat, scarf, earmuffs | Her oranges and browns in a cozy winter palette. Pairs with Winter Hot Chocolate |
-
-### Downloadable Wallpapers
-
-The current wallpaper set hasn't fully left the study desk yet. Future drops put Java-chan in worlds she *belongs* in — warm, ordinary, and alive.
-
-| Wallpaper | Location | Colour Palette | Mood |
-|-----------|----------|----------------|------|
-| Morning Brew ☕ | Café window, early morning, Java logo coffee cup | Warm amber, soft orange, gold sunrise | She's not coding. She's just existing, smiling. No laptop in sight |
-| Convenience Store Night 🏪 | Walking out of a konbini, warm yellow light spilling out, onigiri in hand | Warm yellow, quiet residential dark | The "she has a life outside coding" wallpaper |
-| Rainy Afternoon Library 📚 | Warm academic library, velvet armchair, rain on tall windows | Rich oranges, deep reds, brown wood | Not the dark hacker room. A place where learning feels good |
-| Spring Festival 🏮 | Outdoor festival, lanterns strung above, cherry blossoms everywhere | Pinks, warm whites, golden lantern light | Her kimono outfit callback. Lanterns floating upward |
-| Rooftop at Golden Hour 🌆 | Rooftop railing, city behind her, sunset ahead | Deep amber, city gold, fading sky | The character poster shot. Java logo embroidered on her jacket. No laptop |
-| Winter Hot Chocolate ❄️ | Warm café by a frosted window, fairy lights, regular cute mug | Blue-white cold outside, warm amber inside | The only cool-toned wallpaper in the set — which makes it feel special |
+### 🎵 Background Music
+A looping background track plays across the whole app, composed by Aaron Felix J. A small pill in the top bar lets students mute it or adjust the volume; if the browser blocks autoplay, it starts on the first click or keypress anywhere on the page. The setting is remembered between visits.
 
 ---
 
@@ -223,6 +206,8 @@ This repo is Vercel-ready with no configuration needed. Connect the repo in the 
 ```
 Java-Chan/
 ├── public/
+│   ├── audio/
+│   │   └── bgm-main.mpeg           # Looping background track (composed by Aaron Felix J)
 │   ├── sprites/                    # Character expressions (base outfit)
 │   │   ├── teaching.png
 │   │   ├── excited.png
@@ -230,33 +215,41 @@ Java-Chan/
 │   │   ├── thinking.png
 │   │   ├── oops.png
 │   │   ├── idle-sleeping.png
-│   │   └── uniforms/               # Outfit-specific sprite sets
-│   │       ├── casual/             # Casual Hoodie (6 expressions)
-│   │       ├── sailor/             # School Uniform (6 expressions)
-│   │       ├── mage/               # Magical Girl Debugger (6 expressions)
-│   │       ├── hacker/             # Streetwear Hacker (6 expressions)
-│   │       └── kimono/             # Legendary Kimono (6 expressions)
-│   └── wallpapers/                 # Downloadable device wallpapers
+│   │   └── uniforms/               # Outfit-specific sprite sets (6 expressions each)
+│   │       ├── casual/             # Casual Hoodie
+│   │       ├── sailor/             # School Uniform
+│   │       ├── mage/               # Magical Girl Debugger
+│   │       ├── hacker/             # Streetwear Hacker
+│   │       ├── kimono/             # Legendary Kimono
+│   │       ├── barista/            # Barista
+│   │       ├── sports/             # Sports Day
+│   │       ├── sundress/           # Off The Clock
+│   │       ├── winter/             # Winter Coat
+│   │       ├── t-shirt/            # Cozy Homewear
+│   │       └── crop/               # Casual Streetwear
+│   └── wallpapers/                 # Downloadable device wallpapers (10 files)
 │
 ├── src/
 │   ├── components/
-│   │   ├── character/JavaChan.jsx  # Sprite renderer; reads spriteOverrides from equipped outfit
-│   │   ├── layout/AppLayout.jsx    # Root layout; applies wallpaper + theme
+│   │   ├── character/JavaChan.jsx  # Sprite renderer + Domain Expansion overlay; reads spriteOverrides
+│   │   ├── layout/AppLayout.jsx    # Root shell; applies wallpaper/theme, mounts topbar + JavaChan
+│   │   ├── home/MeetMySisters.jsx  # Cross-studio sibling rail on the Home page
 │   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator
-│   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar
+│   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar, MusicPlayer
 │   │
 │   ├── data/
 │   │   ├── lessons/                # 75 JSON lesson files (unit1–5, lessons 1–15)
 │   │   ├── units/                  # 5 unit JSON files (id, title, lesson list)
-│   │   └── shopItems.js            # All cosmetic definitions (outfits, wallpapers, downloadables)
+│   │   └── shopItems.js            # All cosmetic definitions (themes, outfits, downloadables)
 │   │
 │   ├── hooks/
 │   │   ├── useLesson.js            # Lesson phase state machine
 │   │   ├── useProgress.js          # Progress store bindings
-│   │   └── useSound.js             # Sound effect hooks
+│   │   ├── useSound.js             # SFX hooks
+│   │   └── useBgMusic.js           # Background music playback, volume, and persistence
 │   │
 │   ├── pages/
-│   │   ├── Home.jsx                # Dashboard / unit selection
+│   │   ├── Home.jsx                # Dashboard / unit selection + Meet My Sisters rail
 │   │   ├── UnitPage.jsx            # Lesson list for a unit
 │   │   ├── LessonPage.jsx          # The actual lesson experience
 │   │   └── Shop.jsx                # Cosmetics shop
@@ -267,7 +260,7 @@ Java-Chan/
 │   │
 │   ├── store/
 │   │   ├── progressStore.js        # Zustand store: XP, level, outfits, progress
-│   │   └── lessonStore.js          # Zustand store: active lesson state
+│   │   └── lessonStore.js          # Zustand store: active lesson state, expression state
 │   │
 │   └── utils/
 │       ├── xpCalculator.js         # XP thresholds, level math, earned XP calculation
@@ -335,8 +328,9 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 ### Phase 1 (Current) ✅
 - All 75 lessons authored and published
-- Full cosmetics system (5 outfits, 5 themes, 4 downloadable wallpapers)
+- Full cosmetics system — 5 app themes, 12 outfits (all with real sprite art), 10 downloadable wallpapers
 - XP/leveling, shop, expressions, domain expansion
+- Meet My Sisters cross-studio rail, background music with volume control
 - localStorage persistence, no account required
 
 ### Phase 2 (Planned)
@@ -360,15 +354,31 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 ## Part of Omega Mu Gamma Studio
 
-Java-chan is the fifth tool from Omega Mu Gamma Studio — a student-built suite of open-source engineering and CS education tools from St. Xavier's Catholic College of Engineering.
+Java-chan is one of the flagship tools from Omega Mu Gamma Studio — a student-built suite of open-source engineering and CS education tools.
+
+**The Chan series** (anime-guided programming tutors, same three-phase teaching model):
+
+| Tool | Language |
+|------|----------|
+| **Java-chan** | Java (CS22301) — *this repo* |
+| [PlusPlus-Chan](https://plusplus-chan.vercel.app) | C++ |
+| [Python-Chan](https://python-chan.vercel.app) | Python |
+| [Rust-Chan](https://rust-chan.vercel.app) | Rust |
+| [Go-Chan](https://go-chan.vercel.app) | Go |
+| [Sharp-Chan](https://sharp-chan.vercel.app) | C# |
+| [Kotlin-Chan](https://kotlin-chan.vercel.app) | Kotlin |
+
+**Other studio tools:**
 
 | Tool | What it does |
 |------|-------------|
-| [SeeDS](https://see-ds.vercel.app) | 3D data structure visualizer with drag-and-drop Playground mode |
-| [KMapX](https://kmapx.vercel.app) | Karnaugh map simplifier with don't-care support |
+| [SeeDS](https://see-ds.vercel.app) | 3D data structure visualizer and bug detector |
+| [KMapX](https://kmapx.vercel.app) | Boolean expression simplifier (Quine–McCluskey) |
 | [EG Suite](https://eg-suite.vercel.app) | 3D Engineering Graphics simulator for ME22201 |
 | [GateLab](https://gatelab.vercel.app) | 2D digital logic schematic playground (CS22303) |
-| **Java-chan** | Anime-guided Java tutor for CS22301 — *this repo* |
+| [ArchVisor](https://arch-visor.vercel.app) | Computer Organization & Architecture platform (CS22304) |
+| [ThermOS](https://thermos-omg.vercel.app) | Interactive modules for Engineering Thermodynamics (ME22301) |
+| [BlockBeats](https://github.com/Omega-Mu-Gamma-Studio/BlockBeats) | Block-based music production and DAW tutor |
 
 ---
 

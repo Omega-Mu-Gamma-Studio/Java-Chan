@@ -315,7 +315,7 @@ export const SHOP_ITEMS = [
   {
     id: 'outfit-tshirt-shorts',
     type: 'outfit',
-    name: 'T-shirt + Shorts',
+    name: 'Cozy Homewear',
     requiredLevel: 10,
     emoji: '👕',
     accent: '#ff8c42',
@@ -333,20 +333,27 @@ export const SHOP_ITEMS = [
     description: 'Orange/black tee, grey shorts, sneakers. Casual and comfy.',
     comingSoon: false,
   },
-  // ─── Coming Soon — Outfits ────────────────────────────────────────────────────
 
   {
     id: 'outfit-ripped-crop',
     type: 'outfit',
-    name: 'Ripped Jeans + Crop Top',
-    requiredLevel: 12,
+    name: 'Casual Streetwear',
+    requiredLevel: 10,
     emoji: '🧢',
     accent: '#6eb4ff',
     filter: 'none',
-    spriteOverrides: null,
+    spriteOverrides: {
+      idle:         { src: '/sprites/uniforms/crop/teaching.png',   blend: false },
+      'idle-sleep': { src: '/sprites/uniforms/crop/idle.png',       blend: false },
+      happy:        { src: '/sprites/uniforms/crop/oops.png',       blend: false },
+      thinking:     { src: '/sprites/uniforms/crop/thinking.png',   blend: false },
+      sad:          { src: '/sprites/uniforms/crop/frustrated.png', blend: false },
+      surprised:    { src: '/sprites/uniforms/crop/excited.png',    blend: false },
+      domain:       { src: '/sprites/uniforms/crop/excited.png',    blend: false },
+    },
     imageSrc: null,
     description: 'Black crop top, ripped jeans, baseball hat. Street style.',
-    comingSoon: true,
+    comingSoon: false,
   },
 ];
 

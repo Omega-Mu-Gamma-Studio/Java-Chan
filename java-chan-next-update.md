@@ -2,7 +2,7 @@
 ### A proposal for the next major content and architecture revision
 
 **Prepared for:** Jack — Omega Mu Gamma Studio
-**Status:** Draft for discussion. No implementation yet.
+**Status:** Draft for discussion. Decisions from review pass incorporated below (see §5).
 
 ---
 
@@ -43,16 +43,14 @@ instead of one.
 ### Why this order works
 Phase 3 is the fix for the scaffolding gap identified earlier: it sits between "read code"
 (Phase 1) and "produce code independently" (Phase 4's self-challenge), giving students a
-rung where they're writing real code but with real structural support. It also reuses
-Phase 2's existing targeted-validation style (checking specific lines/tokens), so it's not
-new grading infrastructure — it's the same mechanism aimed at blanks instead of a whole bug.
+rung where they're writing real code but with real structural support.
 
 ### Why Phase 4 avoids the in-browser-compiler trap
 The self-challenge portion is explicitly **not validated in the browser.** It's a prompt —
 "go write this in your own IDE" — with no pattern-matching against it. This sidesteps the
 single biggest implementation risk of this whole update (see §4.1): we are not trying to
-build or fake a Java interpreter. The MCQ portion stays exact-match gradable exactly like
-today's regex/token system, so Phase 4 needs no new validation tech at all.
+build or fake a Java interpreter. Per §5, this stays a pure honor-system prompt with no XP
+attached, which also keeps Phase 4's *graded* surface limited to the MCQ.
 
 ---
 
@@ -70,13 +68,19 @@ but concretely, it means:
   "watch me break this on purpose" bug always gets the same kind of reaction from her, that
   consistency is what makes her feel like a person who's taught this before, not a
   chatbot generating a fresh quip every lesson.
-- **Difficulty-appropriate personality.** Early lessons and late lessons in a real class don't
-  sound identical — a teacher's jokes evolve as the material gets harder and the relationship
-  with the student matures. Worth deciding whether her tone shifts across units.
+- **Consistent, caring personality — confirmed, not a moving target.** Per §5, her tone stays
+  constant across units rather than shifting with difficulty. She's warm and patient in unit 1
+  and just as warm and patient in unit 12 — harder material gets more encouragement, not less,
+  since that's where students need her most. This also simplifies authoring meaningfully: there's
+  one voice to hold across 75 lessons, not a gradient contributors have to judge "how far along"
+  a given lesson sits on. Difficulty can still shape *what* she says (a harder bug earns a more
+  involved explanation), just not *how caring* she sounds saying it.
 
 **Recommendation before touching all 75 lessons:** draft 2-3 lessons in full target voice
 first (one early/conceptual, one mid-unit/coding, one from a later, harder unit) and get
-those approved as the tone bar, rather than discovering the voice is off after 75 rewrites.
+those approved as the tone bar — with a consistent voice, the test here is simpler than a
+gradient would've required: all three samples should sound recognizably like the *same*
+teacher, just applied to different material.
 
 ---
 
@@ -102,48 +106,101 @@ This is good news: the phase count isn't scattered across the codebase. Extendin
   submission. With Phase 3 now being fill-in-the-blank and Phase 4 holding the MCQ, this
   logic needs to branch by phase type, not assume "phase 3 = the challenge"
 
-### 4.2 JSON schema change
+### 4.2 JSON schema change — and regex is gone from Phase 3
 Every lesson JSON needs `phase4` and `phase5` keys added, and `phase3`'s shape changes
 entirely (from `{ prompt, validationPattern, dialogueHints, solution }` free-coding to a
-fill-in-the-blank shape — something like `{ scaffoldCode, blanks: [{id, answer}], ... }`).
-This is a **breaking schema change**, not additive — old `phase3` consumers (the current
-free-coding challenge) need their logic and content moved to Phase 4's self-challenge slot.
+fill-in-the-blank shape). This is a **breaking schema change**, not additive — old `phase3`
+consumers (the current free-coding challenge) need their logic and content moved to Phase 4's
+self-challenge slot (confirmed in §5 — see 4.3 below).
 
-### 4.3 Content volume
+The key simplification: because each Phase 3 blank has a small, known set of correct fills
+rather than open-ended free text, **regex/pattern validation is no longer needed for Phase 3.**
+A blank can be checked with plain equality against a short accepted-answers list instead of a
+pattern. Proposed shape:
+
+```json
+{
+  "scaffoldCode": "...",
+  "blanks": [
+    {
+      "id": "b1",
+      "answer": ["i++", "i += 1"],
+      "caseSensitive": true
+    }
+  ]
+}
+```
+
+- `answer` is always an array, even for blanks with a single correct fill — this covers
+  legitimate multi-answer cases (`i++` vs `i += 1`) without a schema change later, at
+  effectively zero authoring cost for the common single-answer case.
+- Comparison normalizes whitespace (trim + collapse internal whitespace) before checking
+  against the list, so `i < arr.length` and `i<arr.length` are treated as the same answer.
+- `caseSensitive` defaults to `true` since Java itself is case-sensitive; this flag exists so
+  a lesson author isn't tempted to pad the `answer` array with case variants instead of
+  normalizing properly.
+- Per §5, **the number of blanks per lesson isn't fixed** — it varies by lesson and
+  difficulty. Early/simple lessons might have one key blank; later lessons with more moving
+  parts can have several smaller ones. This should be an authoring judgment call per lesson,
+  not a rule enforced by the schema.
+
+Phase 4's MCQ portion was already exact-match and never used regex, so no change there.
+
+### 4.3 Content volume and Phase 3 → Phase 4 migration
 75 lessons × full explanation rewrite + new Phase 3 scaffold + new Phase 4 MCQ set + new
 Phase 5 trivia is a substantial content lift — this is closer to a rewrite of the course than
 an edit of it. Worth sequencing by unit rather than attempting all 75 at once, so the voice
-can be validated and adjusted early (see §3's recommendation).
+described in §3 can be validated and adjusted early — and because it's one consistent voice
+rather than a gradient, early validation carries forward cleanly to later units instead of
+needing separate calibration per tone-band.
+
+Per §5: **existing free-coding Phase 3 content is repurposed as Phase 4's self-challenge
+prompt**, not discarded. Since Phase 4's self-challenge is an ungraded, honor-system "go try
+this in your own IDE" prompt, most of the existing Phase 3 prompt text should carry over with
+light editing (mainly: dropping any `validationPattern`/grading language, and adjusting phrasing
+since it's no longer the in-browser submission). This meaningfully cuts the content lift for
+Phase 4, since its self-challenge half doesn't need to be written from scratch per lesson.
 
 ### 4.4 Progress/XP model
 `progressStore.js`'s `lessonAttempts` currently tracks attempts on the old single free-coding
 phase and **resets to 0 on completion** — it has no memory of *how* a student struggled, only
 whether they eventually passed. With grading now split across two mechanisms (Phase 3 blanks,
-Phase 4 MCQ + self-challenge), `xpCalculator`'s `calculateEarnedXP` (which currently takes
-`attempts`, `usedHint`, `usedSolution`) needs to decide how XP is weighted across phases —
-e.g., does Phase 3 struggle count toward the same penalty curve as Phase 4 struggle, or are
-they scored independently?
+Phase 4 MCQ), `xpCalculator`'s `calculateEarnedXP` (which currently takes `attempts`,
+`usedHint`, `usedSolution`) needs to decide how XP is weighted across phases. Per the §5
+assumption that Phase 4's self-challenge carries no XP and no tracking, this narrows the open
+question considerably: XP only needs to account for Phase 3 (blanks) and Phase 4's MCQ, not a
+third ungraded surface. Still open: does Phase 3 struggle count toward the same penalty curve
+as Phase 4 MCQ struggle, or are they scored independently?
 
 ### 4.5 Suite-wide implication (brief)
 Java-Chan shares its lesson engine (`LessonCanvas`, `useLesson`, `lessonStore`,
 `progressStore`, the JSON lesson schema) near-identically with PlusPlus-Chan, Go-Chan,
 Kotlin-Chan, Python-Chan, and Rust-Chan. If this update proves out on Java-Chan, the same
 3-file engine change would need to propagate to every sibling — but each sibling's *content*
-rewrite (their own mascot's voice) is a separate, per-app effort of the same scale as this one.
-Recommend treating Java-Chan as the pilot and deferring a decision on suite-wide rollout
-until the voice and 5-phase structure are validated here.
+rewrite (their own mascot's voice, including whether a consistent-tone approach like this
+one suits them too) is a separate, per-app effort of the same scale as this one. Recommend treating
+Java-Chan as the pilot and deferring a decision on suite-wide rollout until the voice and
+5-phase structure are validated here.
 
 ---
 
-## 5. Open questions before implementation starts
+## 5. Decisions from review pass
 
-1. Does Java-chan's tone shift across units (beginner → advanced), or stay constant?
-2. For Phase 3 (fill-in-the-blank), how many blanks per lesson feels right — one key line,
-   or several smaller ones?
-3. For Phase 4's self-challenge, is there any incentive/tracking for a student saying "I did
-   this," or is it purely an honor-system prompt with no XP tied to it?
-4. Should old-Phase-3 content (the existing free-coding challenges) be discarded, or
-   repurposed as Phase 4's self-challenge prompts (likely reusable with light editing)?
+1. **Tone across units:** Confirmed — Java-chan's tone stays consistently caring and patient
+   across all units rather than shifting with difficulty. Harder material can change what she
+   explains and how much support she gives, but not how warm she sounds giving it. Chosen partly
+   because it's more true to a good teacher (patience scales *up* with difficulty, not down) and
+   partly because it's meaningfully easier to write consistently across 75 lessons than a gradient.
+2. **Blanks per Phase 3 lesson:** Confirmed — varies by lesson and difficulty, authoring
+   judgment call rather than a fixed count.
+3. **Old Phase 3 content:** Confirmed — repurposed as Phase 4's self-challenge prompts with
+   light editing, not discarded or rewritten from scratch.
+4. **Phase 4 self-challenge incentive/tracking:** **Assumption, not yet explicitly confirmed**
+   — treated as purely honor-system with no XP or completion tracking attached, since this is
+   what the "not validated in the browser" design in §2/§4.1 implies and it keeps grading
+   surface area limited to Phase 3 blanks + Phase 4 MCQ. Flag if this assumption is wrong —
+   e.g. if even a lightweight "I did this" checkbox (no grading, just a completion flag) is
+   wanted for streak/engagement purposes.
 
 ---
 

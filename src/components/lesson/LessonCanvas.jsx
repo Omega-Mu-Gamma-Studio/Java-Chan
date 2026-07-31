@@ -21,17 +21,22 @@ const LessonCanvas = ({ onComplete }) => {
     setExpression, setDialogue, queueDialogue,
   } = useLessonStore();
 
-  const { completeLesson, recordAttempt, getAttempts } = useProgressStore();
+  const {
+    completeLesson, recordAttempt, getAttempts,
+    toggleSelfChallenge, isSelfChallengeCompleted,
+  } = useProgressStore();
   const { play } = useSound();
 
   const [showSolution, setShowSolution] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
   const [usedSolution, setUsedSolution] = useState(false);
+  const [mcqResult, setMcqResult] = useState(null); // Phase 4 MCQ feedback, separate from phase3's
 
   if (!currentLesson) return null;
 
-  const { phase1, phase2, phase3, id: lessonId, xpReward = 10 } = currentLesson;
+  const { phase1, phase2, phase3, phase4, phase5, id: lessonId, xpReward = 10 } = currentLesson;
   const attempts = getAttempts(lessonId);
+  const selfChallengeDone = isSelfChallengeCompleted(lessonId);
 
   const handlePhaseChange = (phase) => {
     setPhase(phase);
@@ -44,9 +49,19 @@ const LessonCanvas = ({ onComplete }) => {
     } else if (phase === 3) {
       setExpression('surprised');     // excited.png — "your turn, let's GO"
       setDialogue(phase3?.openingDialogue || "Your turn! Give it a shot ✎");
+    } else if (phase === 4) {
+      setExpression('thinking');      // thinking.png — "let's see what you remember"
+      setMcqResult(null);
+      setDialogue(phase4?.openingDialogue || "Quick challenge before we move on~ ❓");
+    } else if (phase === 5) {
+      setExpression('domain');        // sparkle expression — pure fun, no pressure
+      setDialogue(phase5?.openingDialogue || "One more thing before you go... ✨");
     }
   };
 
+  // Phase 3's grading logic (unchanged for now — old free-coding validationPattern
+  // shape stays intact here until the fill-in-the-blank schema change lands; see
+  // java-chan-next-update.md §4.2). "handleSubmit" name kept stable for the JSX below.
   const handleSubmit = () => {
     if (!phase3?.validationPattern) return;
 
@@ -74,12 +89,12 @@ const LessonCanvas = ({ onComplete }) => {
         ]);
         setTimeout(() => {
           setExpression('happy');
-          onComplete?.();
+          handlePhaseChange(4); // Phase 3 feeds into Phase 4, not straight to lesson-complete
         }, 3000);
       } else {
         setExpression('happy');
         setDialogue(result.message);
-        setTimeout(() => onComplete?.(), 2000);
+        setTimeout(() => handlePhaseChange(4), 2000);
       }
     } else {
       play('error');
@@ -106,6 +121,28 @@ const LessonCanvas = ({ onComplete }) => {
     }
   };
 
+  // Phase 4's MCQ half — separate grading surface from Phase 3, per §4.1/§4.4.
+  // Forward-compatible: does nothing if a lesson has no phase4.mcq yet.
+  const handleSubmitMcq = () => {
+    if (!phase4?.mcq?.validationPattern) return;
+
+    const result = validateCode(userCode, phase4.mcq.validationPattern);
+    setMcqResult(result);
+
+    if (result.passed) {
+      play('success');
+      setExpression('happy');
+      // Reuses completeLesson's own guard against double-awarding XP, so this is a
+      // no-op if Phase 3 already completed the lesson. Weighting Phase 3 vs Phase 4
+      // XP independently is still an open question (§4.4) — deferred to the schema step.
+      const xpEarned = calculateEarnedXP({ baseXP: xpReward, attempts: 1, usedHint: false, usedSolution: false });
+      completeLesson(lessonId, xpEarned);
+    } else {
+      play('error');
+      setExpression('thinking');
+    }
+  };
+
   return (
     <div className="lesson-canvas">
       <PhaseIndicator
@@ -123,7 +160,7 @@ const LessonCanvas = ({ onComplete }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
           >
-            <h2 className="phase-heading phase-heading--work">▶ See It Work</h2>
+            <h2 className="phase-heading phase-heading--work">▶ Learn It With Me</h2>
             <p className="phase-explanation">{phase1?.explanation}</p>
             {phase1?.code && (
               <CodeBlock code={phase1.code} label="Working Code" />
@@ -138,7 +175,7 @@ const LessonCanvas = ({ onComplete }) => {
               className="btn btn-primary"
               onClick={() => handlePhaseChange(2)}
             >
-              Next: See It Break →
+              Next: See the Code →
             </button>
           </motion.div>
         )}
@@ -152,7 +189,7 @@ const LessonCanvas = ({ onComplete }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
           >
-            <h2 className="phase-heading phase-heading--break">✕ See It Break</h2>
+            <h2 className="phase-heading phase-heading--break">✕ See the Code</h2>
             <p className="phase-explanation">{phase2?.explanation}</p>
             {phase2?.brokenCode && (
               <CodeBlock code={phase2.brokenCode} label="Broken Code" />
@@ -167,7 +204,7 @@ const LessonCanvas = ({ onComplete }) => {
               className="btn btn-primary"
               onClick={() => handlePhaseChange(3)}
             >
-              Next: You Try →
+              Next: Code It With Me →
             </button>
           </motion.div>
         )}
@@ -181,7 +218,7 @@ const LessonCanvas = ({ onComplete }) => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
           >
-            <h2 className="phase-heading phase-heading--try">✎ You Try</h2>
+            <h2 className="phase-heading phase-heading--try">✎ Code It With Me</h2>
             <p className="phase-prompt">{phase3?.prompt}</p>
 
             {/* Hint / Solution display */}
@@ -239,11 +276,91 @@ const LessonCanvas = ({ onComplete }) => {
                 Check Answer ✓
               </button>
               {phase3?.ideRequired && (
-                <button className="btn btn-ghost" onClick={() => onComplete?.()}>
+                <button className="btn btn-ghost" onClick={() => handlePhaseChange(4)}>
                   I Did It (ran in IDE) ✓
                 </button>
               )}
             </div>
+          </motion.div>
+        )}
+
+        {/* ---- Phase 4: Challenge ---- */}
+        {currentPhase === 4 && (
+          <motion.div
+            key="phase4"
+            className="lesson-phase"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+          >
+            <h2 className="phase-heading phase-heading--challenge">❓ Challenge</h2>
+
+            {/* MCQ half — graded, forward-compatible with schema not yet in the JSON */}
+            {phase4?.mcq && (
+              <>
+                <p className="phase-prompt">{phase4.mcq.question}</p>
+                <input
+                  className="mcq-input"
+                  placeholder="Type A, B, C, or D..."
+                  value={userCode}
+                  onChange={e => setUserCode(e.target.value)}
+                  maxLength={1}
+                />
+                {mcqResult && (
+                  <motion.div
+                    className={`validation-feedback validation-feedback--${mcqResult.passed ? 'pass' : 'fail'}`}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    {mcqResult.message}
+                  </motion.div>
+                )}
+                <button className="btn btn-primary" onClick={handleSubmitMcq}>
+                  Check Answer ✓
+                </button>
+              </>
+            )}
+
+            {/* Self-challenge half — ungraded, honor-system, no XP (§5.4) */}
+            <div className="self-challenge-block">
+              <p className="phase-prompt">
+                {phase4?.selfChallenge || phase3?.prompt}
+              </p>
+              <label className="self-challenge-checkbox">
+                <input
+                  type="checkbox"
+                  checked={selfChallengeDone}
+                  onChange={() => toggleSelfChallenge(lessonId)}
+                />
+                I tried this in my own IDE
+              </label>
+            </div>
+
+            <button
+              className="btn btn-primary"
+              onClick={() => handlePhaseChange(5)}
+            >
+              Next: Fun Facts & Trivia →
+            </button>
+          </motion.div>
+        )}
+
+        {/* ---- Phase 5: Fun Facts & Trivia ---- */}
+        {currentPhase === 5 && (
+          <motion.div
+            key="phase5"
+            className="lesson-phase"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
+          >
+            <h2 className="phase-heading phase-heading--trivia">✨ Fun Facts &amp; Trivia</h2>
+            <p className="phase-explanation">
+              {phase5?.trivia || "More lore on this one coming soon~"}
+            </p>
+            <button className="btn btn-primary" onClick={() => onComplete?.()}>
+              Finish Lesson ✓
+            </button>
           </motion.div>
         )}
       </AnimatePresence>

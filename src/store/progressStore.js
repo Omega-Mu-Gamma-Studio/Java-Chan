@@ -31,6 +31,11 @@ const useProgressStore = create(
       rewardsCollected: [],       // array of reward IDs
       equippedWallpaper: 'wallpaper-default', // shop item id
       equippedOutfit: 'outfit-default',       // shop item id
+      selfChallengeCompleted: {}, // { "1.1": true, ... } — Phase 4 "I did this" honor-system
+                                   // flag for the self-challenge prompt. No XP attached —
+                                   // this is a completion marker for streaks/engagement only,
+                                   // not a graded surface (grading stays on Phase 3 blanks +
+                                   // Phase 4 MCQ).
 
       // ---- Actions ----
 
@@ -72,6 +77,24 @@ const useProgressStore = create(
 
       isCompleted: (lessonId) => {
         return !!get().completedLessons[lessonId];
+      },
+
+      /**
+       * Toggle the Phase 4 self-challenge "I did this" checkbox for a lesson.
+       * Purely honor-system — no validation, no XP. Exists so streak/engagement
+       * tracking has something to point at even though the self-challenge itself
+       * is never graded in-browser.
+       */
+      toggleSelfChallenge: (lessonId) => {
+        const state = get();
+        const current = !!state.selfChallengeCompleted[lessonId];
+        set({
+          selfChallengeCompleted: { ...state.selfChallengeCompleted, [lessonId]: !current },
+        });
+      },
+
+      isSelfChallengeCompleted: (lessonId) => {
+        return !!get().selfChallengeCompleted[lessonId];
       },
 
       setLastVisited: (lessonId) => set({ lastVisited: lessonId }),
@@ -140,6 +163,7 @@ const useProgressStore = create(
         rewardsCollected: [],
         equippedWallpaper: 'wallpaper-default',
         equippedOutfit: 'outfit-default',
+        selfChallengeCompleted: {},
       }),
     }),
     {

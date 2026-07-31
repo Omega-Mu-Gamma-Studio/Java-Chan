@@ -14,7 +14,7 @@ import { create } from 'zustand';
 const useLessonStore = create((set, get) => ({
   // ---- State ----
   currentLesson: null,        // full lesson JSON object
-  currentPhase: 1,            // 1 | 2 | 3
+  currentPhase: 1,            // 1 | 2 | 3 | 4 | 5
   userCode: '',               // student's current code input
   lastValidationResult: null, // { passed: bool, message: string }
   javaChanExpression: 'idle', // 'idle' | 'happy' | 'sad' | 'thinking' | 'surprised' | 'domain'

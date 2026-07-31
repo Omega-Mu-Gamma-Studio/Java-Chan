@@ -21,7 +21,7 @@
   height: 2px;
   background: var(--color-border);
   transition: background var(--transition-base);
-  margin: 0 44px; /* approx tab width halves */
+  margin: 0 20px; /* approx tab width halves — smaller now that 5 tabs share the row */
 }
 
 .phase-connector--done {
@@ -35,7 +35,7 @@
   flex-direction: column;
   align-items: center;
   gap: 4px;
-  padding: 8px 16px;
+  padding: 8px 6px;
   background: none;
   border: none;
   cursor: pointer;
@@ -76,12 +76,15 @@
 }
 
 .phase-tab-label {
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
   color: var(--color-text-muted);
-  white-space: nowrap;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.15;
+  max-width: 76px;
 }
 
 .phase-tab--active .phase-tab-label {

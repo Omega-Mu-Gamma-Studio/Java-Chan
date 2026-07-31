@@ -19,9 +19,28 @@
   letter-spacing: 0.02em;
 }
 
-.phase-heading--work  { color: var(--color-success); }
-.phase-heading--break { color: var(--color-error); }
-.phase-heading--try   { color: var(--color-pink-light); }
+.phase-heading--work      { color: var(--color-success); }
+.phase-heading--break     { color: var(--color-error); }
+.phase-heading--try       { color: var(--color-pink-light); }
+.phase-heading--challenge { color: var(--color-pink); }
+.phase-heading--trivia    { color: var(--color-pink-light); }
+
+.self-challenge-block {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border: 1px dashed var(--color-border);
+  border-radius: 8px;
+}
+
+.self-challenge-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  margin-top: 8px;
+}
 
 .phase-explanation,
 .phase-prompt {

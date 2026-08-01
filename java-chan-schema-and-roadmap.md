@@ -296,11 +296,53 @@ pilot.
   `useLesson.js`, `XPDisplay.jsx`, `Shop.jsx`, `storageService.js`,
   `patternMatcher.js`) with nothing new introduced by this pass.
 
-**Unit 5 (15 lessons) — not started.** Next up per §4.3's per-unit
-sequencing.
+**Unit 5 (JavaFX & UI, 15 lessons) — DONE.** 5.1–5.15 authored in this pass, same
+process as Units 1–4. Like Unit 4, there was no single pre-existing pilot lesson
+for this unit — all 15 were authored together using the approved voice from the
+1.1/2.5/3.4 pilot.
+- Phase 1 explanations rewritten in full voice around a continuous unit thread:
+  Units 1–4 built the inside of a workshop nobody outside could see (blueprints,
+  inheritance, exception handling, collections and workers); Unit 5 builds the
+  storefront — the window and shelves customers actually interact with. Stage
+  is the building, Scene is what's arranged in the window, layouts are the
+  shelving, controls are the merchandise, CSS is the paint job, FXML is the
+  interior designer's blueprint, binding is a price tag that updates itself,
+  ListView/TableView is the catalog board, Alerts are the "may I help you?"
+  conversation, and animation is the moving window display. 5.15's review
+  explicitly closes the loop back through all five units' metaphors before
+  looking ahead to Spring/Android/enterprise Java.
+- Phase 2 explanations rewritten in voice; `phase2.fixedCode` authored for all
+  12 coding lessons (all were `null` pre-pass). The three conceptual lessons
+  (5.1, 5.8, 5.15) got a voice pass on their existing myth-busting/closing-tips
+  content instead, since they have no phase2 error content to begin with —
+  same precedent as prior units' conceptual lessons.
+- Phase 3 `scaffoldCode`/`blanks` authored for all 12 coding lessons (5.2–5.7,
+  5.9–5.14), 2–3 blanks each pulled from that lesson's own code example. 5.1,
+  5.8, and 5.15 stay stubbed on purpose — same conceptual-lesson precedent as
+  every prior unit's intro/concept/review lessons.
+- Phase 4 MCQs authored for the 12 lessons that only had a `selfChallenge` from
+  the Step 2 migration (5.2–5.7, 5.9–5.14); 5.1, 5.8, and 5.15 already had one
+  from earlier work and were left untouched. Existing `selfChallenge` prompts
+  left untouched.
+- Phase 5 `trivia` authored for all 15 lessons, each fact checked against
+  general/verifiable JavaFX/Java knowledge rather than invented. 5.14's trivia
+  is a `warn`-tagged gotcha (JavaFX's own `javafx.concurrent.Task` class name-
+  collides with the lesson's own `Task` model) rather than a pure aside, since
+  it's a genuine practical trap.
+- Verification: all 15 lesson JSONs valid; scaffold `{{blankId}}` markers
+  programmatically cross-checked against each lesson's declared `blanks` array
+  (all match); `npm run build` clean; `npx eslint .` shows the same
+  pre-existing baseline (9 errors / 3 warnings in `JavaChan.jsx`, `useLesson.js`,
+  `XPDisplay.jsx`, `Shop.jsx`, `storageService.js`, `patternMatcher.js`) with
+  nothing new introduced by this pass.
+
+**All 5 units of the voice/structure rewrite are now complete.** Step 4 is closed.
 
 ### Step 5 — Suite-wide propagation (§4.5, deferred)
 PlusPlus-Chan, Go-Chan, Kotlin-Chan, Python-Chan, Rust-Chan share this
 engine near-identically. Per the doc, this is explicitly **deferred** until
 the 5-phase structure and voice approach are validated on Java-Chan — not
-started, not scoped yet.
+started, not scoped yet. With Step 4 now closed (all 75 Java-Chan lessons
+across 5 units authored in the new voice/structure), the validation
+prerequisite is met; propagation to siblings is still a separate,
+studio-level decision per §4.5, not started by this pass.

@@ -5,27 +5,54 @@
   "phase1": {
     "code": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class FirstJavaFXWindow extends Application {\n    \n    @Override\n    public void start(Stage primaryStage) {\n        // Create a Label (text node)\n        Label label = new Label(\"Hello, JavaFX!\");\n        \n        // Create a layout container\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        \n        // Create a Scene\n        Scene scene = new Scene(root, 400, 300);\n        \n        // Set up the Stage\n        primaryStage.setTitle(\"My First JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}\n\n// Alternative: Using VBox for vertical layout\nclass SecondJavaFXWindow extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Create multiple controls\n        Label label1 = new Label(\"Welcome to JavaFX!\");\n        Label label2 = new Label(\"This is a second label.\");\n        \n        // VBox arranges nodes vertically\n        javafx.scene.layout.VBox root = new javafx.scene.layout.VBox(10);\n        root.getChildren().addAll(label1, label2);\n        \n        Scene scene = new Scene(root, 400, 300);\n        \n        primaryStage.setTitle(\"Second JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
     "output": "(Window appears with text: 'Hello, JavaFX!')",
-    "explanation": "This is your first JavaFX window!\n\nApplication class:\n• Extend Application and override start()\n• launch() starts the application\n\nstart(Stage primaryStage):\n• Called after launch()\n• Contains all UI setup code\n\nStage:\n• The main window\n• setTitle() — sets window title\n• setScene() — sets the content\n• show() — makes window visible\n\nScene:\n• Container for all UI nodes\n• Takes root node and size\n\nStackPane:\n• Layout that stacks nodes on top of each other\n• Centers children by default\n\nNode:\n• Any UI element (Label, Button, etc.)\n• root.getChildren().add() adds nodes\n\nKey steps:\n1. Create UI nodes (Label, Button, etc.)\n2. Create layout (StackPane, VBox, etc.)\n3. Add nodes to layout\n4. Create Scene with layout\n5. Set Scene on Stage\n6. Show Stage\n\n⚠️ Always run JavaFX on the JavaFX Application Thread"
+    "explanation": "This is opening day for the storefront — the smallest possible version of the whole pipeline from Unit 5.1, actually wired up and running.\n\nEvery JavaFX app starts the same way: extend [[term:Application]], override start(Stage primaryStage), and call launch(args) from main(). [[key:launch() is what constructs the Stage and hands it to start() — you never new up a Stage yourself]]. Inside start(), you build the window from the inside out: create your content first (here, a single Label), then a layout container to hold it (a [[term:StackPane]], which — true to its name — stacks its children on top of each other and centers them by default), then wrap that container in a Scene with a pixel width and height.\n\nFrom there it's three calls and the doors are open: primaryStage.setTitle() puts text in the window's title bar, primaryStage.setScene(scene) hangs your display in the storefront window, and primaryStage.show() is the one that actually makes it visible — [[warn:forget show() and you'll have built a perfectly valid Scene that nobody ever sees]], because the app runs and exits with no visible error.\n\nThe second class at the bottom, SecondJavaFXWindow, swaps StackPane for a [[term:VBox]] — same three-piece pipeline (nodes → layout → Scene), just a different shelf shape. That's the pattern for the rest of this unit: the pipeline never changes, only the layout and the nodes inside it do."
   },
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Forgot to import javafx.stage.Stage\n        // Or using wrong import\n        Label label = new Label(\"Hello\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "Test.java:9: error: cannot find symbol\n    public void start(Stage primaryStage) {\n                     ^\n  symbol:   class Stage\n  location: class Test\n1 error",
-    "explanation": "You forgot to import javafx.stage.Stage!\n\nFIX: Add import statement:\nimport javafx.stage.Stage;\n\nOr use the fully qualified name:\njavafx.stage.Stage primaryStage\n\nAlways check your imports when using JavaFX classes!",
-    "fixedCode": null
+    "explanation": "[[warn:cannot find symbol: class Stage]] — the compiler has no idea what Stage means, because the file never imports it.\n\nstart(Stage primaryStage) uses the Stage type in its method signature, so [[key:the compiler needs to see import javafx.stage.Stage before it reads that line]] — without it, Stage is just an unrecognized word as far as javac is concerned, same as if you'd typed a made-up class name. JavaFX splits its classes across several packages (javafx.application, javafx.stage, javafx.scene, and more), so it's easy to import Scene and Label and forget the one that's arguably the most central class in the whole app.",
+    "fixedCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Label label = new Label(\"Hello\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "Label label = new Label(\"Welcome to JavaFX!\");\n\nStackPane root = new StackPane();\nroot.getChildren().{{b1}}(label);\n\nScene scene = new {{b2}}(root, 500, 400);\n\nprimaryStage.setTitle(\"My JavaFX App\");\nprimaryStage.setScene(scene);\nprimaryStage.{{b3}}();",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "add"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "Scene"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "show"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Let's create your first JavaFX window! 🪟"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "You write a full, correct start() method — but you forget to call launch(args) in main(), and call start() directly instead: new Test().start(new Stage()). What happens?\n\nA) The window opens normally — start() is all that matters\nB) A runtime exception, because the JavaFX Application Thread and toolkit were never initialized by launch()\nC) The compiler rejects the program\nD) The window opens but is permanently blank",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Write a JavaFX program that:\n1. Creates a Stage with title \"My JavaFX App\"\n2. Creates a Label with text \"Welcome to JavaFX!\"\n3. Uses a StackPane as the root layout\n4. Creates a Scene with size 500x400\n5. Shows the window\n\nInherit from Application and use launch() in main.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
+    "trivia": "[[fun:the JavaFX toolkit only initializes once per JVM]] — that's part of why launch() insists on doing the setup instead of letting you construct a Stage with new anywhere in your code. Try to call launch() a second time in the same running app and it throws — one storefront, one grand opening.",
     "openingDialogue": null
   },
   "hoverNotes": {}

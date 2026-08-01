@@ -5,27 +5,54 @@
   "phase1": {
     "code": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class LayoutsExample extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // 1. VBox — vertical layout\n        System.out.println(\"=== VBox ===\");\n        VBox vbox = new VBox();\n        vbox.setSpacing(10);\n        vbox.setPadding(new Insets(10));\n        vbox.setAlignment(Pos.CENTER);\n        \n        Label label1 = new Label(\"Label 1\");\n        Label label2 = new Label(\"Label 2\");\n        Label label3 = new Label(\"Label 3\");\n        Button button1 = new Button(\"Click Me\");\n        \n        vbox.getChildren().addAll(label1, label2, label3, button1);\n        \n        // 2. HBox — horizontal layout\n        System.out.println(\"=== HBox ===\");\n        HBox hbox = new HBox();\n        hbox.setSpacing(15);\n        hbox.setPadding(new Insets(10));\n        hbox.setAlignment(Pos.CENTER);\n        \n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n        \n        hbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        // 3. Nested layouts\n        System.out.println(\"=== Nested Layouts ===\");\n        VBox mainLayout = new VBox(15);\n        mainLayout.setPadding(new Insets(20));\n        mainLayout.setAlignment(Pos.CENTER);\n        \n        Label title = new Label(\"Welcome to JavaFX Layouts!\");\n        title.setStyle(\"-fx-font-size: 20px; -fx-font-weight: bold;\");\n        \n        HBox buttonRow = new HBox(10);\n        buttonRow.setAlignment(Pos.CENTER);\n        buttonRow.getChildren().addAll(\n            new Button(\"Save\"),\n            new Button(\"Cancel\"),\n            new Button(\"Delete\")\n        );\n        \n        VBox infoBox = new VBox(5);\n        infoBox.setAlignment(Pos.CENTER);\n        infoBox.getChildren().addAll(\n            new Label(\"Name: John Doe\"),\n            new Label(\"Email: john@example.com\"),\n            new Label(\"Phone: (123) 456-7890\")\n        );\n        \n        mainLayout.getChildren().addAll(title, infoBox, buttonRow);\n        \n        // Creating multiple scenes\n        VBox root = new VBox(20);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        root.getChildren().addAll(\n            new Label(\"VBox Example (Vertical)\"),\n            vbox,\n            new Label(\"HBox Example (Horizontal)\"),\n            hbox,\n            new Label(\"Nested Layouts\"),\n            mainLayout\n        );\n        \n        Scene scene = new Scene(root, 600, 700);\n        \n        primaryStage.setTitle(\"Layouts: VBox & HBox\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
     "output": "(Window appears with VBox, HBox, and nested layouts)",
-    "explanation": "VBox and HBox are the most common layouts:\n\nVBox (Vertical Box):\n• Arranges nodes vertically (top to bottom)\n• setSpacing(10) — space between nodes\n• setPadding(new Insets(10)) — padding around edges\n• setAlignment(Pos.CENTER) — alignment\n\nHBox (Horizontal Box):\n• Arranges nodes horizontally (left to right)\n• Same methods as VBox\n• Great for button bars\n\nAlignment options:\n• Pos.CENTER — center alignment\n• Pos.TOP_LEFT — top-left\n• Pos.BOTTOM_RIGHT — bottom-right\n• Pos.CENTER_LEFT — center-left\n\nInsets:\n• new Insets(10) — 10px on all sides\n• new Insets(10, 20, 10, 20) — top, right, bottom, left\n\nNested layouts:\n• Layouts inside other layouts\n• VBox contains HBox for button rows\n• Enables complex UIs\n\nPadding vs Spacing:\n• Padding: space between edge and content\n• Spacing: space between nodes"
+    "explanation": "[[term:VBox]] and [[term:HBox]] are the two simplest shelving units in the storefront, and you'll reach for them more than anything else in this unit: VBox stacks its children top to bottom, HBox lays them out left to right. Same class of layout, just a different axis.\n\nBoth take the same handful of setup calls. setSpacing(10) puts 10px of breathing room [[key:between each child]] — not around the outside, between siblings. setPadding(new Insets(10)) is the opposite: space [[key:around the edges of the container itself]], between the box's own border and its contents. Mixing those two up is the single most common layout confusion in JavaFX, so it's worth saying twice: [[warn:spacing is between children, padding is around the whole box]]. setAlignment() (Pos.CENTER, Pos.TOP_LEFT, Pos.BOTTOM_RIGHT, and so on) controls where children sit inside whatever extra room the box has.\n\nThe real power move is nesting: a VBox can hold an HBox as one of its children, which can hold another VBox, and so on — which is exactly how you build a real storefront window. In this lesson's code, the outer VBox holds a title Label, an infoBox (a small VBox of its own), and a buttonRow (an HBox) — a vertical stack where one of the \"shelves\" happens to be a horizontal row of buttons. [[fun:almost every real JavaFX screen is just VBoxes and HBoxes nested inside each other]] three or four layers deep, long before you ever need GridPane or BorderPane."
   },
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox vbox = new VBox();\n        // Forgetting to set spacing\n        // vbox.setSpacing(10);\n        \n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n        \n        // Forgetting to add children\n        // vbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        Scene scene = new Scene(vbox, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Window appears with NOTHING inside — empty window!)",
-    "explanation": "You forgot to add children to the VBox!\n\nWithout vbox.getChildren().addAll(), the VBox is empty, and the window is blank.\n\nFIX: Add children:\nvbox.getChildren().addAll(btn1, btn2, btn3);\n\nAlso consider:\n• No spacing means nodes are touching\n• Add setSpacing() for better appearance\n\nAlways verify that you've added your nodes to the layout!",
-    "fixedCode": null
+    "explanation": "[[warn:the window opens and shows... nothing]] — no error, no crash, just an empty box where three buttons should be.\n\nCreating a VBox and creating its children are two completely separate steps from actually [[key:putting the children inside the box]] — root.getChildren().addAll(...) is the line that does the attaching, and it's commented out here. Without it, btn1/btn2/btn3 exist as objects in memory, but the VBox's own child list is still empty, so there's nothing for the Scene to render. This is the JavaFX equivalent of building three shelves and never actually mounting them on the wall — they're real, they're just not part of the display.",
+    "fixedCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox vbox = new VBox();\n        vbox.setSpacing(10);\n\n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n\n        vbox.getChildren().addAll(btn1, btn2, btn3);\n\n        Scene scene = new Scene(vbox, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "VBox vbox = new VBox();\nvbox.{{b1}}(10);  // space between children\nvbox.setPadding(new Insets(10));  // space around the box's own edge\n\nButton b1 = new Button(\"OK\");\nButton b2 = new Button(\"Cancel\");\nvbox.getChildren().{{b2}}(b1, b2);\n\nHBox hbox = new HBox(15);\nhbox.{{b3}}(Pos.CENTER);",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "setSpacing"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "addAll"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "setAlignment"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Layouts — arrange your UI elements! 📐"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "A VBox has setSpacing(20) and setPadding(new Insets(5)). What's the gap between the VBox's top edge and its first child, versus the gap between the first and second child?\n\nA) 20px, 20px — spacing controls both\nB) 5px, 20px — padding controls the edge, spacing controls between children\nC) 5px, 5px — padding controls both\nD) 20px, 5px — spacing controls the edge, padding controls between children",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds three Labels: \"Item 1\", \"Item 2\", \"Item 3\"\n3. Creates an HBox with spacing 10\n4. Adds three Buttons: \"Add\", \"Edit\", \"Delete\"\n5. Nests the HBox inside the VBox (below the labels)\n6. Centers everything\n7. Shows the window with title \"Layout Practice\"",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
+    "trivia": "[[fun:VBox and HBox are both just thin, specialized wrappers around a more general layout class called Pane]] — under the hood they're doing simple, predictable math (stack these along one axis, in order) rather than anything exotic. That predictability is exactly why they're the default choice: no surprises about where a child ends up.",
     "openingDialogue": null
   },
   "hoverNotes": {}

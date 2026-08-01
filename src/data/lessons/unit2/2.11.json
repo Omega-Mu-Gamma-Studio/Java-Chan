@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class OuterClass {\n    private String message = \"Hello from Outer\";\n    private static String staticMessage = \"Static message\";\n    \n    // 1. Non-static inner class (inner class)\n    class InnerClass {\n        void display() {\n            // Can access outer class private members\n            System.out.println(\"Inner: \" + message);\n            System.out.println(\"Inner: \" + staticMessage);\n            outerMethod();\n        }\n    }\n    \n    // 2. Static nested class\n    static class StaticNestedClass {\n        void display() {\n            // Can't access instance members of outer class\n            // System.out.println(message); // ERROR! Can't access non-static\n            System.out.println(\"Static Nested: \" + staticMessage);\n        }\n    }\n    \n    void outerMethod() {\n        System.out.println(\"Outer method called\");\n    }\n    \n    // 3. Local inner class (inside a method)\n    void localInnerExample() {\n        class LocalInner {\n            void display() {\n                System.out.println(\"Local inner class\");\n            }\n        }\n        \n        LocalInner local = new LocalInner();\n        local.display();\n    }\n    \n    // 4. Anonymous inner class\n    Runnable getRunnable() {\n        return new Runnable() {\n            @Override\n            public void run() {\n                System.out.println(\"Anonymous inner class running\");\n            }\n        };\n    }\n}\n\npublic class InnerClassesExample {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        \n        // Create inner class instance\n        OuterClass.InnerClass inner = outer.new InnerClass();\n        inner.display();\n        \n        System.out.println(\"---\");\n        \n        // Create static nested class instance\n        OuterClass.StaticNestedClass staticNested = new OuterClass.StaticNestedClass();\n        staticNested.display();\n        \n        System.out.println(\"---\");\n        \n        outer.localInnerExample();\n        \n        System.out.println(\"---\");\n        \n        Runnable runnable = outer.getRunnable();\n        runnable.run();\n    }\n}",
     "output": "Inner: Hello from Outer\nInner: Static message\nOuter method called\n---\nStatic Nested: Static message\n---\nLocal inner class\n---\nAnonymous inner class running",
-    "explanation": "Inner classes are classes defined inside other classes:\n\n1. Non-static Inner Class (Inner Class):\n• Has access to outer class members (even private)\n• Needs an outer instance: outer.new InnerClass()\n• Can access instance variables and static variables\n\n2. Static Nested Class:\n• Can't access non-static outer members\n• Doesn't need outer instance: new Outer.StaticNestedClass()\n\n3. Local Inner Class:\n• Defined inside a method\n• Only accessible inside that method\n\n4. Anonymous Inner Class:\n• No name, defined on the fly\n• Used for interfaces and abstract classes\n• Common with event handlers\n\nWhen to use:\n• Inner class: when it's tightly coupled with outer\n• Static nested: when it doesn't need outer instance\n• Anonymous: for one-time use (GUI listeners)"
+    "explanation": "A class can live inside another class, and Java gives you four flavors depending on how tightly coupled you want it.\n\nA plain [[term:inner class]] — `class InnerClass` written directly inside `OuterClass`, no `static` — [[key:has full access to the outer object's fields, even private ones]], but that access comes at a cost: you need an actual outer instance to create one, written as `outer.new InnerClass()`.\n\nA [[term:static nested class]] drops that requirement — [[key:no outer instance needed, but it also loses access to the outer object's instance members]], since there's no specific outer object it's tied to. Create one with `new Outer.StaticNestedClass()`.\n\nA [[term:local inner class]] is defined right inside a method body, and [[key:it only exists and is only usable within that one method]] — useful for a helper that genuinely has no reason to exist anywhere else.\n\nAnd an [[term:anonymous inner class]] skips naming entirely — you write the whole class body inline, on the spot, usually to implement an interface or extend a class for exactly one use, like the `Runnable` in the example.\n\n[[key:Picking between them comes down to coupling]]: use a regular inner class when it's genuinely tied to a specific outer instance, static nested when it isn't, and anonymous for quick one-off implementations you'll never reuse."
   },
   "phase2": {
     "brokenCode": "class Outer {\n    String message = \"Hello\";\n    \n    static class Inner {\n        void display() {\n            // Trying to access instance variable from static context\n            System.out.println(message);  // ERROR!\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Outer.Inner inner = new Outer.Inner();\n        inner.display();\n    }\n}",
     "errorMessage": "Outer.java:7: error: non-static variable message cannot be referenced from a static context\n            System.out.println(message);  // ERROR!\n                               ^\n1 error",
-    "explanation": "Static nested class can't access non-static members of the outer class.\n\nmessage is an instance variable — it belongs to an Outer object. Since Inner is static, it doesn't have a reference to an Outer instance.\n\nFixes:\n1. Make message static: static String message = \"Hello\";\n2. Make Inner non-static: class Inner\n3. Pass an instance: System.out.println(outer.message);\n\nRemember: static nested classes are like top-level classes but packaged inside another class.",
+    "explanation": "[[warn:A static nested class has no connection to any specific Outer instance]] — that's the whole point of marking it static. So when `Inner` tries to read `message`, an instance variable that only exists once an Outer object has actually been created, there's genuinely no outer object for it to read from.\n\n[[key:There are three honest fixes here]]: make `message` static too, if it should be shared across all Outer instances regardless of which one you're looking at; make `Inner` a regular (non-static) inner class instead, which DOES keep a connection to a specific outer instance; or pass an actual Outer instance in and read `outer.message` explicitly. [[key:Static nested classes are really just top-level classes that happen to be packaged inside another class for organization]] — they don't get any special access to instance state just by being nested.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Outer {\n    private String message = \"Hi\";\n\n    class Inner {\n        void display() {\n            System.out.println(message);\n        }\n    }\n\n    {{b1}} class StaticNested {\n        void display() {\n            System.out.println(\"Static nested\");\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Outer outer = new Outer();\n        Outer.Inner inner = outer.{{b2}} Inner();\n        Outer.StaticNested nested = new Outer.{{b3}}();\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "static"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "new"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "StaticNested"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Classes inside classes — inner depth! 🎯"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "What can a non-static (regular) inner class access that a static nested class cannot?\n\nA) Static methods of the outer class\nB) The outer class's instance fields and methods, even private ones\nC) Nothing — they have identical access\nD) Other classes in the same package",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a class Library with:\n• Private field: name (String)\n• Inner class: Book with fields title, author\n• Method in Library: addBook(String title, String author) that creates a Book\n• Method: listBooks() that prints all books\n\nIn main, create a Library, add 2 books, and list them.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: before lambda expressions arrived in Java 8, anonymous inner classes — like the Runnable example you just saw — were THE standard way to write a quick one-off implementation of an interface, especially for GUI event listeners. Lambdas can now replace many of those cases with far less boilerplate, but anonymous inner classes are still exactly what a lambda compiles down to under the hood for interfaces with a single method.",
+    "openingDialogue": "One more thing before you go nest deeper~"
   },
   "hoverNotes": {}
 }

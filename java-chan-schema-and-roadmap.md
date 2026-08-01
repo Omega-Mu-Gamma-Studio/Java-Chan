@@ -169,15 +169,71 @@ Each lesson's `scaffoldCode`/`blanks` were cross-checked programmatically
 before being considered done. All three build clean, lint clean, and all 75
 lesson JSONs still parse.
 
-**Still needed before Step 3 is fully closed:** your review of whether the
-voice actually lands — per §3, the bar is "do all three sound like the
-same teacher," not each judged in isolation.
+Pilot voice approved — confirmed against the 1.2 draft, which extended the
+same workshop/blueprint metaphor and was signed off before proceeding to
+the rest of Unit 1. Step 3 is closed.
 
 ### Step 4 — Full 75-lesson rewrite
 Sequenced by unit once the pilot voice is approved, per §4.3. Each lesson
 needs: full voice-first explanation rewrite (Phase 1), Phase 2 voice pass,
 authored `scaffoldCode`/`blanks` for Phase 3, an MCQ for Phase 4 where one
 doesn't already exist from migration, and `phase5.trivia` content.
+
+**Unit 1 (OOP & Java Fundamentals, 15 lessons) — DONE.** 1.1 was the
+original pilot lesson. 1.2–1.15 authored in this pass:
+- Every lesson's Phase 1 explanation rewritten in full voice, carrying the
+  blueprint/workshop metaphor established in 1.1 forward (explicit
+  callbacks where it fit naturally — e.g. 1.2 ties `javac`/`java` back to
+  "finishing the blueprint" vs. "building from it").
+- Phase 2 explanations rewritten in voice; existing `brokenCode`/
+  `errorMessage`/`fixedCode` values were technically correct already and
+  left as-is.
+- Phase 3 `scaffoldCode`/`blanks` authored for every coding lesson (1.3
+  onward) — 3 blanks each, pulled from that lesson's own code example.
+  1.1 and 1.2 stay stubbed on purpose (matching the original pilot's
+  precedent): both are genuinely code-free conceptual lessons, so forcing
+  scaffold content there would be padding, not practice.
+- Phase 4 MCQs authored for every lesson that didn't already have one from
+  the Step 2 migration (1.1 and 1.2 already had MCQs; 1.3–1.15 didn't).
+  Existing `selfChallenge` prompts were left untouched — they were already
+  solid.
+- Phase 5 `trivia` authored for all 15 lessons, each fact checked against
+  general/verifiable knowledge rather than invented.
+- Verification: all 15 lesson JSONs still valid JSON; scaffold `{{blankId}}`
+  markers programmatically cross-checked against each lesson's declared
+  `blanks` array (all match); `npm run build` and full lesson-directory
+  parse both clean. Pre-existing `npx eslint .` issues (9 errors / 3
+  warnings in `Shop.jsx`, `storageService.js`, `patternMatcher.js`, and a
+  couple of hook-dependency warnings) are unrelated to this pass — none of
+  those files were touched.
+
+**Unit 2 (Inheritance & Polymorphism, 15 lessons) — DONE.** 2.5 was the
+original pilot lesson. 2.1–2.4, 2.6–2.15 authored in this pass, same
+process as Unit 1:
+- Phase 1 explanations rewritten in full voice — 2.1's inheritance intro
+  ties back to "the blueprint idea," 2.3 (`super`) references the
+  constructor pattern established in 2.1, and 2.6 (interfaces) leans on
+  the "contract" framing already set up by the 2.5 pilot's abstract-class
+  material, so the unit reads as one continuous thread rather than 15
+  disconnected explanations.
+- Phase 2 explanations rewritten in voice; existing `brokenCode`/
+  `errorMessage`/`fixedCode` left as-is (technically correct already).
+- Phase 3 `scaffoldCode`/`blanks` authored for every lesson except 2.15,
+  which is the unit's conceptual review/recap lesson and stays stubbed —
+  same precedent as 1.1/1.2, no real code to scaffold for a summary
+  lesson.
+- Phase 4 MCQs authored for 2.1–2.4 and 2.6–2.14 (2.5 and 2.15 already had
+  one from earlier work).
+- Phase 5 trivia authored for all 15 lessons.
+- Note on 2.7's blank `b3` (`instanceof`): the scaffold accepts either `A`
+  or `B` as a correct answer, since the example class implements both
+  interfaces and either is a truthful `instanceof` check.
+- Verification: all 15 lesson JSONs valid; scaffold blank markers
+  cross-checked against declared `blanks` arrays (all match); `npm run
+  build` clean.
+
+**Units 3–5 (45 lessons) — not started**, aside from the existing 3.4
+pilot lesson. Next up per §4.3's per-unit sequencing.
 
 ### Step 5 — Suite-wide propagation (§4.5, deferred)
 PlusPlus-Chan, Go-Chan, Kotlin-Chan, Python-Chan, Rust-Chan share this

@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class Person {\n    private String name;\n    private int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    // Override toString() — provides string representation\n    @Override\n    public String toString() {\n        return \"Person{name='\" + name + \"', age=\" + age + \"}\";\n    }\n    \n    // Override equals() — compares content, not reference\n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        \n        Person person = (Person) obj;\n        return age == person.age && name.equals(person.name);\n    }\n    \n    // Override hashCode() — must be consistent with equals()\n    @Override\n    public int hashCode() {\n        return name.hashCode() + age * 31;\n    }\n}\n\npublic class ObjectMethodsExample {\n    public static void main(String[] args) {\n        Person p1 = new Person(\"Alice\", 25);\n        Person p2 = new Person(\"Alice\", 25);\n        Person p3 = new Person(\"Bob\", 30);\n        \n        // toString()\n        System.out.println(\"p1: \" + p1);  // Implicitly calls toString()\n        System.out.println(\"p2: \" + p2);\n        System.out.println(\"p3: \" + p3);\n        \n        // equals()\n        System.out.println(\"--- equals() ---\");\n        System.out.println(\"p1.equals(p2): \" + p1.equals(p2));\n        System.out.println(\"p1.equals(p3): \" + p1.equals(p3));\n        System.out.println(\"p1 == p2: \" + (p1 == p2));  // false — different objects\n        \n        // hashCode()\n        System.out.println(\"--- hashCode() ---\");\n        System.out.println(\"p1 hash: \" + p1.hashCode());\n        System.out.println(\"p2 hash: \" + p2.hashCode());  // Same if equals() true\n        System.out.println(\"p3 hash: \" + p3.hashCode());  // Different\n        \n        // Using in collections\n        System.out.println(\"--- Collections ---\");\n        java.util.HashSet<Person> set = new java.util.HashSet<>();\n        set.add(p1);\n        set.add(p2);  // Won't add duplicate (equals/hashCode work!)\n        set.add(p3);\n        \n        System.out.println(\"Set size: \" + set.size());  // 2 (p1 and p3, p2 is duplicate)\n        for (Person p : set) {\n            System.out.println(\"  \" + p);\n        }\n    }\n}",
     "output": "p1: Person{name='Alice', age=25}\np2: Person{name='Alice', age=25}\np3: Person{name='Bob', age=30}\n--- equals() ---\np1.equals(p2): true\np1.equals(p3): false\np1 == p2: false\n--- hashCode() ---\np1 hash: 1973475121\np2 hash: 1973475121\np3 hash: 2063279150\n--- Collections ---\nSet size: 2\n  Person{name='Bob', age=30}\n  Person{name='Alice', age=25}",
-    "explanation": "Object class methods — every class inherits these:\n\ntoString():\n• Returns string representation of object\n• Default: ClassName@hashcode\n• Always override for meaningful output\n• Called automatically when printing\n\nequals():\n• Compares objects for equality\n• Default: compares references (==)\n• Override to compare content\n• Must follow contract: reflexive, symmetric, transitive\n\nhashCode():\n• Returns integer hash value\n• Used in hash-based collections (HashMap, HashSet)\n• Must be consistent with equals()\n• If equals() true, hashCode() must be equal\n\nContract: If two objects are equal, they must have the same hash code.\n\nhashCode algorithm: multiply by 31 (prime) to reduce collisions."
+    "explanation": "Every single class you write in Java, whether you realize it or not, already inherits three methods from `Object`: `toString()`, `equals()`, and `hashCode()`. Left un-overridden, [[warn:they're not very useful]] — default `toString()` just prints something like `Person@1a2b3c`, and default `equals()` only checks whether two references point to the exact same object in memory, same as `==`.\n\nOverriding `toString()` is the easy one: [[key:whatever String you return is what gets printed automatically]] any time you do `System.out.println(someObject)` or concatenate it into a String.\n\n`equals()` is where it gets more careful: you're defining what \"equal\" actually MEANS for your class — here, two Persons count as equal if their name and age both match, regardless of whether they're literally the same object in memory.\n\nAnd here's the rule that catches people off guard: [[warn:if you override equals(), you must override hashCode() too, and keep them consistent]] — [[key:whenever two objects are equal() to each other, their hashCode() values must also be equal]]. Skip this, and hash-based collections like `HashSet` and `HashMap` will misbehave — look at the example: without a matching hashCode(), a HashSet can't tell that p1 and p2 are \"the same\" Person, and quietly stores a duplicate."
   },
   "phase2": {
     "brokenCode": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    // Missing equals() and hashCode() override\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Person p1 = new Person(\"Alice\", 25);\n        Person p2 = new Person(\"Alice\", 25);\n        \n        System.out.println(p1.equals(p2));  // false — uses default Object.equals()\n        \n        java.util.HashSet<Person> set = new java.util.HashSet<>();\n        set.add(p1);\n        set.add(p2);  // Adds duplicate because equals() returns false\n        System.out.println(\"Set size: \" + set.size());  // 2 (should be 1)\n    }\n}",
     "errorMessage": "false\nSet size: 2\n\n(No compiler error — but the LOGIC is wrong! Duplicates can appear in HashSet.)",
-    "explanation": "Without overriding equals() and hashCode(), HashSet thinks p1 and p2 are different!\n\nDefault Object.equals() compares references: p1 != p2\n\nDefault Object.hashCode() returns different values\n\nFIX: Override both methods:\n\n@Override\npublic boolean equals(Object obj) { ... }\n\n@Override\npublic int hashCode() { ... }\n\nAlways override equals() and hashCode() together!",
+    "explanation": "[[warn:Without overriding equals() and hashCode(), Person falls back to Object's defaults]] — which compare by memory reference, not content. `p1` and `p2` hold identical data, but they're two separate objects, so default `equals()` says false, and default `hashCode()` gives them two different values entirely.\n\nThat's exactly why the `HashSet` ends up with 2 entries instead of 1: [[key:HashSet uses hashCode() first to find the right \"bucket,\" then equals() to check for an actual duplicate within it]] — and both checks fail here, so it just adds p2 as if it were a totally different Person. [[key:The fix is overriding both methods together, and keeping them logically consistent]] — never just one or the other.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Person {\n    String name;\n\n    Person(String name) {\n        this.name = name;\n    }\n\n    @Override\n    public String {{b1}}() {\n        return \"Person: \" + name;\n    }\n\n    @Override\n    public boolean {{b2}}(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        Person p = (Person) obj;\n        return name.equals(p.name);\n    }\n\n    @Override\n    public int {{b3}}() {\n        return name.hashCode();\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "toString"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "equals"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "hashCode"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Every object has a toString — give it a makeover! 📝"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "If you override equals() for a class, what's the rule about hashCode()?\n\nA) You should leave hashCode() at its default\nB) You must override hashCode() too, and equal objects must produce equal hash codes\nC) hashCode() is unrelated to equals() and can be ignored\nD) You should delete hashCode() entirely",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a Book class with:\n• Fields: title (String), author (String)\n• Constructor\n• Override toString() — returns \"Book[title='X', author='Y']\"\n• Override equals() — based on title AND author\n• Override hashCode() — consistent with equals\n\nIn main, create two identical books and test equals() and toString().",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: that habit of multiplying by 31 when writing a hashCode() isn't arbitrary — 31 is an odd prime, which helps spread hash values out evenly and avoid collisions, and multiplying by it can be optimized by the JVM into a bit-shift plus a subtraction, which used to matter more for performance than it does today. It's still the convention you'll see in nearly every generated hashCode() method.",
+    "openingDialogue": "One more thing before you go compare more objects~"
   },
   "hoverNotes": {}
 }

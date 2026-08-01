@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n        System.out.println(\"Person constructor called\");\n    }\n    \n    void introduce() {\n        System.out.println(\"Hi, I'm \" + name + \". I'm \" + age + \" years old.\");\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    String major;\n    \n    Student(String name, int age, String studentId, String major) {\n        super(name, age);  // Calls parent constructor FIRST\n        this.studentId = studentId;\n        this.major = major;\n        System.out.println(\"Student constructor called\");\n    }\n    \n    @Override\n    void introduce() {\n        super.introduce();  // Call parent's version\n        System.out.println(\"My student ID is \" + studentId);\n        System.out.println(\"I'm majoring in \" + major);\n    }\n}\n\npublic class SuperExample {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\", \"Computer Science\");\n        System.out.println(\"---\");\n        student.introduce();\n    }\n}",
     "output": "Person constructor called\nStudent constructor called\n---\nHi, I'm Alice. I'm 20 years old.\nMy student ID is S12345\nI'm majoring in Computer Science",
-    "explanation": "The super keyword is used to access parent class members:\n\n1. super() — call parent constructor\n   • Must be the FIRST statement in child constructor\n   • If not called, Java automatically calls super() (no-arg constructor)\n\n2. super.method() — call parent method\n   • Used when overriding — extends parent behavior\n   • Can call parent's version even if you overrode it\n\n3. super.field — access parent field\n   • If child has same field name\n\nConstructor Chaining:\n• Child constructor calls parent constructor\n• Parent constructor calls its parent (Object class)\n• Chain continues until Object\n\n⚠️ If parent doesn't have a no-arg constructor, you MUST call super() with parameters!"
+    "explanation": "You've been calling `super(...)` since 2.1 — let's actually unpack everything that keyword can do.\n\nFirst, `super(...)` [[key:calls the parent's constructor, and it must be the very first statement in the child's constructor]] — no exceptions. If you don't write it yourself, Java quietly inserts a no-argument `super()` call for you. That's fine if the parent HAS a no-arg constructor — but [[warn:if it doesn't, you must call super() explicitly with matching arguments]], or the compiler has nothing to fall back on.\n\nSecond, `super.methodName()` lets a subclass call the parent's version of a method it just overrode. Look at Student's `introduce()`: it calls `super.introduce()` first, then adds its own lines on top — [[key:that's extending behavior instead of just replacing it]].\n\nThird — less common, but worth knowing — `super.fieldName` reaches a parent's field directly, useful specifically when a child happens to declare a field with the exact same name.\n\nAnd here's the bigger picture: [[term:constructor chaining]] means every constructor call in Java quietly climbs the whole inheritance tree — Student's constructor calls Person's, and Person's would call Object's if you kept following the chain up, since [[key:every class in Java ultimately extends Object, whether you write extends or not]]."
   },
   "phase2": {
     "brokenCode": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    \n    Student(String name, int age, String studentId) {\n        // Missing super(name, age);\n        this.studentId = studentId;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\");\n    }\n}",
     "errorMessage": "Test.java:14: error: constructor Person in class Person cannot be applied to given types;\n    Student(String name, int age, String studentId) {\n    ^\n  required: String,int\n  found: no arguments\n  reason: actual and formal argument lists differ in length\n1 error",
-    "explanation": "Person doesn't have a no-argument constructor, but the Student constructor doesn't call super() with parameters.\n\nJava tries to call super() (no args) automatically, but it doesn't exist!\n\nThe fix: super(name, age); must be the first line in the child constructor.\n\nRemember: If parent has no no-arg constructor, you MUST explicitly call super() with the right parameters.",
+    "explanation": "[[warn:Person doesn't have a no-argument constructor]] — it only has one that takes a name and an age. Student's constructor forgot to call `super(name, age)` explicitly, so Java tried to insert its default no-arg `super()` call for you... except that constructor doesn't exist on Person.\n\n[[key:The fix is exactly one line]]: `super(name, age);` as the very first statement inside Student's constructor. Whenever a parent class doesn't offer a no-arg constructor, [[warn:you MUST call super() yourself with the right arguments]] — Java won't guess which ones to use.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Person {\n    String name;\n\n    Person(String name) {\n        this.name = name;\n    }\n\n    void introduce() {\n        System.out.println(\"Hi, I'm \" + name);\n    }\n}\n\nclass Student extends Person {\n    String major;\n\n    Student(String name, String major) {\n        {{b1}}(name);\n        this.major = major;\n    }\n\n    @Override\n    void introduce() {\n        {{b2}}.introduce();\n        System.out.println(\"Majoring in \" + {{b3}});\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "super"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "super"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "major"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Super is your connection to the parent class! 🔗"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "What happens if a child's constructor doesn't call super(...) explicitly, and the parent has no no-arg constructor?\n\nA) Java skips constructing the parent entirely\nB) A compile error, since Java's automatic super() call doesn't match any parent constructor\nC) The child object is created with all default field values\nD) super() is optional and never required",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create Employee class with:\n• Fields: name (String), salary (double)\n• Constructor\n• Method: work() — prints \"[name] is working\"\n\nCreate Manager subclass with:\n• Field: department (String)\n• Constructor with super()\n• Override work() — prints \"[name] is managing the [department] department\"\n• Also call super.work() in the override\n\nIn main, create a Manager and call work().",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: even a class you write with absolutely no 'extends' clause at all is still secretly extending something — java.lang.Object. That's exactly why every object you'll ever create in Java already has toString(), equals(), and hashCode() available, even before you write a single line of inheritance yourself. We'll dig into Object's own methods properly a bit later in this unit.",
+    "openingDialogue": "One more thing before you climb the chain further~"
   },
   "hoverNotes": {}
 }

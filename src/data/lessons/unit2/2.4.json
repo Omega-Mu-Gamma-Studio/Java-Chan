@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n    \n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Meow!\");\n    }\n    \n    void purr() {\n        System.out.println(\"Purr...\");\n    }\n}\n\npublic class PolymorphismExample {\n    public static void main(String[] args) {\n        // Compile-time polymorphism (method overloading)\n        System.out.println(\"=== Compile-time Polymorphism ===\");\n        Calculator calc = new Calculator();\n        System.out.println(\"Add 2 numbers: \" + calc.add(5, 3));\n        System.out.println(\"Add 3 numbers: \" + calc.add(5, 3, 2));\n        System.out.println(\"Add 2 doubles: \" + calc.add(5.5, 3.3));\n        \n        // Runtime polymorphism (method overriding)\n        System.out.println(\"=== Runtime Polymorphism ===\");\n        Animal myAnimal;\n        \n        myAnimal = new Dog();\n        myAnimal.makeSound();  // Calls Dog's version\n        // myAnimal.wagTail(); // ERROR! Animal reference doesn't know about Dog methods\n        \n        myAnimal = new Cat();\n        myAnimal.makeSound();  // Calls Cat's version\n        \n        // Upcasting\n        System.out.println(\"=== Upcasting ===\");\n        Dog dog = new Dog();\n        Animal animal = dog;  // Upcast (Dog -> Animal) — automatic\n        animal.makeSound();   // Still calls Dog's version\n        \n        // Downcasting (with instanceof check)\n        System.out.println(\"=== Downcasting ===\");\n        Animal someAnimal = new Dog();\n        if (someAnimal instanceof Dog) {\n            Dog dog2 = (Dog) someAnimal;  // Downcast (Animal -> Dog)\n            dog2.wagTail();  // Now we can call Dog-specific methods\n        }\n        \n        if (someAnimal instanceof Cat) {\n            System.out.println(\"This is a Cat\");\n        } else {\n            System.out.println(\"This is NOT a Cat\");\n        }\n    }\n}\n\nclass Calculator {\n    // Overloaded methods (compile-time polymorphism)\n    int add(int a, int b) {\n        return a + b;\n    }\n    \n    int add(int a, int b, int c) {\n        return a + b + c;\n    }\n    \n    double add(double a, double b) {\n        return a + b;\n    }\n}",
     "output": "=== Compile-time Polymorphism ===\nAdd 2 numbers: 8\nAdd 3 numbers: 10\nAdd 2 doubles: 8.8\n=== Runtime Polymorphism ===\nWoof!\nMeow!\n=== Upcasting ===\nWoof!\n=== Downcasting ===\nTail wagging!\nThis is NOT a Cat",
-    "explanation": "Polymorphism means 'many forms' — one name, many behaviors:\n\nCompile-time Polymorphism (Method Overloading):\n• Multiple methods with same name, different parameters\n• Resolved at compile time\n• Example: Calculator.add() with different parameters\n\nRuntime Polymorphism (Method Overriding):\n• Subclass provides specific implementation of parent method\n• Resolved at runtime\n• Example: Animal reference, Dog/Cat objects\n\nUpcasting: converting subclass to superclass\n• Automatic (implicit)\n• Dog → Animal\n• You lose access to subclass-specific methods\n\nDowncasting: converting superclass to subclass\n• Must be explicit: (Dog) animal\n• Check with instanceof to avoid ClassCastException\n\ninstanceof: checks if object is of certain type\n• returns boolean\n• Safe way to check before downcasting"
+    "explanation": "[[term:Polymorphism]] literally means \"many forms\" — one name, different behavior depending on context. You've actually already met both flavors of it.\n\n[[term:Compile-time polymorphism]] is method overloading — Calculator's three `add()` methods share a name but differ in parameters, and [[key:Java decides which one to call while compiling, based purely on what arguments you wrote]].\n\n[[term:Runtime polymorphism]] is method overriding — `Animal myAnimal = new Dog();` followed by `myAnimal.makeSound()` runs Dog's version, and [[key:that decision happens while the program is actually running, based on the object's real type]], not the variable's declared type.\n\nThat `Animal myAnimal = new Dog();` line is called [[term:upcasting]] — treating a more specific object as its more general type — and Java does it automatically, no cast needed. The tradeoff: [[warn:through an Animal-typed variable, you can only call methods Animal actually declares]] — `myAnimal.wagTail()` won't compile, even though the object underneath really is a Dog, because the variable's declared type doesn't know wagTail exists.\n\nGoing the other direction is [[term:downcasting]] — converting back from Animal to Dog — and [[warn:this one you have to do explicitly with (Dog)]], because Java can't be sure at compile time it's actually safe. That's exactly what `instanceof` is for: checking \"is this really a Dog\" BEFORE you downcast, so you never risk a crash."
   },
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n    \n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Animal animal = new Dog();\n        \n        // Bad downcast without instanceof\n        Cat cat = (Cat) animal;  // animal is a Dog, not a Cat!\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.ClassCastException: Dog cannot be cast to Cat\n        at Test.main(Test.java:16)",
-    "explanation": "ClassCastException! You tried to cast a Dog to a Cat, but they're different types.\n\nanimal is actually a Dog object, but you're trying to treat it as a Cat.\n\nAlways use instanceof before downcasting:\nif (animal instanceof Cat) {\n    Cat cat = (Cat) animal;  // Safe only if instanceof returns true\n}\n\nThis is why instanceof is important — it prevents runtime crashes!",
+    "explanation": "[[warn:ClassCastException — this is what happens when you downcast to the wrong type]]. `animal` genuinely holds a Dog object underneath, but the code tries to force it into a Cat reference. Java checks this at runtime and refuses, since a Dog object simply isn't a Cat, no matter what you cast it to.\n\n[[key:The fix is always checking with instanceof before you downcast]]: `if (animal instanceof Cat) { Cat cat = (Cat) animal; }`. That way, the cast only ever runs once you've already confirmed it's safe — [[key:instanceof turns a possible runtime crash into a simple, controlled check]].",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Animal animal = new Dog();\n\n        if (animal {{b1}} Dog) {\n            Dog dog = ({{b2}}) animal;\n            dog.{{b3}}();\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "instanceof"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "Dog"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "wagTail"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "One interface, many forms — that's polymorphism! 🎭"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Why should you check with instanceof before downcasting?\n\nA) It makes the code run faster\nB) It prevents a ClassCastException by confirming the object is actually that type first\nC) instanceof is required by Java syntax rules\nD) Downcasting is always illegal without it",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a Payment class with processPayment() method.\nCreate CreditCard and PayPal subclasses that override processPayment():\n• CreditCard: prints \"Processing credit card payment of $[amount]\"\n• PayPal: prints \"Processing PayPal payment of $[amount]\"\n\nIn main, create an array of Payment references with both types.\nLoop through and call processPayment(100) on each.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: the instanceof-then-cast pattern you just wrote got its own shortcut in Java 16 — pattern matching for instanceof lets you write `if (animal instanceof Dog dog) { dog.wagTail(); }` in one line, combining the check and the cast. It's newer syntax for the exact same safety idea you just learned.",
+    "openingDialogue": "One more shape-shifting thought before you go~"
   },
   "hoverNotes": {}
 }

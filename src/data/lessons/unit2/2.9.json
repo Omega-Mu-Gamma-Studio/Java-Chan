@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class Counter {\n    // Instance variable — each object has its own\n    int instanceCount = 0;\n    \n    // Static variable — SHARED across all objects\n    static int staticCount = 0;\n    \n    // Static final constant (common pattern)\n    static final double PI = 3.14159;\n    \n    Counter() {\n        instanceCount++;\n        staticCount++;\n        System.out.println(\"Object created! Instance: \" + instanceCount + \n                         \", Static total: \" + staticCount);\n    }\n    \n    // Instance method\n    void displayInstance() {\n        System.out.println(\"Instance count for this object: \" + instanceCount);\n    }\n    \n    // Static method\n    static void displayStatic() {\n        System.out.println(\"Total objects created: \" + staticCount);\n        // Can't access instance variables here!\n        // System.out.println(instanceCount); // ERROR!\n    }\n}\n\npublic class StaticExample {\n    // Static block — runs when class loads\n    static {\n        System.out.println(\"Static block runs once when class loads\");\n    }\n    \n    public static void main(String[] args) {\n        // Accessing static members without objects\n        System.out.println(\"PI: \" + Counter.PI);\n        Counter.displayStatic();\n        \n        System.out.println(\"--- Creating objects ---\");\n        Counter c1 = new Counter();\n        Counter c2 = new Counter();\n        Counter c3 = new Counter();\n        \n        // Accessing instance members\n        c1.displayInstance();\n        c2.displayInstance();\n        \n        // Static member is shared\n        Counter.displayStatic();\n        \n        // Math class — all static\n        System.out.println(\"Math.PI: \" + Math.PI);\n        System.out.println(\"Math.sqrt(16): \" + Math.sqrt(16));\n        System.out.println(\"Math.pow(2, 3): \" + Math.pow(2, 3));\n    }\n}",
     "output": "Static block runs once when class loads\nPI: 3.14159\nTotal objects created: 0\n--- Creating objects ---\nObject created! Instance: 1, Static total: 1\nObject created! Instance: 1, Static total: 2\nObject created! Instance: 1, Static total: 3\nInstance count for this object: 1\nInstance count for this object: 1\nTotal objects created: 3\nMath.PI: 3.141592653589793\nMath.sqrt(16): 4.0\nMath.pow(2, 3): 8.0",
-    "explanation": "Static members belong to the CLASS, not instances:\n\nStatic variables (class variables):\n• Shared across ALL objects\n• Only one copy exists\n• Declared with 'static'\n\nInstance variables: \n• Each object has its own copy\n• Not static\n\nStatic methods:\n• Called on class: ClassName.method()\n• Can't access instance members directly\n• Can't use 'this'\n\nStatic block:\n• Runs when class loads (once)\n• Used for initialization\n• Before main() runs\n\nstatic final constants:\n• Common pattern: public static final double PI = 3.14159;\n• Can't be changed\n\nMath class: all members are static! (utility class)\n\nWhen to use static:\n• Utility methods (Math.sqrt, Collections.sort)\n• Constants\n• Shared state (counters, configuration)"
+    "explanation": "Every field and method you've written so far has belonged to individual objects — [[term:static]] members flip that: [[key:they belong to the CLASS itself, with exactly one shared copy, no matter how many objects you create]].\n\nWatch `staticCount` in the example: every single `Counter` object increments the SAME shared number, while `instanceCount` resets fresh for each object. That's the core distinction — [[key:instance variables are per-object, static variables are shared across every object of that class]].\n\nStatic methods follow the same rule, with a real consequence: [[warn:a static method can't directly touch instance variables]], because a static method isn't attached to any particular object — there's no `this` to reach into. You call a static method on the class itself, `Counter.displayStatic()`, never needing an object at all.\n\nA [[term:static block]] — the `static { ... }` you see at the top of the example — runs exactly once, the very first time the class gets loaded, before even `main()` starts. It's mainly there for one-time setup work.\n\nAnd `static final` together is the standard way to write a real constant — `static final double PI = 3.14159;` — [[key:one shared value, and static final means it can never change]]. The entire `Math` class, in fact, is built almost entirely out of static methods — that's exactly why you never need a `Math` object to call `Math.sqrt(16)`."
   },
   "phase2": {
     "brokenCode": "class Counter {\n    static int count = 0;\n    int instanceValue = 5;\n    \n    static void increment() {\n        count++;\n        // Trying to access instance variable from static method\n        instanceValue = 10;  // ERROR!\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Counter.increment();\n    }\n}",
     "errorMessage": "Counter.java:8: error: non-static variable instanceValue cannot be referenced from a static context\n        instanceValue = 10;  // ERROR!\n        ^\n1 error",
-    "explanation": "Static methods can only access static members directly!\n\ninstanceValue is an instance variable — it belongs to an object. Since static methods don't have a 'this' reference, they can't access instance members.\n\nFixes:\n1. Make instanceValue static (if it should be shared)\n2. Access through an object: obj.instanceValue\n3. Don't access instance variables from static methods\n\nRemember: static context → only static members!",
+    "explanation": "[[warn:A static method has no attached object, so it has no way to reach instanceValue]] — instance variables only exist once an object has actually been created, and a static method can be called with zero objects in existence at all.\n\n[[key:There are really three honest ways to fix this]]: make `instanceValue` static too, if it genuinely should be shared across every object; access it through a specific object reference (`someCounter.instanceValue`) instead of directly; or simply don't try to touch instance state from a static method at all. [[key:The rule to remember is simple]]: a static context can only directly reach other static members.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Counter {\n    {{b1}} int count = 0;\n    int instanceValue = 5;\n\n    static void increment() {\n        {{b2}}++;\n    }\n\n    void showInstance() {\n        System.out.println({{b3}});\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "static"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "count"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "instanceValue"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Static means shared by all! 🌟"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Why can't a static method directly access an instance variable?\n\nA) Instance variables are always private\nB) A static method isn't tied to any specific object, so there's no instance to read the variable from\nC) Static methods run before instance variables are created in memory\nD) This restriction doesn't actually exist",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a Student class with:\n• Instance fields: name (String), grade (int)\n• Static field: schoolName (String) — shared by all students\n• Static method: setSchoolName(String name) — sets the school name\n• Constructor: sets name and grade\n• Method: displayInfo() — prints all info\n\nIn main, create 3 students, set school name once, and display all.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: a static block doesn't necessarily run the moment your program starts — it runs the first time that specific class actually gets loaded by the JVM, which in a big program might be well after main() begins, whenever something first references that class.",
+    "openingDialogue": "One more thing before you share more state~"
   },
   "hoverNotes": {}
 }

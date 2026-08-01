@@ -5,28 +5,56 @@
   "phase1": {
     "code": "interface Drivable {\n    void drive();\n    \n    default void honk() {\n        System.out.println(\"Beep!\");\n    }\n}\n\ninterface Flyable {\n    void fly();\n    \n    default void honk() {\n        System.out.println(\"Honk from Flyable!\");\n    }\n}\n\ninterface Swimmable {\n    void swim();\n}\n\n// Class implementing multiple interfaces\nclass FlyingCar implements Drivable, Flyable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on roads\");\n    }\n    \n    @Override\n    public void fly() {\n        System.out.println(\"Flying in the sky\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n    \n    // Resolving default method conflict\n    @Override\n    public void honk() {\n        Drivable.super.honk();  // Choose which default to use\n        // Or provide custom: System.out.println(\"Super honk!\");\n    }\n}\n\nclass AmphibiousVehicle implements Drivable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on land\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n}\n\npublic class MultipleInterfacesExample {\n    public static void main(String[] args) {\n        FlyingCar flyingCar = new FlyingCar();\n        flyingCar.drive();\n        flyingCar.fly();\n        flyingCar.swim();\n        flyingCar.honk();\n        \n        System.out.println(\"---\");\n        \n        // Polymorphism with multiple interfaces\n        AmphibiousVehicle amphib = new AmphibiousVehicle();\n        \n        Drivable asDrivable = amphib;\n        Swimmable asSwimmable = amphib;\n        \n        asDrivable.drive();\n        asSwimmable.swim();\n        \n        System.out.println(\"--- Checking instanceof ---\");\n        System.out.println(\"flyingCar instanceof Drivable: \" + (flyingCar instanceof Drivable));\n        System.out.println(\"flyingCar instanceof Flyable: \" + (flyingCar instanceof Flyable));\n        System.out.println(\"flyingCar instanceof Swimmable: \" + (flyingCar instanceof Swimmable));\n    }\n}",
     "output": "Driving on roads\nFlying in the sky\nSwimming in water\nBeep!\n---\nDriving on land\nSwimming in water\n--- Checking instanceof ---\nflyingCar instanceof Drivable: true\nflyingCar instanceof Flyable: true\nflyingCar instanceof Swimmable: true",
-    "explanation": "Java supports multiple interface inheritance:\n\nA class can implement ANY number of interfaces:\n• class FlyingCar implements Drivable, Flyable, Swimmable\n\nBenefits:\n• Mix-and-match capabilities\n• Different classes can share behaviors\n\nDefault method conflicts:\n• If two interfaces have same default method\n• Must OVERRIDE and resolve the conflict\n• Use InterfaceName.super.methodName() to call specific interface's default\n\nType checking:\n• instanceof works with all implemented interfaces\n• Can assign to any interface type\n\nMultiple interfaces allow for flexible design without the problems of multiple class inheritance (diamond problem)."
+    "explanation": "Now that you know a class can implement several interfaces at once, here's the one wrinkle that comes with it: [[warn:what happens when two of those interfaces both define a DEFAULT method with the exact same name]]?\n\nLook at FlyingCar: both `Drivable` and `Flyable` provide their own default `honk()`. [[key:Java refuses to just silently pick one for you]] — that would be guessing, and Java doesn't guess with ambiguous behavior. Instead, FlyingCar is required to override `honk()` itself and explicitly resolve the conflict, using `Drivable.super.honk()` to say \"specifically call Drivable's version,\" or writing entirely new logic of its own.\n\nThe rest of the flexibility, though, is genuinely useful: `AmphibiousVehicle implements Drivable, Swimmable` can be treated as EITHER type depending on what a piece of code needs — `Drivable asDrivable = amphib;` only exposes drive-related behavior, `Swimmable asSwimmable = amphib;` only exposes swim-related behavior — same object, different lenses depending on which interface reference you're looking through it with.\n\nThis is exactly why Java avoids the notorious [[term:diamond problem]] that multiple CLASS inheritance runs into: interfaces don't carry state, only behavior contracts, so [[key:the only real ambiguity that can ever arise is conflicting default methods]] — and Java forces you to resolve that explicitly instead of letting it silently pick a winner."
   },
   "phase2": {
     "brokenCode": "interface A {\n    default void hello() {\n        System.out.println(\"Hello from A\");\n    }\n}\n\ninterface B {\n    default void hello() {\n        System.out.println(\"Hello from B\");\n    }\n}\n\nclass C implements A, B {\n    // Forgetting to resolve the conflict\n    public static void main(String[] args) {\n        C obj = new C();\n        obj.hello();  // Which one?\n    }\n}",
     "errorMessage": "C.java:17: error: class C inherits unrelated defaults for hello() from types A and B\nclass C implements A, B {\n^\n1 error",
-    "explanation": "Both A and B have a default method hello(). C inherits from both, causing a conflict.\n\nThe compiler doesn't know which hello() to use!\n\nFIX: Override hello() in C and resolve the conflict:\n\n@Override\npublic void hello() {\n    A.super.hello();  // Choose A's version\n    // or B.super.hello();\n    // or custom implementation\n}\n\nAlways resolve default method conflicts explicitly!",
+    "explanation": "[[warn:Both A and B define their own default hello(), and C implements both]] — Java has two equally valid candidates and zero way to know which one you actually meant, so it refuses to compile rather than silently guess wrong.\n\n[[key:The fix is to override hello() in C yourself and pick explicitly]]: `A.super.hello()` to use A's version, `B.super.hello()` for B's, or write brand new logic entirely. [[key:This exact rule — force an explicit resolution instead of silently picking one — is precisely why Java's multiple interface implementation avoids the classic diamond problem]] that plagues true multiple inheritance.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "interface A {\n    default void hello() {\n        System.out.println(\"Hello from A\");\n    }\n}\n\ninterface B {\n    default void hello() {\n        System.out.println(\"Hello from B\");\n    }\n}\n\nclass C implements A, B {\n    @Override\n    public void hello() {\n        A.{{b1}}.hello();\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        C obj = new C();\n        obj.{{b2}}();\n        System.out.println(obj instanceof {{b3}});\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "super"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "hello"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "A",
+          "B"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Why settle for one when you can have many? Multiple interfaces! 🎯"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "What must a class do if it implements two interfaces that both provide a default method with the same signature?\n\nA) Nothing — Java automatically picks the first interface listed\nB) Override that method itself and explicitly resolve which version (or write new logic)\nC) It's a compile error with no possible fix\nD) Remove one of the interfaces",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create interfaces:\n1. Eatable — void eat()\n2. Sleepable — void sleep()\n3. Playable — void play()\n\nCreate a class Pet that implements all three.\nIn main, create a Pet and call all three methods.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: the \"diamond problem\" gets its name from the literal shape you'd draw if you diagrammed it — one base class at the top, two classes branching from it, then one class inheriting from both of those, forming a diamond. It's one of the most-cited reasons C++ allows multiple class inheritance but Java deliberately doesn't.",
+    "openingDialogue": "One more thing before you mix more capabilities~"
   },
   "hoverNotes": {}
 }

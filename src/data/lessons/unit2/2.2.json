@@ -5,28 +5,55 @@
   "phase1": {
     "code": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override  // Annotation - tells compiler we're overriding\n    void makeSound() {\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Meow~ Meow~\");\n    }\n}\n\nclass Cow extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Moo! Moo!\");\n    }\n}\n\npublic class OverridingExample {\n    public static void main(String[] args) {\n        Animal animal = new Animal();\n        Dog dog = new Dog();\n        Cat cat = new Cat();\n        Cow cow = new Cow();\n        \n        animal.makeSound();  // Parent method\n        dog.makeSound();     // Overridden\n        cat.makeSound();     // Overridden\n        cow.makeSound();     // Overridden\n        \n        // Runtime polymorphism\n        System.out.println(\"--- Runtime Polymorphism ---\");\n        Animal myDog = new Dog();\n        Animal myCat = new Cat();\n        \n        myDog.makeSound();  // Calls Dog's version (runtime)\n        myCat.makeSound();  // Calls Cat's version (runtime)\n    }\n}",
     "output": "Some generic animal sound\nWoof! Woof!\nMeow~ Meow~\nMoo! Moo!\n--- Runtime Polymorphism ---\nWoof! Woof!\nMeow~ Meow~",
-    "explanation": "Method overriding allows a subclass to provide a specific implementation of a method:\n\nKey rules for overriding:\n1. Same method name, parameters, return type\n2. Can't be more restrictive with access modifiers\n3. Can't throw broader checked exceptions\n\n@Override annotation:\n• Optional but recommended\n• Tells compiler: \"I'm overriding a method\"\n• Catches errors (if you misspell method name)\n\nRuntime Polymorphism:\n• Animal myDog = new Dog(); — Dog object referenced by Animal\n• Which method runs is determined at RUNTIME\n• The actual object type determines which version runs\n\nMethod overriding vs Overloading:\n• Override: same signature, different implementation\n• Overload: same name, different parameters\n\n⚠️ Can't override static methods — they belong to the class, not object!"
+    "explanation": "Overriding is different from the overloading you've already seen — this time, a subclass takes a method it inherited and [[key:replaces the whole implementation with its own version, same name, same parameters]].\n\nLook at Dog's `makeSound()` — it has the exact same signature as Animal's `makeSound()`, but a completely different body. That's [[term:overriding]]. The `@Override` annotation above it isn't required by the compiler, but [[key:it's a safety net worth always using]] — if you misspell the method name or get the parameters slightly wrong, `@Override` makes the compiler immediately flag it as a mistake instead of quietly compiling a brand new unrelated method.\n\nHere's the part that's genuinely powerful: `Animal myDog = new Dog();` stores a Dog inside an Animal-typed variable, and calling `myDog.makeSound()` still runs Dog's version, not Animal's. [[term:Runtime polymorphism]] means [[key:Java decides which version of an overridden method to run based on the object's ACTUAL type, not the type of the variable holding it]] — and it makes that decision while the program is running, not at compile time.\n\nOne thing that trips people up: [[warn:you cannot override a static method]]. Static methods belong to the class itself, not to any particular object, so there's no \"actual object type\" for Java to check at runtime in the first place."
   },
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makesSound() {  // Wrong method name!\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog();\n        dog.makeSound();  // Calls parent method, not the new one\n    }\n}",
     "errorMessage": "Dog.java:8: error: method does not override or implement a method from a supertype\n    @Override\n    ^\n1 error\n\n(And if you remove @Override, it compiles but doesn't override! The parent method is still called.)",
-    "explanation": "The @Override annotation caught the error! The method name is 'makesSound' but the parent has 'makeSound'.\n\nWithout @Override, this would compile but NOT override the method. The Dog would still use Animal's makeSound()!\n\nThis is why @Override is useful — it ensures you're correctly overriding a parent method.\n\nAlways use @Override to avoid subtle bugs!",
+    "explanation": "[[warn:makesSound isn't the same method as makeSound]] — one extra letter, and Java sees two completely unrelated methods instead of an override. `@Override` is exactly what catches this: it tells the compiler \"I claim this overrides something from my parent,\" and the compiler checks that claim against Animal and finds nothing matching.\n\n[[key:If @Override weren't there at all, this mistake would compile silently]] — Dog would just end up with an extra method nobody calls, and `dog.makeSound()` would keep quietly running Animal's original version instead of the one you meant to write. That's exactly why `@Override` is worth using every single time you intend to override something — it turns a silent logic bug into a loud compile-time error.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    {{b1}}\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        {{b2}} myDog = new Dog();\n        myDog.{{b3}}();\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "@Override"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "Animal"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "makeSound"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Time to override! Give methods a new twist~ 🔄"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "What determines which overridden method actually runs when you call myAnimal.makeSound()?\n\nA) The declared type of the variable (Animal)\nB) The actual runtime type of the object it refers to (e.g. Dog)\nC) Whichever version was compiled first\nD) It's random",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a class Shape with method area() that returns 0.0.\nCreate Rectangle and Circle subclasses that override area():\n• Rectangle: area = width * height\n• Circle: area = Math.PI * radius * radius\n\nIn main, create Shape references to Rectangle and Circle and print their areas.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: @Override wasn't always part of Java — annotations in general (including @Override) were only added in Java 5, back in 2004. Before that, a misspelled override was a purely silent bug with zero compiler help, which is part of why this exact mistake used to be so much more common in real production code.",
+    "openingDialogue": "One more thing before you swap out more behavior~"
   },
   "hoverNotes": {}
 }

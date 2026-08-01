@@ -11,7 +11,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual review — no broken code here!\n\nCommon misconception: \"Inheritance is always the best choice for code reuse.\"\n\nActually, composition is often better:\n• More flexible\n• Avoids tight coupling\n• Easier to test\n\nExample of composition over inheritance:\nInstead of: class Car extends Engine\nUse: class Car { Engine engine; }\n\nDesign patterns help you make the right choice!"
+    "explanation": "Conceptual review — no broken code here!\n\nCommon misconception: \"Inheritance is always the best choice for code reuse.\"\n\nActually, composition is often better:\n• More flexible\n• Avoids tight coupling\n• Easier to test\n\nExample of composition over inheritance:\nInstead of: class Car extends Engine\nUse: class Car { Engine engine; }\n\nDesign patterns help you make the right choice!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -32,5 +33,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

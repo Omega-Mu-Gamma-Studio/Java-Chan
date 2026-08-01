@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Counter {\n    static int count = 0;\n    int instanceValue = 5;\n    \n    static void increment() {\n        count++;\n        // Trying to access instance variable from static method\n        instanceValue = 10;  // ERROR!\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Counter.increment();\n    }\n}",
     "errorMessage": "Counter.java:8: error: non-static variable instanceValue cannot be referenced from a static context\n        instanceValue = 10;  // ERROR!\n        ^\n1 error",
-    "explanation": "Static methods can only access static members directly!\n\ninstanceValue is an instance variable — it belongs to an object. Since static methods don't have a 'this' reference, they can't access instance members.\n\nFixes:\n1. Make instanceValue static (if it should be shared)\n2. Access through an object: obj.instanceValue\n3. Don't access instance variables from static methods\n\nRemember: static context → only static members!"
+    "explanation": "Static methods can only access static members directly!\n\ninstanceValue is an instance variable — it belongs to an object. Since static methods don't have a 'this' reference, they can't access instance members.\n\nFixes:\n1. Make instanceValue static (if it should be shared)\n2. Access through an object: obj.instanceValue\n3. Don't access instance variables from static methods\n\nRemember: static context → only static members!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

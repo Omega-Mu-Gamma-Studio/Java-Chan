@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Validator {\n    public void validateAge(int age) {\n        if (age < 0) {\n            // throw without creating exception — ERROR!\n            throw \"Age cannot be negative!\";  // Wrong!\n        }\n        if (age > 150) {\n            throw new IllegalArgumentException();  // No message\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        v.validateAge(-5);\n    }\n}",
     "errorMessage": "Validator.java:5: error: incompatible types: String cannot be converted to Throwable\n            throw \"Age cannot be negative!\";  // Wrong!\n            ^\n1 error",
-    "explanation": "throw only accepts Throwable objects (Exception, Error, or their subclasses)!\n\nYou CANNOT throw a String, int, or other primitive.\n\nFIX: throw new IllegalArgumentException(\"Age cannot be negative!\");\n\nAlways create an exception object when throwing.\n\nAlso: provide meaningful error messages for debugging!"
+    "explanation": "throw only accepts Throwable objects (Exception, Error, or their subclasses)!\n\nYou CANNOT throw a String, int, or other primitive.\n\nFIX: throw new IllegalArgumentException(\"Age cannot be negative!\");\n\nAlways create an exception object when throwing.\n\nAlso: provide meaningful error messages for debugging!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

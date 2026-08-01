@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.control.TextField;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        TextField field = new TextField();\n        Label label = new Label(\"Hello\");\n        \n        // Forgetting to use property in binding\n        label.textProperty().bind(field);  // ERROR!\n        \n        VBox root = new VBox(field, label);\n        Scene scene = new Scene(root, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "Test.java:12: error: incompatible types: TextField cannot be converted to ObservableValue<String>\n        label.textProperty().bind(field);  // ERROR!\n                             ^\n1 error",
-    "explanation": "You need to bind to the textProperty() of the TextField!\n\nWrong: label.textProperty().bind(field);\nCorrect: label.textProperty().bind(field.textProperty());\n\nAlways bind to properties, not the control itself.\n\nCommon bindable properties:\n• textProperty() — TextField, Label\n• valueProperty() — Slider, ProgressBar\n• selectedProperty() — CheckBox, RadioButton"
+    "explanation": "You need to bind to the textProperty() of the TextField!\n\nWrong: label.textProperty().bind(field);\nCorrect: label.textProperty().bind(field.textProperty());\n\nAlways bind to properties, not the control itself.\n\nCommon bindable properties:\n• textProperty() — TextField, Label\n• valueProperty() — Slider, ProgressBar\n• selectedProperty() — CheckBox, RadioButton",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

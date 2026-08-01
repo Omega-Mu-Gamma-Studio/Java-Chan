@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Forgot to import javafx.stage.Stage\n        // Or using wrong import\n        Label label = new Label(\"Hello\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "Test.java:9: error: cannot find symbol\n    public void start(Stage primaryStage) {\n                     ^\n  symbol:   class Stage\n  location: class Test\n1 error",
-    "explanation": "You forgot to import javafx.stage.Stage!\n\nFIX: Add import statement:\nimport javafx.stage.Stage;\n\nOr use the fully qualified name:\njavafx.stage.Stage primaryStage\n\nAlways check your imports when using JavaFX classes!"
+    "explanation": "You forgot to import javafx.stage.Stage!\n\nFIX: Add import statement:\nimport javafx.stage.Stage;\n\nOr use the fully qualified name:\njavafx.stage.Stage primaryStage\n\nAlways check your imports when using JavaFX classes!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

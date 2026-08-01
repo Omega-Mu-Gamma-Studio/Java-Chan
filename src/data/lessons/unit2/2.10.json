@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "final class Parent {\n    int value = 5;\n}\n\nclass Child extends Parent {  // ERROR! Can't extend final class\n    void display() {\n        System.out.println(\"Child\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Child child = new Child();\n    }\n}",
     "errorMessage": "Test.java:6: error: cannot inherit from final Parent\nclass Child extends Parent {  // ERROR! Can't extend final class\n                  ^\n1 error",
-    "explanation": "Parent is declared final, so it can't be extended.\n\nThis is intentional — final classes are meant to be 'closed' for inheritance.\n\nCommon final classes in Java:\n• String\n• Integer, Double, etc. (wrapper classes)\n• Math\n\nIf you need to use a final class, you can't create subclasses. Use composition instead."
+    "explanation": "Parent is declared final, so it can't be extended.\n\nThis is intentional — final classes are meant to be 'closed' for inheritance.\n\nCommon final classes in Java:\n• String\n• Integer, Double, etc. (wrapper classes)\n• Math\n\nIf you need to use a final class, you can't create subclasses. Use composition instead.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

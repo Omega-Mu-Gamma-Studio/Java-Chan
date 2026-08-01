@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"JavaFX is dead and Swing is the only option.\"\n\nActually: JavaFX is actively maintained and is the recommended choice for new desktop applications. Oracle still supports JavaFX, and the open-source community continues to develop it.\n\nAnother misconception: \"JavaFX is only for simple UIs.\"\n\nActually: JavaFX can create complex, professional UIs with:\n• Charts and graphs\n• 3D graphics\n• Web views (embedded browser)\n• Media playback (audio/video)\n• Complex animations\n\nYou can build full-featured applications with JavaFX!"
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"JavaFX is dead and Swing is the only option.\"\n\nActually: JavaFX is actively maintained and is the recommended choice for new desktop applications. Oracle still supports JavaFX, and the open-source community continues to develop it.\n\nAnother misconception: \"JavaFX is only for simple UIs.\"\n\nActually: JavaFX can create complex, professional UIs with:\n• Charts and graphs\n• 3D graphics\n• Web views (embedded browser)\n• Media playback (audio/video)\n• Complex animations\n\nYou can build full-featured applications with JavaFX!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -31,5 +32,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

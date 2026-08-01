@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.Scanner;\n\npublic class IfElseExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your grade (0-100): \");\n        int score = scanner.nextInt();\n        \n        if (score >= 90) \n            System.out.println(\"Grade: A — Excellent!\");\n            System.out.println(\"You're a star!\");  // Problem!\n        else if (score >= 80) {\n            System.out.println(\"Grade: B — Good job!\");\n        }\n        scanner.close();\n    }\n}",
     "errorMessage": "IfElseExample.java:11: error: 'else' without 'if'\n        else if (score >= 80) {\n        ^\n1 error",
-    "explanation": "Without braces {}, only the FIRST statement belongs to the if block. The second println is NOT in the if block, so the else doesn't match any if statement!\n\nAlways use {} even for single statements — it prevents this error and makes the code clearer:\n\nif (score >= 90) {\n    System.out.println(\"Grade: A — Excellent!\");\n    System.out.println(\"You're a star!\");\n}\n\nRule: Use braces always. It's safer and more readable!"
+    "explanation": "Without braces {}, only the FIRST statement belongs to the if block. The second println is NOT in the if block, so the else doesn't match any if statement!\n\nAlways use {} even for single statements — it prevents this error and makes the code clearer:\n\nif (score >= 90) {\n    System.out.println(\"Grade: A — Excellent!\");\n    System.out.println(\"You're a star!\");\n}\n\nRule: Use braces always. It's safer and more readable!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

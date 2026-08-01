@@ -14,6 +14,13 @@
  *   token-method     → pink  (identifier followed by '(')
  *   token-annotation → purple (@Override etc.)
  *   token-class-name → yellow (after 'class' keyword)
+ *
+ * Hover tooltips: any word-token with a matching entry in the `notes`
+ * lookup (global keyword glossary + lesson-specific overrides, merged by
+ * CodeBlock.jsx) gets wrapped in a `.hoverable-token` span carrying a
+ * `data-tooltip` attribute — CSS-only tooltip, no JS state needed. Tokens
+ * with neither a color class nor a note stay as plain text (no span) to
+ * avoid bloating the DOM with empty wrappers.
  */
 
 const KEYWORDS = new Set([
@@ -39,7 +46,20 @@ function escapeHtml(str) {
     .replace(/>/g, '&gt;');
 }
 
-export function tokenize(line) {
+/** Build the HTML for one word token, adding a hover tooltip span if `note` is given. */
+function buildToken(word, cls, note) {
+  const escapedWord = escapeHtml(word);
+  const classes = [cls, note ? 'hoverable-token' : null].filter(Boolean).join(' ');
+
+  if (!classes) return escapedWord;
+
+  const tooltipAttr = note
+    ? ` data-tooltip="${escapeHtml(note)}" tabindex="0" role="button" aria-label="${escapeHtml(note)}"`
+    : '';
+  return `<span class="${classes}"${tooltipAttr}>${escapedWord}</span>`;
+}
+
+export function tokenize(line, notes = {}) {
   // Handle full-line comments
   const trimmed = line.trimStart();
   if (trimmed.startsWith('//')) {
@@ -112,9 +132,7 @@ export function tokenize(line) {
       else if (isMethod)          cls = 'token-method';
       else if (/^[A-Z]/.test(word)) cls = 'token-class-name';
 
-      result += cls
-        ? `<span class="${cls}">${escapeHtml(word)}</span>`
-        : escapeHtml(word);
+      result += buildToken(word, cls, notes[word]);
 
       i = end;
       continue;

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"A\");\n        list.add(\"B\");\n        \n        // Removing while iterating\n        for (String s : list) {\n            if (s.equals(\"A\")) {\n                list.remove(s);  // ERROR!\n            }\n        }\n        System.out.println(list);\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.util.ConcurrentModificationException\n        at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1090)\n        at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1042)\n        at Test.main(Test.java:8)",
-    "explanation": "ConcurrentModificationException! You can't modify a list while iterating over it with a for-each loop.\n\nThe for-each loop uses an internal iterator that checks for modifications.\n\nFIX: Use Iterator and its remove() method:\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"A\")) {\n        it.remove();  // Safe!\n    }\n}\n\nOr use removeIf(): list.removeIf(s -> s.equals(\"A\"));"
+    "explanation": "ConcurrentModificationException! You can't modify a list while iterating over it with a for-each loop.\n\nThe for-each loop uses an internal iterator that checks for modifications.\n\nFIX: Use Iterator and its remove() method:\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"A\")) {\n        it.remove();  // Safe!\n    }\n}\n\nOr use removeIf(): list.removeIf(s -> s.equals(\"A\"));",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

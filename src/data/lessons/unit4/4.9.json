@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        Stack<Integer> stack = new Stack<>();\n        \n        // Pop from empty stack\n        System.out.println(stack.pop());  // ERROR!\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.util.EmptyStackException\n        at java.base/java.util.Stack.peek(Stack.java:102)\n        at java.base/java.util.Stack.pop(Stack.java:84)\n        at Test.main(Test.java:7)",
-    "explanation": "pop() throws EmptyStackException when called on an empty stack!\n\nFIX: Check if empty first:\nif (!stack.isEmpty()) {\n    System.out.println(stack.pop());\n} else {\n    System.out.println(\"Stack is empty!\");\n}\n\nOr use peek() which also throws EmptyStackException.\n\nSimilarly, for Queue:\n• poll() returns null if empty (safe)\n• remove() throws NoSuchElementException (unsafe)\n\nAlways prefer the safe versions:\n• poll() over remove()\n• peek() over element()\n• offer() over add()"
+    "explanation": "pop() throws EmptyStackException when called on an empty stack!\n\nFIX: Check if empty first:\nif (!stack.isEmpty()) {\n    System.out.println(stack.pop());\n} else {\n    System.out.println(\"Stack is empty!\");\n}\n\nOr use peek() which also throws EmptyStackException.\n\nSimilarly, for Queue:\n• poll() returns null if empty (safe)\n• remove() throws NoSuchElementException (unsafe)\n\nAlways prefer the safe versions:\n• poll() over remove()\n• peek() over element()\n• offer() over add()",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

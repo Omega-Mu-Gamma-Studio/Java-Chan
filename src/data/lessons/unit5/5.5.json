@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Button button = new Button(\"Click\");\n        \n        // Forgetting to add to layout\n        // root.getChildren().add(button);\n        \n        Scene scene = new Scene(new VBox(), 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Window appears with NOTHING inside!)",
-    "explanation": "You created a button but never added it to the layout!\n\nFIX: Add the button to the layout:\nVBox root = new VBox();\nroot.getChildren().add(button);\nScene scene = new Scene(root, 300, 200);\n\nOr add directly when creating scene:\nScene scene = new Scene(new VBox(button), 300, 200);\n\nAlways remember to add controls to the scene graph!"
+    "explanation": "You created a button but never added it to the layout!\n\nFIX: Add the button to the layout:\nVBox root = new VBox();\nroot.getChildren().add(button);\nScene scene = new Scene(root, 300, 200);\n\nOr add directly when creating scene:\nScene scene = new Scene(new VBox(button), 300, 200);\n\nAlways remember to add controls to the scene graph!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

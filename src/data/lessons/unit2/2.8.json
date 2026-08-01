@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "// File: Main.java\n// Missing import statement!\n\npublic class Main {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"Hello\");\n    }\n}",
     "errorMessage": "Main.java:5: error: cannot find symbol\n        ArrayList<String> list = new ArrayList<>();\n        ^\n  symbol:   class ArrayList\n  location: class Main\nMain.java:5: error: cannot find symbol\n        ArrayList<String> list = new ArrayList<>();\n                                      ^\n  symbol:   class ArrayList\n  location: class Main\n2 errors",
-    "explanation": "ArrayList is in the java.util package, but you haven't imported it!\n\nFIX: Add import at the top:\nimport java.util.ArrayList;\n\nOr use the fully qualified name:\njava.util.ArrayList<String> list = new java.util.ArrayList<>();\n\nRemember: Only java.lang is automatically imported. All other packages need explicit import statements."
+    "explanation": "ArrayList is in the java.util package, but you haven't imported it!\n\nFIX: Add import at the top:\nimport java.util.ArrayList;\n\nOr use the fully qualified name:\njava.util.ArrayList<String> list = new java.util.ArrayList<>();\n\nRemember: Only java.lang is automatically imported. All other packages need explicit import statements.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

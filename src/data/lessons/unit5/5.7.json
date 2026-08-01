@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Button button = new Button(\"Button\");\n        \n        // Wrong CSS property\n        button.setStyle(\"color: red;\");  // Should be -fx-text-fill\n        \n        VBox root = new VBox(button);\n        Scene scene = new Scene(root, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Button appears with default color — CSS is ignored or not applied!)",
-    "explanation": "JavaFX uses -fx- properties, not standard CSS properties!\n\nWrong: \"color: red;\"\nCorrect: \"-fx-text-fill: red;\"\n\nCommon mistakes:\n• color → -fx-text-fill\n• background-color → -fx-background-color\n• border → -fx-border-color, -fx-border-width\n• padding → -fx-padding\n• font-size → -fx-font-size\n\nAlways use the -fx- prefix for JavaFX CSS properties!"
+    "explanation": "JavaFX uses -fx- properties, not standard CSS properties!\n\nWrong: \"color: red;\"\nCorrect: \"-fx-text-fill: red;\"\n\nCommon mistakes:\n• color → -fx-text-fill\n• background-color → -fx-background-color\n• border → -fx-border-color, -fx-border-width\n• padding → -fx-padding\n• font-size → -fx-font-size\n\nAlways use the -fx- prefix for JavaFX CSS properties!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor missing return type\n    void Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student alice = new Student(\"Alice\", 20, 3.8);\n    }\n}",
     "errorMessage": "Main.java:16: error: constructor Student in class Student cannot be applied to given types;\n        Student alice = new Student(\"Alice\", 20, 3.8);\n                        ^\n  required: no arguments\n  found: String,int,double\n1 error",
-    "explanation": "void Student(...) is a METHOD, not a CONSTRUCTOR!\n\nConstructors:\n• Have NO return type (not even void)\n• Must have the SAME name as the class\n\nCorrect: Student(String name, int age, double gpa)\n\nMistake: void Student(String name, int age, double gpa) ← this is a method\n\nThe compiler can't find a constructor that takes parameters!"
+    "explanation": "void Student(...) is a METHOD, not a CONSTRUCTOR!\n\nConstructors:\n• Have NO return type (not even void)\n• Must have the SAME name as the class\n\nCorrect: Student(String name, int age, double gpa)\n\nMistake: void Student(String name, int age, double gpa) ← this is a method\n\nThe compiler can't find a constructor that takes parameters!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

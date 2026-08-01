@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class OperatorsExample {\n    public static void main(String[] args) {\n        int a = 10, b = 3;\n        System.out.println(\"a / b = \" + a / b);  // Problem!\n        System.out.println(\"a + b = \" + (a + b));\n    }\n}",
     "errorMessage": "OperatorsExample.java:4: error: bad operand types for binary operator '+'\n        System.out.println(\"a / b = \" + a / b);\n                                      ^\n  first type:  String\n  second type: int",
-    "explanation": "Java evaluates left to right with operator precedence!\n\n\"a / b = \" + a / b is evaluated as (\"a / b = \" + a) / b — you can't divide a string by an int!\n\nThe fix: use parentheses to force the division first:\n\"a / b = \" + (a / b)\n\nAlways wrap arithmetic in parentheses when combining with strings!"
+    "explanation": "Java evaluates left to right with operator precedence!\n\n\"a / b = \" + a / b is evaluated as (\"a / b = \" + a) / b — you can't divide a string by an int!\n\nThe fix: use parentheses to force the division first:\n\"a / b = \" + (a / b)\n\nAlways wrap arithmetic in parentheses when combining with strings!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

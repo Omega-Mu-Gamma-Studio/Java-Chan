@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.Scanner;\n\npublic class TryCatchExample {\n    public static void main(String[] args) {\n        try {\n            System.out.print(\"Enter a number: \");\n            int num = new Scanner(System.in).nextInt();\n            int result = 100 / num;\n            System.out.println(\"Result: \" + result);\n        }\n        // Wrong order — generic before specific!\n        catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        catch (ArithmeticException e) {  // Unreachable!\n            System.out.println(\"Division by zero!\");\n        }\n    }\n}",
     "errorMessage": "TryCatchExample.java:12: error: exception ArithmeticException has already been caught\n        catch (ArithmeticException e) {  // Unreachable!\n        ^\n1 error",
-    "explanation": "You can't catch ArithmeticException after catching Exception!\n\nException catches ALL exceptions (including ArithmeticException), so the ArithmeticException catch is unreachable.\n\nFIX: Order catches from most specific to most general:\n\ncatch (ArithmeticException e) { ... }        // Specific first\ncatch (ArrayIndexOutOfBoundsException e) { ... }\ncatch (Exception e) { ... }                  // Generic last\n\nAlways put the most specific exceptions first!"
+    "explanation": "You can't catch ArithmeticException after catching Exception!\n\nException catches ALL exceptions (including ArithmeticException), so the ArithmeticException catch is unreachable.\n\nFIX: Order catches from most specific to most general:\n\ncatch (ArithmeticException e) { ... }        // Specific first\ncatch (ArrayIndexOutOfBoundsException e) { ... }\ncatch (Exception e) { ... }                  // Generic last\n\nAlways put the most specific exceptions first!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

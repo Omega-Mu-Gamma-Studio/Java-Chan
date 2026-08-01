@@ -57,6 +57,32 @@ tracks the "how far are we" and what's left, updated as each step lands.
   studio-confirmed decision — easy to revisit if a shared curve turns out
   to matter once real students hit it.
 
+### Step 2b — Hover glossary + Phase 2 fix-reveal (addendum, §4.6)
+Not in the original proposal — decided during implementation, documented as
+new §4.6 in `java-chan-next-update.md`.
+
+- **`phase2.fixedCode`**: a "Show Me the Fix" toggle in Phase 2 reveals the
+  corrected version of `brokenCode` on demand (doesn't force it — keeps
+  some spot-the-bug challenge intact). `null` until authored; toggle
+  hides itself when there's nothing to show.
+- **Hover tooltips on code**, two-tier, pure CSS (no JS tooltip state —
+  `.hoverable-token` + `data-tooltip`, consistent with the tokenizer's
+  existing pure-CSS-token approach):
+  - `src/data/keywordGlossary.js` — shared glossary of common
+    keywords/types/stock-API calls (`public`, `static`, `println`, ...),
+    written once, used on every `CodeBlock` across all 75 lessons.
+  - New top-level lesson field `hoverNotes: {}` — lesson-specific
+    overrides for tokens unique to that lesson's example, take priority
+    over the shared glossary for the same token.
+  - Wired into `CodeBlock.jsx` (merges glossary + lesson notes, passes to
+    `tokenize()`) and `javaHighlighter.js` (emits `data-tooltip` only on
+    tokens that have a note, to avoid span bloat on plain code).
+  - Ran `scripts/add-hover-and-fix-schema.py` (idempotent) to add
+    `phase2.fixedCode: null` and `hoverNotes: {}` to all 75 lesson JSONs.
+  - Lesson 1.3 seeded with real content (`fixedCode` + one `hoverNotes`
+    entry) as an end-to-end smoke test — everything else stays stubbed
+    for the content step.
+
 ---
 
 ## Verification done on this step

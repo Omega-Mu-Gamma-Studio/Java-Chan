@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Button button = new Button(\"Click\");\n        \n        // Forgetting to use lambda correctly\n        button.setOnAction(e -> {\n            // This code never runs because the lambda isn't assigned correctly\n        });\n        \n        VBox root = new VBox(button);\n        Scene scene = new Scene(root, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Button appears but does NOTHING when clicked — no error, just silent failure!)",
-    "explanation": "The lambda syntax is correct, but the body is empty, so clicking the button does nothing.\n\nThis is a logic error, not a syntax error.\n\nFIX: Add behavior:\nbutton.setOnAction(e -> {\n    System.out.println(\"Button clicked!\");\n    // or update UI\n});\n\nAlways test your event handlers to make sure they work!\n\nCommon mistake: using the wrong event method for the control."
+    "explanation": "The lambda syntax is correct, but the body is empty, so clicking the button does nothing.\n\nThis is a logic error, not a syntax error.\n\nFIX: Add behavior:\nbutton.setOnAction(e -> {\n    System.out.println(\"Button clicked!\");\n    // or update UI\n});\n\nAlways test your event handlers to make sure they work!\n\nCommon mistake: using the wrong event method for the control.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

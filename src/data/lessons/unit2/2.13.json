@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    // Missing equals() and hashCode() override\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Person p1 = new Person(\"Alice\", 25);\n        Person p2 = new Person(\"Alice\", 25);\n        \n        System.out.println(p1.equals(p2));  // false — uses default Object.equals()\n        \n        java.util.HashSet<Person> set = new java.util.HashSet<>();\n        set.add(p1);\n        set.add(p2);  // Adds duplicate because equals() returns false\n        System.out.println(\"Set size: \" + set.size());  // 2 (should be 1)\n    }\n}",
     "errorMessage": "false\nSet size: 2\n\n(No compiler error — but the LOGIC is wrong! Duplicates can appear in HashSet.)",
-    "explanation": "Without overriding equals() and hashCode(), HashSet thinks p1 and p2 are different!\n\nDefault Object.equals() compares references: p1 != p2\n\nDefault Object.hashCode() returns different values\n\nFIX: Override both methods:\n\n@Override\npublic boolean equals(Object obj) { ... }\n\n@Override\npublic int hashCode() { ... }\n\nAlways override equals() and hashCode() together!"
+    "explanation": "Without overriding equals() and hashCode(), HashSet thinks p1 and p2 are different!\n\nDefault Object.equals() compares references: p1 != p2\n\nDefault Object.hashCode() returns different values\n\nFIX: Override both methods:\n\n@Override\npublic boolean equals(Object obj) { ... }\n\n@Override\npublic int hashCode() { ... }\n\nAlways override equals() and hashCode() together!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

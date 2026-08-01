@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Resource {\n    synchronized void method() {\n        // Forgetting to use wait in a loop\n        if (!condition) {\n            wait();  // Should be while(!condition) { wait(); }\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.IllegalMonitorStateException\n        at java.base/java.lang.Object.wait(Native Method)\n        at Resource.method(Resource.java:5)",
-    "explanation": "wait() is called without having the lock! Or the condition check is wrong.\n\nTwo common issues:\n\n1. IllegalMonitorStateException:\n   • wait() must be called from synchronized context\n   • FIX: Ensure you have the lock\n\n2. Using 'if' instead of 'while':\n   • If wait() returns, condition might still be false\n   • FIX: while (condition) { wait(); }\n\nAlways:\n• Call wait() from synchronized method/block\n• Use while, not if\n• Check condition before and after wait()"
+    "explanation": "wait() is called without having the lock! Or the condition check is wrong.\n\nTwo common issues:\n\n1. IllegalMonitorStateException:\n   • wait() must be called from synchronized context\n   • FIX: Ensure you have the lock\n\n2. Using 'if' instead of 'while':\n   • If wait() returns, condition might still be false\n   • FIX: while (condition) { wait(); }\n\nAlways:\n• Call wait() from synchronized method/block\n• Use while, not if\n• Check condition before and after wait()",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

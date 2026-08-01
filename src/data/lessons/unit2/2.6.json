@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "interface Drawable {\n    void draw();\n}\n\nclass Circle implements Drawable {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    // Forgetting the 'public' modifier (it's needed!)\n    void draw() {\n        System.out.println(\"Drawing circle\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Circle c = new Circle(5);\n        c.draw();\n    }\n}",
     "errorMessage": "Circle.java:10: error: draw() in Circle cannot implement draw() in Drawable\n    void draw() {\n         ^\n  attempting to assign weaker access privileges; was public\n1 error",
-    "explanation": "Interface methods are implicitly public. When implementing, you must use public!\n\nThe error says you're trying to assign weaker access (package-private) than the interface requires (public).\n\nFIX: public void draw() { ... }\n\nAlways use public when implementing interface methods!"
+    "explanation": "Interface methods are implicitly public. When implementing, you must use public!\n\nThe error says you're trying to assign weaker access (package-private) than the interface requires (public).\n\nFIX: public void draw() { ... }\n\nAlways use public when implementing interface methods!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

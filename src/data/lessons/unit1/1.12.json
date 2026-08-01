@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class MethodsExample {\n    public static void main(String[] args) {\n        System.out.println(\"Sum: \" + add(5, 3));\n    }\n    \n    // Forgetting to declare return type\n    static add(int a, int b) {\n        return a + b;\n    }\n}",
     "errorMessage": "MethodsExample.java:7: error: invalid method declaration; return type required\n    static add(int a, int b) {\n           ^\n1 error",
-    "explanation": "Every method MUST have a return type! Even void must be explicitly declared.\n\nCorrect: static int add(int a, int b)\nor: static void add(int a, int b)\n\nAlways include the return type in your method declaration."
+    "explanation": "Every method MUST have a return type! Even void must be explicitly declared.\n\nCorrect: static int add(int a, int b)\nor: static void add(int a, int b)\n\nAlways include the return type in your method declaration.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

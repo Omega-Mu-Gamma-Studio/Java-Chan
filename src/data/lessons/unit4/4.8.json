@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\"));\n        \n        // Forgot to call next() before remove()\n        Iterator<String> it = list.iterator();\n        while (it.hasNext()) {\n            it.remove();  // ERROR!\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.IllegalStateException\n        at java.base/java.util.ArrayList$Itr.remove(ArrayList.java:922)\n        at Test.main(Test.java:8)",
-    "explanation": "You can't call remove() without first calling next()!\n\nremove() removes the element returned by the most recent next() call.\n\nFIX: Always call next() before remove():\nwhile (it.hasNext()) {\n    String s = it.next();  // First! THEN remove\n    it.remove();  // Safe\n}\n\nOr check a condition:\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"B\")) {\n        it.remove();  // Remove only B\n    }\n}\n\nRemember: next() → process → remove()"
+    "explanation": "You can't call remove() without first calling next()!\n\nremove() removes the element returned by the most recent next() call.\n\nFIX: Always call next() before remove():\nwhile (it.hasNext()) {\n    String s = it.next();  // First! THEN remove\n    it.remove();  // Safe\n}\n\nOr check a condition:\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"B\")) {\n        it.remove();  // Remove only B\n    }\n}\n\nRemember: next() → process → remove()",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

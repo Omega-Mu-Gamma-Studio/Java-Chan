@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.concurrent.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ExecutorService pool = Executors.newFixedThreadPool(2);\n        \n        // Forgetting to shutdown\n        pool.execute(() -> System.out.println(\"Hello\"));\n        \n        // Program ends but pool still running!\n        System.out.println(\"Done\");\n    }\n}",
     "errorMessage": "Done\n\n(No error — but the program won't exit! The thread pool keeps the JVM alive.)",
-    "explanation": "The ExecutorService's threads are non-daemon threads. They keep the JVM running even after main() ends!\n\nThe program will hang indefinitely because the pool is still active.\n\nFIX: Always shutdown the pool:\n\npool.shutdown();  // Graceful shutdown\n\nOr use try-with-resources (Java 19+):\ntry (ExecutorService pool = Executors.newFixedThreadPool(2)) {\n    pool.execute(() -> System.out.println(\"Hello\"));\n}\n\nOr shutdown and wait:\npool.shutdown();\npool.awaitTermination(5, TimeUnit.SECONDS);\n\nAlways clean up your thread pools!"
+    "explanation": "The ExecutorService's threads are non-daemon threads. They keep the JVM running even after main() ends!\n\nThe program will hang indefinitely because the pool is still active.\n\nFIX: Always shutdown the pool:\n\npool.shutdown();  // Graceful shutdown\n\nOr use try-with-resources (Java 19+):\ntry (ExecutorService pool = Executors.newFixedThreadPool(2)) {\n    pool.execute(() -> System.out.println(\"Hello\"));\n}\n\nOr shutdown and wait:\npool.shutdown();\npool.awaitTermination(5, TimeUnit.SECONDS);\n\nAlways clean up your thread pools!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

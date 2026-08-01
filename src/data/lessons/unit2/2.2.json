@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makesSound() {  // Wrong method name!\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog();\n        dog.makeSound();  // Calls parent method, not the new one\n    }\n}",
     "errorMessage": "Dog.java:8: error: method does not override or implement a method from a supertype\n    @Override\n    ^\n1 error\n\n(And if you remove @Override, it compiles but doesn't override! The parent method is still called.)",
-    "explanation": "The @Override annotation caught the error! The method name is 'makesSound' but the parent has 'makeSound'.\n\nWithout @Override, this would compile but NOT override the method. The Dog would still use Animal's makeSound()!\n\nThis is why @Override is useful — it ensures you're correctly overriding a parent method.\n\nAlways use @Override to avoid subtle bugs!"
+    "explanation": "The @Override annotation caught the error! The method name is 'makesSound' but the parent has 'makeSound'.\n\nWithout @Override, this would compile but NOT override the method. The Dog would still use Animal's makeSound()!\n\nThis is why @Override is useful — it ensures you're correctly overriding a parent method.\n\nAlways use @Override to avoid subtle bugs!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

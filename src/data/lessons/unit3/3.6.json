@@ -11,7 +11,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"NullPointerException means the variable is undefined.\"\n\nActually: null means the variable has no object reference. The variable exists, but doesn't point to any object.\n\nString str = null;  // str exists, but points to nothing\nstr.length();       // NPE because null doesn't have a length\n\nFix: Initialize your variables properly!\n\nAnother misconception: \"IOException should be ignored.\"\n\nActually: I/O errors happen frequently (file not found, disk full, permission denied). Always handle them gracefully with meaningful user feedback."
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"NullPointerException means the variable is undefined.\"\n\nActually: null means the variable has no object reference. The variable exists, but doesn't point to any object.\n\nString str = null;  // str exists, but points to nothing\nstr.length();       // NPE because null doesn't have a length\n\nFix: Initialize your variables properly!\n\nAnother misconception: \"IOException should be ignored.\"\n\nActually: I/O errors happen frequently (file not found, disk full, permission denied). Always handle them gracefully with meaningful user feedback.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -32,5 +33,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

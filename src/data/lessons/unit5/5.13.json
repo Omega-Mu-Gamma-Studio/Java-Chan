@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.animation.TranslateTransition;\nimport javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.shape.Rectangle;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\nimport javafx.util.Duration;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Rectangle rect = new Rectangle(50, 50);\n        \n        TranslateTransition tt = new TranslateTransition(Duration.seconds(2));\n        tt.setNode(rect);\n        tt.setToX(100);\n        // Forgetting to call play()\n        // tt.play();\n        \n        Scene scene = new Scene(new VBox(rect), 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Rectangle appears but doesn't animate — no movement!)",
-    "explanation": "You created the animation but never called play()!\n\nFIX: Add tt.play(); after configuring the animation.\n\nAlso consider:\n• Animation only runs when play() is called\n• Can also use playFromStart()\n• Check if animation is playing: tt.getStatus() == Animation.Status.RUNNING\n\nAlways remember to call play() to start your animations!"
+    "explanation": "You created the animation but never called play()!\n\nFIX: Add tt.play(); after configuring the animation.\n\nAlso consider:\n• Animation only runs when play() is called\n• Can also use playFromStart()\n• Check if animation is playing: tt.getStatus() == Animation.Status.RUNNING\n\nAlways remember to call play() to start your animations!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

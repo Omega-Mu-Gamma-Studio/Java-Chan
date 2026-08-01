@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n    \n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Animal animal = new Dog();\n        \n        // Bad downcast without instanceof\n        Cat cat = (Cat) animal;  // animal is a Dog, not a Cat!\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.ClassCastException: Dog cannot be cast to Cat\n        at Test.main(Test.java:16)",
-    "explanation": "ClassCastException! You tried to cast a Dog to a Cat, but they're different types.\n\nanimal is actually a Dog object, but you're trying to treat it as a Cat.\n\nAlways use instanceof before downcasting:\nif (animal instanceof Cat) {\n    Cat cat = (Cat) animal;  // Safe only if instanceof returns true\n}\n\nThis is why instanceof is important — it prevents runtime crashes!"
+    "explanation": "ClassCastException! You tried to cast a Dog to a Cat, but they're different types.\n\nanimal is actually a Dog object, but you're trying to treat it as a Cat.\n\nAlways use instanceof before downcasting:\nif (animal instanceof Cat) {\n    Cat cat = (Cat) animal;  // Safe only if instanceof returns true\n}\n\nThis is why instanceof is important — it prevents runtime crashes!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

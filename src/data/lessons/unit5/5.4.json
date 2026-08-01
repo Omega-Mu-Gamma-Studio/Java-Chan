@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.GridPane;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        GridPane grid = new GridPane();\n        grid.setHgap(10);\n        grid.setVgap(10);\n        \n        Label label = new Label(\"Name:\");\n        Button button = new Button(\"Click\");\n        \n        // Forgetting to specify row and column\n        grid.getChildren().add(label);  // No position!\n        grid.getChildren().add(button); // No position!\n        \n        Scene scene = new Scene(grid, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Window appears — but both nodes are in row 0, column 0, overlapping!)",
-    "explanation": "When you use add() without specifying row/column, both nodes go to (0,0) and overlap!\n\nFIX: Use add(node, column, row):\ngrid.add(label, 0, 0);\ngrid.add(button, 1, 0);\n\nOr set row/column indices:\nGridPane.setRowIndex(label, 0);\nGridPane.setColumnIndex(label, 0);\n\nAlways specify positions in GridPane!"
+    "explanation": "When you use add() without specifying row/column, both nodes go to (0,0) and overlap!\n\nFIX: Use add(node, column, row):\ngrid.add(label, 0, 0);\ngrid.add(button, 1, 0);\n\nOr set row/column indices:\nGridPane.setRowIndex(label, 0);\nGridPane.setColumnIndex(label, 0);\n\nAlways specify positions in GridPane!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

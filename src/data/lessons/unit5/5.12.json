@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Alert;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Alert alert = new Alert(Alert.AlertType.INFORMATION);\n        alert.setContentText(\"Hello\");\n        // Forgetting to show the alert!\n        // alert.showAndWait();\n        \n        Scene scene = new Scene(new VBox(), 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Window appears but the alert is NEVER SHOWN!)",
-    "explanation": "You created the alert but never called show() or showAndWait()!\n\nFIX: Add:\nalert.show();  // Non-blocking\n\nor\nalert.showAndWait();  // Blocking (waits for response)\n\nAlways call show() or showAndWait() to display the dialog!\n\nCommon mistake: creating the alert but forgetting to display it."
+    "explanation": "You created the alert but never called show() or showAndWait()!\n\nFIX: Add:\nalert.show();  // Non-blocking\n\nor\nalert.showAndWait();  // Blocking (waits for response)\n\nAlways call show() or showAndWait() to display the dialog!\n\nCommon mistake: creating the alert but forgetting to display it.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "enum Color {\n    RED, GREEN, BLUE;\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Color color = Color.RED;\n        \n        // Using enum in switch with wrong case\n        switch (color) {\n            case Red:  // Wrong case — should be RED\n                System.out.println(\"Red!\");\n                break;\n            case GREEN:\n                System.out.println(\"Green!\");\n                break;\n        }\n    }\n}",
     "errorMessage": "Test.java:9: error: constant string required\n            case Red:  // Wrong case — should be RED\n                 ^\n1 error",
-    "explanation": "When using enums in switch, you must use the EXACT constant name (case-sensitive).\n\nColor.RED is the constant, but you wrote Red.\n\nFIX: Use RED, not Red.\n\nIn switch statements, you can use the enum constant name without the enum prefix:\nswitch (color) {\n    case RED:     // ✓ correct\n    case GREEN:   // ✓ correct\n}"
+    "explanation": "When using enums in switch, you must use the EXACT constant name (case-sensitive).\n\nColor.RED is the constant, but you wrote Red.\n\nFIX: Use RED, not Red.\n\nIn switch statements, you can use the enum constant name without the enum prefix:\nswitch (color) {\n    case RED:     // ✓ correct\n    case GREEN:   // ✓ correct\n}",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

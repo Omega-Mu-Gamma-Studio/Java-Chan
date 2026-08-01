@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\nclass Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    // Missing equals() and hashCode()\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        HashSet<Person> set = new HashSet<>();\n        set.add(new Person(\"Alice\", 25));\n        set.add(new Person(\"Alice\", 25));  // Should be duplicate, but isn't!\n        \n        System.out.println(\"Size: \" + set.size());  // 2 (should be 1)\n    }\n}",
     "errorMessage": "Size: 2\n\n(No error — but the LOGIC is WRONG! Duplicates appear because equals/hashCode are missing.)",
-    "explanation": "HashSet uses equals() and hashCode() to determine if objects are duplicates.\n\nWithout overriding them, HashSet uses Object's default equals() (reference equality).\n\nTwo different objects with the same data are considered DIFFERENT.\n\nFIX: Override equals() and hashCode():\n\n@Override\npublic boolean equals(Object o) {\n    if (this == o) return true;\n    if (o == null || getClass() != o.getClass()) return false;\n    Person person = (Person) o;\n    return age == person.age && Objects.equals(name, person.name);\n}\n\n@Override\npublic int hashCode() {\n    return Objects.hash(name, age);\n}\n\nAlways override both when using custom objects in Sets!"
+    "explanation": "HashSet uses equals() and hashCode() to determine if objects are duplicates.\n\nWithout overriding them, HashSet uses Object's default equals() (reference equality).\n\nTwo different objects with the same data are considered DIFFERENT.\n\nFIX: Override equals() and hashCode():\n\n@Override\npublic boolean equals(Object o) {\n    if (this == o) return true;\n    if (o == null || getClass() != o.getClass()) return false;\n    Person person = (Person) o;\n    return age == person.age && Objects.equals(name, person.name);\n}\n\n@Override\npublic int hashCode() {\n    return Objects.hash(name, age);\n}\n\nAlways override both when using custom objects in Sets!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

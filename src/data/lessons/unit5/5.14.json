@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "// Forgetting to update UI after data changes\nclass BadTodoApp extends Application {\n    private ObservableList<Task> tasks;\n    private ListView<Task> listView;\n    \n    void addTask(String desc) {\n        tasks.add(new Task(desc, LocalDate.now()));\n        // Forgot to refresh list view!\n        // listView.setItems(tasks);\n    }\n}",
     "errorMessage": "(Tasks are added to the data but the UI DOESN'T UPDATE!)",
-    "explanation": "You added a task to the ObservableList but didn't refresh the ListView.\n\nFIX: Update the ListView:\nlistView.setItems(tasks);\n\nOr better: Use binding/listener so UI updates automatically.\n\nOption 1: Bind listView.itemsProperty().bind(tasks);\nOption 2: Set items once and ObservableList updates UI automatically\n\nIn our To-Do app, we call updateTaskListView() after every change.\n\nAlways ensure UI updates when data changes!"
+    "explanation": "You added a task to the ObservableList but didn't refresh the ListView.\n\nFIX: Update the ListView:\nlistView.setItems(tasks);\n\nOr better: Use binding/listener so UI updates automatically.\n\nOption 1: Bind listView.itemsProperty().bind(tasks);\nOption 2: Set items once and ObservableList updates UI automatically\n\nIn our To-Do app, we call updateTaskListView() after every change.\n\nAlways ensure UI updates when data changes!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        // Cannot use primitive types with generics\n        ArrayList<int> list = new ArrayList<>();  // ERROR!\n    }\n}",
     "errorMessage": "Test.java:5: error: unexpected type\n        ArrayList<int> list = new ArrayList<>();  // ERROR!\n                   ^\n  required: reference type\n  found:    int\n1 error",
-    "explanation": "Generics only work with reference types, not primitives!\n\nYou can't use ArrayList<int>, ArrayList<double>, etc.\n\nFIX: Use wrapper classes:\nArrayList<Integer> list = new ArrayList<>();  // ✓\nArrayList<Double> list2 = new ArrayList<>();  // ✓\n\nJava automatically handles autoboxing/unboxing:\nlist.add(42);   // int → Integer (autoboxing)\nint value = list.get(0);  // Integer → int (unboxing)\n\nRemember: Generics = reference types only!"
+    "explanation": "Generics only work with reference types, not primitives!\n\nYou can't use ArrayList<int>, ArrayList<double>, etc.\n\nFIX: Use wrapper classes:\nArrayList<Integer> list = new ArrayList<>();  // ✓\nArrayList<Double> list2 = new ArrayList<>();  // ✓\n\nJava automatically handles autoboxing/unboxing:\nlist.add(42);   // int → Integer (autoboxing)\nint value = list.get(0);  // Integer → int (unboxing)\n\nRemember: Generics = reference types only!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        HashMap<String, Integer> map = new HashMap<>();\n        map.put(\"A\", 1);\n        map.put(\"B\", 2);\n        \n        // Forgetting to check for null\n        Integer value = map.get(\"C\");\n        int result = value + 10;  // NPE!\n        System.out.println(result);\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.NullPointerException: Cannot invoke \"java.lang.Integer.intValue()\" because \"value\" is null\n        at Test.main(Test.java:9)",
-    "explanation": "map.get(\"C\") returns null because \"C\" doesn't exist in the map.\n\nWhen you try to unbox null to int, you get a NullPointerException.\n\nFIX: Use getOrDefault():\nInteger value = map.getOrDefault(\"C\", 0);\nint result = value + 10;  // Safe!\n\nOr check for null:\nInteger value = map.get(\"C\");\nif (value != null) {\n    int result = value + 10;\n}\n\nAlways handle null values from maps!"
+    "explanation": "map.get(\"C\") returns null because \"C\" doesn't exist in the map.\n\nWhen you try to unbox null to int, you get a NullPointerException.\n\nFIX: Use getOrDefault():\nInteger value = map.getOrDefault(\"C\", 0);\nint result = value + 10;  // Safe!\n\nOr check for null:\nInteger value = map.get(\"C\");\nif (value != null) {\n    int result = value + 10;\n}\n\nAlways handle null values from maps!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

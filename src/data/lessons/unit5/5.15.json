@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual review — no broken code!\n\nYou've completed the entire course! Here are some final tips:\n\n1. Keep Learning:\n   • Build projects\n   • Contribute to open source\n   • Read documentation\n\n2. Practice Regularly:\n   • Code every day\n   • Solve coding challenges\n   • Review previous lessons\n\n3. Stay Updated:\n   • Java releases every 6 months\n   • New features (records, pattern matching, etc.)\n   • Follow Java community\n\n4. Next Steps:\n   • Choose a specialization\n   • Build a portfolio\n   • Apply for jobs\n\nYou've got this! 💪"
+    "explanation": "Conceptual review — no broken code!\n\nYou've completed the entire course! Here are some final tips:\n\n1. Keep Learning:\n   • Build projects\n   • Contribute to open source\n   • Read documentation\n\n2. Practice Regularly:\n   • Code every day\n   • Solve coding challenges\n   • Review previous lessons\n\n3. Stay Updated:\n   • Java releases every 6 months\n   • New features (records, pattern matching, etc.)\n   • Follow Java community\n\n4. Next Steps:\n   • Choose a specialization\n   • Build a portfolio\n   • Apply for jobs\n\nYou've got this! 💪",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -31,5 +32,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

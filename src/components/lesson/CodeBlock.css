@@ -59,3 +59,42 @@
 .token-method     { color: var(--color-pink-light); }      /* pink */
 .token-annotation { color: var(--color-purple-light); }    /* purple */
 .token-class-name { color: #f8e3a1; }                      /* yellow */
+
+/* ---- Hover tooltips (keyword glossary + lesson-specific notes) ---- */
+.hoverable-token {
+  border-bottom: 1px dotted var(--color-text-faint);
+  cursor: help;
+  position: relative;
+}
+
+.hoverable-token::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+  background: var(--color-surface);
+  border: 1px solid var(--color-pink);
+  color: var(--color-text);
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.35;
+  white-space: normal;
+  width: max-content;
+  max-width: 220px;
+  box-shadow: var(--shadow-pink);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  z-index: 20;
+}
+
+.hoverable-token:hover::after,
+.hoverable-token:focus-visible::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-8px);
+}

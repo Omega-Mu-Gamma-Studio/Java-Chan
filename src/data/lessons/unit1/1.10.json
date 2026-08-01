@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class ArraysExample {\n    public static void main(String[] args) {\n        int[] numbers = {10, 20, 30, 40, 50};\n        \n        // Trying to access index 5 (which doesn't exist)\n        System.out.println(numbers[5]);\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5\n        at ArraysExample.main(ArraysExample.java:6)",
-    "explanation": "ArrayIndexOutOfBoundsException! You tried to access index 5, but valid indices are 0,1,2,3,4.\n\nRemember: arrays are 0-indexed. The last index is length - 1.\n\nAlways check: is my index < array.length?\n\nA safe pattern:\nif (index >= 0 && index < array.length) {\n    // safe to access\n}"
+    "explanation": "ArrayIndexOutOfBoundsException! You tried to access index 5, but valid indices are 0,1,2,3,4.\n\nRemember: arrays are 0-indexed. The last index is length - 1.\n\nAlways check: is my index < array.length?\n\nA safe pattern:\nif (index >= 0 && index < array.length) {\n    // safe to access\n}",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (BufferedReader br = new BufferedReader(new FileReader(\"test.txt\"))) {\n            // Forgetting to check for null\n            String line;\n            while (true) {\n                line = br.readLine();\n                System.out.println(line);  // NullPointerException!\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.NullPointerException: Cannot invoke \"String.length()\" because \"line\" is null\n    at Test.main(Test.java:9)",
-    "explanation": "readLine() returns null when the end of file is reached. You must check for null!\n\nFIX: Always check for null:\nwhile ((line = br.readLine()) != null) {\n    System.out.println(line);\n}\n\nWithout the check, you'll get a NullPointerException when trying to print null.\n\nThis is the most common mistake with BufferedReader!"
+    "explanation": "readLine() returns null when the end of file is reached. You must check for null!\n\nFIX: Always check for null:\nwhile ((line = br.readLine()) != null) {\n    System.out.println(line);\n}\n\nWithout the check, you'll get a NullPointerException when trying to print null.\n\nThis is the most common mistake with BufferedReader!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class CastingExample {\n    public static void main(String[] args) {\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        double pi = 3.14159;\n        int roughPi = pi;  // Missing cast!\n        System.out.println(\"double to int: \" + roughPi);\n    }\n}",
     "errorMessage": "CastingExample.java:8: error: incompatible types: possible lossy conversion from double to int\n        int roughPi = pi;\n                      ^\n1 error",
-    "explanation": "Java won't let you assign a double to an int without explicit casting because you might lose the decimal part!\n\nTo fix it, you must use explicit casting: (int) pi\n\nThis is Java protecting you from accidentally losing data. Always use (type) when narrowing!"
+    "explanation": "Java won't let you assign a double to an int without explicit casting because you might lose the decimal part!\n\nTo fix it, you must use explicit casting: (int) pi\n\nThis is Java protecting you from accidentally losing data. Always use (type) when narrowing!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (BufferedReader br = new BufferedReader(new FileReader(\"data.csv\"))) {\n            String line;\n            while ((line = br.readLine()) != null) {\n                // Forgetting to handle commas in fields\n                String[] parts = line.split(\",\");\n                System.out.println(parts[0] + \" - \" + parts[1]);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 1 out of bounds for length 1\n    at Test.main(Test.java:9)",
-    "explanation": "The split() failed because a line doesn't have the expected number of commas!\n\nThis is a common issue with CSV parsing:\n• Empty fields: \"value1,,value3\" → array has 3 elements (middle is empty)\n• Trailing commas: \"value1,value2,\" → array has 3 elements (last is empty)\n• Quoted fields with commas: \"1,\\\"Alice, Smith\\\"\" → split breaks!\n\nFIX: Always check array length before accessing:\nif (parts.length >= 2) {\n    System.out.println(parts[0] + \" - \" + parts[1]);\n} else {\n    System.out.println(\"Invalid line: \" + line);\n}\n\nFor production code, use a proper CSV parser library!"
+    "explanation": "The split() failed because a line doesn't have the expected number of commas!\n\nThis is a common issue with CSV parsing:\n• Empty fields: \"value1,,value3\" → array has 3 elements (middle is empty)\n• Trailing commas: \"value1,value2,\" → array has 3 elements (last is empty)\n• Quoted fields with commas: \"1,\\\"Alice, Smith\\\"\" → split breaks!\n\nFIX: Always check array length before accessing:\nif (parts.length >= 2) {\n    System.out.println(parts[0] + \" - \" + parts[1]);\n} else {\n    System.out.println(\"Invalid line: \" + line);\n}\n\nFor production code, use a proper CSV parser library!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

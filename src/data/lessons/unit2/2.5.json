@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "abstract class Shape {\n    abstract double area();\n}\n\nclass Circle extends Shape {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    // Forgetting to implement area()\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Circle c = new Circle(5);\n    }\n}",
     "errorMessage": "Circle.java:10: error: Circle is not abstract and does not override abstract method area() in Shape\nclass Circle extends Shape {\n^\n1 error",
-    "explanation": "Circle doesn't implement the abstract method area() from Shape.\n\nA non-abstract subclass MUST implement ALL abstract methods from its parent.\n\nOptions:\n1. Implement area() in Circle\n2. Make Circle abstract (but then you can't instantiate it)\n\nThe compiler forces you to implement all abstract methods!"
+    "explanation": "Circle doesn't implement the abstract method area() from Shape.\n\nA non-abstract subclass MUST implement ALL abstract methods from its parent.\n\nOptions:\n1. Implement area() in Circle\n2. Make Circle abstract (but then you can't instantiate it)\n\nThe compiler forces you to implement all abstract methods!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

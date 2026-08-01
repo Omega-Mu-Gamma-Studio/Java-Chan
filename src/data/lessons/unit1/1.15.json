@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Person {\n    private String name;\n    private int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class EncapsulationExample {\n    public static void main(String[] args) {\n        Person person = new Person(\"Alice\", 25);\n        \n        // Trying to access private field directly\n        System.out.println(person.name);\n        person.age = 30;\n    }\n}",
     "errorMessage": "EncapsulationExample.java:11: error: name has private access in Person\n        System.out.println(person.name);\n                                 ^\nEncapsulationExample.java:12: error: age has private access in Person\n        person.age = 30;\n               ^\n2 errors",
-    "explanation": "You can't access private fields from outside the class! This is the ENTIRE POINT of encapsulation.\n\nTo fix, add public getters and setters:\npublic String getName() { return name; }\npublic void setName(String name) { this.name = name; }\n\nThen use: person.getName() and person.setName(\"Bob\")\n\nPrivate means private — only the class itself can touch it."
+    "explanation": "You can't access private fields from outside the class! This is the ENTIRE POINT of encapsulation.\n\nTo fix, add public getters and setters:\npublic String getName() { return name; }\npublic void setName(String name) { this.name = name; }\n\nThen use: person.getName() and person.setName(\"Bob\")\n\nPrivate means private — only the class itself can touch it.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

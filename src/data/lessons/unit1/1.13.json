@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class StringsExample {\n    public static void main(String[] args) {\n        String str1 = \"Hello\";\n        String str2 = new String(\"Hello\");\n        \n        // Using == instead of .equals()\n        if (str1 == str2) {\n            System.out.println(\"They are equal!\");\n        } else {\n            System.out.println(\"They are NOT equal!\");\n        }\n    }\n}",
     "errorMessage": "They are NOT equal!\n\n(No error — but the logic is WRONG! str1 and str2 have the same content but == says they're different.)",
-    "explanation": "This is the String Trap! \n\n== checks if str1 and str2 point to the SAME memory location.\nstr1 and str2 are different objects, so == returns false even though the content is the same.\n\nAlways use .equals() for comparing String content:\nstr1.equals(str2) // true ✅\n\nFor case-insensitive: str1.equalsIgnoreCase(str2)"
+    "explanation": "This is the String Trap! \n\n== checks if str1 and str2 point to the SAME memory location.\nstr1 and str2 are different objects, so == returns false even though the content is the same.\n\nAlways use .equals() for comparing String content:\nstr1.equals(str2) // true ✅\n\nFor case-insensitive: str1.equalsIgnoreCase(str2)",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

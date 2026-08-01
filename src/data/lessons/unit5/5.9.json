@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "// --- FXML: wrong.fxml ---\n/*\n<VBox fx:controller=\"WrongController\">\n    <Label fx:id=\"label\" text=\"Hello\" />\n</VBox>\n*/\n\n// --- Controller ---\npublic class WrongController {\n    // Forgetting @FXML annotation\n    private Label label;\n\n    // Method without @FXML\n    private void handleEvent() {\n        label.setText(\"Clicked\");\n    }\n}\n\n// --- Main ---\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) throws Exception {\n        Parent root = FXMLLoader.load(getClass().getResource(\"wrong.fxml\"));\n        // label will be null!\n    }\n}",
     "errorMessage": "Exception in thread \"JavaFX Application Thread\" java.lang.NullPointerException\n    at WrongController.handleEvent(WrongController.java:8)\n    ...\n(label is null because it wasn't injected!)",
-    "explanation": "You forgot @FXML annotation on the field!\n\nWithout @FXML, the field is private and not accessible by FXMLLoader.\n\nFIX: Add @FXML:\n@FXML\nprivate Label label;\n\nAlso add @FXML to event handler methods:\n@FXML\nprivate void handleEvent() { ... }\n\nAlways use @FXML for all fields and methods that interact with FXML!"
+    "explanation": "You forgot @FXML annotation on the field!\n\nWithout @FXML, the field is private and not accessible by FXMLLoader.\n\nFIX: Add @FXML:\n@FXML\nprivate Label label;\n\nAlso add @FXML to event handler methods:\n@FXML\nprivate void handleEvent() { ... }\n\nAlways use @FXML for all fields and methods that interact with FXML!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "class Outer {\n    String message = \"Hello\";\n    \n    static class Inner {\n        void display() {\n            // Trying to access instance variable from static context\n            System.out.println(message);  // ERROR!\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Outer.Inner inner = new Outer.Inner();\n        inner.display();\n    }\n}",
     "errorMessage": "Outer.java:7: error: non-static variable message cannot be referenced from a static context\n            System.out.println(message);  // ERROR!\n                               ^\n1 error",
-    "explanation": "Static nested class can't access non-static members of the outer class.\n\nmessage is an instance variable — it belongs to an Outer object. Since Inner is static, it doesn't have a reference to an Outer instance.\n\nFixes:\n1. Make message static: static String message = \"Hello\";\n2. Make Inner non-static: class Inner\n3. Pass an instance: System.out.println(outer.message);\n\nRemember: static nested classes are like top-level classes but packaged inside another class."
+    "explanation": "Static nested class can't access non-static members of the outer class.\n\nmessage is an instance variable — it belongs to an Outer object. Since Inner is static, it doesn't have a reference to an Outer instance.\n\nFixes:\n1. Make message static: static String message = \"Hello\";\n2. Make Inner non-static: class Inner\n3. Pass an instance: System.out.println(outer.message);\n\nRemember: static nested classes are like top-level classes but packaged inside another class.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

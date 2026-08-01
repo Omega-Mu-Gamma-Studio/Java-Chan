@@ -11,7 +11,8 @@
   "phase2": {
     "brokenCode": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\")\n    }\n}",
     "errorMessage": "HelloWorld.java:3: error: ';' expected\n        System.out.println(\"Hello, World!\")\n                                             ^\n1 error",
-    "explanation": "See the missing semicolon at the end of line 3? In Java, EVERY statement must end with a semicolon (;). The compiler is pointing right at where it expected the semicolon — the error message even shows a ^ mark!\n\nThis is the #1 mistake beginners make. Always check your semicolons!"
+    "explanation": "See the missing semicolon at the end of line 3? In Java, EVERY statement must end with a semicolon (;). The compiler is pointing right at where it expected the semicolon — the error message even shows a ^ mark!\n\nThis is the #1 mistake beginners make. Always check your semicolons!",
+    "fixedCode": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}"
   },
   "phase3": {
     "scaffoldCode": null,
@@ -27,5 +28,8 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
+  },
+  "hoverNotes": {
+    "HelloWorld": "This is the example class name for this lesson — the file must be named HelloWorld.java to match it exactly."
   }
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\nclass Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<Person> people = new ArrayList<>();\n        people.add(new Person(\"Alice\", 25));\n        people.add(new Person(\"Bob\", 30));\n        \n        // Person doesn't implement Comparable\n        Collections.sort(people);  // ERROR!\n    }\n}",
     "errorMessage": "Test.java:16: error: no suitable method found for sort(ArrayList<Person>)\n        Collections.sort(people);  // ERROR!\n                   ^\n    method Collections.<T>sort(List<T>) is not applicable\n      (inference variable T has incompatible bounds\n        equality constraints: Person\n        upper bounds: Comparable<? super T>)\n1 error",
-    "explanation": "Person doesn't implement Comparable, so it can't be sorted with sort(list)!\n\nFIX: Either implement Comparable:\nclass Person implements Comparable<Person> {\n    @Override\n    public int compareTo(Person other) {\n        return this.age - other.age;\n    }\n}\n\nOr use Comparator:\nCollections.sort(people, (p1, p2) -> p1.age - p2.age);\n\nFor TreeSet, you also need Comparable or a Comparator provided in constructor.\n\nAlways choose the right sorting approach!"
+    "explanation": "Person doesn't implement Comparable, so it can't be sorted with sort(list)!\n\nFIX: Either implement Comparable:\nclass Person implements Comparable<Person> {\n    @Override\n    public int compareTo(Person other) {\n        return this.age - other.age;\n    }\n}\n\nOr use Comparator:\nCollections.sort(people, (p1, p2) -> p1.age - p2.age);\n\nFor TreeSet, you also need Comparable or a Comparator provided in constructor.\n\nAlways choose the right sorting approach!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

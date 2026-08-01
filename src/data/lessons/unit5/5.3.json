@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox vbox = new VBox();\n        // Forgetting to set spacing\n        // vbox.setSpacing(10);\n        \n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n        \n        // Forgetting to add children\n        // vbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        Scene scene = new Scene(vbox, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(Window appears with NOTHING inside — empty window!)",
-    "explanation": "You forgot to add children to the VBox!\n\nWithout vbox.getChildren().addAll(), the VBox is empty, and the window is blank.\n\nFIX: Add children:\nvbox.getChildren().addAll(btn1, btn2, btn3);\n\nAlso consider:\n• No spacing means nodes are touching\n• Add setSpacing() for better appearance\n\nAlways verify that you've added your nodes to the layout!"
+    "explanation": "You forgot to add children to the VBox!\n\nWithout vbox.getChildren().addAll(), the VBox is empty, and the window is blank.\n\nFIX: Add children:\nvbox.getChildren().addAll(btn1, btn2, btn3);\n\nAlso consider:\n• No spacing means nodes are touching\n• Add setSpacing() for better appearance\n\nAlways verify that you've added your nodes to the layout!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

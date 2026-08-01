@@ -11,7 +11,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should never catch exceptions — I'll just let them crash.\"\n\nActually: You should catch exceptions and handle them gracefully, but only when you can do something useful with them.\n\nBad pattern:\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    // Empty catch — swallowing exceptions!\n}\n\nGood pattern:\ntry {\n    riskyOperation();\n} catch (IOException e) {\n    // Log the error and recover\n    System.err.println(\"IO Error: \" + e.getMessage());\n    // Could use a default value\n}\n\nRemember: Don't swallow exceptions!\n\nAnother misconception: \"File I/O is always slow.\"\n\nActually: Buffered streams and NIO make I/O much faster. Reading 1MB at a time is faster than reading 1 byte at a time!"
+    "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should never catch exceptions — I'll just let them crash.\"\n\nActually: You should catch exceptions and handle them gracefully, but only when you can do something useful with them.\n\nBad pattern:\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    // Empty catch — swallowing exceptions!\n}\n\nGood pattern:\ntry {\n    riskyOperation();\n} catch (IOException e) {\n    // Log the error and recover\n    System.err.println(\"IO Error: \" + e.getMessage());\n    // Could use a default value\n}\n\nRemember: Don't swallow exceptions!\n\nAnother misconception: \"File I/O is always slow.\"\n\nActually: Buffered streams and NIO make I/O much faster. Reading 1MB at a time is faster than reading 1 byte at a time!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -32,5 +33,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

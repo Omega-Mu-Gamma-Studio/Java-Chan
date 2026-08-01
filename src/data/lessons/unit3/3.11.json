@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        File file = new File(\"test.txt\");\n        \n        // Trying to delete a file that's open\n        try (FileWriter fw = new FileWriter(file)) {\n            fw.write(\"Hello\");\n            // File is still open\n        }\n        \n        // Delete while file might still be open\n        boolean deleted = file.delete();\n        System.out.println(\"Deleted: \" + deleted);\n    }\n}",
     "errorMessage": "Deleted: false\n\n(No error — but the file WASN'T deleted! delete() returned false.)",
-    "explanation": "delete() returns false when it can't delete the file. In this case, the file might still be open or locked.\n\nEven though try-with-resources closes the file, the OS might have a lock on it.\n\nFIX: Check return value and handle failure:\nif (file.delete()) {\n    System.out.println(\"File deleted!\");\n} else {\n    System.out.println(\"Failed to delete file!\");\n}\n\nOr use Files.delete() which throws exception on failure:\nFiles.delete(file.toPath());  // Throws IOException on failure\n\nAlways check return values of file operations!"
+    "explanation": "delete() returns false when it can't delete the file. In this case, the file might still be open or locked.\n\nEven though try-with-resources closes the file, the OS might have a lock on it.\n\nFIX: Check return value and handle failure:\nif (file.delete()) {\n    System.out.println(\"File deleted!\");\n} else {\n    System.out.println(\"Failed to delete file!\");\n}\n\nOr use Files.delete() which throws exception on failure:\nFiles.delete(file.toPath());  // Throws IOException on failure\n\nAlways check return values of file operations!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

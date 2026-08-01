@@ -30,6 +30,7 @@ const LessonCanvas = ({ onComplete }) => {
   const { play } = useSound();
 
   const [showSolution, setShowSolution] = useState(false);
+  const [showFix, setShowFix] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
   const [usedSolution, setUsedSolution] = useState(false);
   const [wrongBlankIds, setWrongBlankIds] = useState([]);
@@ -38,7 +39,7 @@ const LessonCanvas = ({ onComplete }) => {
 
   if (!currentLesson) return null;
 
-  const { phase1, phase2, phase3, phase4, phase5, id: lessonId, xpReward = 10 } = currentLesson;
+  const { phase1, phase2, phase3, phase4, phase5, id: lessonId, xpReward = 10, hoverNotes = {} } = currentLesson;
   const attempts = getAttempts(lessonId);
   const selfChallengeDone = isSelfChallengeCompleted(lessonId);
   const hasBlanks = !!(phase3?.scaffoldCode && phase3?.blanks?.length > 0);
@@ -48,6 +49,7 @@ const LessonCanvas = ({ onComplete }) => {
     setWrongBlankIds([]);
     setBlanksMessage(null);
     setShowSolution(false);
+    setShowFix(false);
     setUsedHint(false);
     setUsedSolution(false);
     if (phase === 1) {
@@ -170,7 +172,7 @@ const LessonCanvas = ({ onComplete }) => {
             <h2 className="phase-heading phase-heading--work">▶ Learn It With Me</h2>
             <p className="phase-explanation">{phase1?.explanation}</p>
             {phase1?.code && (
-              <CodeBlock code={phase1.code} label="Working Code" />
+              <CodeBlock code={phase1.code} label="Working Code" hoverNotes={hoverNotes} />
             )}
             {phase1?.output && (
               <div className="output-block">
@@ -199,13 +201,26 @@ const LessonCanvas = ({ onComplete }) => {
             <h2 className="phase-heading phase-heading--break">✕ See the Code</h2>
             <p className="phase-explanation">{phase2?.explanation}</p>
             {phase2?.brokenCode && (
-              <CodeBlock code={phase2.brokenCode} label="Broken Code" />
+              <CodeBlock code={phase2.brokenCode} label="Broken Code" hoverNotes={hoverNotes} />
             )}
             {phase2?.errorMessage && (
               <div className="error-block">
                 <span className="error-label">⚠ Error</span>
                 <pre>{phase2.errorMessage}</pre>
               </div>
+            )}
+            {phase2?.fixedCode && (
+              <>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => setShowFix((v) => !v)}
+                >
+                  {showFix ? 'Hide the Fix' : 'Show Me the Fix ✓'}
+                </button>
+                {showFix && (
+                  <CodeBlock code={phase2.fixedCode} label="Fixed Code" hoverNotes={hoverNotes} />
+                )}
+              </>
             )}
             <button
               className="btn btn-primary"

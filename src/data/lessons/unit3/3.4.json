@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "// Forgetting to extend Exception or RuntimeException\nclass MyException {\n    private String message;\n    \n    MyException(String message) {\n        this.message = message;\n    }\n}\n\nclass Validator {\n    void validate(int value) throws MyException {  // ERROR!\n        if (value < 0) {\n            throw new MyException(\"Invalid value\");\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        try {\n            v.validate(-5);\n        } catch (MyException e) {  // ERROR!\n            System.out.println(e.getMessage());\n        }\n    }\n}",
     "errorMessage": "MyException.java:9: error: cannot find symbol\n    void validate(int value) throws MyException {  // ERROR!\n                                    ^\n  symbol:   class MyException\n  location: class Validator\nMyException.java:11: error: incompatible types: MyException cannot be converted to Throwable\n            throw new MyException(\"Invalid value\");\n            ^\n2 errors",
-    "explanation": "MyException doesn't extend Throwable (Exception or RuntimeException), so it can't be thrown!\n\nCustom exceptions MUST extend Exception or RuntimeException (or their subclasses).\n\nFIX: class MyException extends Exception\n\nOr: class MyException extends RuntimeException\n\nAlways extend the proper parent class!"
+    "explanation": "MyException doesn't extend Throwable (Exception or RuntimeException), so it can't be thrown!\n\nCustom exceptions MUST extend Exception or RuntimeException (or their subclasses).\n\nFIX: class MyException extends Exception\n\nOr: class MyException extends RuntimeException\n\nAlways extend the proper parent class!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

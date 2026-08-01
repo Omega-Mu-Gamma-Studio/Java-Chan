@@ -11,7 +11,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual lesson — no broken code yet!\n\nCommon misconception: \"All exceptions must be caught with try-catch.\"\n\nActually: Only CHECKED exceptions must be caught or declared. Unchecked exceptions (RuntimeException) can be left unhandled (but they'll crash your program).\n\nFor example:\n• FileNotFoundException (checked) → must handle\n• NullPointerException (unchecked) → optional to handle\n\nAlways handle exceptions that can realistically occur!"
+    "explanation": "Conceptual lesson — no broken code yet!\n\nCommon misconception: \"All exceptions must be caught with try-catch.\"\n\nActually: Only CHECKED exceptions must be caught or declared. Unchecked exceptions (RuntimeException) can be left unhandled (but they'll crash your program).\n\nFor example:\n• FileNotFoundException (checked) → must handle\n• NullPointerException (unchecked) → optional to handle\n\nAlways handle exceptions that can realistically occur!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -32,5 +33,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class TwoDArrayExample {\n    public static void main(String[] args) {\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        // Wrong column length in loop\n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < 4; col++) {  // Should be matrix[row].length\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.ArrayIndexOutOfBoundsException: Index 3 out of bounds for length 3\n        at TwoDArrayExample.main(TwoDArrayExample.java:11)",
-    "explanation": "The inner loop tries to access column 3 (index 3), but each row has only 3 columns (indices 0,1,2).\n\nAlways use matrix[row].length for the inner loop condition — never hardcode the column count!\n\nSafe pattern:\nfor (int row = 0; row < matrix.length; row++) {\n    for (int col = 0; col < matrix[row].length; col++) {\n        // safe access\n    }\n}"
+    "explanation": "The inner loop tries to access column 3 (index 3), but each row has only 3 columns (indices 0,1,2).\n\nAlways use matrix[row].length for the inner loop condition — never hardcode the column count!\n\nSafe pattern:\nfor (int row = 0; row < matrix.length; row++) {\n    for (int col = 0; col < matrix[row].length; col++) {\n        // safe access\n    }\n}",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.TableColumn;\nimport javafx.scene.control.TableView;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        TableView<Person> table = new TableView<>();\n        \n        TableColumn<Person, String> col = new TableColumn<>(\"Name\");\n        // Forgetting to set CellValueFactory\n        // col.setCellValueFactory(...);\n        \n        table.getColumns().add(col);\n        \n        // Forgetting to set items\n        // table.setItems(people);\n        \n        Scene scene = new Scene(new VBox(table), 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",
     "errorMessage": "(TableView appears with header but NO DATA and blank columns!)",
-    "explanation": "You forgot to set the CellValueFactory AND the items!\n\nFIX: \n1. Set cell value factory:\ncol.setCellValueFactory(new PropertyValueFactory<>(\"name\"));\n\n2. Set items:\nObservableList<Person> people = FXCollections.observableArrayList(...);\ntable.setItems(people);\n\nWithout CellValueFactory, the column doesn't know which property to display.\n\nWithout items, there's no data to show."
+    "explanation": "You forgot to set the CellValueFactory AND the items!\n\nFIX: \n1. Set cell value factory:\ncol.setCellValueFactory(new PropertyValueFactory<>(\"name\"));\n\n2. Set items:\nObservableList<Person> people = FXCollections.observableArrayList(...);\ntable.setItems(people);\n\nWithout CellValueFactory, the column doesn't know which property to display.\n\nWithout items, there's no data to show.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (PrintWriter pw = new PrintWriter(\"file.txt\")) {\n            // Missing throws/close declaration\n            pw.println(\"Hello\");\n        }\n        \n        // Using pw after try-with-resources\n        pw.println(\"World!\");  // ERROR!\n    }\n}",
     "errorMessage": "Test.java:10: error: cannot find symbol\n        pw.println(\"World!\");  // ERROR!\n        ^\n  symbol:   variable pw\n  location: class Test\n1 error",
-    "explanation": "pw is declared inside the try-with-resources block, so it's only accessible INSIDE the try block!\n\nFIX: Keep all PrintWriter operations inside the try block:\n\ntry (PrintWriter pw = new PrintWriter(\"file.txt\")) {\n    pw.println(\"Hello\");\n    pw.println(\"World!\");  // Move inside try\n} // pw is automatically closed here\n\nRemember: Resources declared in try-with-resources are only valid within the try block!"
+    "explanation": "pw is declared inside the try-with-resources block, so it's only accessible INSIDE the try block!\n\nFIX: Keep all PrintWriter operations inside the try block:\n\ntry (PrintWriter pw = new PrintWriter(\"file.txt\")) {\n    pw.println(\"Hello\");\n    pw.println(\"World!\");  // Move inside try\n} // pw is automatically closed here\n\nRemember: Resources declared in try-with-resources are only valid within the try block!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

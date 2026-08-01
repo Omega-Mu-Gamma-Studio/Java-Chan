@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class Test {\n    private static int counter = 0;\n    \n    public static void main(String[] args) throws Exception {\n        Thread t1 = new Thread(() -> {\n            for (int i = 0; i < 100000; i++) {\n                // Forgetting to synchronize\n                counter++;\n            }\n        });\n        Thread t2 = new Thread(() -> {\n            for (int i = 0; i < 100000; i++) {\n                counter++;\n            }\n        });\n        \n        t1.start();\n        t2.start();\n        t1.join();\n        t2.join();\n        \n        System.out.println(\"Counter: \" + counter);  // Not 200000!\n    }\n}",
     "errorMessage": "Counter: 154623\n\n(No error — but the result is WRONG! This is a race condition.)",
-    "explanation": "counter++ is NOT thread-safe! Even though it's a single line, it's three operations:\n1. Read counter value\n2. Increment value\n3. Write counter value\n\nTwo threads can interleave these operations, causing lost updates.\n\nFIX: Synchronize the critical section:\n\nsynchronized (Test.class) {\n    counter++;\n}\n\nOr use AtomicInteger:\nAtomicInteger counter = new AtomicInteger(0);\ncounter.incrementAndGet();  // Thread-safe, no synchronization needed!\n\nAlways identify and protect shared mutable state!"
+    "explanation": "counter++ is NOT thread-safe! Even though it's a single line, it's three operations:\n1. Read counter value\n2. Increment value\n3. Write counter value\n\nTwo threads can interleave these operations, causing lost updates.\n\nFIX: Synchronize the critical section:\n\nsynchronized (Test.class) {\n    counter++;\n}\n\nOr use AtomicInteger:\nAtomicInteger counter = new AtomicInteger(0);\ncounter.incrementAndGet();  // Thread-safe, no synchronization needed!\n\nAlways identify and protect shared mutable state!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

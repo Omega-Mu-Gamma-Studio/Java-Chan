@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "interface A {\n    default void hello() {\n        System.out.println(\"Hello from A\");\n    }\n}\n\ninterface B {\n    default void hello() {\n        System.out.println(\"Hello from B\");\n    }\n}\n\nclass C implements A, B {\n    // Forgetting to resolve the conflict\n    public static void main(String[] args) {\n        C obj = new C();\n        obj.hello();  // Which one?\n    }\n}",
     "errorMessage": "C.java:17: error: class C inherits unrelated defaults for hello() from types A and B\nclass C implements A, B {\n^\n1 error",
-    "explanation": "Both A and B have a default method hello(). C inherits from both, causing a conflict.\n\nThe compiler doesn't know which hello() to use!\n\nFIX: Override hello() in C and resolve the conflict:\n\n@Override\npublic void hello() {\n    A.super.hello();  // Choose A's version\n    // or B.super.hello();\n    // or custom implementation\n}\n\nAlways resolve default method conflicts explicitly!"
+    "explanation": "Both A and B have a default method hello(). C inherits from both, causing a conflict.\n\nThe compiler doesn't know which hello() to use!\n\nFIX: Override hello() in C and resolve the conflict:\n\n@Override\npublic void hello() {\n    A.super.hello();  // Choose A's version\n    // or B.super.hello();\n    // or custom implementation\n}\n\nAlways resolve default method conflicts explicitly!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

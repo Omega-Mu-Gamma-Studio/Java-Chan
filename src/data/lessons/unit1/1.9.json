@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class LoopsExample {\n    public static void main(String[] args) {\n        int sum = 0;\n        int counter = 1;\n        while (counter <= 5) {\n            sum += counter;\n            System.out.println(\"Sum: \" + sum);\n            // Missing counter increment!\n        }\n        System.out.println(\"Final sum: \" + sum);\n    }\n}",
     "errorMessage": "(Program runs forever! No error message — but the code never stops.)\n\nSum: 1\nSum: 2\nSum: 3\nSum: 4\nSum: 5\nSum: 6\nSum: 7\n... infinite ...",
-    "explanation": "This is an infinite loop! counter never changes, so counter <= 5 is ALWAYS true.\n\nThe fix: counter++ inside the loop so it eventually becomes 6 and the condition becomes false.\n\nAlways check: does your loop variable change? Is there a path to exit?\n\nTips to avoid infinite loops:\n• Make sure your condition will become false\n• Use break as an escape hatch\n• Print debugging messages to track variables"
+    "explanation": "This is an infinite loop! counter never changes, so counter <= 5 is ALWAYS true.\n\nThe fix: counter++ inside the loop so it eventually becomes 6 and the condition becomes false.\n\nAlways check: does your loop variable change? Is there a path to exit?\n\nTips to avoid infinite loops:\n• Make sure your condition will become false\n• Use break as an escape hatch\n• Print debugging messages to track variables",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

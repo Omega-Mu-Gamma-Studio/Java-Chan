@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        LinkedList<Integer> list = new LinkedList<>();\n        \n        // Accessing from empty list\n        System.out.println(list.getFirst());  // ERROR!\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.util.NoSuchElementException\n        at java.base/java.util.LinkedList.getFirst(LinkedList.java:256)\n        at Test.main(Test.java:7)",
-    "explanation": "getFirst() throws NoSuchElementException if the list is empty!\n\nUnlike peekFirst() which returns null, getFirst() throws an exception.\n\nFIX: Use peekFirst() which returns null on empty:\nInteger first = list.peekFirst();\nif (first != null) {\n    System.out.println(first);\n} else {\n    System.out.println(\"List is empty!\");\n}\n\nOr check if empty:\nif (!list.isEmpty()) {\n    System.out.println(list.getFirst());\n}\n\nAlways prefer peek/poll over get/remove when you're not sure if the list is empty!"
+    "explanation": "getFirst() throws NoSuchElementException if the list is empty!\n\nUnlike peekFirst() which returns null, getFirst() throws an exception.\n\nFIX: Use peekFirst() which returns null on empty:\nInteger first = list.peekFirst();\nif (first != null) {\n    System.out.println(first);\n} else {\n    System.out.println(\"List is empty!\");\n}\n\nOr check if empty:\nif (!list.isEmpty()) {\n    System.out.println(list.getFirst());\n}\n\nAlways prefer peek/poll over get/remove when you're not sure if the list is empty!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -35,7 +35,7 @@ instead of one.
 | # | Name | Purpose | Status |
 |---|------|---------|--------|
 | 1 | **Learn It With Me** | Worked example + explanation, fully in Java-chan's voice from the first sentence | Rewrite of old Phase 1 |
-| 2 | **See the Code** | Spot-the-bug — same mechanic as before | Rename + voice rewrite of old Phase 2 |
+| 2 | **See the Code** | Spot-the-bug, then reveal the corrected version on demand — same mechanic as before, plus a "Show Me the Fix" reveal (see §4.6) | Rename + voice rewrite of old Phase 2 |
 | 3 | **Code It With Me** | Fill-in-the-blank scaffolded coding — most of the program is given, student fills specific blanks | **New** — replaces old Phase 3's blank-editor approach |
 | 4 | **Challenge** | A short MCQ set, plus a self-directed prompt for the student to attempt on their own IDE (not graded in-browser) | **New** |
 | 5 | **Fun Facts & Trivia** | Closing lore/trivia beat in her voice — no grading, pure flavor and retention hook | **New** |
@@ -181,6 +181,27 @@ rewrite (their own mascot's voice, including whether a consistent-tone approach 
 one suits them too) is a separate, per-app effort of the same scale as this one. Recommend treating
 Java-Chan as the pilot and deferring a decision on suite-wide rollout until the voice and
 5-phase structure are validated here.
+
+### 4.6 Addendum — Hover glossary & Phase 2 fix-reveal (post-signoff addition)
+Two additions decided during implementation, not in the original proposal above:
+
+- **Phase 2 gets a fix-reveal.** After the broken code + error message, a "Show Me
+  the Fix" toggle reveals `phase2.fixedCode` — the corrected version — without
+  forcing it on the student immediately (keeps some of the spot-the-bug challenge
+  intact while still answering "what should it actually look like?"). New field:
+  `phase2.fixedCode` (string or `null` until authored).
+- **Hover tooltips on code, two-tier.** Any word-token in a `CodeBlock` (Phase 1's
+  working code, Phase 2's broken/fixed code) can carry a hover explanation:
+  - A **shared glossary** (`src/data/keywordGlossary.js`) covers common
+    keywords/types/stock-API calls (`public`, `static`, `println`, etc.) — written
+    once, reused across all 75 lessons.
+  - A **lesson-specific override**, new top-level lesson field `hoverNotes: {}`,
+    covers tokens unique to one lesson's example (a custom method name, a
+    variable worth explaining) and takes priority over the shared glossary for
+    the same token.
+  - Implementation is pure CSS (`.hoverable-token` + `data-tooltip` attribute) —
+    no JS tooltip state, consistent with the existing "pure CSS token" approach
+    the tokenizer already used.
 
 ---
 

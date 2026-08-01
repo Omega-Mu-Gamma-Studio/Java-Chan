@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        // Using try-with-resources with a class that doesn't implement AutoCloseable\n        try (String s = \"Hello\") {  // String doesn't implement AutoCloseable!\n            System.out.println(s);\n        }\n    }\n}",
     "errorMessage": "Test.java:6: error: incompatible types: String cannot be converted to AutoCloseable\n        try (String s = \"Hello\") {  // String doesn't implement AutoCloseable!\n            ^\n1 error",
-    "explanation": "try-with-resources only works with AutoCloseable resources!\n\nString doesn't implement AutoCloseable, so you can't use it in try-with-resources.\n\nFIX: Only use resources that implement AutoCloseable:\n• BufferedReader ✓\n• Scanner ✓\n• FileReader ✓\n• String ✗\n• Integer ✗\n\nAlways check if a class implements AutoCloseable before using it in try-with-resources."
+    "explanation": "try-with-resources only works with AutoCloseable resources!\n\nString doesn't implement AutoCloseable, so you can't use it in try-with-resources.\n\nFIX: Only use resources that implement AutoCloseable:\n• BufferedReader ✓\n• Scanner ✓\n• FileReader ✓\n• String ✗\n• Integer ✗\n\nAlways check if a class implements AutoCloseable before using it in try-with-resources.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

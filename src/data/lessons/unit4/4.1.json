@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"I should always use ArrayList because it's the most popular.\"\n\nActually: ArrayList isn't always the best choice! If you're frequently inserting/deleting at the beginning of a list, LinkedList would be more efficient.\n\nExample:\n• ArrayList: O(1) for get, O(n) for insert at beginning\n• LinkedList: O(n) for get, O(1) for insert at beginning\n\nChoose based on your specific use case!\n\nAnother misconception: \"HashSet is faster than TreeSet.\"\n\nActually: HashSet is O(1) for operations, TreeSet is O(log n). If you need sorted order, TreeSet is your only choice, but if you don't need order, HashSet is faster."
+    "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"I should always use ArrayList because it's the most popular.\"\n\nActually: ArrayList isn't always the best choice! If you're frequently inserting/deleting at the beginning of a list, LinkedList would be more efficient.\n\nExample:\n• ArrayList: O(1) for get, O(n) for insert at beginning\n• LinkedList: O(n) for get, O(1) for insert at beginning\n\nChoose based on your specific use case!\n\nAnother misconception: \"HashSet is faster than TreeSet.\"\n\nActually: HashSet is O(1) for operations, TreeSet is O(log n). If you need sorted order, TreeSet is your only choice, but if you don't need order, HashSet is faster.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -31,5 +32,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class Test {\n    public static void main(String[] args) {\n        Integer x = null;\n        \n        // Unboxing a null reference\n        int y = x;  // NullPointerException!\n        \n        System.out.println(y);\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.lang.NullPointerException: Cannot invoke \"java.lang.Integer.intValue()\" because the return value of \"...\" is null\n        at Test.main(Test.java:6)",
-    "explanation": "When you unbox a null wrapper, Java tries to call intValue() on a null reference.\n\nThis causes a NullPointerException at runtime.\n\nAlways check for null before unboxing:\n\nif (x != null) {\n    int y = x;  // Safe\n} else {\n    System.out.println(\"x is null!\");\n}\n\nThis is a common gotcha when using wrappers!"
+    "explanation": "When you unbox a null wrapper, Java tries to call intValue() on a null reference.\n\nThis causes a NullPointerException at runtime.\n\nAlways check for null before unboxing:\n\nif (x != null) {\n    int y = x;  // Safe\n} else {\n    System.out.println(\"x is null!\");\n}\n\nThis is a common gotcha when using wrappers!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

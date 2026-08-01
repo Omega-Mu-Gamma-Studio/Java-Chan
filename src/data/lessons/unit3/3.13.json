@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.nio.file.*;\nimport java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try {\n            Path path = Paths.get(\"nonexistent.txt\");\n            // Trying to read non-existent file\n            List<String> lines = Files.readAllLines(path);\n            System.out.println(lines);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "errorMessage": "Error: nonexistent.txt (The system cannot find the file specified)",
-    "explanation": "Files.readAllLines() throws IOException if the file doesn't exist!\n\nUnlike the old File.exists() approach, NIO's Files utility throws exceptions for failures.\n\nFIX: Check if file exists first:\nif (Files.exists(path)) {\n    List<String> lines = Files.readAllLines(path);\n    // process lines\n} else {\n    System.out.println(\"File doesn't exist!\");\n}\n\nOr catch the exception and handle it appropriately.\n\nNIO is more fail-fast — it doesn't silently fail like the old File class."
+    "explanation": "Files.readAllLines() throws IOException if the file doesn't exist!\n\nUnlike the old File.exists() approach, NIO's Files utility throws exceptions for failures.\n\nFIX: Check if file exists first:\nif (Files.exists(path)) {\n    List<String> lines = Files.readAllLines(path);\n    // process lines\n} else {\n    System.out.println(\"File doesn't exist!\");\n}\n\nOr catch the exception and handle it appropriately.\n\nNIO is more fail-fast — it doesn't silently fail like the old File class.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

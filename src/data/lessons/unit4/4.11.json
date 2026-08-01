@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "public class Test {\n    public static void main(String[] args) {\n        MyThread t = new MyThread();\n        \n        // Calling run() instead of start()\n        t.run();  // Runs on main thread!\n        t.run();  // Still on main thread, not parallel!\n    }\n}\n\nclass MyThread extends Thread {\n    @Override\n    public void run() {\n        System.out.println(\"Thread: \" + Thread.currentThread().getName());\n    }\n}",
     "errorMessage": "Thread: main\nThread: main\n\n(No error — but the threads DON'T ACTUALLY RUN IN PARALLEL! They run on the main thread.)",
-    "explanation": "Calling run() directly executes the method on the CURRENT thread, not a new thread!\n\nrun() is just a method call like any other. It doesn't create a new thread.\n\nFIX: Use start() to create a new thread:\nt.start();  // ✓ Creates new thread\n\nstart() does two things:\n1. Creates a new thread of execution\n2. Calls run() on the new thread\n\nAlways use start() for multithreading!"
+    "explanation": "Calling run() directly executes the method on the CURRENT thread, not a new thread!\n\nrun() is just a method call like any other. It doesn't create a new thread.\n\nFIX: Use start() to create a new thread:\nt.start();  // ✓ Creates new thread\n\nstart() does two things:\n1. Creates a new thread of execution\n2. Calls run() on the new thread\n\nAlways use start() for multithreading!",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

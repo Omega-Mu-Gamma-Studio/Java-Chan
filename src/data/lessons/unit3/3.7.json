@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        FileInputStream fis = null;\n        try {\n            fis = new FileInputStream(\"data.bin\");\n            int data = fis.read();\n            System.out.println(\"Data: \" + data);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        } finally {\n            // Forgot to close fis!\n        }\n    }\n}",
     "errorMessage": "(No error shown — but resources leak! The file remains open.)",
-    "explanation": "You forgot to close the FileInputStream! This causes a resource leak.\n\nEven though the program ends, leaving files open can cause:\n• File locks (can't delete/modify file)\n• Too many open files (system limit)\n• Memory leaks\n\nFIX: Close in finally block:\nfinally {\n    if (fis != null) {\n        try {\n            fis.close();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n}\n\nEven better: use try-with-resources!\n\ntry (FileInputStream fis = new FileInputStream(\"data.bin\")) {\n    // auto-closed!\n}"
+    "explanation": "You forgot to close the FileInputStream! This causes a resource leak.\n\nEven though the program ends, leaving files open can cause:\n• File locks (can't delete/modify file)\n• Too many open files (system limit)\n• Memory leaks\n\nFIX: Close in finally block:\nfinally {\n    if (fis != null) {\n        try {\n            fis.close();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n}\n\nEven better: use try-with-resources!\n\ntry (FileInputStream fis = new FileInputStream(\"data.bin\")) {\n    // auto-closed!\n}",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

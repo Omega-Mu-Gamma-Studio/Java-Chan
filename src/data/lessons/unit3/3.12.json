@@ -10,7 +10,8 @@
   "phase2": {
     "brokenCode": "import java.io.*;\n\n// Missing Serializable interface\nclass Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"person.ser\"))) {\n            Person p = new Person(\"Alice\", 25);\n            oos.writeObject(p);  // ERROR!\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.io.NotSerializableException: Person\n        at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1185)\n        at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:349)\n        at Test.main(Test.java:16)",
-    "explanation": "NotSerializableException! Person doesn't implement Serializable, so it can't be serialized.\n\nFIX: Implement Serializable:\n\nclass Person implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int age;\n    // ...\n}\n\nAll objects in the object graph must be Serializable. If any field isn't Serializable, serialization fails.\n\nFor non-serializable fields, use 'transient'."
+    "explanation": "NotSerializableException! Person doesn't implement Serializable, so it can't be serialized.\n\nFIX: Implement Serializable:\n\nclass Person implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int age;\n    // ...\n}\n\nAll objects in the object graph must be Serializable. If any field isn't Serializable, serialization fails.\n\nFor non-serializable fields, use 'transient'.",
+    "fixedCode": null
   },
   "phase3": {
     "scaffoldCode": null,
@@ -26,5 +27,6 @@
   "phase5": {
     "trivia": null,
     "openingDialogue": null
-  }
+  },
+  "hoverNotes": {}
 }

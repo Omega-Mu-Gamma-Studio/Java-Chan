@@ -5,28 +5,55 @@
   "phase1": {
     "code": "public class LoopsExample {\n    public static void main(String[] args) {\n        // For loop — count from 1 to 5\n        System.out.println(\"=== For Loop ===\");\n        for (int i = 1; i <= 5; i++) {\n            System.out.println(\"Count: \" + i);\n        }\n        \n        // While loop — add numbers until sum > 20\n        System.out.println(\"=== While Loop ===\");\n        int sum = 0;\n        int counter = 1;\n        while (sum <= 20) {\n            sum += counter;\n            System.out.println(\"Adding \" + counter + \", sum = \" + sum);\n            counter++;\n        }\n        \n        // Do-while — runs at least once\n        System.out.println(\"=== Do-While Loop ===\");\n        int num = 0;\n        do {\n            System.out.println(\"This runs at least once! num = \" + num);\n            num++;\n        } while (num < 3);\n        \n        // Break and continue\n        System.out.println(\"=== Break & Continue ===\");\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) {\n                System.out.println(\"Breaking at \" + i);\n                break;  // Exits loop\n            }\n            if (i % 2 == 0) {\n                continue;  // Skips even numbers\n            }\n            System.out.println(\"Odd number: \" + i);\n        }\n    }\n}",
     "output": "=== For Loop ===\nCount: 1\nCount: 2\nCount: 3\nCount: 4\nCount: 5\n=== While Loop ===\nAdding 1, sum = 1\nAdding 2, sum = 3\nAdding 3, sum = 6\nAdding 4, sum = 10\nAdding 5, sum = 15\nAdding 6, sum = 21\n=== Do-While Loop ===\nThis runs at least once! num = 0\nThis runs at least once! num = 1\nThis runs at least once! num = 2\n=== Break & Continue ===\nOdd number: 1\nOdd number: 3\nOdd number: 5\nBreaking at 6",
-    "explanation": "Loops repeat code multiple times:\n\nFor loop: when you know how many times to repeat\nfor (initialization; condition; increment) {\n    // code to repeat\n}\n\nWhile loop: when you need to loop until a condition changes\nwhile (condition) {\n    // code to repeat\n}\n\nDo-while: ALWAYS runs at least once, then checks condition\ndo {\n    // code to repeat at least once\n} while (condition);\n\nLoop control:\n• break — exits the loop completely\n• continue — skips to the next iteration\n\n⚠️ Be careful with infinite loops: while (true) without a break is dangerous!"
+    "explanation": "Three ways to repeat code, and each answers a slightly different question.\n\n`for` is your go-to when you already know how many times you're repeating — the whole `for (initialization; condition; increment)` header is really just \"start here, keep going while this is true, do this after every lap.\"\n\n`while` is for when you don't know the count up front, just the condition that should keep things going — like adding numbers until some running total passes a threshold.\n\n`do-while` is the one guaranteed to run at least once, [[key:because it checks its condition AFTER the loop body, not before]] — useful any time you need something to happen at least one time no matter what, like showing a menu before asking whether to repeat it.\n\nInside any loop, `break` exits the whole loop immediately, and `continue` just skips the rest of THIS lap and jumps to the next one. [[warn:while (true) with no break anywhere inside is an infinite loop]] — sometimes intentional, usually not."
   },
   "phase2": {
     "brokenCode": "public class LoopsExample {\n    public static void main(String[] args) {\n        int sum = 0;\n        int counter = 1;\n        while (counter <= 5) {\n            sum += counter;\n            System.out.println(\"Sum: \" + sum);\n            // Missing counter increment!\n        }\n        System.out.println(\"Final sum: \" + sum);\n    }\n}",
     "errorMessage": "(Program runs forever! No error message — but the code never stops.)\n\nSum: 1\nSum: 2\nSum: 3\nSum: 4\nSum: 5\nSum: 6\nSum: 7\n... infinite ...",
-    "explanation": "This is an infinite loop! counter never changes, so counter <= 5 is ALWAYS true.\n\nThe fix: counter++ inside the loop so it eventually becomes 6 and the condition becomes false.\n\nAlways check: does your loop variable change? Is there a path to exit?\n\nTips to avoid infinite loops:\n• Make sure your condition will become false\n• Use break as an escape hatch\n• Print debugging messages to track variables",
+    "explanation": "[[warn:This loop never ends, because counter never changes]] — `counter <= 5` starts true and just stays true forever, since nothing inside the loop body ever touches `counter`.\n\n[[key:Every loop needs a clear path toward its condition eventually becoming false]] — here that means adding `counter++` somewhere inside the loop body, so `counter` eventually climbs past 5 and the loop actually ends.\n\nA good habit whenever you write a loop: look at the condition, then ask yourself \"what inside this loop is actually changing to make that condition eventually false?\" If the answer is nothing, you've found your bug before running it even once.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "public class LoopsExample {\n    public static void main(String[] args) {\n        for (int i = 1; i <= 5; i{{b1}}) {\n            System.out.println(\"Count: \" + i);\n        }\n\n        int num = 0;\n        {{b2}} {\n            System.out.println(\"num = \" + num);\n            num++;\n        } while (num < 3);\n\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) {\n                {{b3}};\n            }\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "++"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "do"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "break"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Time to loop — don't get caught in an infinite one! 🔄"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which loop is guaranteed to run its body at least once, no matter the condition?\n\nA) for\nB) while\nC) do-while\nD) None — all loops can run zero times",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write a program that:\n1. Uses a for loop to print numbers 10 down to 1\n2. Uses a while loop to add numbers 1 to 100 and print the sum (5050)",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: the for-each loop (`for (int num : numbers)`) isn't actually a separate feature under the hood — for arrays, the compiler quietly rewrites it into a regular indexed for loop, and for collections, it rewrites it to use an Iterator instead. It's what's sometimes called \"syntactic sugar\" — a nicer way to write something the language could already do.",
+    "openingDialogue": "One more loop-shaped thought before you go~"
   },
   "hoverNotes": {}
 }

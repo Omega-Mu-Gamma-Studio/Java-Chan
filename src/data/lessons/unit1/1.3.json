@@ -5,29 +5,56 @@
   "phase1": {
     "code": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
     "output": "Hello, World!",
-    "explanation": "Let's break this down line by line:\n\nLine 1: public class HelloWorld — every Java program has a class. The class name MUST match the filename (HelloWorld.java).\n\nLine 2: public static void main(String[] args) — the main method is where the program starts. Every Java app needs this exact signature.\n\nLine 3: System.out.println(\"Hello, World!\") — prints text to the console. System.out is the standard output, println prints with a new line at the end.\n\nLine 4: } — closes the main method\nLine 5: } — closes the class\n\nPro tip: Java is case-sensitive! 'String' not 'string'. Every statement ends with a semicolon ;",
+    "explanation": "Okay — first real program. Let's actually build something.\n\nEvery Java program lives inside a [[term:class]] — remember, that's the blueprint idea from lesson one. Here, the blueprint is named `HelloWorld`, and [[warn:the class name has to match the filename exactly]] — this blueprint has to live in a file called `HelloWorld.java`, capital letters and all.\n\nInside that blueprint, Java needs one very specific starting point: `public static void main(String[] args)`. Think of `main` as the front door — [[key:this is the exact line Java looks for when it decides where to start running your program]]. Get the spelling or capitalization even slightly wrong, and Java won't find a way in.\n\nOnce we're inside `main`, the actual work is one line: `System.out.println(\"Hello, World!\")`. `System.out` is your direct line to the console, and [[term:println]] prints your text and then moves to a new line, ready for whatever prints next.\n\nA couple of things to lock in early, because they'll matter every single lesson from here: Java is [[warn:case-sensitive]] — `String` and `string` are not the same thing, ever — and every single statement ends with a semicolon `;`. Miss one, and the compiler stops cold, which — conveniently — is exactly what we're about to watch happen next.",
     "openingDialogue": "Ah, the classic! Let me show you your very first Java program~ ✨"
   },
   "phase2": {
     "brokenCode": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\")\n    }\n}",
     "errorMessage": "HelloWorld.java:3: error: ';' expected\n        System.out.println(\"Hello, World!\")\n                                             ^\n1 error",
-    "explanation": "See the missing semicolon at the end of line 3? In Java, EVERY statement must end with a semicolon (;). The compiler is pointing right at where it expected the semicolon — the error message even shows a ^ mark!\n\nThis is the #1 mistake beginners make. Always check your semicolons!",
+    "explanation": "See the missing `;` after the very last thing on line 3? [[warn:every statement needs one]] — no exceptions, not even the last line inside a method. Look closely at the error message: the compiler even points a `^` right at the exact spot it expected the semicolon to be.\n\nThis is genuinely the single most common mistake anyone makes starting out. [[key:When the compiler complains about a missing semicolon, it usually points at the END of the broken line, not somewhere further down]] — so always check the line right where that `^` lands first.",
     "fixedCode": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "public class {{b1}} {\n    public static void main(String[] args) {\n        System.out.{{b2}}(\"Hello, World!\"){{b3}}\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "HelloWorld"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "println"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          ";"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "Your turn! Let's see what you've got~ 💪"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which of these is a valid Java entry point?\n\nA) public void main(String[] args)\nB) public static void main(String[] args)\nC) static void Main(string[] args)\nD) public static int main(String args)",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Write a Java program that prints \"Hello, Java-chan!\" to the console.\n\nRequirements:\n• Use a class named HelloJava\n• Use the correct main method signature\n• Print exactly: Hello, Java-chan!",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: \"Hello, World!\" as the very first program in a new language is a tradition way older than Java. It traces back to a 1978 C programming book by Brian Kernighan and Dennis Ritchie — Java (1995) didn't invent the tradition, it just kept it going. Pretty much every language you'll ever learn will have you write this exact same program first.",
+    "openingDialogue": "Before you move on — one more thing~"
   },
   "hoverNotes": {
     "HelloWorld": "This is the example class name for this lesson — the file must be named HelloWorld.java to match it exactly."

@@ -5,28 +5,55 @@
   "phase1": {
     "code": "public class CastingExample {\n    public static void main(String[] args) {\n        // Widening (implicit) — safe, automatic\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        // Narrowing (explicit) — can lose data!\n        double pi = 3.14159;\n        int roughPi = (int) pi;\n        System.out.println(\"double to int: \" + roughPi);\n        \n        // Literals\n        int hex = 0xFF;        // hexadecimal\n        int binary = 0b1010;   // binary\n        char letter = 'A';     // char literal\n        String text = \"Hello\"; // String literal\n        \n        System.out.println(\"Hex: \" + hex);\n        System.out.println(\"Binary: \" + binary);\n    }\n}",
     "output": "int to double: 100.0\ndouble to int: 3\nHex: 255\nBinary: 10",
-    "explanation": "Type casting is converting one type to another:\n\nWidening (implicit): int → double, char → int\n• Happens automatically\n• Safe — no data loss\n\nNarrowing (explicit): double → int\n• Must use (targetType) cast\n• Can lose precision (3.14159 becomes 3)\n\nLiterals are fixed values written directly in code:\n• 0xFF = 255 in hexadecimal (starts with 0x)\n• 0b1010 = 10 in binary (starts with 0b)\n• 'A' = char literal\n• \"Hello\" = String literal\n\nRemember: String is NOT a primitive — it's a class, but Java treats it specially with literals!"
+    "explanation": "Casting is just moving a value from one box type to another — but which direction you're going in changes how careful you need to be.\n\n[[term:Widening]] (implicit casting) is the easy direction: `int` into `double`, `char` into `int`. Java does this automatically because [[key:you can't lose information going from a smaller type to a bigger one]] — a whole number fits perfectly fine inside a decimal type.\n\n[[term:Narrowing]] is the direction that needs your explicit permission: `double` into `int`. You have to write `(int) pi` yourself, because [[warn:narrowing can genuinely throw information away]] — `3.14159` becomes `3`, and that `.14159` is just gone, not rounded, just chopped off.\n\nWhile we're here — [[term:literals]] are just fixed values written directly into your code. `0xFF` is a [[term:hexadecimal]] literal (255 in plain decimal), `0b1010` is a [[term:binary]] literal (10 in decimal), and `'A'` / `\"Hello\"` are your char and String literals. And one detail worth remembering: [[key:String isn't technically a primitive, it's a class]] — Java just lets you write it with literal syntax because you'd want to use it constantly otherwise."
   },
   "phase2": {
     "brokenCode": "public class CastingExample {\n    public static void main(String[] args) {\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        double pi = 3.14159;\n        int roughPi = pi;  // Missing cast!\n        System.out.println(\"double to int: \" + roughPi);\n    }\n}",
     "errorMessage": "CastingExample.java:8: error: incompatible types: possible lossy conversion from double to int\n        int roughPi = pi;\n                      ^\n1 error",
-    "explanation": "Java won't let you assign a double to an int without explicit casting because you might lose the decimal part!\n\nTo fix it, you must use explicit casting: (int) pi\n\nThis is Java protecting you from accidentally losing data. Always use (type) when narrowing!",
+    "explanation": "Java stops you cold here on purpose: assigning a `double` straight into an `int` without an explicit cast risks quietly losing the decimal part, and [[warn:Java would rather refuse to compile than lose your data silently]].\n\nThe fix is exactly one word: `(int) pi`. That's you telling Java \"yes, I know I might be throwing away precision here, do it anyway.\" [[key:Explicit casting is Java asking for your signature before it does something potentially destructive]] — never skip it when narrowing.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "public class CastingExample {\n    public static void main(String[] args) {\n        double pi = 3.14159;\n        int roughPi = {{b1}} pi;\n\n        int hex = {{b2}};\n        int binary = {{b3}};\n\n        System.out.println(\"Hex: \" + hex);\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "(int)"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "0xFF"
+        ],
+        "caseSensitive": false
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "0b1010"
+        ],
+        "caseSensitive": false
+      }
+    ],
     "openingDialogue": "Let's practice playing with types — don't drop any data! 🎪"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which conversion needs an explicit cast in Java?\n\nA) int to double\nB) char to int\nC) double to int\nD) int to long",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write code that:\n1. Declares a double variable with value 9.87\n2. Casts it to an int (prints the result)\n3. Declares an int variable with value 42\n4. Widens it to a double (prints the result)",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: since Java 7, you can drop underscores into number literals purely for readability — `1_000_000` compiles to exactly the same value as `1000000`. Java ignores them completely; they're there purely so a human reading the code doesn't have to count zeros.",
+    "openingDialogue": "Before you go — a quick detour~"
   },
   "hoverNotes": {}
 }

@@ -5,13 +5,13 @@
   "phase1": {
     "code": "",
     "output": "",
-    "explanation": "Before writing Java code, you need three things:\n\n1. JDK (Java Development Kit) — includes the compiler (javac) and runtime (JRE)\n2. An IDE or text editor — IntelliJ, Eclipse, VS Code, or even Notepad!\n3. Understanding the two-step process:\n   • javac compiles .java files into .class bytecode\n   • java runs the bytecode on the JVM\n\nThink of it like cooking: javac is the prep work (chopping ingredients), java is the actual cooking (making the meal). The JVM is the stove that works with any kitchen!\n\nPopular IDEs:\n• IntelliJ IDEA — industry standard, very popular\n• Eclipse — free, open-source, lots of plugins\n• VS Code — lightweight, modern\n\nPro tip: Start with VS Code or IntelliJ Community Edition — they're free and great for beginners!",
+    "explanation": "Alright, before we build anything, let's get your workbench set up.\n\nThere are three things you need before you can write Java with me:\n\nFirst, the [[term:JDK]] — the Java Development Kit. This is your actual toolbox. It bundles the compiler, called [[term:javac]], and the runtime you need to execute what you build.\n\nSecond, somewhere to write the code. Any text editor technically works, but you'll want an [[term:IDE]] — IntelliJ IDEA, Eclipse, or VS Code are the three you'll run into most. [[key:IntelliJ Community Edition and VS Code are both free and won't overwhelm you on day one]] — that's where I'd start if I were you.\n\nThird — and this is the part that trips people up constantly, so pay attention — building a Java program is [[key:always two separate steps, never one]]. Remember that blueprint-and-object idea from last lesson? Same shape here. `javac` takes your `.java` file and turns it into `.class` bytecode — that's you finishing the blueprint. Then `java` hands that blueprint to the JVM, which actually builds and runs the thing. [[warn:Writing the code and running the code are not the same step]] — you always compile first, then run.\n\nOnce you've got a JDK installed, open your terminal and check both `java -version` and `javac -version`. If they both come back with a version number, your workbench is ready. If one's missing, that's the very first thing to fix — nothing else works until it's sorted.",
     "openingDialogue": "Time to set up your workspace! Don't worry, I'll guide you through it step by step~ 🛠️"
   },
   "phase2": {
     "brokenCode": "",
     "errorMessage": "",
-    "explanation": "Conceptual lesson — no broken code yet! But a common mistake beginners make is downloading the wrong JDK version. Always check: 'java -version' and 'javac -version' in your terminal to verify both are installed correctly.",
+    "explanation": "Nothing to break yet — we haven't written real code together. But there's a setup mistake I see constantly, so let's get ahead of it: installing a JRE instead of a full JDK, or grabbing a JDK version your IDE doesn't actually support. [[warn:No javac means no compiling, full stop]] — no matter how good your code looks, it never becomes a program without it. Run `java -version` and `javac -version` in your terminal. If `javac` isn't found, that's the JDK, not your code — fix that first.",
     "fixedCode": null
   },
   "phase3": {
@@ -22,7 +22,7 @@
   "xpReward": 10,
   "phase4": {
     "mcq": {
-      "question": "What is the correct sequence to compile and run a Java program?\n\nA) java → javac → run\nB) compile → write code → run\nC) javac → java\nD) write code → javac → java",
+      "question": "Quick check on the workbench workflow — what's the correct order to get a Java program running?\n\nA) java → javac → run\nB) compile → write code → run\nC) javac → java\nD) write code → javac → java",
       "validationPattern": {
         "mcqAnswer": "D"
       }
@@ -31,8 +31,8 @@
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: one of the IDEs I mentioned — Eclipse — has a name with a bit of a rivalry behind it. IBM built it in 2001, and according to the team's own retelling years later, the name was picked because they wanted to \"eclipse\" a competing tool. It's never been fully confirmed which competitor they meant, and there's long-standing debate over whether it was also a quiet dig at Sun Microsystems, since Sun made Java. Either way — someone on that team really wanted their IDE's name to throw shade.",
+    "openingDialogue": "Before you go set up your workbench — one more thing~"
   },
   "hoverNotes": {}
 }

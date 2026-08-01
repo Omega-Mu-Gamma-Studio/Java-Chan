@@ -48,6 +48,7 @@ const JavaChan = () => {
   const {
     javaChanExpression,
     currentDialogue,
+    dialogueQueue,
     advanceDialogue,
     setExpression,
   } = useLessonStore();
@@ -104,6 +105,19 @@ const JavaChan = () => {
     };
   }, [displayExpression]);
 
+  // Full-screen "domain expansion" celebration overlay. Phase 3's success path
+  // exits it itself via a setTimeout, but nothing else does — so any other
+  // caller that sets expression to 'domain' (e.g. Phase 5 entry) would leave
+  // this overlay stuck forever once its dialogue runs out, silently blocking
+  // whatever's underneath. Tapping through the last line should actually
+  // dismiss it, matching the "tap anywhere to continue" hint text.
+  const handleDomainTap = () => {
+    if (dialogueQueue.length === 0) {
+      setExpression('idle');
+    }
+    advanceDialogue();
+  };
+
   const isDomain = displayExpression === 'domain';
   // If the equipped outfit has real sprite art for this expression, use it.
   // Otherwise fall back to the base SPRITE_MAP.
@@ -127,7 +141,7 @@ const JavaChan = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
-            onClick={advanceDialogue}
+            onClick={handleDomainTap}
           >
             {/* Radial glow burst */}
             <div className="domain-glow" />

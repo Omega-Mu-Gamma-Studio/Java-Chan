@@ -12,7 +12,8 @@
   margin: 0;
   padding: 14px;
   overflow-x: auto;
-  white-space: pre;
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
 .scaffold-line {

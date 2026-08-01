@@ -41,6 +41,17 @@ const ScaffoldEditor = ({
     return Array.isArray(spec.answer) ? spec.answer[0] : spec.answer;
   };
 
+  // Reserve enough width for the longest accepted answer so the field never
+  // clips the correct answer on reveal, and doesn't visually resize as the
+  // student types toward it.
+  const inputWidth = (blankId) => {
+    const spec = blankMap[blankId];
+    const accepted = spec ? (Array.isArray(spec.answer) ? spec.answer : [spec.answer]) : [];
+    const longestAccepted = accepted.reduce((max, a) => Math.max(max, (a || '').length), 0);
+    const typed = (userBlanks[blankId] || '').length;
+    return Math.max(4, longestAccepted, typed) + 1; // +1 so there's always room for the cursor
+  };
+
   return (
     <div className="scaffold-editor">
       <pre className="scaffold-pre">
@@ -62,7 +73,7 @@ const ScaffoldEditor = ({
                     spellCheck={false}
                     autoCorrect="off"
                     autoCapitalize="off"
-                    size={Math.max(4, (userBlanks[part.value] || '').length || 4)}
+                    size={inputWidth(part.value)}
                   />
                 )
               )}

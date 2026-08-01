@@ -117,6 +117,30 @@ documented as new §4.7 in `java-chan-next-update.md`.
 - No schema change — this is markup inside existing string fields, not a
   new lesson JSON key.
 
+### Step 2d — Emphasis tags get a real storybook treatment (addendum, §4.8)
+Step 2c shipped with a flat placeholder treatment (four colors, one weight
+bump each) rather than the fuller "Geronimo Stilton effect" the tag naming
+promised. Follow-up pass, documented as new §4.8 in
+`java-chan-next-update.md`:
+
+- **`src/components/lesson/EmphasisText.jsx`** — spans are now
+  `motion.span` (`framer-motion`, already a dependency — no new package
+  added), each category with its own pop-in-on-mount and hover-bounce
+  motion values instead of static spans.
+- **`src/components/lesson/EmphasisText.css`** — each of the four
+  categories is a distinct typographic treatment, not just a recolor:
+  `term` gets the display font + a wavy underline, `warn` gets a size bump
+  and a ⚠ mark, `key` gets a highlighter-marker shape behind the text,
+  `fun` gets a tilt and a ✨. `prefers-reduced-motion` drops the
+  rotation/scale.
+- **`CONTRIBUTING.md`** — added an "Inline Emphasis Tags" section making
+  tag usage a reviewed authoring requirement for `phase1.explanation`,
+  `phase2.explanation`, and `phase5.trivia`, not an optional flourish —
+  closes the gap where §4.7 documented the *system* but nothing told
+  content authors it wasn't optional.
+- `emphasisParser.js` and all call sites unchanged — visual-only upgrade
+  to an already-wired system.
+
 ---
 
 ## Not done yet

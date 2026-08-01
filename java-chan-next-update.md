@@ -219,10 +219,17 @@ chosen so each carries a distinct meaning at a glance:
 
 | Tag | Meaning | Treatment |
 |---|---|---|
-| `[[term:...]]` | New vocabulary — first time a concept name appears | Blue, semi-bold |
-| `[[warn:...]]` | Gotchas / common mistakes / "this bites people" | Gold, bold |
-| `[[key:...]]` | The one idea in this paragraph worth remembering | Pink (mascot's accent color), bold |
-| `[[fun:...]]` | Trivia / lighter aside, distinct from teaching voice | Purple, italic |
+| `[[term:...]]` | New vocabulary — first time a concept name appears | Rounded display font + hand-drawn wavy underline, like a word freshly circled |
+| `[[warn:...]]` | Gotchas / common mistakes / "this bites people" | Gold, bold, larger, with a ⚠ callout mark |
+| `[[key:...]]` | The one idea in this paragraph worth remembering | Pink (mascot's accent color), bold, with a highlighter-marker stroke behind it |
+| `[[fun:...]]` | Trivia / lighter aside, distinct from teaching voice | Purple, italic, stamped in at a slight tilt with a ✨ |
+
+Each tag also pops in on mount and gives a small, distinct bounce on hover (see §4.8) — the
+four categories are meant to feel like four different typographic *events*, not four colors of
+the same bold span. This is a design requirement, not a bonus: **content that wraps a whole
+sentence in one tag, or skips tags where the vocabulary above the table clearly calls for one,
+should be treated as unfinished authoring, not a stylistic choice.** See CONTRIBUTING.md's
+"Inline Emphasis Tags" section for the authoring rule of thumb.
 
 **Implementation, in line with the "safe by construction" bar the rest of the engine holds
 to:** this is deliberately NOT `dangerouslySetInnerHTML`. Lesson JSON is authored content, but
@@ -241,6 +248,31 @@ whether it landed.
 New fields: none at the schema level — this is markup *inside* existing string fields
 (`phase1.explanation`, `phase2.explanation`, `phase5.trivia`), so no lesson JSON needed a new
 key, only re-authoring of the string content itself where emphasis is warranted.
+
+---
+
+## 4.8 Addendum — Emphasis tags get a real storybook treatment
+§4.7 shipped with a flat "four colors, one weight bump" treatment as a placeholder. That
+placeholder undersold the "Geronimo Stilton effect" name it was given — Stilton's own books
+don't just recolor a word, they change the *typographic event*: size, font, tilt, underline
+style, all vary by what the word is doing in the sentence. `EmphasisText.jsx`/`.css` now match
+that more literally (see the updated Treatment column above):
+
+- `term` uses the mascot's own rounded display font plus a wavy underline, like a dictionary
+  entry being circled.
+- `warn` gets a size bump and a ⚠ mark, so it reads as a raised voice, not just bold gold text.
+- `key` gets an actual highlighter-marker shape behind it (a rotated glow block, not a solid
+  fill, so it still reads as "marker" rather than "background color").
+- `fun` gets stamped in at a tilt with a ✨, reading as a margin doodle rather than body text.
+- All four pop in on mount and give a small hover bounce (`framer-motion`, already a project
+  dependency — no new dependency added), each with a slightly different motion so the four
+  categories feel distinct in motion too, not just in color.
+- A `prefers-reduced-motion` media query drops the rotation/scale for anyone who needs it;
+  color/font/icon differences still carry the meaning without motion.
+
+Only `EmphasisText.jsx`/`.css` changed. `emphasisParser.js` and every call site
+(`LessonCanvas.jsx`'s Phase 1/2/5 renders) are untouched — this was a pure visual upgrade to an
+already-wired system, not a schema or call-site change.
 
 ---
 

@@ -5,55 +5,28 @@
   "phase1": {
     "code": "public class OperatorsExample {\n    public static void main(String[] args) {\n        // Arithmetic\n        int a = 10, b = 3;\n        System.out.println(\"a + b = \" + (a + b));\n        System.out.println(\"a - b = \" + (a - b));\n        System.out.println(\"a * b = \" + (a * b));\n        System.out.println(\"a / b = \" + (a / b));\n        System.out.println(\"a % b = \" + (a % b));\n        \n        // Relational\n        System.out.println(\"a > b? \" + (a > b));\n        System.out.println(\"a == b? \" + (a == b));\n        \n        // Logical\n        boolean x = true, y = false;\n        System.out.println(\"x && y = \" + (x && y));\n        System.out.println(\"x || y = \" + (x || y));\n        System.out.println(\"!x = \" + !x);\n        \n        // Ternary\n        int max = (a > b) ? a : b;\n        System.out.println(\"Max: \" + max);\n    }\n}",
     "output": "a + b = 13\na - b = 7\na * b = 30\na / b = 3\na % b = 1\na > b? true\na == b? false\nx && y = false\nx || y = true\n!x = false\nMax: 10",
-    "explanation": "Operators are how you actually DO something with the values sitting in your variables.\n\n[[term:Arithmetic]] operators — `+ - * / %` — do what you'd expect, with one gotcha: [[warn:dividing two ints always gives you an int back, even if the real answer has a decimal]]. `10 / 3` is `3`, not `3.333`, because Java assumes if both sides are whole numbers, you want a whole number answer. `%`, the [[term:modulo]] operator, gives you the remainder instead — `10 % 3` is `1`.\n\n[[term:Relational]] operators — `> < >= <= == !=` — compare two values and always hand back a `boolean`.\n\n[[term:Logical]] operators combine booleans: `&&` (AND) needs both sides true, `||` (OR) needs at least one side true, and `!` (NOT) just flips whatever it's attached to.\n\nAnd then there's the [[term:ternary operator]] — `condition ? valueIfTrue : valueIfFalse` — really just an if-else squeezed onto one line. `(a > b) ? a : b` reads as \"if a is bigger than b, give me a, otherwise give me b.\"\n\n[[key:When operators start mixing together, parentheses aren't optional politeness — they're how you make sure Java evaluates things in the order you actually meant]]."
+    "explanation": "Java has several types of operators:\n\nArithmetic: + - * / %\n• / does integer division (10/3 = 3, not 3.333)\n• % gives remainder (10%3 = 1)\n\nRelational: > < >= <= == !=\n• Compare values, returns boolean\n\nLogical: && (AND), || (OR), ! (NOT)\n• && — both must be true\n• || — at least one must be true\n• ! — flips the value\n\nTernary: condition ? valueIfTrue : valueIfFalse\n• Shorthand for if-else\n• (a > b) ? a : b means \"if a > b, use a, otherwise use b\"\n\nPro tip: Use parentheses to make operator order clear!"
   },
   "phase2": {
     "brokenCode": "public class OperatorsExample {\n    public static void main(String[] args) {\n        int a = 10, b = 3;\n        System.out.println(\"a / b = \" + a / b);  // Problem!\n        System.out.println(\"a + b = \" + (a + b));\n    }\n}",
     "errorMessage": "OperatorsExample.java:4: error: bad operand types for binary operator '+'\n        System.out.println(\"a / b = \" + a / b);\n                                      ^\n  first type:  String\n  second type: int",
-    "explanation": "This is [[term:operator precedence]] biting you. `\"a / b = \" + a / b` doesn't read left-to-right the way you'd hope — `+` and `/` sit at the same precedence level, evaluated left to right, so it actually becomes `(\"a / b = \" + a) / b`. And [[warn:you can't divide a String by an int]] — hence the error.\n\nThe fix is just parentheses: `\"a / b = \" + (a / b)` forces the division to happen first, THEN gets glued onto the string. [[key:Any time you're mixing arithmetic into a string with +, wrap the arithmetic in parentheses]] — it costs nothing and removes all ambiguity.",
+    "explanation": "Java evaluates left to right with operator precedence!\n\n\"a / b = \" + a / b is evaluated as (\"a / b = \" + a) / b — you can't divide a string by an int!\n\nThe fix: use parentheses to force the division first:\n\"a / b = \" + (a / b)\n\nAlways wrap arithmetic in parentheses when combining with strings!",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "public class OperatorsExample {\n    public static void main(String[] args) {\n        int a = 10, b = 3;\n        System.out.println(\"a % b = \" + (a {{b1}} b));\n\n        boolean x = true, y = false;\n        System.out.println(\"x && y = \" + (x {{b2}} y));\n\n        int max = (a > b) {{b3}} a : b;\n        System.out.println(\"Max: \" + max);\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "%"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "&&"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          "?"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to crunch some numbers! Show me what you've got~ 🧮"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "What does 10 / 3 evaluate to in Java, if both are ints?\n\nA) 3.333...\nB) 3\nC) 3.0\nD) A compile error",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Write a program that:\n1. Creates variables x=15, y=4\n2. Prints: x + y = 19, x - y = 11, x * y = 60, x / y = 3, x % y = 3\n3. Uses ternary to print which is bigger: \"15 is bigger\" or \"4 is bigger\"",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: `&&` and `||` are called short-circuit operators for a reason — if the left side of `&&` is already false, Java won't even bother checking the right side, since the answer's already decided. Same with `||` and a true left side. People rely on this to safely write things like `obj != null && obj.getValue() > 0`, where checking the right side first would crash.",
-    "openingDialogue": "One more thing before you crunch more numbers~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

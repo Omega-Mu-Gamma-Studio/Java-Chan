@@ -5,55 +5,28 @@
   "phase1": {
     "code": "public class StringsExample {\n    public static void main(String[] args) {\n        String str1 = \"Hello\";\n        String str2 = \"World\";\n        \n        // String concatenation\n        String combined = str1 + \" \" + str2 + \"!\";\n        System.out.println(\"Concatenated: \" + combined);\n        \n        // Common String methods\n        String text = \"  Java Programming  \";\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"Trimmed: '\" + text.trim() + \"'\");\n        System.out.println(\"Uppercase: \" + text.toUpperCase());\n        System.out.println(\"Lowercase: \" + text.toLowerCase());\n        System.out.println(\"Contains 'Java'? \" + text.contains(\"Java\"));\n        System.out.println(\"Character at index 6: \" + text.charAt(6));\n        System.out.println(\"Substring (6 to 10): '\" + text.substring(6, 10) + \"'\");\n        \n        // String comparison\n        String a = \"Hello\";\n        String b = \"Hello\";\n        String c = new String(\"Hello\");\n        \n        System.out.println(\"a == b? \" + (a == b));  // true (same reference)\n        System.out.println(\"a == c? \" + (a == c));  // false (different objects)\n        System.out.println(\"a.equals(c)? \" + a.equals(c));  // true (same content)\n        \n        // Strings are immutable!\n        String original = \"Java\";\n        String modified = original.toUpperCase();\n        System.out.println(\"Original: \" + original);  // Still \"Java\"\n        System.out.println(\"Modified: \" + modified);  // \"JAVA\"\n    }\n}",
     "output": "Concatenated: Hello World!\nLength: 19\nTrimmed: 'Java Programming'\nUppercase:   JAVA PROGRAMMING  \nLowercase:   java programming  \nContains 'Java'? true\nCharacter at index 6: r\nSubstring (6 to 10): 'Prog'\na == b? true\na == c? false\na.equals(c)? true\nOriginal: Java\nModified: JAVA",
-    "explanation": "Strings look like primitives because we use them constantly, but [[warn:String is actually an object, not a primitive]] — and that distinction explains almost every quirk in this lesson.\n\nSome methods you'll reach for constantly: `.length()` for character count, `.charAt(index)` for one character, `.substring(start, end)` for a slice, `.toUpperCase()`/`.toLowerCase()` for case, `.trim()` to strip leading/trailing spaces, and `.contains(...)` to check for a substring.\n\n[[key:Strings are immutable]] — once created, a String's characters never change. `.toUpperCase()` doesn't modify the original, it hands you back a brand new String; the original is untouched.\n\nAnd here's the trap that catches genuinely everyone at least once: [[warn:never use == to compare String content]]. `==` checks whether two variables point to the exact same object in memory, not whether they contain the same text. Two Strings built separately with `new String(...)` can hold identical text and still fail an `==` check. [[key:Always use .equals() to compare what's actually inside two Strings]] — `.equalsIgnoreCase()` if case shouldn't matter."
+    "explanation": "Strings are objects (not primitives) that represent text:\n\nKey methods:\n• length() — returns number of characters\n• charAt(index) — gets character at position\n• substring(start, end) — extracts portion\n• toUpperCase() / toLowerCase() — case conversion\n• trim() — removes leading/trailing spaces\n• contains(substring) — checks if substring exists\n• equals(other) — compares content (not reference!)\n\nImportant: Strings are IMMUTABLE!\n• Methods return NEW strings, don't modify the original\n• Use equals() NOT == for comparing content\n\n⚠️ Very Common Mistake: Using == instead of .equals() for Strings\n\nPro tip: Use .equalsIgnoreCase() for case-insensitive comparison."
   },
   "phase2": {
     "brokenCode": "public class StringsExample {\n    public static void main(String[] args) {\n        String str1 = \"Hello\";\n        String str2 = new String(\"Hello\");\n        \n        // Using == instead of .equals()\n        if (str1 == str2) {\n            System.out.println(\"They are equal!\");\n        } else {\n            System.out.println(\"They are NOT equal!\");\n        }\n    }\n}",
     "errorMessage": "They are NOT equal!\n\n(No error — but the logic is WRONG! str1 and str2 have the same content but == says they're different.)",
-    "explanation": "[[warn:This is the String trap, right here]]. `==` isn't asking \"do these hold the same text\" — it's asking \"are these literally the same object sitting in memory.\" `str1` and `str2` are two separate objects (one built with `new String(...)`), so `==` says false, even though both hold the exact text \"Hello.\"\n\n[[key:The fix is always .equals() for comparing String content]]: `str1.equals(str2)` correctly returns true here, because it actually looks at the characters instead of the memory address.",
+    "explanation": "This is the String Trap! \n\n== checks if str1 and str2 point to the SAME memory location.\nstr1 and str2 are different objects, so == returns false even though the content is the same.\n\nAlways use .equals() for comparing String content:\nstr1.equals(str2) // true ✅\n\nFor case-insensitive: str1.equalsIgnoreCase(str2)",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "public class StringsExample {\n    public static void main(String[] args) {\n        String text = \"  Java Programming  \";\n        System.out.println(\"Trimmed: \" + text.{{b1}}());\n        System.out.println(\"Upper: \" + text.{{b2}}());\n\n        String a = \"Hello\";\n        String b = new String(\"Hello\");\n\n        System.out.println(a{{b3}});\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "trim"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "toUpperCase"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          ".equals(b)"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Strings are your friends — they hold all the text! 📝"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "What's the correct way to compare the CONTENT of two Strings in Java?\n\nA) str1 == str2\nB) str1.equals(str2)\nC) str1 = str2\nD) str1.compare(str2)",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Write a program that:\n1. Declares a String: \"  Java is Fun  \"\n2. Prints its length\n3. Prints it trimmed\n4. Prints it in uppercase\n5. Prints the character at index 5\n6. Prints the substring from index 2 to 6",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: the reason `String a = \"Hello\"; String b = \"Hello\";` gives you == true, while `new String(\"Hello\")` gives you == false, comes down to something called the string pool. Java keeps one shared copy of every String literal in memory and reuses it — but new String(...) deliberately forces a brand new object outside that pool, which is exactly why it breaks the == comparison.",
-    "openingDialogue": "One more thing before you go write more text~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

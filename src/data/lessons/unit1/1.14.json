@@ -5,55 +5,28 @@
   "phase1": {
     "code": "// Student.java — the class (blueprint)\nclass Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor\n    Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n    \n    // Method\n    void displayInfo() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n        System.out.println(\"---\");\n    }\n}\n\n// Main class\npublic class Main {\n    public static void main(String[] args) {\n        // Creating objects (instances)\n        Student alice = new Student(\"Alice\", 20, 3.8);\n        Student bob = new Student(\"Bob\", 22, 3.2);\n        \n        // Accessing fields\n        System.out.println(\"Alice's name: \" + alice.name);\n        \n        // Calling methods\n        alice.displayInfo();\n        bob.displayInfo();\n        \n        // this keyword\n        // Inside the constructor, this refers to the current object\n        // this.name = name; assigns the parameter to the field\n    }\n}",
     "output": "Alice's name: Alice\nName: Alice\nAge: 20\nGPA: 3.8\n---\nName: Bob\nAge: 22\nGPA: 3.2\n---",
-    "explanation": "This is the moment everything from lesson one becomes real code instead of just an idea.\n\nA [[term:class]] is the blueprint — here, `Student`. It declares what every Student will have: [[term:fields]] like `name`, `age`, and `gpa` to hold data, and [[term:methods]] like `displayInfo()` to define behavior.\n\nAn [[term:object]] is an actual instance built from that blueprint — `alice` and `bob` are both Students, but with their own separate values sitting in their own fields.\n\nThe [[term:constructor]] is the special method that actually builds a new object: it shares the class's exact name, has no return type at all (not even void), and runs automatically the moment you write `new Student(...)`.\n\nInside that constructor, you'll almost always see [[term:this]] show up: `this.name = name;` — [[key:this refers to the object currently being built, and it's how Java tells apart the field from the parameter when they share a name]]. Without `this`, Java would have no way to know you meant \"assign the parameter to my field\" rather than just assigning the parameter to itself.\n\nOnce alice and bob exist, you reach their fields and methods with dot notation: `alice.name`, `alice.displayInfo()`. Two objects, same blueprint, completely independent data."
+    "explanation": "Object-Oriented Programming (OOP) is about modeling real-world things:\n\nClass: blueprint/template (e.g., Student)\n• Defines what properties (fields) and behaviors (methods) objects will have\n\nObject: instance of a class (e.g., alice, bob)\n• Actual thing with specific values\n\nFields: variables that hold data (name, age, gpa)\n\nMethods: functions that define behavior (displayInfo)\n\nConstructor: special method that creates objects\n• Called with 'new' keyword\n• Same name as class\n• No return type\n\nthis keyword: refers to the current object\n• Used to distinguish between field and parameter with same name\n\nKey OOP concept: Classes are reusable blueprints!"
   },
   "phase2": {
     "brokenCode": "class Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor missing return type\n    void Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student alice = new Student(\"Alice\", 20, 3.8);\n    }\n}",
     "errorMessage": "Main.java:16: error: constructor Student in class Student cannot be applied to given types;\n        Student alice = new Student(\"Alice\", 20, 3.8);\n                        ^\n  required: no arguments\n  found: String,int,double\n1 error",
-    "explanation": "`void Student(...)` looks almost right, but [[warn:that void is exactly what turns this from a constructor into a regular method]]. A real constructor has NO return type at all — not even void — and it must share the class's name exactly.\n\nBecause Java now sees `Student(String, int, double)` as a plain method instead of a constructor, the class is left with no matching constructor at all for `new Student(\"Alice\", 20, 3.8)` to call. [[key:The fix is simply removing void]]: `Student(String name, int age, double gpa) { ... }`, with no return type whatsoever.",
+    "explanation": "void Student(...) is a METHOD, not a CONSTRUCTOR!\n\nConstructors:\n• Have NO return type (not even void)\n• Must have the SAME name as the class\n\nCorrect: Student(String name, int age, double gpa)\n\nMistake: void Student(String name, int age, double gpa) ← this is a method\n\nThe compiler can't find a constructor that takes parameters!",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "class Student {\n    String name;\n    int age;\n\n    {{b1}}(String name, int age) {\n        {{b2}}.name = name;\n        this.age = age;\n    }\n\n    void displayInfo() {\n        System.out.println(\"Name: \" + name);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student alice = {{b3}} Student(\"Alice\", 20);\n        alice.displayInfo();\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "Student"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "this"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          "new"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to create your first class! The blueprint of the future~ 🏗️"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "Which of these is true about a Java constructor?\n\nA) It must have a return type of void\nB) It has the same name as the class and no return type at all\nC) It can have any name you want\nD) It must always take zero parameters",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Create a class called Book with:\n• Fields: title (String), author (String), pages (int)\n• Constructor that initializes all fields\n• Method: displayInfo() that prints all book info\n\nIn main, create 2 Book objects and call displayInfo() on both.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: if you don't write ANY constructor at all in a class, Java quietly generates a free no-argument one for you behind the scenes, called the default constructor. The moment you write even one constructor yourself, though, Java stops giving you that free one — which is exactly why some classes seem to lose their plain `new ClassName()` option once you add a custom constructor.",
-    "openingDialogue": "One more thing before you build your next blueprint~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

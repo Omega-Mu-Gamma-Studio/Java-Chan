@@ -169,46 +169,15 @@ Each lesson's `scaffoldCode`/`blanks` were cross-checked programmatically
 before being considered done. All three build clean, lint clean, and all 75
 lesson JSONs still parse.
 
-Pilot voice approved — confirmed against the 1.2 draft, which extended the
-same workshop/blueprint metaphor and was signed off before proceeding to
-the rest of Unit 1. Step 3 is closed.
+**Still needed before Step 3 is fully closed:** your review of whether the
+voice actually lands — per §3, the bar is "do all three sound like the
+same teacher," not each judged in isolation.
 
 ### Step 4 — Full 75-lesson rewrite
 Sequenced by unit once the pilot voice is approved, per §4.3. Each lesson
 needs: full voice-first explanation rewrite (Phase 1), Phase 2 voice pass,
 authored `scaffoldCode`/`blanks` for Phase 3, an MCQ for Phase 4 where one
 doesn't already exist from migration, and `phase5.trivia` content.
-
-**Unit 1 (OOP & Java Fundamentals, 15 lessons) — DONE.** 1.1 was the
-original pilot lesson. 1.2–1.15 authored in this pass:
-- Every lesson's Phase 1 explanation rewritten in full voice, carrying the
-  blueprint/workshop metaphor established in 1.1 forward (explicit
-  callbacks where it fit naturally — e.g. 1.2 ties `javac`/`java` back to
-  "finishing the blueprint" vs. "building from it").
-- Phase 2 explanations rewritten in voice; existing `brokenCode`/
-  `errorMessage`/`fixedCode` values were technically correct already and
-  left as-is.
-- Phase 3 `scaffoldCode`/`blanks` authored for every coding lesson (1.3
-  onward) — 3 blanks each, pulled from that lesson's own code example.
-  1.1 and 1.2 stay stubbed on purpose (matching the original pilot's
-  precedent): both are genuinely code-free conceptual lessons, so forcing
-  scaffold content there would be padding, not practice.
-- Phase 4 MCQs authored for every lesson that didn't already have one from
-  the Step 2 migration (1.1 and 1.2 already had MCQs; 1.3–1.15 didn't).
-  Existing `selfChallenge` prompts were left untouched — they were already
-  solid.
-- Phase 5 `trivia` authored for all 15 lessons, each fact checked against
-  general/verifiable knowledge rather than invented.
-- Verification: all 15 lesson JSONs still valid JSON; scaffold `{{blankId}}`
-  markers programmatically cross-checked against each lesson's declared
-  `blanks` array (all match); `npm run build` and full lesson-directory
-  parse both clean. Pre-existing `npx eslint .` issues (9 errors / 3
-  warnings in `Shop.jsx`, `storageService.js`, `patternMatcher.js`, and a
-  couple of hook-dependency warnings) are unrelated to this pass — none of
-  those files were touched.
-
-**Units 2–5 (60 lessons) — not started**, aside from the existing 2.5 and
-3.4 pilot lessons. Next up per §4.3's per-unit sequencing.
 
 ### Step 5 — Suite-wide propagation (§4.5, deferred)
 PlusPlus-Chan, Go-Chan, Kotlin-Chan, Python-Chan, Rust-Chan share this

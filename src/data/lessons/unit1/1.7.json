@@ -5,55 +5,28 @@
   "phase1": {
     "code": "import java.util.Scanner;\n\npublic class InputExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your name: \");\n        String name = scanner.nextLine();\n        \n        System.out.print(\"Enter your age: \");\n        int age = scanner.nextInt();\n        \n        System.out.print(\"Enter your GPA: \");\n        double gpa = scanner.nextDouble();\n        \n        System.out.println(\"\\n=== Student Info ===\");\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n        \n        scanner.close();\n    }\n}",
     "output": "Enter your name: Alice\nEnter your age: 20\nEnter your GPA: 3.75\n\n=== Student Info ===\nName: Alice\nAge: 20\nGPA: 3.75",
-    "explanation": "Every program I've shown you so far just runs and prints — but real programs usually need to actually listen to the person using them. That's what [[term:Scanner]] is for.\n\nFirst you import it — `import java.util.Scanner;` — then you build one wired to the console: `Scanner scanner = new Scanner(System.in);`. Once that's built, `.nextLine()` reads a whole line of text, `.nextInt()` reads a whole number, and `.nextDouble()` reads a decimal.\n\n[[warn:Here's the gotcha that gets literally everyone at least once]]: `.nextInt()` reads the number, but leaves the leftover newline character sitting in the buffer. If you call `.nextLine()` right after `.nextInt()`, it immediately grabs that leftover newline and hands you back an empty string instead of waiting for real input. [[key:The fix is to throw in an extra scanner.nextLine() right after nextInt() to clear that leftover newline]] before you read the next real line.\n\nAnd don't forget `scanner.close()` when you're done — it's just good manners, releasing the resource back once you're finished listening."
+    "explanation": "Scanner is Java's built-in way to read user input:\n\nImport: import java.util.Scanner;\n\nCreate Scanner: Scanner scanner = new Scanner(System.in);\n\nReading methods:\n• nextLine() — reads a full line of text\n• nextInt() — reads an integer\n• nextDouble() — reads a decimal number\n• next() — reads a single word\n• nextBoolean() — reads true/false\n\nOutput methods:\n• System.out.print() — prints without newline\n• System.out.println() — prints with newline\n• System.out.printf() — formatted printing (like C's printf)\n\nPro tip: ALWAYS close the Scanner with scanner.close() to free resources!\n\n⚠️ Gotcha: nextInt() leaves a newline in the buffer — if you use nextLine() after nextInt(), it'll read an empty string! Use scanner.nextLine() after nextInt() to clear the buffer."
   },
   "phase2": {
     "brokenCode": "import java.util.Scanner;\n\npublic class InputExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your age: \");\n        int age = scanner.nextInt();\n        \n        System.out.print(\"Enter your name: \");\n        String name = scanner.nextLine();  // Problem!\n        \n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n        scanner.close();\n    }\n}",
     "errorMessage": "Enter your age: 25\nEnter your name: Name: , Age: 25\n\n(No error message — but the program SKIPS the name input!)",
-    "explanation": "Nothing crashed here — which is honestly worse, because [[warn:silent bugs are harder to catch than loud ones]]. After `scanner.nextInt()` reads the age, a leftover newline character is still sitting in the input buffer. The very next `scanner.nextLine()` doesn't wait for you to type anything — it immediately reads that leftover newline and hands back an empty string.\n\n[[key:The fix is one extra line]]: call `scanner.nextLine()` right after `scanner.nextInt()`, just to clear that leftover newline, before you call `scanner.nextLine()` again for the actual input you want.",
+    "explanation": "This is a subtle bug that doesn't crash, but breaks the program!\n\nAfter nextInt(), the newline character is left in the buffer. nextLine() immediately reads that leftover newline and returns an empty string.\n\nThe fix: add an extra scanner.nextLine() after nextInt() to clear the buffer:\n\nint age = scanner.nextInt();\nscanner.nextLine();  // ← clears buffer\nString name = scanner.nextLine();\n\nThis is why order matters with Scanner methods!",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "import java.util.Scanner;\n\npublic class InputExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner({{b1}});\n\n        System.out.print(\"Enter your age: \");\n        int age = scanner.{{b2}}();\n        scanner.nextLine();\n\n        System.out.print(\"Enter your name: \");\n        String name = scanner.{{b3}}();\n\n        scanner.close();\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "System.in"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "nextInt"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          "nextLine"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Now let's make your program actually TALK to the user~ 💬"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "Why does calling scanner.nextLine() right after scanner.nextInt() sometimes return an empty string?\n\nA) nextInt() closes the Scanner\nB) nextInt() leaves a leftover newline in the input buffer that nextLine() reads immediately\nC) nextLine() only works before nextInt()\nD) Scanner can only be used once per program",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Write a program that:\n1. Asks for a user's favorite color (String)\n2. Asks for their lucky number (int)\n3. Prints: \"Your favorite color is [color] and your lucky number is [number]\"\n\nHandle the nextInt buffer issue correctly!",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: Scanner wasn't Java's original way to read console input — it was added in Java 5 (2004) as a friendlier wrapper. Under the hood it actually uses regular expressions to figure out where one token ends and the next begins, which is part of why it's a bit slower than lower-level input methods, though you'd never notice it at a beginner's scale.",
-    "openingDialogue": "Before you go talk to your program some more~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

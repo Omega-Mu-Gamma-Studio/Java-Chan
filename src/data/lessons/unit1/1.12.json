@@ -5,55 +5,28 @@
   "phase1": {
     "code": "public class MethodsExample {\n    public static void main(String[] args) {\n        // Calling methods\n        System.out.println(\"Sum of 5 and 3: \" + add(5, 3));\n        System.out.println(\"Sum of 7, 8, and 9: \" + add(7, 8, 9));\n        System.out.println(\"Factorial of 5: \" + factorial(5));\n        sayHello(\"Alice\");\n        \n        // Method overloading\n        System.out.println(\"Area of circle (radius 3): \" + area(3));\n        System.out.println(\"Area of rectangle (4x5): \" + area(4, 5));\n    }\n    \n    // Method with parameters and return value\n    static int add(int a, int b) {\n        return a + b;\n    }\n    \n    // Method overloading\n    static int add(int a, int b, int c) {\n        return a + b + c;\n    }\n    \n    // Method with a loop\n    static int factorial(int n) {\n        int result = 1;\n        for (int i = 2; i <= n; i++) {\n            result *= i;\n        }\n        return result;\n    }\n    \n    // Void method (returns nothing)\n    static void sayHello(String name) {\n        System.out.println(\"Hello, \" + name + \"!\");\n    }\n    \n    // Another overloaded method\n    static double area(double radius) {\n        return Math.PI * radius * radius;\n    }\n    \n    static int area(int length, int width) {\n        return length * width;\n    }\n}",
     "output": "Sum of 5 and 3: 8\nSum of 7, 8, and 9: 24\nFactorial of 5: 120\nHello, Alice!\nArea of circle (radius 3): 28.274333882308138\nArea of rectangle (4x5): 20",
-    "explanation": "A method is a reusable block of code you can call by name instead of retyping it every time you need it.\n\nThe shape is always the same: `static returnType name(parameters) { body }`. The return type tells Java what kind of value comes back out — or `void`, if nothing comes back at all. Parameters are the values you hand IN when you call it.\n\n[[term:Method overloading]] is writing several methods with the same name but different parameter lists — Java tells them apart by looking at what you actually passed in, not by the name alone. `add(int a, int b)` and `add(int a, int b, int c)` can both exist side by side, and Java picks the right one based on how many arguments you give it.\n\n[[key:Methods exist for three real reasons]]: you write the logic once instead of copy-pasting it everywhere, you break a big problem into smaller understandable pieces, and a well-named method reads almost like plain English at the call site — `factorial(5)` tells you exactly what's happening without needing to look inside it."
+    "explanation": "Methods are reusable blocks of code:\n\nDeclaration: static returnType name(parameters) { body }\n\nReturn types: void (returns nothing) or a data type\n\nParameters: variables passed into the method\n\nMethod overloading: same name, different parameters\n• Different number of parameters\n• Different types of parameters\n\nBenefits of methods:\n• Code reuse — write once, use many times\n• Organization — break complex problems into smaller pieces\n• Readability — meaningful method names\n\nPro tip: Make methods do ONE thing and do it well!"
   },
   "phase2": {
     "brokenCode": "public class MethodsExample {\n    public static void main(String[] args) {\n        System.out.println(\"Sum: \" + add(5, 3));\n    }\n    \n    // Forgetting to declare return type\n    static add(int a, int b) {\n        return a + b;\n    }\n}",
     "errorMessage": "MethodsExample.java:7: error: invalid method declaration; return type required\n    static add(int a, int b) {\n           ^\n1 error",
-    "explanation": "[[warn:Every method needs an explicit return type — even one that returns nothing]]. `void` isn't optional decoration, it's a required part of the declaration.\n\n`static add(int a, int b)` is missing that piece entirely — Java has no idea whether this method is supposed to hand back an int, a double, nothing at all, or something else. [[key:The fix is just naming what actually comes back]]: `static int add(int a, int b)`, since this one returns a sum.",
+    "explanation": "Every method MUST have a return type! Even void must be explicitly declared.\n\nCorrect: static int add(int a, int b)\nor: static void add(int a, int b)\n\nAlways include the return type in your method declaration.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "public class MethodsExample {\n    public static void main(String[] args) {\n        System.out.println(\"Sum: \" + add(5, 3));\n    }\n\n    {{b1}} int add(int a, int b) {\n        {{b2}} a + b;\n    }\n\n    static int add(int a, int b, int {{b3}}) {\n        return a + b + c;\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "static"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "return"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          "c"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to create your own reusable blocks — methods! 🛠️"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "What lets Java tell apart two methods that share the exact same name?\n\nA) Their return type alone\nB) Their parameter list (number/types of parameters)\nC) The order they're written in the file\nD) Java doesn't allow same-named methods at all",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Write a program with these methods:\n1. multiply(int a, int b) — returns a * b\n2. multiply(int a, int b, int c) — returns a * b * c (overloaded)\n3. printMessage(String msg) — prints \"=== [msg] ===\"\n\nCall all three methods from main.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: overloading and overriding sound similar but Java resolves them completely differently under the hood — which overloaded method gets called is decided at compile time, based on the argument types you write. We'll hit the runtime version of this idea — overriding — once we get into inheritance, and the distinction actually matters a lot there.",
-    "openingDialogue": "One more thing before you go build your own blocks~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

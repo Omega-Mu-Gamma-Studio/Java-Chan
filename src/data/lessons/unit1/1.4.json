@@ -5,56 +5,29 @@
   "phase1": {
     "code": "public class DataTypesExample {\n    public static void main(String[] args) {\n        // Primitive types\n        int age = 25;\n        double price = 19.99;\n        char grade = 'A';\n        boolean isJavaFun = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"Price: $\" + price);\n        System.out.println(\"Grade: \" + grade);\n        System.out.println(\"Is Java fun? \" + isJavaFun);\n    }\n}",
     "output": "Age: 25\nPrice: $19.99\nGrade: A\nIs Java fun? true",
-    "explanation": "Variables are labeled boxes — you already knew that from the moment I said it, but let's actually open a few.\n\nJava has eight [[term:primitive]] types built in, but we only need four to get moving: [[term:int]] for whole numbers, [[term:double]] for anything with a decimal, [[term:char]] for a single character (always single quotes, `'A'`, never double), and [[term:boolean]] for true/false.\n\nDeclaring one always follows the same shape: `type name = value;` — the box's label (its type) comes first, then its name, then what's actually inside it.\n\n[[key:Naming a variable has real rules, not just style preferences]]: it can start with a letter, an underscore, or a dollar sign, never a digit, and it can't be one of Java's reserved words like `int` or `class`. Convention-wise, we write variable names in [[term:camelCase]] — `myVariableName`, not `my_variable_name` or `MyVariableName`.\n\nOne more thing worth locking in now: `System.out.println` will happily glue a String and a variable together with `+` — that's how `\"Age: \" + age` turns into readable output instead of two separate things sitting next to each other.",
+    "explanation": "Java has 8 primitive data types. We're using 4 here:\n\nint — whole numbers (no decimals)\ndouble — decimal numbers\nchar — a single character in single quotes ''\nboolean — true or false\n\nVariable declaration: type name = value;\n\nNaming rules:\n• Can start with letter, underscore _, or dollar sign $\n• Can't start with a number\n• Can't use reserved keywords (int, class, etc.)\n• Use camelCase: myVariableName\n\nSout tip: System.out.println can combine strings with variables using the + operator!",
     "openingDialogue": "Variables are like labeled boxes — you put values in them and give them names! 📦"
   },
   "phase2": {
     "brokenCode": "public class DataTypesExample {\n    public static void main(String[] args) {\n        int age = 25;\n        double price = 19.99;\n        char grade = \"A\";\n        boolean isJavaFun = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"Price: $\" + price);\n        System.out.println(\"Grade: \" + grade);\n        System.out.println(\"Is Java fun? \" + isJavaFun);\n    }\n}",
     "errorMessage": "DataTypesExample.java:5: error: incompatible types: String cannot be converted to char\n        char grade = \"A\";\n                     ^\n1 error",
-    "explanation": "[[warn:char uses single quotes, always]] — `'A'`, not `\"A\"`. Double quotes build a String, and Java is strongly typed enough to refuse handing a String where a char belongs, even one that's a single letter.\n\nThe compiler actually spells this out almost word for word: \"incompatible types: String cannot be converted to char.\" [[key:That error message alone tells you exactly what's wrong and where]] — get comfortable reading these, because Java's compiler errors are usually more helpful than people expect.",
+    "explanation": "char uses SINGLE quotes 'A' — double quotes \"A\" is for String (text). This is a classic beginner error!\n\nJava is strongly typed — you can't assign a String to a char variable. The compiler caught this and told you exactly what went wrong.",
     "fixedCode": null
   },
   "phase3": {
-    "scaffoldCode": "public class DataTypesExample {\n    public static void main(String[] args) {\n        {{b1}} age = 25;\n        {{b2}} price = 19.99;\n        char grade = {{b3}};\n        boolean isJavaFun = true;\n\n        System.out.println(\"Age: \" + age);\n    }\n}",
-    "blanks": [
-      {
-        "id": "b1",
-        "answer": [
-          "int"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b2",
-        "answer": [
-          "double"
-        ],
-        "caseSensitive": true
-      },
-      {
-        "id": "b3",
-        "answer": [
-          "'A'"
-        ],
-        "caseSensitive": true
-      }
-    ],
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Alright, show me you can handle these variables~ 🎯"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": {
-      "question": "Which of these correctly declares a char in Java?\n\nA) char grade = \"A\";\nB) char grade = 'A';\nC) char grade = A;\nD) String grade = 'A';",
-      "validationPattern": {
-        "mcqAnswer": "B"
-      }
-    },
+    "mcq": null,
     "selfChallenge": "Create a program with variables for:\n• A student's age (int) — set to 20\n• Their GPA (double) — set to 3.75\n• Their first initial (char) — set to 'J'\n• Whether they're enrolled (boolean) — set to true\n\nPrint all 4 values with descriptive labels.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": "[[fun:Fun fact]]: a Java char isn't just one byte like in some older languages — it's a 16-bit UTF-16 code unit, which is part of why Java could represent a huge range of world languages and symbols from day one, not just the basic English alphabet.",
-    "openingDialogue": "One more thing before you go~"
+    "trivia": null,
+    "openingDialogue": null
   },
   "hoverNotes": {}
 }

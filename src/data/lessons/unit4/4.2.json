@@ -5,28 +5,57 @@
   "phase1": {
     "code": "import java.util.*;\n\npublic class ArrayListExample {\n    public static void main(String[] args) {\n        // Creating ArrayLists\n        System.out.println(\"=== Creating ===\");\n        ArrayList<String> names = new ArrayList<>();\n        ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(10, 20, 30));\n        \n        // Adding elements\n        System.out.println(\"=== Adding ===\");\n        names.add(\"Alice\");\n        names.add(\"Bob\");\n        names.add(\"Charlie\");\n        names.add(1, \"Diana\");  // Insert at index 1\n        System.out.println(\"After adding: \" + names);\n        \n        // Accessing elements\n        System.out.println(\"=== Accessing ===\");\n        System.out.println(\"First name: \" + names.get(0));\n        System.out.println(\"Size: \" + names.size());\n        \n        // Iterating\n        System.out.println(\"=== For-each loop ===\");\n        for (String name : names) {\n            System.out.println(\"  \" + name);\n        }\n        \n        System.out.println(\"=== For loop with index ===\");\n        for (int i = 0; i < names.size(); i++) {\n            System.out.println(\"  Index \" + i + \": \" + names.get(i));\n        }\n        \n        // Removing elements\n        System.out.println(\"=== Removing ===\");\n        names.remove(2);  // Remove by index\n        names.remove(\"Alice\");  // Remove by object\n        System.out.println(\"After removing: \" + names);\n        \n        // Checking contents\n        System.out.println(\"=== Checking ===\");\n        System.out.println(\"Contains 'Bob'? \" + names.contains(\"Bob\"));\n        System.out.println(\"Index of 'Bob': \" + names.indexOf(\"Bob\"));\n        System.out.println(\"Is empty? \" + names.isEmpty());\n        \n        // ArrayList with different types\n        System.out.println(\"=== Numbers ===\");\n        numbers.add(40);\n        numbers.add(50);\n        System.out.println(\"Numbers: \" + numbers);\n        \n        // Null handling\n        System.out.println(\"=== Null values ===\");\n        ArrayList<String> nullable = new ArrayList<>();\n        nullable.add(null);\n        nullable.add(\"Hello\");\n        nullable.add(null);\n        System.out.println(\"With nulls: \" + nullable);\n        System.out.println(\"Size: \" + nullable.size());\n        \n        // ArrayList to array\n        System.out.println(\"=== To Array ===\");\n        String[] array = names.toArray(new String[0]);\n        System.out.println(\"Array: \" + Arrays.toString(array));\n        \n        // Clear\n        System.out.println(\"=== Clear ===\");\n        names.clear();\n        System.out.println(\"After clear: \" + names);\n        System.out.println(\"Size: \" + names.size());\n        System.out.println(\"Is empty? \" + names.isEmpty());\n    }\n}",
     "output": "=== Creating ===\n=== Adding ===\nAfter adding: [Alice, Diana, Bob, Charlie]\n=== Accessing ===\nFirst name: Alice\nSize: 4\n=== For-each loop ===\n  Alice\n  Diana\n  Bob\n  Charlie\n=== For loop with index ===\n  Index 0: Alice\n  Index 1: Diana\n  Index 2: Bob\n  Index 3: Charlie\n=== Removing ===\nAfter removing: [Alice, Charlie]\n=== Checking ===\nContains 'Bob'? false\nIndex of 'Bob': -1\nIs empty? false\n=== Numbers ===\nNumbers: [10, 20, 30, 40, 50]\n=== Null values ===\nWith nulls: [null, Hello, null]\nSize: 3\n=== To Array ===\nArray: [Alice, Charlie]\n=== Clear ===\nAfter clear: []\nSize: 0\nIs empty? true",
-    "explanation": "ArrayList is a resizable array implementation of the List interface:\n\nCreation:\n• ArrayList<String> list = new ArrayList<>();\n• ArrayList<Integer> nums = new ArrayList<>(Arrays.asList(1,2,3));\n\nCommon operations:\n• add(element) — appends to end\n• add(index, element) — inserts at specific position\n• get(index) — returns element at index\n• remove(index) — removes by index\n• remove(Object) — removes by object\n• set(index, element) — replaces at index\n• size() — returns number of elements\n• contains(object) — checks if exists\n• indexOf(object) — returns index (or -1)\n• isEmpty() — checks if empty\n• clear() — removes all\n• toArray() — converts to array\n\nIteration:\n• for-each: for (String s : list) { ... }\n• for loop with index: for (int i = 0; i < list.size(); i++)\n• Iterator: Iterator<String> it = list.iterator();\n\nKey features:\n• Maintains insertion order\n• Allows duplicates\n• Allows null values\n• Fast random access (O(1))\n• Resizes automatically\n\nPerformance:\n• get: O(1)\n• add: O(1) amortized\n• remove from end: O(1)\n• insert/remove from beginning: O(n)\n\n⚠️ ArrayList vs Array:\n• ArrayList grows dynamically\n• ArrayList has useful methods (add, remove, contains)\n• ArrayList can't store primitives (uses wrappers)"
+    "explanation": "[[term:ArrayList]] is the shelf you reach for by default — a resizable version of the plain array you've been using since day one, minus the part where you had to know the size up front.\n\nUnderneath, it's still just an array. [[key:that's exactly why get(index) is so fast — O(1), straight to the slot]] — but it's an array Java manages for you: when it fills up, ArrayList quietly allocates a bigger array behind the scenes and copies everything over. You never see that happen; you just call add() and it works.\n\nadd(element) appends to the end (fast — usually O(1)). add(index, element) inserts in the middle, which means [[warn:everything after that index has to shift over one slot]] — that's O(n), not free. remove() has the same story in reverse. get(index) and set(index, element) are always O(1) — that random-access speed is ArrayList's whole reason to exist.\n\nIt keeps insertion order, allows duplicates, and allows null — none of that is an accident, it's just \"array, but it grows.\" [[fun:when in doubt between ArrayList and the other List you're about to meet next lesson, start here]] — it's the right call for the vast majority of \"I need an ordered list\" situations, and you only reach for the alternative when the shape of your access pattern actually calls for it."
   },
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"A\");\n        list.add(\"B\");\n        \n        // Removing while iterating\n        for (String s : list) {\n            if (s.equals(\"A\")) {\n                list.remove(s);  // ERROR!\n            }\n        }\n        System.out.println(list);\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.util.ConcurrentModificationException\n        at java.base/java.util.ArrayList$Itr.checkForComodification(ArrayList.java:1090)\n        at java.base/java.util.ArrayList$Itr.next(ArrayList.java:1042)\n        at Test.main(Test.java:8)",
-    "explanation": "ConcurrentModificationException! You can't modify a list while iterating over it with a for-each loop.\n\nThe for-each loop uses an internal iterator that checks for modifications.\n\nFIX: Use Iterator and its remove() method:\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"A\")) {\n        it.remove();  // Safe!\n    }\n}\n\nOr use removeIf(): list.removeIf(s -> s.equals(\"A\"));",
-    "fixedCode": null
+    "explanation": "[[warn:ConcurrentModificationException]] — you can't remove from a list while a for-each loop is walking it.\n\nHere's why: a for-each loop is secretly using an [[term:Iterator]] under the hood, and that iterator keeps a running count of how many times the list has changed. The instant list.remove() changes that count from underneath it, the next call to next() notices the mismatch and throws rather than silently walking a list that's no longer what it expected.\n\n[[key:the fix is to let the iterator do the removing itself]], since it's allowed to modify the list it owns without tripping its own check:\n\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"A\")) {\n        it.remove();  // safe — the iterator is doing it\n    }\n}\n\nOr, if you don't need the rest of the loop body, list.removeIf(s -> s.equals(\"A\")) does the same thing in one line.",
+    "fixedCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"A\");\n        list.add(\"B\");\n\n        // Removing safely with the iterator's own remove()\n        Iterator<String> it = list.iterator();\n        while (it.hasNext()) {\n            String s = it.next();\n            if (s.equals(\"A\")) {\n                it.remove();  // Safe!\n            }\n        }\n        System.out.println(list);\n    }\n}"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
+    "scaffoldCode": "ArrayList<String> names = new ArrayList<>();\nnames.add(\"Alice\");\nnames.add(\"Bob\");\nnames.{{b1}}(1, \"Diana\");  // insert at a specific index\nSystem.out.println(names);  // [Alice, Diana, Bob]\n\nSystem.out.println(\"First: \" + names.{{b2}}(0));  // access by index\nSystem.out.println(\"Size: \" + names.{{b3}}());    // how many elements",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "add"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "get"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "size"
+        ],
+        "caseSensitive": true
+      }
+    ],
     "openingDialogue": "ArrayList — the Swiss Army knife of collections! 🔧"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "You need to insert 500 elements at the FRONT of a list, one at a time, and you'll never search by index. Which is the better structural choice, and why?\n\nA) ArrayList — get() is O(1) so it's always the safer default\nB) ArrayList — because it resizes automatically\nC) LinkedList — because add(0, element) doesn't require shifting every other element\nD) Either works identically since both implement the List interface",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write a program that:\n1. Creates an ArrayList<String> of fruits: \"Apple\", \"Banana\", \"Orange\", \"Apple\", \"Grape\", \"Banana\"\n2. Prints the list\n3. Removes all occurrences of \"Banana\" using removeAll() or removeIf()\n4. Prints the list again\n5. Prints the size\n6. Checks if the list contains \"Orange\"\n7. Gets the element at index 2",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
+    "trivia": "ArrayList's default growth strategy is to grow by 50% when it runs out of room (the old array's length + half of itself), not double — a deliberate middle ground between wasting memory on oversized buffers and paying for reallocation too often.",
     "openingDialogue": null
   },
-  "hoverNotes": {}
+  "hoverNotes": {
+    "indexOf": "Returns the index of the first matching element, or -1 if it isn't found."
+  }
 }

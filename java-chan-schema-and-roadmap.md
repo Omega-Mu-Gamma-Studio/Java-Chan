@@ -262,7 +262,41 @@ process as Units 1 and 2:
   `Shop.jsx`, `storageService.js`, `patternMatcher.js`) with nothing new
   introduced by this pass.
 
-**Units 4–5 (30 lessons) — not started.** Next up per §4.3's per-unit
+**Unit 4 (Collections Framework & Multithreading, 15 lessons) — DONE.**
+4.1–4.15 authored in this pass, same process as Units 1–3. Unlike prior units,
+there was no single pre-existing pilot lesson to build from — all 15 were
+authored together for this unit, using the approved voice from the 1.1/2.5/3.4
+pilot.
+- Phase 1 explanations rewritten in full voice around a continuous unit
+  thread: the workshop's storage room (Collections, 4.1–4.9 — shelves, bins,
+  and filing cabinets as List/Set/Map) pivoting at 4.10 into hiring more
+  workers for the same workshop (Multithreading, 4.10–4.14), with 4.15
+  reviewing both halves as one "pick the right tool" skill. The thread
+  explicitly calls back to Unit 1's blueprint/workshop metaphor (4.6's
+  Generics-as-blueprint-with-a-placeholder) rather than starting a disconnected
+  new one.
+- Phase 2 explanations rewritten in voice; `phase2.fixedCode` authored for all
+  15 (all were `null` pre-pass, including the three conceptual lessons, which
+  have no phase2 error content to begin with and were left as-is).
+- Phase 3 `scaffoldCode`/`blanks` authored for all 12 coding lessons
+  (4.2–4.9, 4.11–4.14). 4.1 (framework overview), 4.10 (multithreading intro),
+  and 4.15 (unit review) stay stubbed on purpose — same conceptual-lesson
+  precedent as 1.1/1.2, 2.15, and 3.1/3.6/3.15.
+- Phase 4 MCQs authored for the 12 lessons that only had a `selfChallenge`
+  from the Step 2 migration (4.2–4.9, 4.11–4.14); 4.1, 4.10, and 4.15 already
+  had one from earlier work. Existing `selfChallenge` prompts left untouched.
+- Phase 5 trivia authored for all 15 lessons.
+- A couple of `hoverNotes` added where a lesson-specific token warranted it
+  (e.g. 4.2's `indexOf`); most lessons rely on the shared keyword glossary
+  and were left with an empty `hoverNotes: {}`.
+- Verification: all 15 lesson JSONs valid; scaffold `{{blankId}}` markers
+  programmatically cross-checked against each lesson's declared `blanks`
+  array (all match); `npm run build` clean; `npx eslint .` shows the same
+  pre-existing baseline (9 errors / 3 warnings in `JavaChan.jsx`,
+  `useLesson.js`, `XPDisplay.jsx`, `Shop.jsx`, `storageService.js`,
+  `patternMatcher.js`) with nothing new introduced by this pass.
+
+**Unit 5 (15 lessons) — not started.** Next up per §4.3's per-unit
 sequencing.
 
 ### Step 5 — Suite-wide propagation (§4.5, deferred)

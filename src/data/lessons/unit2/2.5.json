@@ -13,19 +13,18 @@
     "explanation": "Circle doesn't implement the abstract method area() from Shape.\n\nA non-abstract subclass MUST implement ALL abstract methods from its parent.\n\nOptions:\n1. Implement area() in Circle\n2. Make Circle abstract (but then you can't instantiate it)\n\nThe compiler forces you to implement all abstract methods!"
   },
   "phase3": {
-    "prompt": "Create an abstract class Appliance with:\n• Field: brand (String)\n• Constructor\n• Concrete method: turnOn() — prints \"[brand] is turning on\"\n• Abstract method: operate()\n\nCreate WashingMachine and Microwave subclasses:\n• Each implements operate() with their own behavior\n• WashingMachine: prints \"[brand] is washing clothes\"\n• Microwave: prints \"[brand] is heating food\"\n\nIn main, create an array of Appliance and call both methods on each.",
-    "validationPattern": {
-      "required": ["abstract class Appliance", "abstract void operate", "extends Appliance", "turnOn"],
-      "forbidden": [],
-      "fullRegex": "abstract\\s+class\\s+Appliance\\s*\\{[\\s\\S]*abstract\\s+void\\s+operate\\s*\\([\\s\\S]*\\)\\s*;[\\s\\S]*\\}[\\s\\S]*class\\s+\\w+\\s+extends\\s+Appliance[\\s\\S]*void\\s+operate\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Appliance is abstract — it can have concrete methods too!",
-      "Subclasses must implement operate()",
-      "Use Appliance[] array for polymorphism"
-    ],
-    "solution": "abstract class Appliance {\n    String brand;\n    \n    Appliance(String brand) {\n        this.brand = brand;\n    }\n    \n    void turnOn() {\n        System.out.println(brand + \" is turning on\");\n    }\n    \n    abstract void operate();\n}\n\nclass WashingMachine extends Appliance {\n    WashingMachine(String brand) {\n        super(brand);\n    }\n    \n    @Override\n    void operate() {\n        System.out.println(brand + \" is washing clothes\");\n    }\n}\n\nclass Microwave extends Appliance {\n    Microwave(String brand) {\n        super(brand);\n    }\n    \n    @Override\n    void operate() {\n        System.out.println(brand + \" is heating food\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Appliance[] appliances = {\n            new WashingMachine(\"Samsung\"),\n            new Microwave(\"Panasonic\")\n        };\n        \n        for (Appliance a : appliances) {\n            a.turnOn();\n            a.operate();\n            System.out.println(\"---\");\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Abstract classes: the incomplete blueprint! 🏗️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create an abstract class Appliance with:\n• Field: brand (String)\n• Constructor\n• Concrete method: turnOn() — prints \"[brand] is turning on\"\n• Abstract method: operate()\n\nCreate WashingMachine and Microwave subclasses:\n• Each implements operate() with their own behavior\n• WashingMachine: prints \"[brand] is washing clothes\"\n• Microwave: prints \"[brand] is heating food\"\n\nIn main, create an array of Appliance and call both methods on each.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

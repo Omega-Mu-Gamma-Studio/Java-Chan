@@ -13,19 +13,18 @@
     "explanation": "Both A and B have a default method hello(). C inherits from both, causing a conflict.\n\nThe compiler doesn't know which hello() to use!\n\nFIX: Override hello() in C and resolve the conflict:\n\n@Override\npublic void hello() {\n    A.super.hello();  // Choose A's version\n    // or B.super.hello();\n    // or custom implementation\n}\n\nAlways resolve default method conflicts explicitly!"
   },
   "phase3": {
-    "prompt": "Create interfaces:\n1. Eatable — void eat()\n2. Sleepable — void sleep()\n3. Playable — void play()\n\nCreate a class Pet that implements all three.\nIn main, create a Pet and call all three methods.",
-    "validationPattern": {
-      "required": ["interface Eatable", "interface Sleepable", "interface Playable", "implements", "eat", "sleep", "play"],
-      "forbidden": [],
-      "fullRegex": "interface\\s+Eatable[\\s\\S]*interface\\s+Sleepable[\\s\\S]*interface\\s+Playable[\\s\\S]*class\\s+\\w+\\s+implements\\s+Eatable\\s*,\\s*Sleepable\\s*,\\s*Playable"
-    },
-    "dialogueHints": [
-      "Create three separate interfaces, each with one method",
-      "Pet implements all three",
-      "Call all three methods in main"
-    ],
-    "solution": "interface Eatable {\n    void eat();\n}\n\ninterface Sleepable {\n    void sleep();\n}\n\ninterface Playable {\n    void play();\n}\n\nclass Pet implements Eatable, Sleepable, Playable {\n    @Override\n    public void eat() {\n        System.out.println(\"Pet is eating\");\n    }\n    \n    @Override\n    public void sleep() {\n        System.out.println(\"Pet is sleeping\");\n    }\n    \n    @Override\n    public void play() {\n        System.out.println(\"Pet is playing\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Pet pet = new Pet();\n        pet.eat();\n        pet.sleep();\n        pet.play();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Why settle for one when you can have many? Multiple interfaces! 🎯"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create interfaces:\n1. Eatable — void eat()\n2. Sleepable — void sleep()\n3. Playable — void play()\n\nCreate a class Pet that implements all three.\nIn main, create a Pet and call all three methods.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

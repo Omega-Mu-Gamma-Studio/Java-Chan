@@ -13,19 +13,18 @@
     "explanation": "Parent is declared final, so it can't be extended.\n\nThis is intentional — final classes are meant to be 'closed' for inheritance.\n\nCommon final classes in Java:\n• String\n• Integer, Double, etc. (wrapper classes)\n• Math\n\nIf you need to use a final class, you can't create subclasses. Use composition instead."
   },
   "phase3": {
-    "prompt": "Create a class Config with:\n• static final int MAX_USERS = 100\n• static final String APP_NAME = \"MyApp\"\n• final field: version (String) — set via constructor\n• final method: displayVersion() — prints the version\n\nIn main, create a Config object and display everything.",
-    "validationPattern": {
-      "required": ["static final", "final String", "final void", "displayVersion"],
-      "forbidden": [],
-      "fullRegex": "static\\s+final\\s+int\\s+\\w+[\\s\\S]*static\\s+final\\s+String\\s+\\w+[\\s\\S]*final\\s+String\\s+\\w+[\\s\\S]*final\\s+void\\s+displayVersion"
-    },
-    "dialogueHints": [
-      "MAX_USERS and APP_NAME are constants (static final)",
-      "version is final but initialized in constructor",
-      "displayVersion is final — can't be overridden"
-    ],
-    "solution": "class Config {\n    static final int MAX_USERS = 100;\n    static final String APP_NAME = \"MyApp\";\n    final String version;\n    \n    Config(String version) {\n        this.version = version;\n    }\n    \n    final void displayVersion() {\n        System.out.println(\"Version: \" + version);\n    }\n    \n    void displayConfig() {\n        System.out.println(\"App: \" + APP_NAME);\n        System.out.println(\"Max users: \" + MAX_USERS);\n        displayVersion();\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Config config = new Config(\"1.0.0\");\n        config.displayConfig();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Final means final — no take-backs! 🔒"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class Config with:\n• static final int MAX_USERS = 100\n• static final String APP_NAME = \"MyApp\"\n• final field: version (String) — set via constructor\n• final method: displayVersion() — prints the version\n\nIn main, create a Config object and display everything.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

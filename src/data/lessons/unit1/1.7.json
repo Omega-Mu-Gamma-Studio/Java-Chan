@@ -13,19 +13,18 @@
     "explanation": "This is a subtle bug that doesn't crash, but breaks the program!\n\nAfter nextInt(), the newline character is left in the buffer. nextLine() immediately reads that leftover newline and returns an empty string.\n\nThe fix: add an extra scanner.nextLine() after nextInt() to clear the buffer:\n\nint age = scanner.nextInt();\nscanner.nextLine();  // ← clears buffer\nString name = scanner.nextLine();\n\nThis is why order matters with Scanner methods!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Asks for a user's favorite color (String)\n2. Asks for their lucky number (int)\n3. Prints: \"Your favorite color is [color] and your lucky number is [number]\"\n\nHandle the nextInt buffer issue correctly!",
-    "validationPattern": {
-      "required": ["Scanner", "nextLine", "nextInt", "System.out.println"],
-      "forbidden": [],
-      "fullRegex": "Scanner\\s+\\w+\\s*=\\s*new\\s+Scanner\\s*\\(\\s*System\\.in\\s*\\)\\s*;[\\s\\S]*nextLine\\s*\\(\\s*\\)[\\s\\S]*nextInt\\s*\\(\\s*\\)[\\s\\S]*\\.close\\s*\\(\\s*\\)"
-    },
-    "dialogueHints": [
-      "Don't forget to handle the newline after nextInt() with an extra nextLine()",
-      "Store the color in a String and the number in an int",
-      "Print both values in one println statement."
-    ],
-    "solution": "import java.util.Scanner;\n\npublic class InputPractice {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your favorite color: \");\n        String color = scanner.nextLine();\n        \n        System.out.print(\"Enter your lucky number: \");\n        int number = scanner.nextInt();\n        \n        System.out.println(\"Your favorite color is \" + color + \" and your lucky number is \" + number);\n        \n        scanner.close();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Now let's make your program actually TALK to the user~ 💬"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Asks for a user's favorite color (String)\n2. Asks for their lucky number (int)\n3. Prints: \"Your favorite color is [color] and your lucky number is [number]\"\n\nHandle the nextInt buffer issue correctly!",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

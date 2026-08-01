@@ -13,20 +13,18 @@
     "explanation": "map.get(\"C\") returns null because \"C\" doesn't exist in the map.\n\nWhen you try to unbox null to int, you get a NullPointerException.\n\nFIX: Use getOrDefault():\nInteger value = map.getOrDefault(\"C\", 0);\nint result = value + 10;  // Safe!\n\nOr check for null:\nInteger value = map.get(\"C\");\nif (value != null) {\n    int result = value + 10;\n}\n\nAlways handle null values from maps!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a HashMap<String, String> with countries and capitals:\n   - \"USA\" -> \"Washington D.C.\"\n   - \"France\" -> \"Paris\"\n   - \"Japan\" -> \"Tokyo\"\n   - \"Brazil\" -> \"Brasília\"\n2. Prints all entries\n3. Gets the capital of \"France\"\n4. Gets the capital of \"Germany\" using getOrDefault (default: \"Unknown\")\n5. Removes \"Brazil\"\n6. Prints all keys\n7. Prints all values\n8. Checks if \"USA\" is a key\n9. Creates a TreeMap from the HashMap and prints it (sorted)",
-    "validationPattern": {
-      "required": ["HashMap", "TreeMap", "put", "getOrDefault", "keySet", "containsKey"],
-      "forbidden": [],
-      "fullRegex": "HashMap[\\s\\S]*put[\\s\\S]*getOrDefault[\\s\\S]*keySet[\\s\\S]*containsKey[\\s\\S]*TreeMap"
-    },
-    "dialogueHints": [
-      "HashMap: new HashMap<String, String>()",
-      "put() for each country-capital pair",
-      "getOrDefault(\"Germany\", \"Unknown\")",
-      "TreeMap<String, String> sorted = new TreeMap<>(map)"
-    ],
-    "solution": "import java.util.*;\n\npublic class MapPractice {\n    public static void main(String[] args) {\n        HashMap<String, String> capitals = new HashMap<>();\n        \n        capitals.put(\"USA\", \"Washington D.C.\");\n        capitals.put(\"France\", \"Paris\");\n        capitals.put(\"Japan\", \"Tokyo\");\n        capitals.put(\"Brazil\", \"Brasília\");\n        \n        System.out.println(\"Capitals: \" + capitals);\n        System.out.println(\"Capital of France: \" + capitals.get(\"France\"));\n        System.out.println(\"Capital of Germany: \" + capitals.getOrDefault(\"Germany\", \"Unknown\"));\n        \n        capitals.remove(\"Brazil\");\n        System.out.println(\"After removing Brazil: \" + capitals);\n        System.out.println(\"Keys: \" + capitals.keySet());\n        System.out.println(\"Values: \" + capitals.values());\n        System.out.println(\"Contains 'USA'? \" + capitals.containsKey(\"USA\"));\n        \n        TreeMap<String, String> sorted = new TreeMap<>(capitals);\n        System.out.println(\"Sorted: \" + sorted);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Maps — find your values by their keys! 🗺️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a HashMap<String, String> with countries and capitals:\n   - \"USA\" -> \"Washington D.C.\"\n   - \"France\" -> \"Paris\"\n   - \"Japan\" -> \"Tokyo\"\n   - \"Brazil\" -> \"Brasília\"\n2. Prints all entries\n3. Gets the capital of \"France\"\n4. Gets the capital of \"Germany\" using getOrDefault (default: \"Unknown\")\n5. Removes \"Brazil\"\n6. Prints all keys\n7. Prints all values\n8. Checks if \"USA\" is a key\n9. Creates a TreeMap from the HashMap and prints it (sorted)",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

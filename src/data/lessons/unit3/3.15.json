@@ -14,17 +14,23 @@
     "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should never catch exceptions — I'll just let them crash.\"\n\nActually: You should catch exceptions and handle them gracefully, but only when you can do something useful with them.\n\nBad pattern:\ntry {\n    riskyOperation();\n} catch (Exception e) {\n    // Empty catch — swallowing exceptions!\n}\n\nGood pattern:\ntry {\n    riskyOperation();\n} catch (IOException e) {\n    // Log the error and recover\n    System.err.println(\"IO Error: \" + e.getMessage());\n    // Could use a default value\n}\n\nRemember: Don't swallow exceptions!\n\nAnother misconception: \"File I/O is always slow.\"\n\nActually: Buffered streams and NIO make I/O much faster. Reading 1MB at a time is faster than reading 1 byte at a time!"
   },
   "phase3": {
-    "prompt": "Which practice makes a program MORE robust?\n\nA) Using empty catch blocks to ignore all exceptions\nB) Checking for null before accessing objects\nC) Reading one byte at a time from a large file\nD) Not closing files after use\nE) Using System.out.println() for all errors\n\nSelect the BEST practice.",
-    "validationPattern": {
-      "mcqAnswer": "B"
-    },
-    "dialogueHints": [
-      "Think about defensive programming — what prevents errors?",
-      "What's the most common mistake that causes NullPointerException?",
-      "Which practice actively prevents problems from occurring?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Final check! What makes code robust? 🤔"
   },
-  "xpReward": 15
+  "xpReward": 15,
+  "phase4": {
+    "mcq": {
+      "question": "Which practice makes a program MORE robust?\n\nA) Using empty catch blocks to ignore all exceptions\nB) Checking for null before accessing objects\nC) Reading one byte at a time from a large file\nD) Not closing files after use\nE) Using System.out.println() for all errors\n\nSelect the BEST practice.",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

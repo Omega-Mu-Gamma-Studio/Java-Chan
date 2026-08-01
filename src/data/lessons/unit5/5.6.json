@@ -13,19 +13,18 @@
     "explanation": "The lambda syntax is correct, but the body is empty, so clicking the button does nothing.\n\nThis is a logic error, not a syntax error.\n\nFIX: Add behavior:\nbutton.setOnAction(e -> {\n    System.out.println(\"Button clicked!\");\n    // or update UI\n});\n\nAlways test your event handlers to make sure they work!\n\nCommon mistake: using the wrong event method for the control."
   },
   "phase3": {
-    "prompt": "Write a JavaFX program with:\n1. A TextField for user input\n2. A Button \"Submit\"\n3. A Label that displays the text entered\n\nWhen the button is clicked, the label should update with \"Hello, [text]!\"\nWhen the user presses Enter in the TextField, the label should also update.",
-    "validationPattern": {
-      "required": ["setOnAction", "getText", "Label", "Button", "TextField"],
-      "forbidden": [],
-      "fullRegex": "setOnAction[\\s\\S]*getText[\\s\\S]*Label[\\s\\S]*Button[\\s\\S]*TextField"
-    },
-    "dialogueHints": [
-      "Button.setAction(e -> label.setText(\"Hello, \" + textField.getText() + \"!\"));",
-      "TextField also has setOnAction() for Enter key",
-      "Use setText() to update the label"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.control.TextField;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class EventPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Label label = new Label(\"Enter your name:\");\n        TextField textField = new TextField();\n        textField.setPromptText(\"Name...\");\n        textField.setMaxWidth(200);\n        \n        Button submit = new Button(\"Submit\");\n        Label resultLabel = new Label(\"Waiting...\");\n        \n        // Button click\n        submit.setOnAction(e -> {\n            String name = textField.getText();\n            resultLabel.setText(\"Hello, \" + name + \"!\");\n        });\n        \n        // Enter key\n        textField.setOnAction(e -> {\n            String name = textField.getText();\n            resultLabel.setText(\"Hello, \" + name + \"!\");\n        });\n        \n        root.getChildren().addAll(label, textField, submit, resultLabel);\n        \n        Scene scene = new Scene(root, 400, 250);\n        primaryStage.setTitle(\"Event Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Events make your UI come alive! ⚡"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program with:\n1. A TextField for user input\n2. A Button \"Submit\"\n3. A Label that displays the text entered\n\nWhen the button is clicked, the label should update with \"Hello, [text]!\"\nWhen the user presses Enter in the TextField, the label should also update.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

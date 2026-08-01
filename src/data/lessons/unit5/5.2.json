@@ -13,20 +13,18 @@
     "explanation": "You forgot to import javafx.stage.Stage!\n\nFIX: Add import statement:\nimport javafx.stage.Stage;\n\nOr use the fully qualified name:\njavafx.stage.Stage primaryStage\n\nAlways check your imports when using JavaFX classes!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program that:\n1. Creates a Stage with title \"My JavaFX App\"\n2. Creates a Label with text \"Welcome to JavaFX!\"\n3. Uses a StackPane as the root layout\n4. Creates a Scene with size 500x400\n5. Shows the window\n\nInherit from Application and use launch() in main.",
-    "validationPattern": {
-      "required": ["extends Application", "start", "Stage", "Scene", "StackPane", "show"],
-      "forbidden": [],
-      "fullRegex": "extends\\s+Application[\\s\\S]*start\\s*\\([\\s\\S]*Stage[\\s\\S]*\\)[\\s\\S]*new\\s+Scene[\\s\\S]*new\\s+StackPane[\\s\\S]*show\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Extend Application and override start()",
-      "Create StackPane root, add Label to it",
-      "Scene scene = new Scene(root, 500, 400)",
-      "primaryStage.setScene(scene); primaryStage.show();"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class FirstWindow extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Label label = new Label(\"Welcome to JavaFX!\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 500, 400);\n        primaryStage.setTitle(\"My JavaFX App\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Let's create your first JavaFX window! 🪟"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program that:\n1. Creates a Stage with title \"My JavaFX App\"\n2. Creates a Label with text \"Welcome to JavaFX!\"\n3. Uses a StackPane as the root layout\n4. Creates a Scene with size 500x400\n5. Shows the window\n\nInherit from Application and use launch() in main.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

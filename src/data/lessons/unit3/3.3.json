@@ -13,23 +13,18 @@
     "explanation": "throw only accepts Throwable objects (Exception, Error, or their subclasses)!\n\nYou CANNOT throw a String, int, or other primitive.\n\nFIX: throw new IllegalArgumentException(\"Age cannot be negative!\");\n\nAlways create an exception object when throwing.\n\nAlso: provide meaningful error messages for debugging!"
   },
   "phase3": {
-    "prompt": "Create a class Product with:\n• Fields: name (String), price (double)\n• Constructor with validation:\n  - If name is null or empty → throw IllegalArgumentException\n  - If price < 0 → throw IllegalArgumentException\n• Method: getDiscountedPrice(double discount) that:\n  - If discount < 0 or > 50 → throw IllegalArgumentException\n  - Returns price * (1 - discount/100)\n\nIn main, test with valid and invalid inputs.",
-    "validationPattern": {
-      "required": [
-        "throw new IllegalArgumentException",
-        "try",
-        "catch"
-      ],
-      "forbidden": [],
-      "fullRegex": "throw\\s+new\\s+IllegalArgumentException[\\s\\S]*throws\\s+IllegalArgumentException[\\s\\S]*try[\\s\\S]*catch\\s*\\(\\s*IllegalArgumentException"
-    },
-    "dialogueHints": [
-      "Constructor: check if name is null or empty, if price < 0",
-      "getDiscountedPrice: check if discount is 0-50",
-      "throw IllegalArgumentException with meaningful messages"
-    ],
-    "solution": "class Product {\n    private String name;\n    private double price;\n    \n    Product(String name, double price) {\n        if (name == null || name.trim().isEmpty()) {\n            throw new IllegalArgumentException(\"Product name cannot be empty!\");\n        }\n        if (price < 0) {\n            throw new IllegalArgumentException(\"Product price cannot be negative!\");\n        }\n        this.name = name;\n        this.price = price;\n    }\n    \n    double getDiscountedPrice(double discount) {\n        if (discount < 0 || discount > 50) {\n            throw new IllegalArgumentException(\"Discount must be 0-50%!\");\n        }\n        return price * (1 - discount / 100);\n    }\n    \n    void display() {\n        System.out.println(\"Product: \" + name + \", Price: $\" + price);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        try {\n            Product p1 = new Product(\"Laptop\", 1000);\n            p1.display();\n            System.out.println(\"10% discount: $\" + p1.getDiscountedPrice(10));\n            \n            Product p2 = new Product(\"\", 100);  // Invalid\n        } catch (IllegalArgumentException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        try {\n            Product p3 = new Product(\"Phone\", -50);  // Invalid\n        } catch (IllegalArgumentException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "throw and throws — you're in control! 🎮"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class Product with:\n• Fields: name (String), price (double)\n• Constructor with validation:\n  - If name is null or empty → throw IllegalArgumentException\n  - If price < 0 → throw IllegalArgumentException\n• Method: getDiscountedPrice(double discount) that:\n  - If discount < 0 or > 50 → throw IllegalArgumentException\n  - Returns price * (1 - discount/100)\n\nIn main, test with valid and invalid inputs.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

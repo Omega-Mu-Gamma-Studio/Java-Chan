@@ -13,17 +13,23 @@
     "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"I should always use ArrayList because it's the most popular.\"\n\nActually: ArrayList isn't always the best choice! If you're frequently inserting/deleting at the beginning of a list, LinkedList would be more efficient.\n\nExample:\n• ArrayList: O(1) for get, O(n) for insert at beginning\n• LinkedList: O(n) for get, O(1) for insert at beginning\n\nChoose based on your specific use case!\n\nAnother misconception: \"HashSet is faster than TreeSet.\"\n\nActually: HashSet is O(1) for operations, TreeSet is O(log n). If you need sorted order, TreeSet is your only choice, but if you don't need order, HashSet is faster."
   },
   "phase3": {
-    "prompt": "Which collection should you use for:\n\n\"A list of students where you frequently need to access students by their ID number\"\n\nA) ArrayList\nB) LinkedList\nC) HashSet\nD) HashMap\n\nSelect the BEST choice.",
-    "validationPattern": {
-      "mcqAnswer": "D"
-    },
-    "dialogueHints": [
-      "Think about what you're using to access the data...",
-      "ID number → key, student → value",
-      "What collection stores key-value pairs?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Collections — choose the right container for the job! 📦"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Which collection should you use for:\n\n\"A list of students where you frequently need to access students by their ID number\"\n\nA) ArrayList\nB) LinkedList\nC) HashSet\nD) HashMap\n\nSelect the BEST choice.",
+      "validationPattern": {
+        "mcqAnswer": "D"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

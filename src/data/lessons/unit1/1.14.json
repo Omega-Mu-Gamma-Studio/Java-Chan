@@ -13,23 +13,18 @@
     "explanation": "void Student(...) is a METHOD, not a CONSTRUCTOR!\n\nConstructors:\n• Have NO return type (not even void)\n• Must have the SAME name as the class\n\nCorrect: Student(String name, int age, double gpa)\n\nMistake: void Student(String name, int age, double gpa) ← this is a method\n\nThe compiler can't find a constructor that takes parameters!"
   },
   "phase3": {
-    "prompt": "Create a class called Book with:\n• Fields: title (String), author (String), pages (int)\n• Constructor that initializes all fields\n• Method: displayInfo() that prints all book info\n\nIn main, create 2 Book objects and call displayInfo() on both.",
-    "validationPattern": {
-      "required": [
-        "class Book",
-        "new Book",
-        "displayInfo"
-      ],
-      "forbidden": [],
-      "fullRegex": "class\\s+Book\\s*\\{[\\s\\S]*Book\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*void\\s+displayInfo\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}\\s*\\}[\\s\\S]*new\\s+Book\\s*\\("
-    },
-    "dialogueHints": [
-      "Fields should be instance variables (not static)",
-      "Constructor takes parameters and uses this.field = parameter",
-      "displayInfo should print using System.out.println"
-    ],
-    "solution": "class Book {\n    String title;\n    String author;\n    int pages;\n    \n    Book(String title, String author, int pages) {\n        this.title = title;\n        this.author = author;\n        this.pages = pages;\n    }\n    \n    void displayInfo() {\n        System.out.println(\"Title: \" + title);\n        System.out.println(\"Author: \" + author);\n        System.out.println(\"Pages: \" + pages);\n        System.out.println(\"---\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Book book1 = new Book(\"1984\", \"George Orwell\", 328);\n        Book book2 = new Book(\"Sapiens\", \"Yuval Noah Harari\", 512);\n        \n        book1.displayInfo();\n        book2.displayInfo();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to create your first class! The blueprint of the future~ 🏗️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class called Book with:\n• Fields: title (String), author (String), pages (int)\n• Constructor that initializes all fields\n• Method: displayInfo() that prints all book info\n\nIn main, create 2 Book objects and call displayInfo() on both.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

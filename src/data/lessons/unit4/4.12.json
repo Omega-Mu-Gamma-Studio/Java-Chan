@@ -13,20 +13,18 @@
     "explanation": "counter++ is NOT thread-safe! Even though it's a single line, it's three operations:\n1. Read counter value\n2. Increment value\n3. Write counter value\n\nTwo threads can interleave these operations, causing lost updates.\n\nFIX: Synchronize the critical section:\n\nsynchronized (Test.class) {\n    counter++;\n}\n\nOr use AtomicInteger:\nAtomicInteger counter = new AtomicInteger(0);\ncounter.incrementAndGet();  // Thread-safe, no synchronization needed!\n\nAlways identify and protect shared mutable state!"
   },
   "phase3": {
-    "prompt": "Create a BankAccount class with:\n• Private balance (double)\n• Synchronized deposit(double amount) method\n• Synchronized withdraw(double amount) method\n• Synchronized getBalance() method\n\nIn main:\n1. Create a BankAccount with $1000\n2. Create 5 threads that each deposit $100 (500 total)\n3. Create 3 threads that each withdraw $50 (150 total)\n4. All threads run simultaneously\n5. Print final balance (should be $1350 if correct)",
-    "validationPattern": {
-      "required": ["synchronized", "deposit", "withdraw", "getBalance", "join"],
-      "forbidden": [],
-      "fullRegex": "synchronized\\s+void\\s+deposit[\\s\\S]*synchronized\\s+void\\s+withdraw[\\s\\S]*synchronized\\s+double\\s+getBalance[\\s\\S]*join\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "All three methods should be synchronized",
-      "deposit: balance += amount",
-      "withdraw: if (balance >= amount) balance -= amount",
-      "Use join() to wait for all threads to finish"
-    ],
-    "solution": "class BankAccount {\n    private double balance;\n    \n    BankAccount(double initial) {\n        this.balance = initial;\n    }\n    \n    synchronized void deposit(double amount) {\n        balance += amount;\n    }\n    \n    synchronized void withdraw(double amount) {\n        if (balance >= amount) {\n            balance -= amount;\n        } else {\n            System.out.println(\"Insufficient balance!\");\n        }\n    }\n    \n    synchronized double getBalance() {\n        return balance;\n    }\n}\n\npublic class SynchronizationPractice {\n    public static void main(String[] args) throws InterruptedException {\n        BankAccount account = new BankAccount(1000);\n        \n        Thread[] deposits = new Thread[5];\n        for (int i = 0; i < 5; i++) {\n            deposits[i] = new Thread(() -> account.deposit(100));\n            deposits[i].start();\n        }\n        \n        Thread[] withdrawals = new Thread[3];\n        for (int i = 0; i < 3; i++) {\n            withdrawals[i] = new Thread(() -> account.withdraw(50));\n            withdrawals[i].start();\n        }\n        \n        // Wait for all threads to finish\n        for (Thread t : deposits) t.join();\n        for (Thread t : withdrawals) t.join();\n        \n        System.out.println(\"Final balance: $\" + account.getBalance());\n        System.out.println(\"Expected: $1350\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Synchronization — keeping threads in line! 🔒"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a BankAccount class with:\n• Private balance (double)\n• Synchronized deposit(double amount) method\n• Synchronized withdraw(double amount) method\n• Synchronized getBalance() method\n\nIn main:\n1. Create a BankAccount with $1000\n2. Create 5 threads that each deposit $100 (500 total)\n3. Create 3 threads that each withdraw $50 (150 total)\n4. All threads run simultaneously\n5. Print final balance (should be $1350 if correct)",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

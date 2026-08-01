@@ -13,19 +13,18 @@
     "explanation": "Interface methods are implicitly public. When implementing, you must use public!\n\nThe error says you're trying to assign weaker access (package-private) than the interface requires (public).\n\nFIX: public void draw() { ... }\n\nAlways use public when implementing interface methods!"
   },
   "phase3": {
-    "prompt": "Create an interface Playable with:\n• void play()\n• default void stop() — prints \"Stopping playback\"\n\nCreate MusicPlayer and VideoPlayer classes that implement Playable:\n• MusicPlayer: play() prints \"Playing music 🎵\"\n• VideoPlayer: play() prints \"Playing video 🎬\"\n\nIn main, create both and call play() and stop() on each.",
-    "validationPattern": {
-      "required": ["interface Playable", "implements Playable", "@Override", "default"],
-      "forbidden": [],
-      "fullRegex": "interface\\s+Playable\\s*\\{[\\s\\S]*default\\s+void\\s+stop[\\s\\S]*\\}[\\s\\S]*class\\s+\\w+\\s+implements\\s+Playable[\\s\\S]*public\\s+void\\s+play\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Playable interface needs play() and a default stop()",
-      "Both classes must implement play()",
-      "stop() is already provided by default — can use as-is"
-    ],
-    "solution": "interface Playable {\n    void play();\n    \n    default void stop() {\n        System.out.println(\"Stopping playback\");\n    }\n}\n\nclass MusicPlayer implements Playable {\n    @Override\n    public void play() {\n        System.out.println(\"Playing music 🎵\");\n    }\n}\n\nclass VideoPlayer implements Playable {\n    @Override\n    public void play() {\n        System.out.println(\"Playing video 🎬\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Playable music = new MusicPlayer();\n        Playable video = new VideoPlayer();\n        \n        music.play();\n        music.stop();\n        \n        video.play();\n        video.stop();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Interfaces are contracts — sign them and deliver! 📋"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create an interface Playable with:\n• void play()\n• default void stop() — prints \"Stopping playback\"\n\nCreate MusicPlayer and VideoPlayer classes that implement Playable:\n• MusicPlayer: play() prints \"Playing music 🎵\"\n• VideoPlayer: play() prints \"Playing video 🎬\"\n\nIn main, create both and call play() and stop() on each.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

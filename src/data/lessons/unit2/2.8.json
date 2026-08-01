@@ -13,19 +13,18 @@
     "explanation": "ArrayList is in the java.util package, but you haven't imported it!\n\nFIX: Add import at the top:\nimport java.util.ArrayList;\n\nOr use the fully qualified name:\njava.util.ArrayList<String> list = new java.util.ArrayList<>();\n\nRemember: Only java.lang is automatically imported. All other packages need explicit import statements."
   },
   "phase3": {
-    "prompt": "Create a package structure:\n• com.example.shapes\n• In it, create Rectangle and Circle classes with area() methods\n• In a Main class (can be in same file), import and use both shapes\n\nNote: For simplicity, we'll put everything in one file with package declarations.",
-    "validationPattern": {
-      "required": ["package", "import", "com.example.shapes", "area"],
-      "forbidden": [],
-      "fullRegex": "package\\s+com\\.example\\.shapes[\\s\\S]*import\\s+com\\.example\\.shapes\\.[\\s\\S]*area\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Use package com.example.shapes; in both shape classes",
-      "Main can be in default package or different package",
-      "Import both classes and use them"
-    ],
-    "solution": "package com.example.shapes;\n\nclass Rectangle {\n    double width, height;\n    \n    Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n    \n    double area() {\n        return width * height;\n    }\n}\n\npackage com.example.shapes;\n\nclass Circle {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    double area() {\n        return Math.PI * radius * radius;\n    }\n}\n\n// Main class\nimport com.example.shapes.Rectangle;\nimport com.example.shapes.Circle;\n\npublic class Main {\n    public static void main(String[] args) {\n        Rectangle rect = new Rectangle(5, 10);\n        Circle circle = new Circle(7);\n        \n        System.out.println(\"Rectangle area: \" + rect.area());\n        System.out.println(\"Circle area: \" + circle.area());\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Packages keep your code organized! 📦"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a package structure:\n• com.example.shapes\n• In it, create Rectangle and Circle classes with area() methods\n• In a Main class (can be in same file), import and use both shapes\n\nNote: For simplicity, we'll put everything in one file with package declarations.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

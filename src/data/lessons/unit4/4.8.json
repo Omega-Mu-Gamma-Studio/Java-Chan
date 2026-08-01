@@ -13,19 +13,18 @@
     "explanation": "You can't call remove() without first calling next()!\n\nremove() removes the element returned by the most recent next() call.\n\nFIX: Always call next() before remove():\nwhile (it.hasNext()) {\n    String s = it.next();  // First! THEN remove\n    it.remove();  // Safe\n}\n\nOr check a condition:\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"B\")) {\n        it.remove();  // Remove only B\n    }\n}\n\nRemember: next() → process → remove()"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a LinkedList<Integer> with numbers 1-10\n2. Uses an Iterator to remove all even numbers\n3. Uses a ListIterator to add 0 at the beginning\n4. Uses a ListIterator to add 11 at the end\n5. Prints the final list\n\nBonus: Use for-each to print each element after modifications.",
-    "validationPattern": {
-      "required": ["Iterator", "ListIterator", "next", "remove", "add", "for"],
-      "forbidden": [],
-      "fullRegex": "Iterator[\\s\\S]*next\\s*\\([\\s\\S]*\\)[\\s\\S]*remove\\s*\\([\\s\\S]*\\)[\\s\\S]*ListIterator[\\s\\S]*add\\s*\\([\\s\\S]*\\)[\\s\\S]*for\\s*\\(\\s*\\w+\\s+\\w+\\s*:"
-    },
-    "dialogueHints": [
-      "Iterator: while (it.hasNext()) { int n = it.next(); if (n % 2 == 0) it.remove(); }",
-      "ListIterator: while (listIt.hasNext()) { ... } then listIt.add(0)",
-      "To add at end: use listIt.add(11) after the loop or list.add(11)"
-    ],
-    "solution": "import java.util.*;\n\npublic class IteratorPractice {\n    public static void main(String[] args) {\n        LinkedList<Integer> numbers = new LinkedList<>();\n        for (int i = 1; i <= 10; i++) {\n            numbers.add(i);\n        }\n        System.out.println(\"Original: \" + numbers);\n        \n        // Remove even numbers\n        Iterator<Integer> it = numbers.iterator();\n        while (it.hasNext()) {\n            int n = it.next();\n            if (n % 2 == 0) {\n                it.remove();\n            }\n        }\n        System.out.println(\"After removing evens: \" + numbers);\n        \n        // Add 0 at beginning, 11 at end\n        ListIterator<Integer> listIt = numbers.listIterator();\n        listIt.add(0);  // Add at beginning\n        while (listIt.hasNext()) {\n            listIt.next();\n        }\n        listIt.add(11);  // Add at end\n        \n        System.out.println(\"Final: \" + numbers);\n        \n        // For-each print\n        System.out.println(\"Printing with for-each:\");\n        for (int n : numbers) {\n            System.out.print(n + \" \");\n        }\n        System.out.println();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Iterators — navigate and modify collections! 🔄"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a LinkedList<Integer> with numbers 1-10\n2. Uses an Iterator to remove all even numbers\n3. Uses a ListIterator to add 0 at the beginning\n4. Uses a ListIterator to add 11 at the end\n5. Prints the final list\n\nBonus: Use for-each to print each element after modifications.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

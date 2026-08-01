@@ -13,19 +13,18 @@
     "explanation": "Person doesn't implement Comparable, so it can't be sorted with sort(list)!\n\nFIX: Either implement Comparable:\nclass Person implements Comparable<Person> {\n    @Override\n    public int compareTo(Person other) {\n        return this.age - other.age;\n    }\n}\n\nOr use Comparator:\nCollections.sort(people, (p1, p2) -> p1.age - p2.age);\n\nFor TreeSet, you also need Comparable or a Comparator provided in constructor.\n\nAlways choose the right sorting approach!"
   },
   "phase3": {
-    "prompt": "Create a class Product with fields: id (int), name (String), price (double).\n\n1. Implement Comparable<Product> by id (natural order)\n2. Create a NameComparator that sorts by name\n3. Create a PriceComparator that sorts by price (low to high)\n\nIn main:\n1. Create a list of 4 products\n2. Sort by ID (natural order)\n3. Sort by name using NameComparator\n4. Sort by price using PriceComparator\n\nPrint the list after each sort.",
-    "validationPattern": {
-      "required": ["implements Comparable", "Comparator", "compareTo", "compare", "Collections.sort"],
-      "forbidden": [],
-      "fullRegex": "implements\\s+Comparable\\s*<\\s*Product\\s*>[\\s\\S]*compareTo[\\s\\S]*class\\s+\\w+Comparator\\s+implements\\s+Comparator\\s*<\\s*Product\\s*>[\\s\\S]*compare[\\s\\S]*"
-    },
-    "dialogueHints": [
-      "Product implements Comparable<Product> with compareTo based on id",
-      "NameComparator: compare(s1.name, s2.name)",
-      "PriceComparator: compare(s1.price, s2.price)"
-    ],
-    "solution": "import java.util.*;\n\nclass Product implements Comparable<Product> {\n    int id;\n    String name;\n    double price;\n    \n    Product(int id, String name, double price) {\n        this.id = id;\n        this.name = name;\n        this.price = price;\n    }\n    \n    @Override\n    public int compareTo(Product other) {\n        return Integer.compare(this.id, other.id);\n    }\n    \n    @Override\n    public String toString() {\n        return String.format(\"Product{id=%d, name='%s', price=%.2f}\", id, name, price);\n    }\n}\n\nclass NameComparator implements Comparator<Product> {\n    @Override\n    public int compare(Product p1, Product p2) {\n        return p1.name.compareTo(p2.name);\n    }\n}\n\nclass PriceComparator implements Comparator<Product> {\n    @Override\n    public int compare(Product p1, Product p2) {\n        return Double.compare(p1.price, p2.price);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        List<Product> products = Arrays.asList(\n            new Product(3, \"Laptop\", 1200.00),\n            new Product(1, \"Phone\", 800.00),\n            new Product(4, \"Tablet\", 500.00),\n            new Product(2, \"Monitor\", 300.00)\n        );\n        \n        System.out.println(\"Original: \" + products);\n        \n        Collections.sort(products);\n        System.out.println(\"By ID: \" + products);\n        \n        Collections.sort(products, new NameComparator());\n        System.out.println(\"By Name: \" + products);\n        \n        Collections.sort(products, new PriceComparator());\n        System.out.println(\"By Price: \" + products);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Comparable vs Comparator — two ways to sort! 🔢"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class Product with fields: id (int), name (String), price (double).\n\n1. Implement Comparable<Product> by id (natural order)\n2. Create a NameComparator that sorts by name\n3. Create a PriceComparator that sorts by price (low to high)\n\nIn main:\n1. Create a list of 4 products\n2. Sort by ID (natural order)\n3. Sort by name using NameComparator\n4. Sort by price using PriceComparator\n\nPrint the list after each sort.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

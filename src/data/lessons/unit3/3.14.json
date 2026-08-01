@@ -13,19 +13,18 @@
     "explanation": "The split() failed because a line doesn't have the expected number of commas!\n\nThis is a common issue with CSV parsing:\n• Empty fields: \"value1,,value3\" → array has 3 elements (middle is empty)\n• Trailing commas: \"value1,value2,\" → array has 3 elements (last is empty)\n• Quoted fields with commas: \"1,\\\"Alice, Smith\\\"\" → split breaks!\n\nFIX: Always check array length before accessing:\nif (parts.length >= 2) {\n    System.out.println(parts[0] + \" - \" + parts[1]);\n} else {\n    System.out.println(\"Invalid line: \" + line);\n}\n\nFor production code, use a proper CSV parser library!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a CSV file called \"employees.csv\" with header: ID,Name,Department,Salary\n2. Writes 4 employee records to the file\n3. Reads the file back\n4. Calculates and prints the average salary\n5. Prints all employees in the \"IT\" department\n\nUse BufferedReader/BufferedWriter for file I/O.",
-    "validationPattern": {
-      "required": ["BufferedWriter", "BufferedReader", "split", "Double.parseDouble"],
-      "forbidden": [],
-      "fullRegex": "BufferedWriter[\\s\\S]*BufferedReader[\\s\\S]*split\\s*\\(\\s*\"\\\\s*,\\\\s*\"\\s*\\)[\\s\\S]*Double\\.parseDouble"
-    },
-    "dialogueHints": [
-      "Write header: \"ID,Name,Department,Salary\"",
-      "Each employee: \"1,John,IT,75000\"",
-      "Read: split(\",\"), parse values, track sum and count for average"
-    ],
-    "solution": "import java.io.*;\nimport java.util.*;\n\npublic class CSVPractice {\n    public static void main(String[] args) {\n        String[] employees = {\n            \"1,Alice,IT,75000\",\n            \"2,Bob,HR,65000\",\n            \"3,Charlie,IT,82000\",\n            \"4,Diana,Finance,70000\"\n        };\n        \n        // Write CSV\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(\"employees.csv\"))) {\n            bw.write(\"ID,Name,Department,Salary\");\n            bw.newLine();\n            for (String emp : employees) {\n                bw.write(emp);\n                bw.newLine();\n            }\n            System.out.println(\"CSV written!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // Read and process CSV\n        double totalSalary = 0;\n        int count = 0;\n        List<String> itEmployees = new ArrayList<>();\n        \n        try (BufferedReader br = new BufferedReader(new FileReader(\"employees.csv\"))) {\n            String header = br.readLine();  // Skip header\n            String line;\n            while ((line = br.readLine()) != null) {\n                String[] parts = line.split(\",\");\n                if (parts.length == 4) {\n                    String name = parts[1];\n                    String dept = parts[2];\n                    double salary = Double.parseDouble(parts[3]);\n                    \n                    totalSalary += salary;\n                    count++;\n                    \n                    if (dept.equals(\"IT\")) {\n                        itEmployees.add(name);\n                    }\n                }\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // Results\n        if (count > 0) {\n            System.out.println(\"Average salary: $\" + String.format(\"%.2f\", totalSalary / count));\n            System.out.println(\"IT Employees: \" + itEmployees);\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "CSV — data exchange made simple! 📊"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a CSV file called \"employees.csv\" with header: ID,Name,Department,Salary\n2. Writes 4 employee records to the file\n3. Reads the file back\n4. Calculates and prints the average salary\n5. Prints all employees in the \"IT\" department\n\nUse BufferedReader/BufferedWriter for file I/O.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

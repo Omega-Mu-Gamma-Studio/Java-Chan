@@ -13,19 +13,18 @@
     "explanation": "Java won't let you assign a double to an int without explicit casting because you might lose the decimal part!\n\nTo fix it, you must use explicit casting: (int) pi\n\nThis is Java protecting you from accidentally losing data. Always use (type) when narrowing!"
   },
   "phase3": {
-    "prompt": "Write code that:\n1. Declares a double variable with value 9.87\n2. Casts it to an int (prints the result)\n3. Declares an int variable with value 42\n4. Widens it to a double (prints the result)",
-    "validationPattern": {
-      "required": ["double", "int", "(int)", "System.out.println"],
-      "forbidden": [],
-      "fullRegex": "double\\s+\\w+\\s*=\\s*9\\.87\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*\\(int\\)\\s*\\w+\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*42\\s*;[\\s\\S]*double\\s+\\w+\\s*=\\s*\\w+\\s*;[\\s\\S]*"
-    },
-    "dialogueHints": [
-      "For the double to int conversion, use (int) in front of the variable.",
-      "Widening is automatic — just assign the int to a double variable.",
-      "Make sure to print both converted values!"
-    ],
-    "solution": "public class CastingPractice {\n    public static void main(String[] args) {\n        double decimal = 9.87;\n        int truncated = (int) decimal;\n        System.out.println(\"Double to int: \" + truncated);\n        \n        int whole = 42;\n        double widened = whole;\n        System.out.println(\"Int to double: \" + widened);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Let's practice playing with types — don't drop any data! 🎪"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write code that:\n1. Declares a double variable with value 9.87\n2. Casts it to an int (prints the result)\n3. Declares an int variable with value 42\n4. Widens it to a double (prints the result)",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,20 +13,18 @@
     "explanation": "JavaFX uses -fx- properties, not standard CSS properties!\n\nWrong: \"color: red;\"\nCorrect: \"-fx-text-fill: red;\"\n\nCommon mistakes:\n• color → -fx-text-fill\n• background-color → -fx-background-color\n• border → -fx-border-color, -fx-border-width\n• padding → -fx-padding\n• font-size → -fx-font-size\n\nAlways use the -fx- prefix for JavaFX CSS properties!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program with:\n1. A Label with style: font-size 18px, bold, blue text, padding 10px\n2. A Button with style: green background, white text, rounded corners, padding 10px 20px\n3. A TextField with style: light gray background, border, padding 8px\n4. A VBox with style: background color #f5f5f5, padding 20px\n\nUse inline CSS (setStyle()) for all styling.",
-    "validationPattern": {
-      "required": ["setStyle", "-fx-text-fill", "-fx-background-color", "-fx-padding", "-fx-border-radius"],
-      "forbidden": [],
-      "fullRegex": "setStyle[\\s\\S]*-fx-text-fill[\\s\\S]*-fx-background-color[\\s\\S]*-fx-padding[\\s\\S]*-fx-border-radius"
-    },
-    "dialogueHints": [
-      "Label: -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: blue; -fx-padding: 10px;",
-      "Button: -fx-background-color: green; -fx-text-fill: white; -fx-background-radius: 5px; -fx-padding: 10px 20px;",
-      "TextField: -fx-background-color: #f0f0f0; -fx-border-color: #ccc; -fx-padding: 8px;",
-      "VBox: -fx-background-color: #f5f5f5; -fx-padding: 20px;"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.control.TextField;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class CSSPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setAlignment(Pos.CENTER);\n        root.setStyle(\"-fx-background-color: #f5f5f5; -fx-padding: 20px;\");\n        \n        Label label = new Label(\"Styled Label\");\n        label.setStyle(\n            \"-fx-font-size: 18px; \" +\n            \"-fx-font-weight: bold; \" +\n            \"-fx-text-fill: blue; \" +\n            \"-fx-padding: 10px;\"\n        );\n        \n        Button button = new Button(\"Styled Button\");\n        button.setStyle(\n            \"-fx-background-color: green; \" +\n            \"-fx-text-fill: white; \" +\n            \"-fx-padding: 10px 20px; \" +\n            \"-fx-background-radius: 5px;\"\n        );\n        \n        TextField textField = new TextField();\n        textField.setPromptText(\"Enter text...\");\n        textField.setStyle(\n            \"-fx-background-color: #f0f0f0; \" +\n            \"-fx-border-color: #cccccc; \" +\n            \"-fx-padding: 8px; \" +\n            \"-fx-border-radius: 3px;\"\n        );\n        textField.setMaxWidth(200);\n        \n        root.getChildren().addAll(label, button, textField);\n        \n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setTitle(\"CSS Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "CSS — make your UI beautiful! 🎨"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program with:\n1. A Label with style: font-size 18px, bold, blue text, padding 10px\n2. A Button with style: green background, white text, rounded corners, padding 10px 20px\n3. A TextField with style: light gray background, border, padding 8px\n4. A VBox with style: background color #f5f5f5, padding 20px\n\nUse inline CSS (setStyle()) for all styling.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

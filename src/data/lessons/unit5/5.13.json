@@ -13,20 +13,18 @@
     "explanation": "You created the animation but never called play()!\n\nFIX: Add tt.play(); after configuring the animation.\n\nAlso consider:\n• Animation only runs when play() is called\n• Can also use playFromStart()\n• Check if animation is playing: tt.getStatus() == Animation.Status.RUNNING\n\nAlways remember to call play() to start your animations!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program with:\n1. A Circle (radius 30) that moves horizontally across the screen\n2. A Button \"Start Animation\" that starts the movement\n3. A Button \"Stop Animation\" that stops and resets\n\nUse TranslateTransition with duration 2 seconds, from X=0 to X=300.\nThe animation should auto-reverse and loop indefinitely.",
-    "validationPattern": {
-      "required": ["Circle", "TranslateTransition", "setFromX", "setToX", "play", "stop", "setAutoReverse"],
-      "forbidden": [],
-      "fullRegex": "Circle[\\s\\S]*TranslateTransition[\\s\\S]*setFromX[\\s\\S]*setToX[\\s\\S]*play\\s*\\([\\s\\S]*\\)[\\s\\S]*stop\\s*\\([\\s\\S]*\\)[\\s\\S]*setAutoReverse"
-    },
-    "dialogueHints": [
-      "Circle circle = new Circle(30);",
-      "TranslateTransition tt = new TranslateTransition(Duration.seconds(2), circle);",
-      "tt.setFromX(0); tt.setToX(300); tt.setCycleCount(INDEFINITE); tt.setAutoReverse(true);",
-      "tt.play(); to start, tt.stop(); to stop"
-    ],
-    "solution": "import javafx.animation.TranslateTransition;\nimport javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport javafx.scene.paint.Color;\nimport javafx.scene.shape.Circle;\nimport javafx.stage.Stage;\nimport javafx.util.Duration;\n\npublic class AnimationPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(20);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Circle circle = new Circle(30, Color.BLUE);\n        \n        TranslateTransition tt = new TranslateTransition(Duration.seconds(2), circle);\n        tt.setFromX(0);\n        tt.setToX(300);\n        tt.setCycleCount(TranslateTransition.INDEFINITE);\n        tt.setAutoReverse(true);\n        \n        Button startBtn = new Button(\"Start Animation\");\n        startBtn.setOnAction(e -> tt.play());\n        \n        Button stopBtn = new Button(\"Stop Animation\");\n        stopBtn.setOnAction(e -> {\n            tt.stop();\n            // Reset position (optional)\n            circle.setTranslateX(0);\n        });\n        \n        HBox controls = new HBox(10);\n        controls.setAlignment(Pos.CENTER);\n        controls.getChildren().addAll(startBtn, stopBtn);\n        \n        root.getChildren().addAll(circle, controls);\n        \n        Scene scene = new Scene(root, 500, 200);\n        primaryStage.setTitle(\"Animation Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Animation — bring your UI to life! 🎬"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program with:\n1. A Circle (radius 30) that moves horizontally across the screen\n2. A Button \"Start Animation\" that starts the movement\n3. A Button \"Stop Animation\" that stops and resets\n\nUse TranslateTransition with duration 2 seconds, from X=0 to X=300.\nThe animation should auto-reverse and loop indefinitely.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

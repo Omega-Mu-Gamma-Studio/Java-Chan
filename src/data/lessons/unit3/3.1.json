@@ -14,17 +14,23 @@
     "explanation": "Conceptual lesson — no broken code yet!\n\nCommon misconception: \"All exceptions must be caught with try-catch.\"\n\nActually: Only CHECKED exceptions must be caught or declared. Unchecked exceptions (RuntimeException) can be left unhandled (but they'll crash your program).\n\nFor example:\n• FileNotFoundException (checked) → must handle\n• NullPointerException (unchecked) → optional to handle\n\nAlways handle exceptions that can realistically occur!"
   },
   "phase3": {
-    "prompt": "Which statement about exceptions is TRUE?\n\nA) NullPointerException is a checked exception\nB) All exceptions must be caught with try-catch\nC) RuntimeException and its subclasses are unchecked exceptions\nD) Errors can be caught and recovered from\nE) Stack traces only show the line where the exception occurred\n\nSelect the CORRECT statement.",
-    "validationPattern": {
-      "mcqAnswer": "C"
-    },
-    "dialogueHints": [
-      "Think about which exceptions the compiler forces you to handle.",
-      "Remember: RuntimeException is special — it doesn't require handling.",
-      "Errors are serious problems that typically can't be recovered."
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Quick check! What do you know about exceptions? 🤔"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Which statement about exceptions is TRUE?\n\nA) NullPointerException is a checked exception\nB) All exceptions must be caught with try-catch\nC) RuntimeException and its subclasses are unchecked exceptions\nD) Errors can be caught and recovered from\nE) Stack traces only show the line where the exception occurred\n\nSelect the CORRECT statement.",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

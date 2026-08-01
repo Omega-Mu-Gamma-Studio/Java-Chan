@@ -13,20 +13,18 @@
     "explanation": "The ExecutorService's threads are non-daemon threads. They keep the JVM running even after main() ends!\n\nThe program will hang indefinitely because the pool is still active.\n\nFIX: Always shutdown the pool:\n\npool.shutdown();  // Graceful shutdown\n\nOr use try-with-resources (Java 19+):\ntry (ExecutorService pool = Executors.newFixedThreadPool(2)) {\n    pool.execute(() -> System.out.println(\"Hello\"));\n}\n\nOr shutdown and wait:\npool.shutdown();\npool.awaitTermination(5, TimeUnit.SECONDS);\n\nAlways clean up your thread pools!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a FixedThreadPool with 4 threads\n2. Submits 10 tasks that print \"Task X on thread Y\" with X being 1-10\n3. Uses Future to submit tasks and get results\n4. Shuts down the pool properly\n\nBonus: Use submit() with Callable that returns the task number.",
-    "validationPattern": {
-      "required": ["newFixedThreadPool", "submit", "Future", "shutdown"],
-      "forbidden": [],
-      "fullRegex": "newFixedThreadPool\\s*\\(\\s*4\\s*\\)[\\s\\S]*submit\\s*\\([\\s\\S]*\\)[\\s\\S]*Future[\\s\\S]*shutdown\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Use Executors.newFixedThreadPool(4)",
-      "Submit Callable<Integer> that returns i",
-      "Store Futures in a List",
-      "shutdown() after all tasks are submitted"
-    ],
-    "solution": "import java.util.concurrent.*;\nimport java.util.*;\n\npublic class ExecutorPractice {\n    public static void main(String[] args) throws Exception {\n        ExecutorService pool = Executors.newFixedThreadPool(4);\n        List<Future<Integer>> futures = new ArrayList<>();\n        \n        for (int i = 1; i <= 10; i++) {\n            final int taskNum = i;\n            Future<Integer> future = pool.submit(() -> {\n                System.out.println(\"Task \" + taskNum + \" on \" + Thread.currentThread().getName());\n                Thread.sleep(100);  // Simulate work\n                return taskNum;\n            });\n            futures.add(future);\n        }\n        \n        // Get results\n        System.out.println(\"Results:\");\n        for (Future<Integer> f : futures) {\n            System.out.println(\"  Task returned: \" + f.get());\n        }\n        \n        pool.shutdown();\n        pool.awaitTermination(5, TimeUnit.SECONDS);\n        System.out.println(\"Pool shut down!\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Executor Framework — manage threads like a pro! 🎯"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a FixedThreadPool with 4 threads\n2. Submits 10 tasks that print \"Task X on thread Y\" with X being 1-10\n3. Uses Future to submit tasks and get results\n4. Shuts down the pool properly\n\nBonus: Use submit() with Callable that returns the task number.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,20 +13,18 @@
     "explanation": "When you use add() without specifying row/column, both nodes go to (0,0) and overlap!\n\nFIX: Use add(node, column, row):\ngrid.add(label, 0, 0);\ngrid.add(button, 1, 0);\n\nOr set row/column indices:\nGridPane.setRowIndex(label, 0);\nGridPane.setColumnIndex(label, 0);\n\nAlways specify positions in GridPane!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program that:\n1. Creates a BorderPane\n2. Sets Top to a Label \"My Dashboard\"\n3. Sets Center to a GridPane with:\n   - Row 0: \"Product\" and \"Price\" labels\n   - Row 1: \"Laptop\" and \"$1200\" labels\n   - Row 2: \"Phone\" and \"$800\" labels\n4. Sets Bottom to an HBox with Buttons: \"Add\", \"Delete\", \"Update\"\n5. Shows the window",
-    "validationPattern": {
-      "required": ["BorderPane", "setTop", "setCenter", "GridPane", "setBottom"],
-      "forbidden": [],
-      "fullRegex": "BorderPane[\\s\\S]*setTop[\\s\\S]*setCenter[\\s\\S]*GridPane[\\s\\S]*add[\\s\\S]*setBottom[\\s\\S]*HBox"
-    },
-    "dialogueHints": [
-      "BorderPane border = new BorderPane();",
-      "border.setTop(new Label(\"My Dashboard\"));",
-      "GridPane grid = new GridPane(); grid.add(...);",
-      "border.setBottom(hbox);"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.BorderPane;\nimport javafx.scene.layout.GridPane;\nimport javafx.scene.layout.HBox;\nimport javafx.stage.Stage;\n\npublic class Dashboard extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        BorderPane border = new BorderPane();\n        border.setPadding(new Insets(10));\n        \n        // Top\n        Label header = new Label(\"My Dashboard\");\n        header.setStyle(\"-fx-font-size: 24px; -fx-font-weight: bold;\");\n        HBox topBox = new HBox(header);\n        topBox.setAlignment(Pos.CENTER);\n        topBox.setStyle(\"-fx-background-color: #e0e0e0; -fx-padding: 10px;\");\n        border.setTop(topBox);\n        \n        // Center\n        GridPane grid = new GridPane();\n        grid.setHgap(20);\n        grid.setVgap(10);\n        grid.setPadding(new Insets(20));\n        grid.setAlignment(Pos.CENTER);\n        \n        grid.add(new Label(\"Product\"), 0, 0);\n        grid.add(new Label(\"Price\"), 1, 0);\n        grid.add(new Label(\"Laptop\"), 0, 1);\n        grid.add(new Label(\"$1200\"), 1, 1);\n        grid.add(new Label(\"Phone\"), 0, 2);\n        grid.add(new Label(\"$800\"), 1, 2);\n        \n        border.setCenter(grid);\n        \n        // Bottom\n        HBox bottomBox = new HBox(10);\n        bottomBox.setAlignment(Pos.CENTER);\n        bottomBox.setStyle(\"-fx-padding: 10px; -fx-background-color: #f0f0f0;\");\n        bottomBox.getChildren().addAll(\n            new Button(\"Add\"),\n            new Button(\"Delete\"),\n            new Button(\"Update\")\n        );\n        border.setBottom(bottomBox);\n        \n        Scene scene = new Scene(border, 500, 400);\n        primaryStage.setTitle(\"Dashboard\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "GridPane and BorderPane — power layouts! 🏗️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program that:\n1. Creates a BorderPane\n2. Sets Top to a Label \"My Dashboard\"\n3. Sets Center to a GridPane with:\n   - Row 0: \"Product\" and \"Price\" labels\n   - Row 1: \"Laptop\" and \"$1200\" labels\n   - Row 2: \"Phone\" and \"$800\" labels\n4. Sets Bottom to an HBox with Buttons: \"Add\", \"Delete\", \"Update\"\n5. Shows the window",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

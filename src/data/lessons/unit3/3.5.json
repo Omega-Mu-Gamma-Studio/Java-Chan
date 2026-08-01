@@ -13,25 +13,18 @@
     "explanation": "try-with-resources only works with AutoCloseable resources!\n\nString doesn't implement AutoCloseable, so you can't use it in try-with-resources.\n\nFIX: Only use resources that implement AutoCloseable:\n• BufferedReader ✓\n• Scanner ✓\n• FileReader ✓\n• String ✗\n• Integer ✗\n\nAlways check if a class implements AutoCloseable before using it in try-with-resources."
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Uses try-with-resources to create a Scanner reading from a file called \"data.txt\"\n2. Reads and prints all lines from the file\n3. Catches IOException if file not found\n\nNote: For this exercise, assume the file exists with some sample text.",
-    "validationPattern": {
-      "required": [
-        "try",
-        "Scanner",
-        "hasNextLine",
-        "catch",
-        "IOException"
-      ],
-      "forbidden": [],
-      "fullRegex": "try\\s*\\(\\s*\\w+\\s+\\w+\\s*=\\s*new\\s+Scanner\\s*\\(\\s*new\\s+File\\s*\\([\\s\\S]*\\)\\s*\\)"
-    },
-    "dialogueHints": [
-      "Scanner implements AutoCloseable (since Java 8)",
-      "Use File or FileReader to open the file",
-      "Loop with while (scanner.hasNextLine())"
-    ],
-    "solution": "import java.io.*;\nimport java.util.Scanner;\n\npublic class FileReaderExample {\n    public static void main(String[] args) {\n        try (Scanner scanner = new Scanner(new File(\"data.txt\"))) {\n            System.out.println(\"Reading data.txt:\");\n            while (scanner.hasNextLine()) {\n                String line = scanner.nextLine();\n                System.out.println(line);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading file: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "try-with-resources — automatic cleanup! 🧹"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Uses try-with-resources to create a Scanner reading from a file called \"data.txt\"\n2. Reads and prints all lines from the file\n3. Catches IOException if file not found\n\nNote: For this exercise, assume the file exists with some sample text.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

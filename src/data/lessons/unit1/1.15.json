@@ -13,24 +13,18 @@
     "explanation": "You can't access private fields from outside the class! This is the ENTIRE POINT of encapsulation.\n\nTo fix, add public getters and setters:\npublic String getName() { return name; }\npublic void setName(String name) { this.name = name; }\n\nThen use: person.getName() and person.setName(\"Bob\")\n\nPrivate means private — only the class itself can touch it."
   },
   "phase3": {
-    "prompt": "Create a BankAccount class with:\n• Private fields: owner (String), balance (double)\n• Constructor\n• Getters for both\n• deposit(double amount) — adds to balance (must be positive)\n• withdraw(double amount) — subtracts from balance (can't go negative)\n• displayInfo() method\n\nTest by creating an account and doing deposits/withdrawals.",
-    "validationPattern": {
-      "required": [
-        "private",
-        "getBalance",
-        "deposit",
-        "withdraw"
-      ],
-      "forbidden": [],
-      "fullRegex": "private\\s+\\w+\\s+\\w+[\\s\\S]*public\\s+\\w+\\s+get\\w+[\\s\\S]*void\\s+deposit[\\s\\S]*void\\s+withdraw[\\s\\S]*"
-    },
-    "dialogueHints": [
-      "Fields should be private, getters public",
-      "deposit should check if amount > 0",
-      "withdraw should check if enough balance"
-    ],
-    "solution": "class BankAccount {\n    private String owner;\n    private double balance;\n    \n    BankAccount(String owner, double initialBalance) {\n        this.owner = owner;\n        this.balance = initialBalance;\n    }\n    \n    public String getOwner() {\n        return owner;\n    }\n    \n    public double getBalance() {\n        return balance;\n    }\n    \n    public void deposit(double amount) {\n        if (amount > 0) {\n            balance += amount;\n            System.out.println(\"Deposited $\" + amount);\n        } else {\n            System.out.println(\"Deposit must be positive!\");\n        }\n    }\n    \n    public void withdraw(double amount) {\n        if (amount > 0 && amount <= balance) {\n            balance -= amount;\n            System.out.println(\"Withdrew $\" + amount);\n        } else {\n            System.out.println(\"Insufficient balance or invalid amount!\");\n        }\n    }\n    \n    public void displayInfo() {\n        System.out.println(\"Owner: \" + owner + \", Balance: $\" + balance);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(\"Alice\", 1000);\n        account.deposit(500);\n        account.withdraw(200);\n        account.displayInfo();\n        account.withdraw(1500);  // Should fail\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to lock down your data! Encapsulation is your shield~ 🛡️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a BankAccount class with:\n• Private fields: owner (String), balance (double)\n• Constructor\n• Getters for both\n• deposit(double amount) — adds to balance (must be positive)\n• withdraw(double amount) — subtracts from balance (can't go negative)\n• displayInfo() method\n\nTest by creating an account and doing deposits/withdrawals.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

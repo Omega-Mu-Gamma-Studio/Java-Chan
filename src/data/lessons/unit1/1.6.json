@@ -13,24 +13,18 @@
     "explanation": "Java evaluates left to right with operator precedence!\n\n\"a / b = \" + a / b is evaluated as (\"a / b = \" + a) / b — you can't divide a string by an int!\n\nThe fix: use parentheses to force the division first:\n\"a / b = \" + (a / b)\n\nAlways wrap arithmetic in parentheses when combining with strings!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates variables x=15, y=4\n2. Prints: x + y = 19, x - y = 11, x * y = 60, x / y = 3, x % y = 3\n3. Uses ternary to print which is bigger: \"15 is bigger\" or \"4 is bigger\"",
-    "validationPattern": {
-      "required": [
-        "%",
-        "/",
-        "?",
-        "System.out.println"
-      ],
-      "forbidden": [],
-      "fullRegex": "int\\s+\\w+\\s*=\\s*15\\s*;[\\s\\S]*int\\s+\\w+\\s*=\\s*4\\s*;[\\s\\S]*\\+\\s*\\w+\\s*[\\s\\S]*\\-\\s*\\w+[\\s\\S]*\\*\\s*\\w+[\\s\\S]*\\/\\s*\\w+[\\s\\S]*%\\s*\\w+[\\s\\S]*\\?.*:.*"
-    },
-    "dialogueHints": [
-      "Use the ternary operator: condition ? value1 : value2",
-      "Integer division 15/4 gives 3 (no decimal)",
-      "Use String concatenation to build your output messages."
-    ],
-    "solution": "public class OperatorsPractice {\n    public static void main(String[] args) {\n        int x = 15, y = 4;\n        System.out.println(\"x + y = \" + (x + y));\n        System.out.println(\"x - y = \" + (x - y));\n        System.out.println(\"x * y = \" + (x * y));\n        System.out.println(\"x / y = \" + (x / y));\n        System.out.println(\"x % y = \" + (x % y));\n        System.out.println((x > y) ? \"15 is bigger\" : \"4 is bigger\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to crunch some numbers! Show me what you've got~ 🧮"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates variables x=15, y=4\n2. Prints: x + y = 19, x - y = 11, x * y = 60, x / y = 3, x % y = 3\n3. Uses ternary to print which is bigger: \"15 is bigger\" or \"4 is bigger\"",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

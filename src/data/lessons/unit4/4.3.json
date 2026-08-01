@@ -13,19 +13,18 @@
     "explanation": "getFirst() throws NoSuchElementException if the list is empty!\n\nUnlike peekFirst() which returns null, getFirst() throws an exception.\n\nFIX: Use peekFirst() which returns null on empty:\nInteger first = list.peekFirst();\nif (first != null) {\n    System.out.println(first);\n} else {\n    System.out.println(\"List is empty!\");\n}\n\nOr check if empty:\nif (!list.isEmpty()) {\n    System.out.println(list.getFirst());\n}\n\nAlways prefer peek/poll over get/remove when you're not sure if the list is empty!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a LinkedList<Integer>\n2. Adds numbers 1, 2, 3, 4, 5 using addLast() or add()\n3. Uses addFirst() to add 0 at the beginning\n4. Uses addLast() to add 6 at the end\n5. Prints the list\n6. Removes the first element using removeFirst()\n7. Removes the last element using removeLast()\n8. Prints the list again\n9. Uses push() and pop() to demonstrate stack behavior",
-    "validationPattern": {
-      "required": ["LinkedList", "addFirst", "addLast", "removeFirst", "removeLast", "push", "pop"],
-      "forbidden": [],
-      "fullRegex": "LinkedList[\\s\\S]*addFirst[\\s\\S]*addLast[\\s\\S]*removeFirst[\\s\\S]*removeLast[\\s\\S]*push[\\s\\S]*pop"
-    },
-    "dialogueHints": [
-      "Use add() or addLast() for initial numbers",
-      "addFirst(0) adds to beginning, addLast(6) adds to end",
-      "push() adds to front, pop() removes from front"
-    ],
-    "solution": "import java.util.*;\n\npublic class LinkedListPractice {\n    public static void main(String[] args) {\n        LinkedList<Integer> list = new LinkedList<>();\n        \n        // Add numbers 1-5\n        for (int i = 1; i <= 5; i++) {\n            list.addLast(i);\n        }\n        System.out.println(\"After adding 1-5: \" + list);\n        \n        list.addFirst(0);\n        list.addLast(6);\n        System.out.println(\"After addFirst/addLast: \" + list);\n        \n        list.removeFirst();\n        list.removeLast();\n        System.out.println(\"After removing first/last: \" + list);\n        \n        // Stack behavior\n        LinkedList<String> stack = new LinkedList<>();\n        stack.push(\"A\");\n        stack.push(\"B\");\n        stack.push(\"C\");\n        System.out.println(\"Stack: \" + stack);\n        System.out.println(\"Pop: \" + stack.pop());\n        System.out.println(\"After pop: \" + stack);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "LinkedList — flexibility at both ends! 🔗"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a LinkedList<Integer>\n2. Adds numbers 1, 2, 3, 4, 5 using addLast() or add()\n3. Uses addFirst() to add 0 at the beginning\n4. Uses addLast() to add 6 at the end\n5. Prints the list\n6. Removes the first element using removeFirst()\n7. Removes the last element using removeLast()\n8. Prints the list again\n9. Uses push() and pop() to demonstrate stack behavior",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

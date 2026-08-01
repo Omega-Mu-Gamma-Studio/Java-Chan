@@ -14,19 +14,18 @@
     "explanation": "See the missing semicolon at the end of line 3? In Java, EVERY statement must end with a semicolon (;). The compiler is pointing right at where it expected the semicolon — the error message even shows a ^ mark!\n\nThis is the #1 mistake beginners make. Always check your semicolons!"
   },
   "phase3": {
-    "prompt": "Write a Java program that prints \"Hello, Java-chan!\" to the console.\n\nRequirements:\n• Use a class named HelloJava\n• Use the correct main method signature\n• Print exactly: Hello, Java-chan!",
-    "validationPattern": {
-      "required": ["public class", "main", "System.out.println"],
-      "forbidden": ["Hello, World!"],
-      "fullRegex": "public\\s+class\\s+HelloJava\\s*\\{[\\s\\S]*public\\s+static\\s+void\\s+main\\s*\\(\\s*String\\s*\\[\\]\\s*args\\s*\\)\\s*\\{[\\s\\S]*System\\.out\\.println\\s*\\(\\s*\"Hello, Java-chan!\"\\s*\\)\\s*;[\\s\\S]*\\}\\s*\\}"
-    },
-    "dialogueHints": [
-      "The class name must be HelloJava — and it must match the filename!",
-      "Make sure you have the exact text 'Hello, Java-chan!' inside quotes.",
-      "Don't forget the semicolon at the end of the println statement!"
-    ],
-    "solution": "public class HelloJava {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, Java-chan!\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Your turn! Let's see what you've got~ 💪"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a Java program that prints \"Hello, Java-chan!\" to the console.\n\nRequirements:\n• Use a class named HelloJava\n• Use the correct main method signature\n• Print exactly: Hello, Java-chan!",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,19 +13,18 @@
     "explanation": "ClassCastException! You tried to cast a Dog to a Cat, but they're different types.\n\nanimal is actually a Dog object, but you're trying to treat it as a Cat.\n\nAlways use instanceof before downcasting:\nif (animal instanceof Cat) {\n    Cat cat = (Cat) animal;  // Safe only if instanceof returns true\n}\n\nThis is why instanceof is important — it prevents runtime crashes!"
   },
   "phase3": {
-    "prompt": "Create a Payment class with processPayment() method.\nCreate CreditCard and PayPal subclasses that override processPayment():\n• CreditCard: prints \"Processing credit card payment of $[amount]\"\n• PayPal: prints \"Processing PayPal payment of $[amount]\"\n\nIn main, create an array of Payment references with both types.\nLoop through and call processPayment(100) on each.",
-    "validationPattern": {
-      "required": ["class Payment", "processPayment", "extends", "@Override"],
-      "forbidden": [],
-      "fullRegex": "class\\s+\\w+\\s+extends\\s+Payment[\\s\\S]*@Override[\\s\\S]*void\\s+processPayment\\s*\\(\\s*double\\s+\\w+\\s*\\)"
-    },
-    "dialogueHints": [
-      "ProcessPayment should take a double amount parameter",
-      "Both subclasses should override the method",
-      "Use a Payment[] array to store both types"
-    ],
-    "solution": "class Payment {\n    void processPayment(double amount) {\n        System.out.println(\"Processing payment of $\" + amount);\n    }\n}\n\nclass CreditCard extends Payment {\n    @Override\n    void processPayment(double amount) {\n        System.out.println(\"Processing credit card payment of $\" + amount);\n    }\n}\n\nclass PayPal extends Payment {\n    @Override\n    void processPayment(double amount) {\n        System.out.println(\"Processing PayPal payment of $\" + amount);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Payment[] payments = {\n            new CreditCard(),\n            new PayPal()\n        };\n        \n        for (Payment p : payments) {\n            p.processPayment(100.00);\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "One interface, many forms — that's polymorphism! 🎭"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a Payment class with processPayment() method.\nCreate CreditCard and PayPal subclasses that override processPayment():\n• CreditCard: prints \"Processing credit card payment of $[amount]\"\n• PayPal: prints \"Processing PayPal payment of $[amount]\"\n\nIn main, create an array of Payment references with both types.\nLoop through and call processPayment(100) on each.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

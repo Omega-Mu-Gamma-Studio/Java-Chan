@@ -13,17 +13,23 @@
     "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"FXML is slower than writing Java code.\"\n\nActually: FXML is parsed once and has minimal overhead. The performance difference is negligible for most applications.\n\nAnother misconception: \"I need Scene Builder to use FXML.\"\n\nActually: You can write FXML by hand in any text editor! Scene Builder is optional but helpful.\n\nAnother misconception: \"FXML is just like HTML.\"\n\nActually: FXML is similar to HTML but has different tags and is specific to JavaFX. It's XML-based, not HTML."
   },
   "phase3": {
-    "prompt": "Which statement about FXML is TRUE?\n\nA) FXML files are written in HTML\nB) The @FXML annotation is used to bind UI elements to controller fields\nC) FXML can only be created with Scene Builder\nD) FXML makes JavaFX applications slower\n\nSelect the CORRECT statement.",
-    "validationPattern": {
-      "mcqAnswer": "B"
-    },
-    "dialogueHints": [
-      "Think about how FXML connects to Java code...",
-      "What does @FXML do?",
-      "Can you write FXML without Scene Builder?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "FXML — separate design from code! 📄"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Which statement about FXML is TRUE?\n\nA) FXML files are written in HTML\nB) The @FXML annotation is used to bind UI elements to controller fields\nC) FXML can only be created with Scene Builder\nD) FXML makes JavaFX applications slower\n\nSelect the CORRECT statement.",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

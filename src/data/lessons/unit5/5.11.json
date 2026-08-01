@@ -13,20 +13,18 @@
     "explanation": "You forgot to set the CellValueFactory AND the items!\n\nFIX: \n1. Set cell value factory:\ncol.setCellValueFactory(new PropertyValueFactory<>(\"name\"));\n\n2. Set items:\nObservableList<Person> people = FXCollections.observableArrayList(...);\ntable.setItems(people);\n\nWithout CellValueFactory, the column doesn't know which property to display.\n\nWithout items, there's no data to show."
   },
   "phase3": {
-    "prompt": "Write a JavaFX program with:\n1. A ListView<String> of programming languages: \"Java\", \"Python\", \"C++\", \"JavaScript\"\n2. A TextField and Button to add new languages\n3. A Button to remove the selected language\n4. A Label that shows the selected language when clicked\n\nUse ObservableList for the ListView data.",
-    "validationPattern": {
-      "required": ["ListView", "ObservableList", "FXCollections", "selectedItemProperty", "add", "remove"],
-      "forbidden": [],
-      "fullRegex": "ListView[\\s\\S]*ObservableList[\\s\\S]*FXCollections[\\s\\S]*selectedItemProperty[\\s\\S]*getItems\\.add[\\s\\S]*getItems\\.remove"
-    },
-    "dialogueHints": [
-      "ObservableList<String> languages = FXCollections.observableArrayList(\"Java\", \"Python\", \"C++\", \"JavaScript\");",
-      "listView.setItems(languages);",
-      "Add: languages.add(addField.getText());",
-      "Remove: int idx = listView.getSelectionModel().getSelectedIndex(); if (idx >= 0) languages.remove(idx);"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.collections.FXCollections;\nimport javafx.collections.ObservableList;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class ListViewPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        ObservableList<String> languages = FXCollections.observableArrayList(\n            \"Java\", \"Python\", \"C++\", \"JavaScript\"\n        );\n        \n        ListView<String> listView = new ListView<>(languages);\n        listView.setPrefHeight(150);\n        listView.setMaxWidth(200);\n        \n        Label selectionLabel = new Label(\"Selected: None\");\n        listView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {\n            selectionLabel.setText(\"Selected: \" + (newVal != null ? newVal : \"None\"));\n        });\n        \n        TextField addField = new TextField();\n        addField.setPromptText(\"Enter language...\");\n        addField.setMaxWidth(150);\n        \n        Button addBtn = new Button(\"Add\");\n        addBtn.setOnAction(e -> {\n            String text = addField.getText().trim();\n            if (!text.isEmpty()) {\n                languages.add(text);\n                addField.clear();\n            }\n        });\n        \n        Button removeBtn = new Button(\"Remove Selected\");\n        removeBtn.setOnAction(e -> {\n            int idx = listView.getSelectionModel().getSelectedIndex();\n            if (idx >= 0) {\n                languages.remove(idx);\n            }\n        });\n        \n        HBox controls = new HBox(10);\n        controls.setAlignment(Pos.CENTER);\n        controls.getChildren().addAll(addField, addBtn, removeBtn);\n        \n        root.getChildren().addAll(\n            new Label(\"Programming Languages\"),\n            listView,\n            selectionLabel,\n            controls\n        );\n        \n        Scene scene = new Scene(root, 400, 400);\n        primaryStage.setTitle(\"ListView Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "ListView and TableView — display your data! 📋"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program with:\n1. A ListView<String> of programming languages: \"Java\", \"Python\", \"C++\", \"JavaScript\"\n2. A TextField and Button to add new languages\n3. A Button to remove the selected language\n4. A Label that shows the selected language when clicked\n\nUse ObservableList for the ListView data.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

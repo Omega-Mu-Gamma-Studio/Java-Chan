@@ -13,19 +13,18 @@
     "explanation": "pop() throws EmptyStackException when called on an empty stack!\n\nFIX: Check if empty first:\nif (!stack.isEmpty()) {\n    System.out.println(stack.pop());\n} else {\n    System.out.println(\"Stack is empty!\");\n}\n\nOr use peek() which also throws EmptyStackException.\n\nSimilarly, for Queue:\n• poll() returns null if empty (safe)\n• remove() throws NoSuchElementException (unsafe)\n\nAlways prefer the safe versions:\n• poll() over remove()\n• peek() over element()\n• offer() over add()"
   },
   "phase3": {
-    "prompt": "Write a program that demonstrates:\n1. Create a Stack (using ArrayDeque) and push numbers 1-5, then pop and print all\n2. Create a Queue (using ArrayDeque) and offer numbers 10-14, then poll and print all\n3. Create a PriorityQueue with numbers: 50, 20, 40, 10, 30 and poll all (should be sorted)",
-    "validationPattern": {
-      "required": ["ArrayDeque", "push", "pop", "offer", "poll", "PriorityQueue"],
-      "forbidden": [],
-      "fullRegex": "ArrayDeque[\\s\\S]*push[\\s\\S]*pop[\\s\\S]*ArrayDeque[\\s\\S]*offer[\\s\\S]*poll[\\s\\S]*PriorityQueue"
-    },
-    "dialogueHints": [
-      "Stack: Deque<Integer> stack = new ArrayDeque<>(); push() and pop()",
-      "Queue: Queue<Integer> queue = new ArrayDeque<>(); offer() and poll()",
-      "PriorityQueue: new PriorityQueue<>(); add all; poll in loop until empty"
-    ],
-    "solution": "import java.util.*;\n\npublic class StackQueuePractice {\n    public static void main(String[] args) {\n        // Stack (LIFO)\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 1; i <= 5; i++) {\n            stack.push(i);\n        }\n        System.out.println(\"Stack (LIFO):\");\n        while (!stack.isEmpty()) {\n            System.out.print(stack.pop() + \" \");\n        }\n        System.out.println();\n        \n        // Queue (FIFO)\n        Queue<Integer> queue = new ArrayDeque<>();\n        for (int i = 10; i <= 14; i++) {\n            queue.offer(i);\n        }\n        System.out.println(\"Queue (FIFO):\");\n        while (!queue.isEmpty()) {\n            System.out.print(queue.poll() + \" \");\n        }\n        System.out.println();\n        \n        // PriorityQueue (sorted)\n        PriorityQueue<Integer> pq = new PriorityQueue<>();\n        pq.offer(50);\n        pq.offer(20);\n        pq.offer(40);\n        pq.offer(10);\n        pq.offer(30);\n        System.out.println(\"PriorityQueue (sorted):\");\n        while (!pq.isEmpty()) {\n            System.out.print(pq.poll() + \" \");\n        }\n        System.out.println();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Stack, Queue, Deque — choose your access pattern! 🔀"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that demonstrates:\n1. Create a Stack (using ArrayDeque) and push numbers 1-5, then pop and print all\n2. Create a Queue (using ArrayDeque) and offer numbers 10-14, then poll and print all\n3. Create a PriorityQueue with numbers: 50, 20, 40, 10, 30 and poll all (should be sorted)",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

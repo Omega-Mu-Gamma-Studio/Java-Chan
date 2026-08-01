@@ -13,19 +13,18 @@
     "explanation": "This is an infinite loop! counter never changes, so counter <= 5 is ALWAYS true.\n\nThe fix: counter++ inside the loop so it eventually becomes 6 and the condition becomes false.\n\nAlways check: does your loop variable change? Is there a path to exit?\n\nTips to avoid infinite loops:\n• Make sure your condition will become false\n• Use break as an escape hatch\n• Print debugging messages to track variables"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Uses a for loop to print numbers 10 down to 1\n2. Uses a while loop to add numbers 1 to 100 and print the sum (5050)",
-    "validationPattern": {
-      "required": ["for", "while", "System.out.println"],
-      "forbidden": [],
-      "fullRegex": "for\\s*\\([\\s\\S]*\\)[\\s\\S]*while\\s*\\([\\s\\S]*\\)[\\s\\S]*5050"
-    },
-    "dialogueHints": [
-      "For the for loop: start at 10, run while >= 1, decrement each time",
-      "For the while loop: start sum=0, num=1, add until num=100",
-      "Print the final sum to verify it's 5050"
-    ],
-    "solution": "public class LoopPractice {\n    public static void main(String[] args) {\n        // For loop descending\n        System.out.println(\"Counting down:\");\n        for (int i = 10; i >= 1; i--) {\n            System.out.println(i);\n        }\n        \n        // While loop sum\n        int sum = 0;\n        int num = 1;\n        while (num <= 100) {\n            sum += num;\n            num++;\n        }\n        System.out.println(\"Sum of 1-100: \" + sum);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to loop — don't get caught in an infinite one! 🔄"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Uses a for loop to print numbers 10 down to 1\n2. Uses a while loop to add numbers 1 to 100 and print the sum (5050)",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,19 +13,18 @@
     "explanation": "This is the String Trap! \n\n== checks if str1 and str2 point to the SAME memory location.\nstr1 and str2 are different objects, so == returns false even though the content is the same.\n\nAlways use .equals() for comparing String content:\nstr1.equals(str2) // true ✅\n\nFor case-insensitive: str1.equalsIgnoreCase(str2)"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Declares a String: \"  Java is Fun  \"\n2. Prints its length\n3. Prints it trimmed\n4. Prints it in uppercase\n5. Prints the character at index 5\n6. Prints the substring from index 2 to 6",
-    "validationPattern": {
-      "required": ["length()", "trim()", "toUpperCase", "charAt", "substring"],
-      "forbidden": [],
-      "fullRegex": "\\.length\\s*\\(\\s*\\)[\\s\\S]*\\.trim\\s*\\(\\s*\\)[\\s\\S]*\\.toUpperCase\\s*\\(\\s*\\)[\\s\\S]*\\.charAt\\s*\\(\\s*\\w+\\s*\\)[\\s\\S]*\\.substring\\s*\\(\\s*\\w+\\s*,\\s*\\w+\\s*\\)"
-    },
-    "dialogueHints": [
-      "Use the trim() method to remove spaces at both ends",
-      "charAt(index) — remember indexing starts at 0",
-      "substring(start, end) — end is exclusive"
-    ],
-    "solution": "public class StringPractice {\n    public static void main(String[] args) {\n        String text = \"  Java is Fun  \";\n        System.out.println(\"Length: \" + text.length());\n        System.out.println(\"Trimmed: '\" + text.trim() + \"'\");\n        System.out.println(\"Uppercase: \" + text.toUpperCase());\n        System.out.println(\"Char at 5: \" + text.charAt(5));\n        System.out.println(\"Substring (2-6): '\" + text.substring(2, 6) + \"'\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Strings are your friends — they hold all the text! 📝"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Declares a String: \"  Java is Fun  \"\n2. Prints its length\n3. Prints it trimmed\n4. Prints it in uppercase\n5. Prints the character at index 5\n6. Prints the substring from index 2 to 6",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

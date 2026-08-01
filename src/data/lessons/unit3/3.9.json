@@ -13,19 +13,18 @@
     "explanation": "readLine() returns null when the end of file is reached. You must check for null!\n\nFIX: Always check for null:\nwhile ((line = br.readLine()) != null) {\n    System.out.println(line);\n}\n\nWithout the check, you'll get a NullPointerException when trying to print null.\n\nThis is the most common mistake with BufferedReader!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Uses BufferedWriter to write 5 lines to a file called \"poem.txt\"\n2. Lines: any 5 lines of your choice\n3. Uses BufferedReader to read the file back\n4. Prints each line with a line number prefix: \"1: [line]\"\n\nUse try-with-resources for both operations.",
-    "validationPattern": {
-      "required": ["BufferedWriter", "BufferedReader", "newLine", "readLine", "try"],
-      "forbidden": [],
-      "fullRegex": "BufferedWriter[\\s\\S]*newLine\\s*\\([\\s\\S]*\\)[\\s\\S]*BufferedReader[\\s\\S]*readLine\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "BufferedWriter: write() and newLine() for each line",
-      "BufferedReader: readLine() in while loop until null",
-      "Track line number with a counter"
-    ],
-    "solution": "import java.io.*;\n\npublic class BufferedStreamPractice {\n    public static void main(String[] args) {\n        // Write\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(\"poem.txt\"))) {\n            bw.write(\"Roses are red\");\n            bw.newLine();\n            bw.write(\"Violets are blue\");\n            bw.newLine();\n            bw.write(\"Java is fun\");\n            bw.newLine();\n            bw.write(\"And so are you\");\n            bw.newLine();\n            bw.write(\"Keep coding!\");\n            bw.newLine();\n            System.out.println(\"Poem written!\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Read\n        try (BufferedReader br = new BufferedReader(new FileReader(\"poem.txt\"))) {\n            String line;\n            int count = 1;\n            System.out.println(\"Reading poem:\");\n            while ((line = br.readLine()) != null) {\n                System.out.println(count + \": \" + line);\n                count++;\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Buffered streams = speed + convenience! ⚡"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Uses BufferedWriter to write 5 lines to a file called \"poem.txt\"\n2. Lines: any 5 lines of your choice\n3. Uses BufferedReader to read the file back\n4. Prints each line with a line number prefix: \"1: [line]\"\n\nUse try-with-resources for both operations.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

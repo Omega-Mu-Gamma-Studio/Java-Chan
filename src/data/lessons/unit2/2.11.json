@@ -13,24 +13,18 @@
     "explanation": "Static nested class can't access non-static members of the outer class.\n\nmessage is an instance variable — it belongs to an Outer object. Since Inner is static, it doesn't have a reference to an Outer instance.\n\nFixes:\n1. Make message static: static String message = \"Hello\";\n2. Make Inner non-static: class Inner\n3. Pass an instance: System.out.println(outer.message);\n\nRemember: static nested classes are like top-level classes but packaged inside another class."
   },
   "phase3": {
-    "prompt": "Create a class Library with:\n• Private field: name (String)\n• Inner class: Book with fields title, author\n• Method in Library: addBook(String title, String author) that creates a Book\n• Method: listBooks() that prints all books\n\nIn main, create a Library, add 2 books, and list them.",
-    "validationPattern": {
-      "required": [
-        "class Library",
-        "class Book",
-        "new Library(",
-        "addBook"
-      ],
-      "forbidden": [],
-      "fullRegex": "class\\s+Library\\s*\\{[\\s\\S]*class\\s+Book\\s*\\{[\\s\\S]*\\}[\\s\\S]*void\\s+addBook[\\s\\S]*void\\s+listBooks"
-    },
-    "dialogueHints": [
-      "Library is the outer class, Book is the inner class",
-      "Book should have a constructor taking title and author",
-      "Store books in an ArrayList<Book> inside Library"
-    ],
-    "solution": "import java.util.ArrayList;\n\nclass Library {\n    private String name;\n    private ArrayList<Book> books = new ArrayList<>();\n    \n    Library(String name) {\n        this.name = name;\n    }\n    \n    // Inner class\n    class Book {\n        String title;\n        String author;\n        \n        Book(String title, String author) {\n            this.title = title;\n            this.author = author;\n        }\n        \n        void display() {\n            System.out.println(\"  \" + title + \" by \" + author);\n        }\n    }\n    \n    void addBook(String title, String author) {\n        Book book = new Book(title, author);\n        books.add(book);\n        System.out.println(\"Added: \" + title);\n    }\n    \n    void listBooks() {\n        System.out.println(\"--- \" + name + \" Library ---\");\n        for (Book b : books) {\n            b.display();\n        }\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Library library = new Library(\"City\");\n        library.addBook(\"1984\", \"George Orwell\");\n        library.addBook(\"Sapiens\", \"Yuval Noah Harari\");\n        library.listBooks();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Classes inside classes — inner depth! 🎯"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class Library with:\n• Private field: name (String)\n• Inner class: Book with fields title, author\n• Method in Library: addBook(String title, String author) that creates a Book\n• Method: listBooks() that prints all books\n\nIn main, create a Library, add 2 books, and list them.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

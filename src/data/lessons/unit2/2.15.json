@@ -14,17 +14,23 @@
     "explanation": "Conceptual review — no broken code here!\n\nCommon misconception: \"Inheritance is always the best choice for code reuse.\"\n\nActually, composition is often better:\n• More flexible\n• Avoids tight coupling\n• Easier to test\n\nExample of composition over inheritance:\nInstead of: class Car extends Engine\nUse: class Car { Engine engine; }\n\nDesign patterns help you make the right choice!"
   },
   "phase3": {
-    "prompt": "Which statement about OOP concepts is TRUE?\n\nA) A class can extend multiple classes (multiple inheritance)\nB) Interfaces can have concrete methods using default keyword (Java 8+)\nC) Abstract classes can't have constructors\nD) The equals() method compares object references by default\nE) Static methods can access instance variables\nF) final classes can be extended\n\nSelect the CORRECT statement.",
-    "validationPattern": {
-      "mcqAnswer": "B"
-    },
-    "dialogueHints": [
-      "Think about Java's inheritance rules...",
-      "Remember what default methods are!",
-      "Check each option carefully — only one is correct."
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Final check! Which of these do you know? 🤔"
   },
-  "xpReward": 15
+  "xpReward": 15,
+  "phase4": {
+    "mcq": {
+      "question": "Which statement about OOP concepts is TRUE?\n\nA) A class can extend multiple classes (multiple inheritance)\nB) Interfaces can have concrete methods using default keyword (Java 8+)\nC) Abstract classes can't have constructors\nD) The equals() method compares object references by default\nE) Static methods can access instance variables\nF) final classes can be extended\n\nSelect the CORRECT statement.",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

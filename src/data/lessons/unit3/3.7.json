@@ -13,19 +13,18 @@
     "explanation": "You forgot to close the FileInputStream! This causes a resource leak.\n\nEven though the program ends, leaving files open can cause:\n• File locks (can't delete/modify file)\n• Too many open files (system limit)\n• Memory leaks\n\nFIX: Close in finally block:\nfinally {\n    if (fis != null) {\n        try {\n            fis.close();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n}\n\nEven better: use try-with-resources!\n\ntry (FileInputStream fis = new FileInputStream(\"data.bin\")) {\n    // auto-closed!\n}"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates an array of bytes: {10, 20, 30, 40, 50}\n2. Writes these bytes to a file called \"numbers.bin\" using FileOutputStream\n3. Reads the bytes back using FileInputStream\n4. Prints each byte with its decimal value\n\nUse try-with-resources for both operations.",
-    "validationPattern": {
-      "required": ["FileOutputStream", "FileInputStream", "write", "read", "try", "byte[]"],
-      "forbidden": [],
-      "fullRegex": "FileOutputStream[\\s\\S]*write\\s*\\([\\s\\S]*\\)[\\s\\S]*FileInputStream[\\s\\S]*read\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Write: FileOutputStream fos = new FileOutputStream(\"numbers.bin\")",
-      "Read: FileInputStream fis = new FileInputStream(\"numbers.bin\")",
-      "Use while ((b = fis.read()) != -1) to read until end"
-    ],
-    "solution": "import java.io.*;\n\npublic class ByteStreamPractice {\n    public static void main(String[] args) {\n        byte[] data = {10, 20, 30, 40, 50};\n        \n        // Write bytes\n        try (FileOutputStream fos = new FileOutputStream(\"numbers.bin\")) {\n            fos.write(data);\n            System.out.println(\"Wrote \" + data.length + \" bytes\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Read bytes\n        try (FileInputStream fis = new FileInputStream(\"numbers.bin\")) {\n            int b;\n            System.out.println(\"Reading bytes:\");\n            while ((b = fis.read()) != -1) {\n                System.out.println(\"Byte: \" + b);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Byte streams — reading and writing raw data! 💾"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates an array of bytes: {10, 20, 30, 40, 50}\n2. Writes these bytes to a file called \"numbers.bin\" using FileOutputStream\n3. Reads the bytes back using FileInputStream\n4. Prints each byte with its decimal value\n\nUse try-with-resources for both operations.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

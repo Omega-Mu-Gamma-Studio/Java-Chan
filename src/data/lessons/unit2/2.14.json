@@ -13,19 +13,18 @@
     "explanation": "When you unbox a null wrapper, Java tries to call intValue() on a null reference.\n\nThis causes a NullPointerException at runtime.\n\nAlways check for null before unboxing:\n\nif (x != null) {\n    int y = x;  // Safe\n} else {\n    System.out.println(\"x is null!\");\n}\n\nThis is a common gotcha when using wrappers!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Uses autoboxing to create Integer, Double, Boolean objects\n2. Uses parseInt() to convert \"999\" to int\n3. Uses Integer.MAX_VALUE and Integer.MIN_VALUE\n4. Creates an ArrayList<Integer> and adds 5 numbers using autoboxing\n5. Prints all numbers using unboxing",
-    "validationPattern": {
-      "required": ["Integer", "parseInt", "MAX_VALUE", "MIN_VALUE", "ArrayList<Integer>"],
-      "forbidden": [],
-      "fullRegex": "Integer\\s+\\w+\\s*=\\s*\\d+[\\s\\S]*parseInt[\\s\\S]*MAX_VALUE[\\s\\S]*ArrayList\\s*<\\s*Integer\\s*>"
-    },
-    "dialogueHints": [
-      "Use parseInt() with \"999\" as argument",
-      "Integer.MAX_VALUE is a constant for max int",
-      "Create ArrayList with ArrayList<Integer> numbers = new ArrayList<>();"
-    ],
-    "solution": "import java.util.ArrayList;\n\npublic class Main {\n    public static void main(String[] args) {\n        // 1. Autoboxing\n        Integer intObj = 42;\n        Double doubleObj = 3.14;\n        Boolean boolObj = true;\n        \n        System.out.println(\"Integer: \" + intObj);\n        System.out.println(\"Double: \" + doubleObj);\n        System.out.println(\"Boolean: \" + boolObj);\n        \n        // 2. parseInt\n        int num = Integer.parseInt(\"999\");\n        System.out.println(\"Parsed: \" + num);\n        \n        // 3. Constants\n        System.out.println(\"Max: \" + Integer.MAX_VALUE);\n        System.out.println(\"Min: \" + Integer.MIN_VALUE);\n        \n        // 4-5. ArrayList with autoboxing/unboxing\n        ArrayList<Integer> numbers = new ArrayList<>();\n        numbers.add(10);\n        numbers.add(20);\n        numbers.add(30);\n        numbers.add(40);\n        numbers.add(50);\n        \n        System.out.println(\"Numbers:\");\n        for (int n : numbers) {  // Unboxing\n            System.out.println(n);\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Wrappers: primitives in disguise! 🎭"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Uses autoboxing to create Integer, Double, Boolean objects\n2. Uses parseInt() to convert \"999\" to int\n3. Uses Integer.MAX_VALUE and Integer.MIN_VALUE\n4. Creates an ArrayList<Integer> and adds 5 numbers using autoboxing\n5. Prints all numbers using unboxing",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

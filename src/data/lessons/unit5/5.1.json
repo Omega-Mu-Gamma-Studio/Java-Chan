@@ -13,17 +13,23 @@
     "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"JavaFX is dead and Swing is the only option.\"\n\nActually: JavaFX is actively maintained and is the recommended choice for new desktop applications. Oracle still supports JavaFX, and the open-source community continues to develop it.\n\nAnother misconception: \"JavaFX is only for simple UIs.\"\n\nActually: JavaFX can create complex, professional UIs with:\n• Charts and graphs\n• 3D graphics\n• Web views (embedded browser)\n• Media playback (audio/video)\n• Complex animations\n\nYou can build full-featured applications with JavaFX!"
   },
   "phase3": {
-    "prompt": "Which statement about JavaFX is TRUE?\n\nA) JavaFX doesn't support CSS styling\nB) All UI updates must happen on the JavaFX Application Thread\nC) JavaFX applications don't use a main() method\nD) JavaFX is older than Swing\n\nSelect the CORRECT statement.",
-    "validationPattern": {
-      "mcqAnswer": "B"
-    },
-    "dialogueHints": [
-      "Think about how JavaFX handles UI updates...",
-      "CSS styling is a JavaFX feature.",
-      "Which framework came first, Swing or JavaFX?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "JavaFX — modern GUI for modern apps! 🎨"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Which statement about JavaFX is TRUE?\n\nA) JavaFX doesn't support CSS styling\nB) All UI updates must happen on the JavaFX Application Thread\nC) JavaFX applications don't use a main() method\nD) JavaFX is older than Swing\n\nSelect the CORRECT statement.",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

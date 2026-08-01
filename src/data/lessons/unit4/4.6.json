@@ -13,19 +13,18 @@
     "explanation": "Generics only work with reference types, not primitives!\n\nYou can't use ArrayList<int>, ArrayList<double>, etc.\n\nFIX: Use wrapper classes:\nArrayList<Integer> list = new ArrayList<>();  // ✓\nArrayList<Double> list2 = new ArrayList<>();  // ✓\n\nJava automatically handles autoboxing/unboxing:\nlist.add(42);   // int → Integer (autoboxing)\nint value = list.get(0);  // Integer → int (unboxing)\n\nRemember: Generics = reference types only!"
   },
   "phase3": {
-    "prompt": "Create a generic class Container<T> with:\n• Private field: item (T type)\n• Constructor that takes T\n• Getter: get()\n• Setter: set(T item)\n• Method: isSame(Container<T> other) — returns true if items are equal\n\nIn main:\n1. Create Container<String> with \"Hello\"\n2. Create Container<Integer> with 42\n3. Create Container<String> with \"Hello\"\n4. Check if the two String containers are the same using isSame()\n5. Print all items",
-    "validationPattern": {
-      "required": ["class Container<T>", "T get", "void set", "isSame"],
-      "forbidden": [],
-      "fullRegex": "class\\s+Container\\s*<\\s*T\\s*>\\s*\\{[\\s\\S]*T\\s+get\\s*\\([\\s\\S]*\\)[\\s\\S]*void\\s+set\\s*\\([\\s\\S]*\\)[\\s\\S]*boolean\\s+isSame[\\s\\S]*\\}"
-    },
-    "dialogueHints": [
-      "Container<T> with private T item",
-      "isSame: return item.equals(other.item);",
-      "Create containers with different types"
-    ],
-    "solution": "class Container<T> {\n    private T item;\n    \n    Container(T item) {\n        this.item = item;\n    }\n    \n    public T get() {\n        return item;\n    }\n    \n    public void set(T item) {\n        this.item = item;\n    }\n    \n    public boolean isSame(Container<T> other) {\n        return item.equals(other.item);\n    }\n}\n\npublic class GenericsPractice {\n    public static void main(String[] args) {\n        Container<String> c1 = new Container<>(\"Hello\");\n        Container<Integer> c2 = new Container<>(42);\n        Container<String> c3 = new Container<>(\"Hello\");\n        \n        System.out.println(\"c1: \" + c1.get());\n        System.out.println(\"c2: \" + c2.get());\n        System.out.println(\"c3: \" + c3.get());\n        System.out.println(\"c1 and c3 are same: \" + c1.isSame(c3));\n        // c1.isSame(c2); // Compiler error! Different types\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Generics — type safety for everyone! 🔒"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a generic class Container<T> with:\n• Private field: item (T type)\n• Constructor that takes T\n• Getter: get()\n• Setter: set(T item)\n• Method: isSame(Container<T> other) — returns true if items are equal\n\nIn main:\n1. Create Container<String> with \"Hello\"\n2. Create Container<Integer> with 42\n3. Create Container<String> with \"Hello\"\n4. Check if the two String containers are the same using isSame()\n5. Print all items",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

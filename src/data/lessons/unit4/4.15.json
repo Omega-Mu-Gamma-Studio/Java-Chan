@@ -14,17 +14,23 @@
     "explanation": "Conceptual review — no broken code!\n\nCommon misconception: \"I should always use the most generic interface (List, Set, Map) everywhere.\"\n\nActually: Use the most specific interface that meets your needs. This makes your code more expressive and prevents unnecessary restrictions.\n\nExample:\n• If you need FIFO, use Queue (not List)\n• If you need unique elements, use Set (not List)\n• If you need sorted keys, use TreeMap (not HashMap)\n\nAnother misconception: \"synchronized is too slow, I should avoid it.\"\n\nActually: Synchronization is necessary for shared mutable state. Avoid it by:\n• Using immutable objects\n• Using thread-safe collections\n• Using atomic variables\n\nOnly synchronize when you need to!"
   },
   "phase3": {
-    "prompt": "You're building a student management system. You need:\n1. Fast lookup of students by ID\n2. No duplicate student entries\n3. Students should be sorted by name for printing\n\nWhich collection should you use?\n\nA) ArrayList with manual sorting\nB) HashSet\nC) TreeSet\nD) HashMap\nE) TreeMap\n\nSelect the BEST combination.",
-    "validationPattern": {
-      "mcqAnswer": "E"
-    },
-    "dialogueHints": [
-      "What collection provides key-value lookup AND sorting?",
-      "Think about what you need: lookup by ID → key, student → value",
-      "Sorted by name → sorted keys or sorted values?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Final check! Can you choose the right tool? 🧰"
   },
-  "xpReward": 15
+  "xpReward": 15,
+  "phase4": {
+    "mcq": {
+      "question": "You're building a student management system. You need:\n1. Fast lookup of students by ID\n2. No duplicate student entries\n3. Students should be sorted by name for printing\n\nWhich collection should you use?\n\nA) ArrayList with manual sorting\nB) HashSet\nC) TreeSet\nD) HashMap\nE) TreeMap\n\nSelect the BEST combination.",
+      "validationPattern": {
+        "mcqAnswer": "E"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

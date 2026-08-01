@@ -13,19 +13,18 @@
     "explanation": "HashSet uses equals() and hashCode() to determine if objects are duplicates.\n\nWithout overriding them, HashSet uses Object's default equals() (reference equality).\n\nTwo different objects with the same data are considered DIFFERENT.\n\nFIX: Override equals() and hashCode():\n\n@Override\npublic boolean equals(Object o) {\n    if (this == o) return true;\n    if (o == null || getClass() != o.getClass()) return false;\n    Person person = (Person) o;\n    return age == person.age && Objects.equals(name, person.name);\n}\n\n@Override\npublic int hashCode() {\n    return Objects.hash(name, age);\n}\n\nAlways override both when using custom objects in Sets!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates an ArrayList<Integer> with numbers: [1, 2, 3, 2, 4, 3, 5, 1, 6]\n2. Creates a HashSet<Integer> from the list (removing duplicates)\n3. Prints the HashSet\n4. Creates a TreeSet<Integer> from the same list\n5. Prints the TreeSet (should be sorted)\n6. Prints the size of both sets\n7. Checks if both sets contain the number 4",
-    "validationPattern": {
-      "required": ["HashSet", "TreeSet", "contains", "size"],
-      "forbidden": [],
-      "fullRegex": "HashSet\\s*<\\s*Integer\\s*>\\s*\\w+\\s*=\\s*new\\s+HashSet[\\s\\S]*TreeSet\\s*<\\s*Integer\\s*>\\s*\\w+\\s*=\\s*new\\s+TreeSet[\\s\\S]*contains[\\s\\S]*size"
-    },
-    "dialogueHints": [
-      "Initialize ArrayList with Arrays.asList(1, 2, 3, 2, 4, 3, 5, 1, 6)",
-      "HashSet removes duplicates automatically",
-      "TreeSet removes duplicates AND sorts"
-    ],
-    "solution": "import java.util.*;\n\npublic class SetPractice {\n    public static void main(String[] args) {\n        ArrayList<Integer> list = new ArrayList<>(\n            Arrays.asList(1, 2, 3, 2, 4, 3, 5, 1, 6)\n        );\n        System.out.println(\"Original list: \" + list);\n        \n        HashSet<Integer> hashSet = new HashSet<>(list);\n        TreeSet<Integer> treeSet = new TreeSet<>(list);\n        \n        System.out.println(\"HashSet: \" + hashSet);\n        System.out.println(\"TreeSet: \" + treeSet);\n        System.out.println(\"HashSet size: \" + hashSet.size());\n        System.out.println(\"TreeSet size: \" + treeSet.size());\n        System.out.println(\"Contains 4? HashSet: \" + hashSet.contains(4) + \n                         \", TreeSet: \" + treeSet.contains(4));\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Sets — no duplicates allowed! 🚫"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates an ArrayList<Integer> with numbers: [1, 2, 3, 2, 4, 3, 5, 1, 6]\n2. Creates a HashSet<Integer> from the list (removing duplicates)\n3. Prints the HashSet\n4. Creates a TreeSet<Integer> from the same list\n5. Prints the TreeSet (should be sorted)\n6. Prints the size of both sets\n7. Checks if both sets contain the number 4",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

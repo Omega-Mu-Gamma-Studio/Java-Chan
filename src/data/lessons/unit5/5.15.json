@@ -13,17 +13,23 @@
     "explanation": "Conceptual review — no broken code!\n\nYou've completed the entire course! Here are some final tips:\n\n1. Keep Learning:\n   • Build projects\n   • Contribute to open source\n   • Read documentation\n\n2. Practice Regularly:\n   • Code every day\n   • Solve coding challenges\n   • Review previous lessons\n\n3. Stay Updated:\n   • Java releases every 6 months\n   • New features (records, pattern matching, etc.)\n   • Follow Java community\n\n4. Next Steps:\n   • Choose a specialization\n   • Build a portfolio\n   • Apply for jobs\n\nYou've got this! 💪"
   },
   "phase3": {
-    "prompt": "What is the recommended framework for building web applications with Java?\n\nA) JavaFX\nB) Swing\nC) Spring Framework\nD) Android SDK\n\nSelect the CORRECT answer.",
-    "validationPattern": {
-      "mcqAnswer": "C"
-    },
-    "dialogueHints": [
-      "Think about what's used for web development...",
-      "JavaFX and Swing are for desktop.",
-      "Android SDK is for mobile."
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "One final question! What's next in your Java journey? 🤔"
   },
-  "xpReward": 15
+  "xpReward": 15,
+  "phase4": {
+    "mcq": {
+      "question": "What is the recommended framework for building web applications with Java?\n\nA) JavaFX\nB) Swing\nC) Spring Framework\nD) Android SDK\n\nSelect the CORRECT answer.",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,19 +13,18 @@
     "explanation": "delete() returns false when it can't delete the file. In this case, the file might still be open or locked.\n\nEven though try-with-resources closes the file, the OS might have a lock on it.\n\nFIX: Check return value and handle failure:\nif (file.delete()) {\n    System.out.println(\"File deleted!\");\n} else {\n    System.out.println(\"Failed to delete file!\");\n}\n\nOr use Files.delete() which throws exception on failure:\nFiles.delete(file.toPath());  // Throws IOException on failure\n\nAlways check return values of file operations!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a directory called \"data\" (use mkdir())\n2. Creates a file called \"data/info.txt\" (use createNewFile())\n3. Checks if the file exists and prints its size\n4. Lists all files in the \"data\" directory\n5. Deletes the file and then the directory",
-    "validationPattern": {
-      "required": ["mkdir", "createNewFile", "exists", "list", "delete"],
-      "forbidden": [],
-      "fullRegex": "mkdir\\s*\\([\\s\\S]*\\)[\\s\\S]*createNewFile\\s*\\([\\s\\S]*\\)[\\s\\S]*exists\\s*\\([\\s\\S]*\\)[\\s\\S]*list\\s*\\([\\s\\S]*\\)[\\s\\S]*delete\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Directory: new File(\"data\"), directory.mkdir()",
-      "File: new File(\"data/info.txt\"), file.createNewFile()",
-      "List: File[] files = directory.listFiles()"
-    ],
-    "solution": "import java.io.*;\n\npublic class FileClassPractice {\n    public static void main(String[] args) {\n        File dir = new File(\"data\");\n        File file = new File(\"data/info.txt\");\n        \n        // Create directory\n        if (!dir.exists()) {\n            boolean created = dir.mkdir();\n            System.out.println(\"Directory created: \" + created);\n        }\n        \n        // Create file\n        try {\n            if (!file.exists()) {\n                boolean created = file.createNewFile();\n                System.out.println(\"File created: \" + created);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error creating file: \" + e.getMessage());\n        }\n        \n        // Check file\n        if (file.exists()) {\n            System.out.println(\"File exists!\");\n            System.out.println(\"Size: \" + file.length() + \" bytes\");\n        }\n        \n        // List directory\n        File[] files = dir.listFiles();\n        if (files != null) {\n            System.out.println(\"Files in directory:\");\n            for (File f : files) {\n                System.out.println(\"  \" + f.getName());\n            }\n        }\n        \n        // Delete file and directory\n        if (file.delete()) {\n            System.out.println(\"File deleted\");\n        }\n        if (dir.delete()) {\n            System.out.println(\"Directory deleted\");\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "File operations — create, explore, delete! 📂"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a directory called \"data\" (use mkdir())\n2. Creates a file called \"data/info.txt\" (use createNewFile())\n3. Checks if the file exists and prints its size\n4. Lists all files in the \"data\" directory\n5. Deletes the file and then the directory",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

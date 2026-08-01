@@ -13,19 +13,18 @@
     "explanation": "When using enums in switch, you must use the EXACT constant name (case-sensitive).\n\nColor.RED is the constant, but you wrote Red.\n\nFIX: Use RED, not Red.\n\nIn switch statements, you can use the enum constant name without the enum prefix:\nswitch (color) {\n    case RED:     // ✓ correct\n    case GREEN:   // ✓ correct\n}"
   },
   "phase3": {
-    "prompt": "Create an enum OrderStatus with values:\n• NEW, PROCESSING, SHIPPED, DELIVERED, CANCELLED\n\nAdd methods:\n• isActive() — returns true for NEW, PROCESSING, SHIPPED (not delivered or cancelled)\n• getDescription() — returns a description for each status\n\nIn main, iterate through all statuses and print their description and active status.",
-    "validationPattern": {
-      "required": ["enum OrderStatus", "isActive", "getDescription", "values"],
-      "forbidden": [],
-      "fullRegex": "enum\\s+OrderStatus\\s*\\{[\\s\\S]*isActive\\s*\\([\\s\\S]*\\)[\\s\\S]*getDescription\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Add a constructor to store description if needed",
-      "isActive() returns boolean based on current status",
-      "Iterate with for (OrderStatus s : OrderStatus.values())"
-    ],
-    "solution": "enum OrderStatus {\n    NEW(\"Order placed\"),\n    PROCESSING(\"Order being processed\"),\n    SHIPPED(\"Order shipped\"),\n    DELIVERED(\"Order delivered\"),\n    CANCELLED(\"Order cancelled\");\n    \n    private String description;\n    \n    OrderStatus(String description) {\n        this.description = description;\n    }\n    \n    public String getDescription() {\n        return description;\n    }\n    \n    public boolean isActive() {\n        return this == NEW || this == PROCESSING || this == SHIPPED;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        for (OrderStatus status : OrderStatus.values()) {\n            System.out.println(status + \": \" + status.getDescription() +\n                             \" (Active: \" + status.isActive() + \")\");\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Enums: constants with superpowers! 💪"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create an enum OrderStatus with values:\n• NEW, PROCESSING, SHIPPED, DELIVERED, CANCELLED\n\nAdd methods:\n• isActive() — returns true for NEW, PROCESSING, SHIPPED (not delivered or cancelled)\n• getDescription() — returns a description for each status\n\nIn main, iterate through all statuses and print their description and active status.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

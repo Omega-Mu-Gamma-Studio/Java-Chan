@@ -13,19 +13,18 @@
     "explanation": "pw is declared inside the try-with-resources block, so it's only accessible INSIDE the try block!\n\nFIX: Keep all PrintWriter operations inside the try block:\n\ntry (PrintWriter pw = new PrintWriter(\"file.txt\")) {\n    pw.println(\"Hello\");\n    pw.println(\"World!\");  // Move inside try\n} // pw is automatically closed here\n\nRemember: Resources declared in try-with-resources are only valid within the try block!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a PrintWriter for a file called \"grades.txt\"\n2. Writes a header: \"Name\tGrade\"\n3. Writes 3 student records in a table format\n4. Uses printf for formatting (left-justified, width 10 for names)\n5. Reads the file back and prints it\n\nBonus: Use try-with-resources for both operations.",
-    "validationPattern": {
-      "required": ["PrintWriter", "printf", "%-10s", "BufferedReader", "readLine"],
-      "forbidden": [],
-      "fullRegex": "PrintWriter[\\s\\S]*printf\\s*\\([\\s\\S]*%-10s[\\s\\S]*\\)[\\s\\S]*BufferedReader[\\s\\S]*readLine\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Use printf(\"%-10s %s%n\", name, grade) for formatting",
-      "Header: printf(\"%-10s %s%n\", \"Name\", \"Grade\")",
-      "Read with BufferedReader and readLine()"
-    ],
-    "solution": "import java.io.*;\n\npublic class PrintWriterPractice {\n    public static void main(String[] args) {\n        // Write\n        try (PrintWriter pw = new PrintWriter(new FileWriter(\"grades.txt\"))) {\n            pw.printf(\"%-10s %s%n\", \"Name\", \"Grade\");\n            pw.printf(\"%-10s %s%n\", \"Alice\", \"A\");\n            pw.printf(\"%-10s %s%n\", \"Bob\", \"B+\");\n            pw.printf(\"%-10s %s%n\", \"Charlie\", \"A-\");\n            System.out.println(\"File written!\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Read\n        try (BufferedReader br = new BufferedReader(new FileReader(\"grades.txt\"))) {\n            String line;\n            System.out.println(\"Reading grades:\");\n            while ((line = br.readLine()) != null) {\n                System.out.println(line);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "PrintWriter makes output beautiful! 🎨"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a PrintWriter for a file called \"grades.txt\"\n2. Writes a header: \"Name\tGrade\"\n3. Writes 3 student records in a table format\n4. Uses printf for formatting (left-justified, width 10 for names)\n5. Reads the file back and prints it\n\nBonus: Use try-with-resources for both operations.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

@@ -13,19 +13,18 @@
     "explanation": "wait() is called without having the lock! Or the condition check is wrong.\n\nTwo common issues:\n\n1. IllegalMonitorStateException:\n   • wait() must be called from synchronized context\n   • FIX: Ensure you have the lock\n\n2. Using 'if' instead of 'while':\n   • If wait() returns, condition might still be false\n   • FIX: while (condition) { wait(); }\n\nAlways:\n• Call wait() from synchronized method/block\n• Use while, not if\n• Check condition before and after wait()"
   },
   "phase3": {
-    "prompt": "Create a simple producer-consumer program:\n1. SharedBuffer class with capacity of 5\n2. produce(int value) — adds value, waits if full\n3. consume() — removes value, waits if empty\n4. Create one producer thread (produces 10 items)\n5. Create one consumer thread (consumes 10 items)\n6. Print each produce/consume action\n\nUse wait/notifyAll for synchronization.",
-    "validationPattern": {
-      "required": ["synchronized", "wait", "notifyAll", "produce", "consume"],
-      "forbidden": [],
-      "fullRegex": "synchronized\\s+void\\s+produce[\\s\\S]*wait\\s*\\([\\s\\S]*\\)[\\s\\S]*notifyAll\\s*\\([\\s\\S]*\\)[\\s\\S]*synchronized\\s+void\\s+consume"
-    },
-    "dialogueHints": [
-      "SharedBuffer: private Queue<Integer> buffer = new LinkedList<>(); private final int CAPACITY = 5;",
-      "produce: while (buffer.size() == CAPACITY) wait(); add; notifyAll()",
-      "consume: while (buffer.isEmpty()) wait(); remove; notifyAll()"
-    ],
-    "solution": "import java.util.*;\n\nclass SharedBuffer {\n    private Queue<Integer> buffer = new LinkedList<>();\n    private final int CAPACITY = 5;\n    \n    synchronized void produce(int value) {\n        while (buffer.size() == CAPACITY) {\n            try {\n                System.out.println(\"Buffer full, producer waiting...\");\n                wait();\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n        buffer.add(value);\n        System.out.println(\"Produced: \" + value + \" (Size: \" + buffer.size() + \")\");\n        notifyAll();\n    }\n    \n    synchronized int consume() {\n        while (buffer.isEmpty()) {\n            try {\n                System.out.println(\"Buffer empty, consumer waiting...\");\n                wait();\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n        int value = buffer.poll();\n        System.out.println(\"Consumed: \" + value + \" (Size: \" + buffer.size() + \")\");\n        notifyAll();\n        return value;\n    }\n}\n\npublic class WaitNotifyPractice {\n    public static void main(String[] args) {\n        SharedBuffer buffer = new SharedBuffer();\n        \n        Thread producer = new Thread(() -> {\n            for (int i = 1; i <= 10; i++) {\n                buffer.produce(i);\n                try { Thread.sleep(200); } catch (InterruptedException e) {}\n            }\n        });\n        \n        Thread consumer = new Thread(() -> {\n            for (int i = 1; i <= 10; i++) {\n                buffer.consume();\n                try { Thread.sleep(300); } catch (InterruptedException e) {}\n            }\n        });\n        \n        producer.start();\n        consumer.start();\n        \n        try {\n            producer.join();\n            consumer.join();\n        } catch (InterruptedException e) {\n            e.printStackTrace();\n        }\n        \n        System.out.println(\"All done!\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Inter-thread communication — talk to your threads! 💬"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a simple producer-consumer program:\n1. SharedBuffer class with capacity of 5\n2. produce(int value) — adds value, waits if full\n3. consume() — removes value, waits if empty\n4. Create one producer thread (produces 10 items)\n5. Create one consumer thread (consumes 10 items)\n6. Print each produce/consume action\n\nUse wait/notifyAll for synchronization.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

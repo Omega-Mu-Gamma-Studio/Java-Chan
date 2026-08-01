@@ -15,7 +15,8 @@ const useLessonStore = create((set, get) => ({
   // ---- State ----
   currentLesson: null,        // full lesson JSON object
   currentPhase: 1,            // 1 | 2 | 3 | 4 | 5
-  userCode: '',               // student's current code input
+  userCode: '',               // student's current code input (Phase 4 MCQ)
+  userBlanks: {},             // { blankId: userInput, ... } — Phase 3 fill-in-the-blank
   lastValidationResult: null, // { passed: bool, message: string }
   javaChanExpression: 'idle', // 'idle' | 'happy' | 'sad' | 'thinking' | 'surprised' | 'domain'
   currentDialogue: null,      // string currently shown in dialogue bubble
@@ -27,6 +28,7 @@ const useLessonStore = create((set, get) => ({
     currentLesson: lessonData,
     currentPhase: 1,
     userCode: '',
+    userBlanks: {},
     lastValidationResult: null,
     javaChanExpression: 'idle',
     currentDialogue: lessonData?.phase1?.openingDialogue || null,
@@ -36,10 +38,15 @@ const useLessonStore = create((set, get) => ({
   setPhase: (phase) => set({
     currentPhase: phase,
     userCode: '',
+    userBlanks: {},
     lastValidationResult: null,
   }),
 
   setUserCode: (code) => set({ userCode: code }),
+
+  setBlankAnswer: (blankId, value) => set((state) => ({
+    userBlanks: { ...state.userBlanks, [blankId]: value },
+  })),
 
   setValidationResult: (result) => set({ lastValidationResult: result }),
 
@@ -75,6 +82,7 @@ const useLessonStore = create((set, get) => ({
     currentLesson: null,
     currentPhase: 1,
     userCode: '',
+    userBlanks: {},
     lastValidationResult: null,
     javaChanExpression: 'idle',
     currentDialogue: null,

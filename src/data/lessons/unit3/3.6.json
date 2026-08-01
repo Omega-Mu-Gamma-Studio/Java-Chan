@@ -14,17 +14,23 @@
     "explanation": "Conceptual lesson — no broken code!\n\nCommon misconception: \"NullPointerException means the variable is undefined.\"\n\nActually: null means the variable has no object reference. The variable exists, but doesn't point to any object.\n\nString str = null;  // str exists, but points to nothing\nstr.length();       // NPE because null doesn't have a length\n\nFix: Initialize your variables properly!\n\nAnother misconception: \"IOException should be ignored.\"\n\nActually: I/O errors happen frequently (file not found, disk full, permission denied). Always handle them gracefully with meaningful user feedback."
   },
   "phase3": {
-    "prompt": "Which exception would be thrown by the following code?\n\nString[] names = {\"Alice\", \"Bob\"};\nSystem.out.println(names[2]);\n\nA) NullPointerException\nB) ArrayIndexOutOfBoundsException\nC) NumberFormatException\nD) ClassCastException\nE) ArithmeticException\n\nSelect the correct exception.",
-    "validationPattern": {
-      "mcqAnswer": "B"
-    },
-    "dialogueHints": [
-      "Look at the array declaration — how many elements does it have?",
-      "What's the highest valid index?",
-      "What happens when you try to access an index that doesn't exist?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Quick quiz! Which exception is this? 🤔"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Which exception would be thrown by the following code?\n\nString[] names = {\"Alice\", \"Bob\"};\nSystem.out.println(names[2]);\n\nA) NullPointerException\nB) ArrayIndexOutOfBoundsException\nC) NumberFormatException\nD) ClassCastException\nE) ArithmeticException\n\nSelect the correct exception.",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

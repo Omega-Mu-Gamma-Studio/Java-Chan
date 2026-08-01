@@ -13,19 +13,18 @@
     "explanation": "The @Override annotation caught the error! The method name is 'makesSound' but the parent has 'makeSound'.\n\nWithout @Override, this would compile but NOT override the method. The Dog would still use Animal's makeSound()!\n\nThis is why @Override is useful — it ensures you're correctly overriding a parent method.\n\nAlways use @Override to avoid subtle bugs!"
   },
   "phase3": {
-    "prompt": "Create a class Shape with method area() that returns 0.0.\nCreate Rectangle and Circle subclasses that override area():\n• Rectangle: area = width * height\n• Circle: area = Math.PI * radius * radius\n\nIn main, create Shape references to Rectangle and Circle and print their areas.",
-    "validationPattern": {
-      "required": ["@Override", "area", "extends", "Math.PI"],
-      "forbidden": [],
-      "fullRegex": "class\\s+\\w+\\s+extends\\s+Shape[\\s\\S]*@Override[\\s\\S]*double\\s+area\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}"
-    },
-    "dialogueHints": [
-      "Rectangle should have fields width and height, Circle should have radius",
-      "Use the @Override annotation on both area() methods",
-      "Shape's area() should return 0.0 (or be abstract if you want)"
-    ],
-    "solution": "class Shape {\n    double area() {\n        return 0.0;\n    }\n}\n\nclass Rectangle extends Shape {\n    double width, height;\n    \n    Rectangle(double width, double height) {\n        this.width = width;\n        this.height = height;\n    }\n    \n    @Override\n    double area() {\n        return width * height;\n    }\n}\n\nclass Circle extends Shape {\n    double radius;\n    \n    Circle(double radius) {\n        this.radius = radius;\n    }\n    \n    @Override\n    double area() {\n        return Math.PI * radius * radius;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Shape rect = new Rectangle(5, 10);\n        Shape circle = new Circle(7);\n        \n        System.out.println(\"Rectangle area: \" + rect.area());\n        System.out.println(\"Circle area: \" + circle.area());\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to override! Give methods a new twist~ 🔄"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a class Shape with method area() that returns 0.0.\nCreate Rectangle and Circle subclasses that override area():\n• Rectangle: area = width * height\n• Circle: area = Math.PI * radius * radius\n\nIn main, create Shape references to Rectangle and Circle and print their areas.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

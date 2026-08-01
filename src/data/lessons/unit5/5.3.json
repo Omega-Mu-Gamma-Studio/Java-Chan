@@ -13,25 +13,18 @@
     "explanation": "You forgot to add children to the VBox!\n\nWithout vbox.getChildren().addAll(), the VBox is empty, and the window is blank.\n\nFIX: Add children:\nvbox.getChildren().addAll(btn1, btn2, btn3);\n\nAlso consider:\n• No spacing means nodes are touching\n• Add setSpacing() for better appearance\n\nAlways verify that you've added your nodes to the layout!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds three Labels: \"Item 1\", \"Item 2\", \"Item 3\"\n3. Creates an HBox with spacing 10\n4. Adds three Buttons: \"Add\", \"Edit\", \"Delete\"\n5. Nests the HBox inside the VBox (below the labels)\n6. Centers everything\n7. Shows the window with title \"Layout Practice\"",
-    "validationPattern": {
-      "required": [
-        "VBox",
-        "HBox",
-        "setPadding",
-        "getChildren",
-        "Pos.CENTER"
-      ],
-      "forbidden": [],
-      "fullRegex": "VBox\\s+\\w+\\s*=\\s*new\\s+VBox[\\s\\S]*setSpacing[\\s\\S]*setPadding[\\s\\S]*HBox[\\s\\S]*getChildren\\.addAll"
-    },
-    "dialogueHints": [
-      "VBox vbox = new VBox(15); vbox.setPadding(new Insets(20));",
-      "HBox hbox = new HBox(10);",
-      "vbox.getChildren().addAll(label1, label2, label3, hbox);"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class LayoutPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox vbox = new VBox(15);\n        vbox.setPadding(new Insets(20));\n        vbox.setAlignment(Pos.CENTER);\n        \n        Label l1 = new Label(\"Item 1\");\n        Label l2 = new Label(\"Item 2\");\n        Label l3 = new Label(\"Item 3\");\n        \n        HBox hbox = new HBox(10);\n        hbox.setAlignment(Pos.CENTER);\n        Button btn1 = new Button(\"Add\");\n        Button btn2 = new Button(\"Edit\");\n        Button btn3 = new Button(\"Delete\");\n        hbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        vbox.getChildren().addAll(l1, l2, l3, hbox);\n        \n        Scene scene = new Scene(vbox, 400, 300);\n        primaryStage.setTitle(\"Layout Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Layouts — arrange your UI elements! 📐"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds three Labels: \"Item 1\", \"Item 2\", \"Item 3\"\n3. Creates an HBox with spacing 10\n4. Adds three Buttons: \"Add\", \"Edit\", \"Delete\"\n5. Nests the HBox inside the VBox (below the labels)\n6. Centers everything\n7. Shows the window with title \"Layout Practice\"",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

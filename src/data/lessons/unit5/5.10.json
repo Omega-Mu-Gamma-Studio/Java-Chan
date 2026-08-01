@@ -13,19 +13,18 @@
     "explanation": "You need to bind to the textProperty() of the TextField!\n\nWrong: label.textProperty().bind(field);\nCorrect: label.textProperty().bind(field.textProperty());\n\nAlways bind to properties, not the control itself.\n\nCommon bindable properties:\n• textProperty() — TextField, Label\n• valueProperty() — Slider, ProgressBar\n• selectedProperty() — CheckBox, RadioButton"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program with:\n1. A Slider (0-100, default 50)\n2. A ProgressBar that shows the slider value (0.0 to 1.0)\n3. A Label that displays the exact value\n\nUse property binding to connect all three components.\n\nHint: ProgressBar expects 0.0-1.0, Slider gives 0-100.",
-    "validationPattern": {
-      "required": ["Slider", "ProgressBar", "valueProperty", "bind", "textProperty"],
-      "forbidden": [],
-      "fullRegex": "Slider[\\s\\S]*valueProperty[\\s\\S]*bind[\\s\\S]*ProgressBar[\\s\\S]*progressProperty"
-    },
-    "dialogueHints": [
-      "progressBar.progressProperty().bind(slider.valueProperty().divide(100));",
-      "Label textProperty bind to slider.valueProperty().asString(\"Value: %.0f\")",
-      "Or use createStringBinding for custom formatting"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.beans.binding.Bindings;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.control.ProgressBar;\nimport javafx.scene.control.Slider;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class BindingPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Slider slider = new Slider(0, 100, 50);\n        slider.setShowTickLabels(true);\n        slider.setMajorTickUnit(20);\n        slider.setMaxWidth(300);\n        \n        ProgressBar progressBar = new ProgressBar();\n        progressBar.setMaxWidth(300);\n        // Bind progress to slider value / 100\n        progressBar.progressProperty().bind(\n            slider.valueProperty().divide(100)\n        );\n        \n        Label valueLabel = new Label();\n        // Bind label text to slider value\n        valueLabel.textProperty().bind(\n            Bindings.format(\"Value: %.0f\", slider.valueProperty())\n        );\n        \n        root.getChildren().addAll(\n            new Label(\"Move the slider:\"),\n            slider,\n            progressBar,\n            valueLabel\n        );\n        \n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setTitle(\"Binding Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Properties and binding — reactive UI! 🔗"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program with:\n1. A Slider (0-100, default 50)\n2. A ProgressBar that shows the slider value (0.0 to 1.0)\n3. A Label that displays the exact value\n\nUse property binding to connect all three components.\n\nHint: ProgressBar expects 0.0-1.0, Slider gives 0-100.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

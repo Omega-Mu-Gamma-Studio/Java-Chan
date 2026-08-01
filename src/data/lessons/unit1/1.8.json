@@ -13,19 +13,18 @@
     "explanation": "Without braces {}, only the FIRST statement belongs to the if block. The second println is NOT in the if block, so the else doesn't match any if statement!\n\nAlways use {} even for single statements — it prevents this error and makes the code clearer:\n\nif (score >= 90) {\n    System.out.println(\"Grade: A — Excellent!\");\n    System.out.println(\"You're a star!\");\n}\n\nRule: Use braces always. It's safer and more readable!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Asks the user for a temperature (int)\n2. Prints:\n   • \"Too hot!\" if temp > 35\n   • \"Just right\" if temp between 20 and 35\n   • \"Too cold!\" if temp < 20",
-    "validationPattern": {
-      "required": ["Scanner", "if", "else if", "else"],
-      "forbidden": [],
-      "fullRegex": "if\\s*\\([\\s\\S]*\\)[\\s\\S]*else\\s+if\\s*\\([\\s\\S]*\\)[\\s\\S]*else\\s*\\{"
-    },
-    "dialogueHints": [
-      "Use if for temp > 35, else if for 20-35, else for < 20",
-      "Remember: else if conditions are checked in order.",
-      "Use Scanner to get user input."
-    ],
-    "solution": "import java.util.Scanner;\n\npublic class Temperature {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter temperature: \");\n        int temp = scanner.nextInt();\n        \n        if (temp > 35) {\n            System.out.println(\"Too hot!\");\n        } else if (temp >= 20 && temp <= 35) {\n            System.out.println(\"Just right\");\n        } else {\n            System.out.println(\"Too cold!\");\n        }\n        \n        scanner.close();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Let's make decisions — if/else style! 🤔"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Asks the user for a temperature (int)\n2. Prints:\n   • \"Too hot!\" if temp > 35\n   • \"Just right\" if temp between 20 and 35\n   • \"Too cold!\" if temp < 20",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

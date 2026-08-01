@@ -13,19 +13,18 @@
     "explanation": "ConcurrentModificationException! You can't modify a list while iterating over it with a for-each loop.\n\nThe for-each loop uses an internal iterator that checks for modifications.\n\nFIX: Use Iterator and its remove() method:\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    if (s.equals(\"A\")) {\n        it.remove();  // Safe!\n    }\n}\n\nOr use removeIf(): list.removeIf(s -> s.equals(\"A\"));"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates an ArrayList<String> of fruits: \"Apple\", \"Banana\", \"Orange\", \"Apple\", \"Grape\", \"Banana\"\n2. Prints the list\n3. Removes all occurrences of \"Banana\" using removeAll() or removeIf()\n4. Prints the list again\n5. Prints the size\n6. Checks if the list contains \"Orange\"\n7. Gets the element at index 2",
-    "validationPattern": {
-      "required": ["ArrayList", "removeIf", "contains", "get", "size"],
-      "forbidden": [],
-      "fullRegex": "ArrayList\\s*<\\s*String\\s*>\\s*\\w+\\s*=\\s*new\\s+ArrayList[\\s\\S]*removeIf[\\s\\S]*contains[\\s\\S]*get\\s*\\(\\s*\\w+\\s*\\)"
-    },
-    "dialogueHints": [
-      "Initialize with Arrays.asList() or add individually",
-      "Use removeIf(s -> s.equals(\"Banana\")) to remove all bananas",
-      "Use get(2) to access element at index 2"
-    ],
-    "solution": "import java.util.*;\n\npublic class ArrayListPractice {\n    public static void main(String[] args) {\n        ArrayList<String> fruits = new ArrayList<>(\n            Arrays.asList(\"Apple\", \"Banana\", \"Orange\", \"Apple\", \"Grape\", \"Banana\")\n        );\n        \n        System.out.println(\"Fruits: \" + fruits);\n        \n        fruits.removeIf(s -> s.equals(\"Banana\"));\n        System.out.println(\"After removing bananas: \" + fruits);\n        \n        System.out.println(\"Size: \" + fruits.size());\n        System.out.println(\"Contains 'Orange'? \" + fruits.contains(\"Orange\"));\n        System.out.println(\"Element at index 2: \" + fruits.get(2));\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "ArrayList — the Swiss Army knife of collections! 🔧"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates an ArrayList<String> of fruits: \"Apple\", \"Banana\", \"Orange\", \"Apple\", \"Grape\", \"Banana\"\n2. Prints the list\n3. Removes all occurrences of \"Banana\" using removeAll() or removeIf()\n4. Prints the list again\n5. Prints the size\n6. Checks if the list contains \"Orange\"\n7. Gets the element at index 2",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

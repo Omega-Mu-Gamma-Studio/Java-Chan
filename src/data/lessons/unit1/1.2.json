@@ -14,16 +14,23 @@
     "explanation": "Conceptual lesson — no broken code yet! But a common mistake beginners make is downloading the wrong JDK version. Always check: 'java -version' and 'javac -version' in your terminal to verify both are installed correctly."
   },
   "phase3": {
-    "prompt": "What is the correct sequence to compile and run a Java program?\n\nA) java → javac → run\nB) compile → write code → run\nC) javac → java\nD) write code → javac → java",
-    "validationPattern": {
-      "mcqAnswer": "D"
-    },
-    "dialogueHints": [
-      "What's the difference between javac and java?",
-      "You compile first, then execute."
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Let's check if you got the workflow right~ 🤔"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "What is the correct sequence to compile and run a Java program?\n\nA) java → javac → run\nB) compile → write code → run\nC) javac → java\nD) write code → javac → java",
+      "validationPattern": {
+        "mcqAnswer": "D"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

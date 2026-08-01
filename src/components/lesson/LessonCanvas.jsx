@@ -3,9 +3,11 @@ import { motion, AnimatePresence } from 'framer-motion';
 import useLessonStore from '../../store/lessonStore';
 import useProgressStore from '../../store/progressStore';
 import { validateCode } from '../../utils/patternMatcher';
+import { checkAllBlanks } from '../../utils/blankValidator';
 import { calculateEarnedXP } from '../../utils/xpCalculator';
 import { useSound } from '../../hooks/useSound';
 import CodeBlock from './CodeBlock';
+import ScaffoldEditor from './ScaffoldEditor';
 import PhaseIndicator from './PhaseIndicator';
 import './LessonCanvas.css';
 
@@ -17,7 +19,7 @@ const LessonCanvas = ({ onComplete }) => {
     currentLesson,
     currentPhase, setPhase,
     userCode, setUserCode,
-    lastValidationResult, setValidationResult,
+    userBlanks, setBlankAnswer,
     setExpression, setDialogue, queueDialogue,
   } = useLessonStore();
 
@@ -30,16 +32,24 @@ const LessonCanvas = ({ onComplete }) => {
   const [showSolution, setShowSolution] = useState(false);
   const [usedHint, setUsedHint] = useState(false);
   const [usedSolution, setUsedSolution] = useState(false);
-  const [mcqResult, setMcqResult] = useState(null); // Phase 4 MCQ feedback, separate from phase3's
+  const [wrongBlankIds, setWrongBlankIds] = useState([]);
+  const [blanksMessage, setBlanksMessage] = useState(null); // Phase 3 feedback
+  const [mcqResult, setMcqResult] = useState(null);          // Phase 4 MCQ feedback
 
   if (!currentLesson) return null;
 
   const { phase1, phase2, phase3, phase4, phase5, id: lessonId, xpReward = 10 } = currentLesson;
   const attempts = getAttempts(lessonId);
   const selfChallengeDone = isSelfChallengeCompleted(lessonId);
+  const hasBlanks = !!(phase3?.scaffoldCode && phase3?.blanks?.length > 0);
 
   const handlePhaseChange = (phase) => {
     setPhase(phase);
+    setWrongBlankIds([]);
+    setBlanksMessage(null);
+    setShowSolution(false);
+    setUsedHint(false);
+    setUsedSolution(false);
     if (phase === 1) {
       setExpression('idle');          // teaching.png — hands out, explaining
       setDialogue(phase1?.openingDialogue || null);
@@ -59,20 +69,20 @@ const LessonCanvas = ({ onComplete }) => {
     }
   };
 
-  // Phase 3's grading logic (unchanged for now — old free-coding validationPattern
-  // shape stays intact here until the fill-in-the-blank schema change lands; see
-  // java-chan-next-update.md §4.2). "handleSubmit" name kept stable for the JSX below.
-  const handleSubmit = () => {
-    if (!phase3?.validationPattern) return;
+  // Phase 3's grading logic — fill-in-the-blank, plain equality per §4.2.
+  // No regex here anymore; that's fully retired from Phase 3.
+  const handleSubmitBlanks = () => {
+    if (!hasBlanks) return;
 
     recordAttempt(lessonId);
-    const result = validateCode(userCode, phase3.validationPattern);
-    setValidationResult(result);
-
     const currentAttempts = attempts + 1;
+    const { allCorrect, results } = checkAllBlanks(userBlanks, phase3.blanks);
+    const wrongIds = phase3.blanks.filter((b) => !results[b.id]).map((b) => b.id);
+    setWrongBlankIds(wrongIds);
 
-    if (result.passed) {
+    if (allCorrect) {
       play('success');
+      setBlanksMessage({ passed: true, message: "Perfect~! ✨" });
       const xpEarned = calculateEarnedXP({
         baseXP: xpReward,
         attempts: currentAttempts,
@@ -80,43 +90,39 @@ const LessonCanvas = ({ onComplete }) => {
         usedSolution,
       });
       completeLesson(lessonId, xpEarned);
-
-      if (result.score === 'perfect') {
-        setExpression('domain');
-        queueDialogue([
-          "You got it~! ✨",
-          `+${xpEarned} XP earned!`,
-        ]);
-        setTimeout(() => {
-          setExpression('happy');
-          handlePhaseChange(4); // Phase 3 feeds into Phase 4, not straight to lesson-complete
-        }, 3000);
-      } else {
+      setExpression('domain');
+      queueDialogue([
+        "You got it~! ✨",
+        `+${xpEarned} XP earned!`,
+      ]);
+      setTimeout(() => {
         setExpression('happy');
-        setDialogue(result.message);
-        setTimeout(() => handlePhaseChange(4), 2000);
-      }
+        handlePhaseChange(4); // Phase 3 feeds into Phase 4, not straight to lesson-complete
+      }, 3000);
     } else {
       play('error');
+      setBlanksMessage({
+        passed: false,
+        message: wrongIds.length === 1
+          ? "One of these isn't quite right — take another look! 🔍"
+          : "A few of these aren't quite right yet — take another look! 🔍",
+      });
 
-      // Escalating dialogue AND expressions based on attempt count
-      const hintLines = phase3?.dialogueHints || [];
       if (currentAttempts >= SOLUTION_THRESHOLD && !showSolution) {
-        // Attempt 5+: full frustration, show solution
+        // Attempt 5+: full frustration, reveal correct answers
         setExpression('sad');          // frustrated.png — hair-grabbing rage
         setShowSolution(true);
         setUsedSolution(true);
         setDialogue("Okay okay... let me show you. Study it carefully! 📖");
-      } else if (currentAttempts >= HINT_THRESHOLD && hintLines.length > 0) {
-        // Attempt 2-4: thinking mode, giving hints
+      } else if (currentAttempts >= HINT_THRESHOLD) {
+        // Attempt 2-4: thinking mode
         setExpression('thinking');    // thinking.png — chin-on-hand, measured
         setUsedHint(true);
-        const hintIdx = Math.min(currentAttempts - HINT_THRESHOLD, hintLines.length - 1);
-        setDialogue(hintLines[hintIdx]);
+        setDialogue("Look closely at the highlighted blank(s) — what's different? 🤔");
       } else {
         // First wrong attempt: oops/embarrassed energy
         setExpression('happy');       // oops.png — "oops, not quite~"
-        setDialogue(result.message);
+        setDialogue("Oops, not quite~ Check the highlighted blank(s)!");
       }
     }
   };
@@ -133,8 +139,9 @@ const LessonCanvas = ({ onComplete }) => {
       play('success');
       setExpression('happy');
       // Reuses completeLesson's own guard against double-awarding XP, so this is a
-      // no-op if Phase 3 already completed the lesson. Weighting Phase 3 vs Phase 4
-      // XP independently is still an open question (§4.4) — deferred to the schema step.
+      // no-op if Phase 3 already completed the lesson. Per §4.4, Phase 3 blanks and
+      // Phase 4 MCQ are scored independently rather than sharing one penalty curve —
+      // each surface's own attempt history feeds its own calculateEarnedXP call.
       const xpEarned = calculateEarnedXP({ baseXP: xpReward, attempts: 1, usedHint: false, usedSolution: false });
       completeLesson(lessonId, xpEarned);
     } else {
@@ -151,7 +158,7 @@ const LessonCanvas = ({ onComplete }) => {
       />
 
       <AnimatePresence mode="wait">
-        {/* ---- Phase 1: See It Work ---- */}
+        {/* ---- Phase 1: Learn It With Me ---- */}
         {currentPhase === 1 && (
           <motion.div
             key="phase1"
@@ -180,7 +187,7 @@ const LessonCanvas = ({ onComplete }) => {
           </motion.div>
         )}
 
-        {/* ---- Phase 2: See It Break ---- */}
+        {/* ---- Phase 2: See the Code ---- */}
         {currentPhase === 2 && (
           <motion.div
             key="phase2"
@@ -209,7 +216,7 @@ const LessonCanvas = ({ onComplete }) => {
           </motion.div>
         )}
 
-        {/* ---- Phase 3: You Try ---- */}
+        {/* ---- Phase 3: Code It With Me ---- */}
         {currentPhase === 3 && (
           <motion.div
             key="phase3"
@@ -219,68 +226,51 @@ const LessonCanvas = ({ onComplete }) => {
             exit={{ opacity: 0, x: 20 }}
           >
             <h2 className="phase-heading phase-heading--try">✎ Code It With Me</h2>
-            <p className="phase-prompt">{phase3?.prompt}</p>
 
-            {/* Hint / Solution display */}
-            {showSolution && phase3?.solution && (
-              <div className="solution-block">
-                <span className="solution-label">💡 Solution</span>
-                <CodeBlock code={phase3.solution} showLineNumbers={false} />
+            {hasBlanks ? (
+              <>
+                <ScaffoldEditor
+                  scaffoldCode={phase3.scaffoldCode}
+                  blanks={phase3.blanks}
+                  userBlanks={userBlanks}
+                  onBlankChange={setBlankAnswer}
+                  wrongBlankIds={wrongBlankIds}
+                  revealSolution={showSolution}
+                />
+
+                {blanksMessage && (
+                  <motion.div
+                    className={`validation-feedback validation-feedback--${blanksMessage.passed ? 'pass' : 'fail'}`}
+                    initial={{ opacity: 0, y: -8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                  >
+                    {blanksMessage.message}
+                  </motion.div>
+                )}
+
+                {attempts > 0 && (
+                  <span className="attempt-counter">
+                    Attempt {attempts}
+                    {attempts >= HINT_THRESHOLD && !showSolution && ' · Look closely at the highlighted blank(s)'}
+                  </span>
+                )}
+
+                <div className="phase3-actions">
+                  <button className="btn btn-primary" onClick={handleSubmitBlanks}>
+                    Check Answer ✓
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="scaffold-stub-notice">
+                <p className="phase-explanation">
+                  This lesson's scaffold hasn't been authored yet — coming in the content pass.
+                </p>
+                <button className="btn btn-ghost" onClick={() => handlePhaseChange(4)}>
+                  Skip to Challenge →
+                </button>
               </div>
             )}
-
-            {/* Code editor OR MCQ */}
-            {phase3?.validationPattern?.mcqAnswer !== undefined ? (
-              /* Multiple choice */
-              <input
-                className="mcq-input"
-                placeholder="Type A, B, C, or D..."
-                value={userCode}
-                onChange={e => setUserCode(e.target.value)}
-                maxLength={1}
-              />
-            ) : (
-              /* Code input */
-              <textarea
-                className="code-editor"
-                value={userCode}
-                onChange={e => setUserCode(e.target.value)}
-                placeholder="// Write your Java code here..."
-                spellCheck={false}
-                autoCorrect="off"
-                autoCapitalize="off"
-              />
-            )}
-
-            {/* Validation feedback */}
-            {lastValidationResult && (
-              <motion.div
-                className={`validation-feedback validation-feedback--${lastValidationResult.passed ? 'pass' : 'fail'}`}
-                initial={{ opacity: 0, y: -8 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
-                {lastValidationResult.message}
-              </motion.div>
-            )}
-
-            {/* Attempt counter */}
-            {attempts > 0 && (
-              <span className="attempt-counter">
-                Attempt {attempts}
-                {attempts >= HINT_THRESHOLD && !showSolution && ' · Hint unlocked!'}
-              </span>
-            )}
-
-            <div className="phase3-actions">
-              <button className="btn btn-primary" onClick={handleSubmit}>
-                Check Answer ✓
-              </button>
-              {phase3?.ideRequired && (
-                <button className="btn btn-ghost" onClick={() => handlePhaseChange(4)}>
-                  I Did It (ran in IDE) ✓
-                </button>
-              )}
-            </div>
           </motion.div>
         )}
 
@@ -295,7 +285,7 @@ const LessonCanvas = ({ onComplete }) => {
           >
             <h2 className="phase-heading phase-heading--challenge">❓ Challenge</h2>
 
-            {/* MCQ half — graded, forward-compatible with schema not yet in the JSON */}
+            {/* MCQ half — graded */}
             {phase4?.mcq && (
               <>
                 <p className="phase-prompt">{phase4.mcq.question}</p>
@@ -324,7 +314,7 @@ const LessonCanvas = ({ onComplete }) => {
             {/* Self-challenge half — ungraded, honor-system, no XP (§5.4) */}
             <div className="self-challenge-block">
               <p className="phase-prompt">
-                {phase4?.selfChallenge || phase3?.prompt}
+                {phase4?.selfChallenge || "Self-challenge prompt for this lesson is coming in the content pass."}
               </p>
               <label className="self-challenge-checkbox">
                 <input

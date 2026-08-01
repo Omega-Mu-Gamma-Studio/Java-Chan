@@ -13,20 +13,18 @@
     "explanation": "NotSerializableException! Person doesn't implement Serializable, so it can't be serialized.\n\nFIX: Implement Serializable:\n\nclass Person implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int age;\n    // ...\n}\n\nAll objects in the object graph must be Serializable. If any field isn't Serializable, serialization fails.\n\nFor non-serializable fields, use 'transient'."
   },
   "phase3": {
-    "prompt": "Create a Student class that:\n• Implements Serializable\n• Has fields: name, id, gpa\n• Has a transient field: password\n• Has serialVersionUID = 1L\n\nIn main:\n1. Create a Student object\n2. Serialize it to \"student.ser\"\n3. Deserialize it back\n4. Print both the original and restored objects\n\nNote: The transient field should be null after deserialization.",
-    "validationPattern": {
-      "required": ["implements Serializable", "transient", "serialVersionUID", "ObjectOutputStream", "ObjectInputStream"],
-      "forbidden": [],
-      "fullRegex": "implements\\s+Serializable[\\s\\S]*transient\\s+\\w+\\s+\\w+[\\s\\S]*serialVersionUID[\\s\\S]*ObjectOutputStream[\\s\\S]*ObjectInputStream"
-    },
-    "dialogueHints": [
-      "Student must implement Serializable",
-      "Add private static final long serialVersionUID = 1L;",
-      "Mark password as transient",
-      "Use ObjectOutputStream.writeObject() and ObjectInputStream.readObject()"
-    ],
-    "solution": "import java.io.*;\n\nclass Student implements Serializable {\n    private static final long serialVersionUID = 1L;\n    \n    String name;\n    int id;\n    double gpa;\n    transient String password;\n    \n    Student(String name, int id, double gpa, String password) {\n        this.name = name;\n        this.id = id;\n        this.gpa = gpa;\n        this.password = password;\n    }\n    \n    @Override\n    public String toString() {\n        return \"Student{name='\" + name + \"', id=\" + id + \", gpa=\" + gpa + \", password='\" + password + \"'}\";\n    }\n}\n\npublic class SerializationPractice {\n    public static void main(String[] args) {\n        Student original = new Student(\"Alice\", 12345, 3.75, \"secret\");\n        System.out.println(\"Original: \" + original);\n        \n        // Serialize\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"student.ser\"))) {\n            oos.writeObject(original);\n            System.out.println(\"Serialized!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // Deserialize\n        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(\"student.ser\"))) {\n            Student restored = (Student) ois.readObject();\n            System.out.println(\"Restored: \" + restored);\n            System.out.println(\"Password should be null: \" + restored.password);\n        } catch (IOException | ClassNotFoundException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Serialization — freeze objects and bring them back! ❄️"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a Student class that:\n• Implements Serializable\n• Has fields: name, id, gpa\n• Has a transient field: password\n• Has serialVersionUID = 1L\n\nIn main:\n1. Create a Student object\n2. Serialize it to \"student.ser\"\n3. Deserialize it back\n4. Print both the original and restored objects\n\nNote: The transient field should be null after deserialization.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

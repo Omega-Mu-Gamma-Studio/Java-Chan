@@ -13,19 +13,18 @@
     "explanation": "ArrayIndexOutOfBoundsException! You tried to access index 5, but valid indices are 0,1,2,3,4.\n\nRemember: arrays are 0-indexed. The last index is length - 1.\n\nAlways check: is my index < array.length?\n\nA safe pattern:\nif (index >= 0 && index < array.length) {\n    // safe to access\n}"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates an array of 5 integers: 5, 10, 15, 20, 25\n2. Prints each element using a for loop\n3. Prints each element using a for-each loop",
-    "validationPattern": {
-      "required": ["int[]", "for", "for-each"],
-      "forbidden": [],
-      "fullRegex": "int\\s*\\[\\s*\\]\\s*\\w+\\s*=\\s*\\{[^}]*\\}[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*=\\s*0[\\s\\S]*for\\s*\\(\\s*int\\s+\\w+\\s*:"
-    },
-    "dialogueHints": [
-      "Initialize the array with {5, 10, 15, 20, 25}",
-      "For loop: use i < array.length",
-      "For-each: for (int num : numbers)"
-    ],
-    "solution": "public class ArrayPractice {\n    public static void main(String[] args) {\n        int[] numbers = {5, 10, 15, 20, 25};\n        \n        System.out.println(\"=== For loop ===\");\n        for (int i = 0; i < numbers.length; i++) {\n            System.out.println(numbers[i]);\n        }\n        \n        System.out.println(\"=== For-each loop ===\");\n        for (int num : numbers) {\n            System.out.println(num);\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Time to store multiple values in one variable! 📚"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates an array of 5 integers: 5, 10, 15, 20, 25\n2. Prints each element using a for loop\n3. Prints each element using a for-each loop",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

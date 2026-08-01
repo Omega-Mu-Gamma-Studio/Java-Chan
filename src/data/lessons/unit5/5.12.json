@@ -13,20 +13,18 @@
     "explanation": "You created the alert but never called show() or showAndWait()!\n\nFIX: Add:\nalert.show();  // Non-blocking\n\nor\nalert.showAndWait();  // Blocking (waits for response)\n\nAlways call show() or showAndWait() to display the dialog!\n\nCommon mistake: creating the alert but forgetting to display it."
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Has a Button \"Delete File\"\n2. When clicked, shows a CONFIRMATION alert with message \"Are you sure you want to delete this file?\"\n3. If OK is clicked, prints \"File deleted!\" to a Label\n4. If Cancel is clicked, prints \"Deletion cancelled\" to a Label",
-    "validationPattern": {
-      "required": ["Alert", "AlertType.CONFIRMATION", "showAndWait", "ButtonType.OK", "Label"],
-      "forbidden": [],
-      "fullRegex": "Alert\\s+\\w+\\s*=\\s*new\\s+Alert\\s*\\(\\s*Alert\\.AlertType\\.CONFIRMATION[\\s\\S]*\\)[\\s\\S]*showAndWait[\\s\\S]*ButtonType\\.OK[\\s\\S]*Label"
-    },
-    "dialogueHints": [
-      "Alert alert = new Alert(Alert.AlertType.CONFIRMATION);",
-      "alert.setContentText(\"Are you sure...\");",
-      "Optional<ButtonType> result = alert.showAndWait();",
-      "if (result.isPresent() && result.get() == ButtonType.OK)"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\nimport java.util.Optional;\n\npublic class DialogPractice extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Label resultLabel = new Label(\"Ready\");\n        \n        Button deleteBtn = new Button(\"Delete File\");\n        deleteBtn.setOnAction(e -> {\n            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);\n            alert.setTitle(\"Delete File\");\n            alert.setHeaderText(\"Confirm Deletion\");\n            alert.setContentText(\"Are you sure you want to delete this file?\");\n            \n            Optional<ButtonType> result = alert.showAndWait();\n            if (result.isPresent() && result.get() == ButtonType.OK) {\n                resultLabel.setText(\"File deleted!\");\n            } else {\n                resultLabel.setText(\"Deletion cancelled\");\n            }\n        });\n        \n        root.getChildren().addAll(deleteBtn, resultLabel);\n        \n        Scene scene = new Scene(root, 400, 200);\n        primaryStage.setTitle(\"Dialog Practice\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Dialogs — interact with your users! 💬"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Has a Button \"Delete File\"\n2. When clicked, shows a CONFIRMATION alert with message \"Are you sure you want to delete this file?\"\n3. If OK is clicked, prints \"File deleted!\" to a Label\n4. If Cancel is clicked, prints \"Deletion cancelled\" to a Label",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

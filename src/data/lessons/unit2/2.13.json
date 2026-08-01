@@ -13,19 +13,18 @@
     "explanation": "Without overriding equals() and hashCode(), HashSet thinks p1 and p2 are different!\n\nDefault Object.equals() compares references: p1 != p2\n\nDefault Object.hashCode() returns different values\n\nFIX: Override both methods:\n\n@Override\npublic boolean equals(Object obj) { ... }\n\n@Override\npublic int hashCode() { ... }\n\nAlways override equals() and hashCode() together!"
   },
   "phase3": {
-    "prompt": "Create a Book class with:\n• Fields: title (String), author (String)\n• Constructor\n• Override toString() — returns \"Book[title='X', author='Y']\"\n• Override equals() — based on title AND author\n• Override hashCode() — consistent with equals\n\nIn main, create two identical books and test equals() and toString().",
-    "validationPattern": {
-      "required": ["@Override", "toString", "equals", "hashCode"],
-      "forbidden": [],
-      "fullRegex": "@Override[\\s\\S]*public\\s+String\\s+toString[\\s\\S]*@Override[\\s\\S]*public\\s+boolean\\s+equals[\\s\\S]*@Override[\\s\\S]*public\\s+int\\s+hashCode"
-    },
-    "dialogueHints": [
-      "equals should check if title and author are equal",
-      "hashCode should use title.hashCode() and author.hashCode()",
-      "Use @Override annotation on all three methods"
-    ],
-    "solution": "class Book {\n    private String title;\n    private String author;\n    \n    Book(String title, String author) {\n        this.title = title;\n        this.author = author;\n    }\n    \n    @Override\n    public String toString() {\n        return \"Book[title='\" + title + \"', author='\" + author + \"']\";\n    }\n    \n    @Override\n    public boolean equals(Object obj) {\n        if (this == obj) return true;\n        if (obj == null || getClass() != obj.getClass()) return false;\n        Book book = (Book) obj;\n        return title.equals(book.title) && author.equals(book.author);\n    }\n    \n    @Override\n    public int hashCode() {\n        return title.hashCode() + author.hashCode() * 31;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Book b1 = new Book(\"1984\", \"George Orwell\");\n        Book b2 = new Book(\"1984\", \"George Orwell\");\n        Book b3 = new Book(\"1984\", \"Winston Smith\");\n        \n        System.out.println(\"b1: \" + b1);\n        System.out.println(\"b1.equals(b2): \" + b1.equals(b2));\n        System.out.println(\"b1.equals(b3): \" + b1.equals(b3));\n        System.out.println(\"b1 hashCode: \" + b1.hashCode());\n        System.out.println(\"b2 hashCode: \" + b2.hashCode());\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Every object has a toString — give it a makeover! 📝"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a Book class with:\n• Fields: title (String), author (String)\n• Constructor\n• Override toString() — returns \"Book[title='X', author='Y']\"\n• Override equals() — based on title AND author\n• Override hashCode() — consistent with equals\n\nIn main, create two identical books and test equals() and toString().",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

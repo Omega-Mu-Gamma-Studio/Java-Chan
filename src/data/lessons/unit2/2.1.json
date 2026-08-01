@@ -13,19 +13,18 @@
     "explanation": "The Dog class is trying to extend Animal, but there's no Animal class defined!\n\nSuper must exist before you can extend it. The compiler needs to see the parent class first.\n\nFIX: Make sure the parent class (Animal) is defined BEFORE the child class (Dog).\n\nIn Java, you can define multiple classes in one file, but the parent class must be accessible."
   },
   "phase3": {
-    "prompt": "Create a Vehicle class with:\n• Fields: brand (String), speed (int)\n• Constructor\n• Method: accelerate() — prints \"[brand] is accelerating!\"\n\nCreate a Car subclass that:\n• Extends Vehicle\n• Adds field: model (String)\n• Constructor calls super\n• Method: honk() — prints \"[brand] [model] says: Beep beep!\"\n\nIn main, create a Car and call accelerate() and honk().",
-    "validationPattern": {
-      "required": ["class Vehicle", "class Car extends Vehicle", "super", "accelerate", "honk"],
-      "forbidden": [],
-      "fullRegex": "class\\s+Vehicle\\s*\\{[\\s\\S]*\\}[\\s\\S]*class\\s+Car\\s+extends\\s+Vehicle\\s*\\{[\\s\\S]*super\\s*\\([\\s\\S]*\\)[\\s\\S]*void\\s+honk\\s*\\([\\s\\S]*\\)\\s*\\{[\\s\\S]*\\}[\\s\\S]*\\}"
-    },
-    "dialogueHints": [
-      "Car must use 'extends Vehicle'",
-      "Constructor: Car(String brand, int speed, String model) { super(brand, speed); this.model = model; }",
-      "Both classes need proper methods"
-    ],
-    "solution": "class Vehicle {\n    String brand;\n    int speed;\n    \n    Vehicle(String brand, int speed) {\n        this.brand = brand;\n        this.speed = speed;\n    }\n    \n    void accelerate() {\n        System.out.println(brand + \" is accelerating!\");\n    }\n}\n\nclass Car extends Vehicle {\n    String model;\n    \n    Car(String brand, int speed, String model) {\n        super(brand, speed);\n        this.model = model;\n    }\n    \n    void honk() {\n        System.out.println(brand + \" \" + model + \" says: Beep beep!\");\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Car car = new Car(\"Toyota\", 120, \"Camry\");\n        car.accelerate();\n        car.honk();\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Let's build a family tree! Classes can inherit from each other~ 🌳"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Create a Vehicle class with:\n• Fields: brand (String), speed (int)\n• Constructor\n• Method: accelerate() — prints \"[brand] is accelerating!\"\n\nCreate a Car subclass that:\n• Extends Vehicle\n• Adds field: model (String)\n• Constructor calls super\n• Method: honk() — prints \"[brand] [model] says: Beep beep!\"\n\nIn main, create a Car and call accelerate() and honk().",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

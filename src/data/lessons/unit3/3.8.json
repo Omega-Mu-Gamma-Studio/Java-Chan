@@ -13,19 +13,18 @@
     "explanation": "FileWriter.write(int) writes the CHARACTER represented by the int, not the string representation!\n\nfw.write(65) writes 'A' (ASCII 65), not the string \"65\".\n\nTo write numbers as text:\n• fw.write(\"65\")\n• fw.write(Integer.toString(65))\n• fw.write(String.valueOf(65))\n\nRemember: FileWriter is for characters, not numbers!\n\nFIX: Convert numbers to strings first:\nfw.write(String.valueOf(65));  // Writes \"65\""
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates a text file called \"notes.txt\"\n2. Writes three lines of text using FileWriter\n3. Reads the file back using FileReader\n4. Prints the content line by line\n\nUse try-with-resources for both operations.",
-    "validationPattern": {
-      "required": ["FileWriter", "FileReader", "try", "write", "read"],
-      "forbidden": [],
-      "fullRegex": "FileWriter[\\s\\S]*write\\s*\\([\\s\\S]*\\)[\\s\\S]*FileReader[\\s\\S]*read\\s*\\([\\s\\S]*\\)"
-    },
-    "dialogueHints": [
-      "Use FileWriter to write text, use FileReader to read it back",
-      "Write with newline characters: write(\"Line1\\nLine2\\nLine3\")",
-      "Read using while ((c = fr.read()) != -1)"
-    ],
-    "solution": "import java.io.*;\n\npublic class CharacterStreamPractice {\n    public static void main(String[] args) {\n        // Writing\n        try (FileWriter fw = new FileWriter(\"notes.txt\")) {\n            fw.write(\"Line 1: Hello\\n\");\n            fw.write(\"Line 2: World\\n\");\n            fw.write(\"Line 3: Java is great!\\n\");\n            System.out.println(\"File written!\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Reading\n        try (FileReader fr = new FileReader(\"notes.txt\")) {\n            int c;\n            System.out.println(\"Reading file:\");\n            while ((c = fr.read()) != -1) {\n                System.out.print((char) c);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Character streams — text handling made easy! 📝"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates a text file called \"notes.txt\"\n2. Writes three lines of text using FileWriter\n3. Reads the file back using FileReader\n4. Prints the content line by line\n\nUse try-with-resources for both operations.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

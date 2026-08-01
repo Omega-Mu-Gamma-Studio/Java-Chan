@@ -13,24 +13,18 @@
     "explanation": "Calling run() directly executes the method on the CURRENT thread, not a new thread!\n\nrun() is just a method call like any other. It doesn't create a new thread.\n\nFIX: Use start() to create a new thread:\nt.start();  // ✓ Creates new thread\n\nstart() does two things:\n1. Creates a new thread of execution\n2. Calls run() on the new thread\n\nAlways use start() for multithreading!"
   },
   "phase3": {
-    "prompt": "Write a program that:\n1. Creates 3 threads using Runnable interface\n2. Each thread prints numbers 1-5 with a 500ms delay\n3. Each thread has a name: \"Alpha\", \"Beta\", \"Gamma\"\n4. Start all 3 threads\n\nBonus: Use lambda syntax for one of them.",
-    "validationPattern": {
-      "required": [
-        "Thread",
-        "start",
-        "sleep",
-        "getName"
-      ],
-      "forbidden": [],
-      "fullRegex": "Runnable[\\s\\S]*new\\s+Thread[\\s\\S]*start\\s*\\([\\s\\S]*\\)[\\s\\S]*sleep[\\s\\S]*getName"
-    },
-    "dialogueHints": [
-      "Each thread: new Thread(() -> { for (int i=1; i<=5; i++) { System.out.println(getName() + \": \" + i); sleep(500); } })",
-      "Set names with setName() or pass to constructor",
-      "Call start() on all threads"
-    ],
-    "solution": "public class ThreadPractice {\n    public static void main(String[] args) {\n        String[] names = {\"Alpha\", \"Beta\", \"Gamma\"};\n        \n        for (String name : names) {\n            Thread t = new Thread(() -> {\n                for (int i = 1; i <= 5; i++) {\n                    System.out.println(Thread.currentThread().getName() + \": \" + i);\n                    try {\n                        Thread.sleep(500);\n                    } catch (InterruptedException e) {\n                        e.printStackTrace();\n                    }\n                }\n            });\n            t.setName(name);\n            t.start();\n        }\n        \n        System.out.println(\"All threads started!\");\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Create threads — start your parallel journey! 🚀"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a program that:\n1. Creates 3 threads using Runnable interface\n2. Each thread prints numbers 1-5 with a 500ms delay\n3. Each thread has a name: \"Alpha\", \"Beta\", \"Gamma\"\n4. Start all 3 threads\n\nBonus: Use lambda syntax for one of them.",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

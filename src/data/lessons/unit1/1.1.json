@@ -14,16 +14,23 @@
     "explanation": "This lesson is conceptual — no code to break yet! We'll get to that very soon. Phase 2 starts mattering from Lesson 1.3 onward~"
   },
   "phase3": {
-    "prompt": "Quick check! Which of these is a Java feature?\n\nA) Platform dependent — runs only on Windows\nB) Uses pointers like C/C++\nC) Write Once, Run Anywhere (WORA)\nD) Manual memory management required",
-    "validationPattern": {
-      "mcqAnswer": "C"
-    },
-    "dialogueHints": [
-      "Think about what makes Java special compared to C...",
-      "The JVM is the key. What does it make possible?"
-    ],
-    "solution": null,
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Alright, time to see if you were listening~ 👀"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": {
+      "question": "Quick check! Which of these is a Java feature?\n\nA) Platform dependent — runs only on Windows\nB) Uses pointers like C/C++\nC) Write Once, Run Anywhere (WORA)\nD) Manual memory management required",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
+    "selfChallenge": null,
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

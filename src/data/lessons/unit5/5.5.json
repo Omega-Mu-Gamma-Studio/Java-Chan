@@ -13,19 +13,18 @@
     "explanation": "You created a button but never added it to the layout!\n\nFIX: Add the button to the layout:\nVBox root = new VBox();\nroot.getChildren().add(button);\nScene scene = new Scene(root, 300, 200);\n\nOr add directly when creating scene:\nScene scene = new Scene(new VBox(button), 300, 200);\n\nAlways remember to add controls to the scene graph!"
   },
   "phase3": {
-    "prompt": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds a Label \"User Registration\"\n3. Adds a TextField with prompt \"Enter username\"\n4. Adds a TextField with prompt \"Enter password\" (use PasswordField)\n5. Adds a CheckBox \"Remember me\"\n6. Adds a ComboBox with \"Student\", \"Teacher\", \"Staff\"\n7. Adds a Button \"Register\"\n8. Shows the window",
-    "validationPattern": {
-      "required": ["Label", "TextField", "PasswordField", "CheckBox", "ComboBox", "Button"],
-      "forbidden": [],
-      "fullRegex": "Label[\\s\\S]*TextField[\\s\\S]*PasswordField[\\s\\S]*CheckBox[\\s\\S]*ComboBox[\\s\\S]*Button"
-    },
-    "dialogueHints": [
-      "PasswordField is like TextField but hides text",
-      "ComboBox: new ComboBox<>(); getItems().addAll(...)",
-      "Add all to VBox"
-    ],
-    "solution": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class RegistrationForm extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Label title = new Label(\"User Registration\");\n        title.setStyle(\"-fx-font-size: 20px; -fx-font-weight: bold;\");\n        \n        TextField username = new TextField();\n        username.setPromptText(\"Enter username\");\n        username.setMaxWidth(250);\n        \n        PasswordField password = new PasswordField();\n        password.setPromptText(\"Enter password\");\n        password.setMaxWidth(250);\n        \n        CheckBox remember = new CheckBox(\"Remember me\");\n        \n        ComboBox<String> role = new ComboBox<>();\n        role.getItems().addAll(\"Student\", \"Teacher\", \"Staff\");\n        role.setValue(\"Select role...\");\n        role.setMaxWidth(250);\n        \n        Button register = new Button(\"Register\");\n        \n        root.getChildren().addAll(title, username, password, remember, role, register);\n        \n        Scene scene = new Scene(root, 400, 400);\n        primaryStage.setTitle(\"Registration\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
+    "scaffoldCode": null,
+    "blanks": [],
     "openingDialogue": "Controls — the building blocks of your UI! 🧱"
   },
-  "xpReward": 10
+  "xpReward": 10,
+  "phase4": {
+    "mcq": null,
+    "selfChallenge": "Write a JavaFX program that:\n1. Creates a VBox with spacing 15 and padding 20\n2. Adds a Label \"User Registration\"\n3. Adds a TextField with prompt \"Enter username\"\n4. Adds a TextField with prompt \"Enter password\" (use PasswordField)\n5. Adds a CheckBox \"Remember me\"\n6. Adds a ComboBox with \"Student\", \"Teacher\", \"Staff\"\n7. Adds a Button \"Register\"\n8. Shows the window",
+    "openingDialogue": null
+  },
+  "phase5": {
+    "trivia": null,
+    "openingDialogue": null
+  }
 }

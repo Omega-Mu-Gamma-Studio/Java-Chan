@@ -5,28 +5,57 @@
   "phase1": {
     "code": "import java.io.*;\nimport java.util.Scanner;\n\npublic class TryWithResourcesExample {\n    public static void main(String[] args) {\n        // OLD way (pre-Java 7) — manual resource management\n        System.out.println(\"=== Old Way (finally) ===\");\n        BufferedReader reader = null;\n        try {\n            reader = new BufferedReader(new FileReader(\"example.txt\"));\n            String line = reader.readLine();\n            System.out.println(\"Line: \" + line);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        } finally {\n            try {\n                if (reader != null) {\n                    reader.close();  // Must close manually!\n                }\n            } catch (IOException e) {\n                e.printStackTrace();\n            }\n        }\n        \n        // NEW way (Java 7+) — try-with-resources\n        System.out.println(\"=== try-with-resources ===\");\n        try (BufferedReader reader2 = new BufferedReader(new FileReader(\"example.txt\"))) {\n            String line = reader2.readLine();\n            System.out.println(\"Line: \" + line);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        // Resources automatically closed!\n        \n        // Multiple resources\n        System.out.println(\"=== Multiple Resources ===\");\n        try (BufferedReader br = new BufferedReader(new FileReader(\"input.txt\"));\n             BufferedWriter bw = new BufferedWriter(new FileWriter(\"output.txt\"))) {\n            String line;\n            while ((line = br.readLine()) != null) {\n                bw.write(line);\n                bw.newLine();\n            }\n            System.out.println(\"File copied successfully!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        // Both resources are closed automatically!\n        \n        // Custom AutoCloseable resource\n        System.out.println(\"=== Custom Resource ===\");\n        try (CustomResource resource = new CustomResource()) {\n            resource.doSomething();\n            // resource.close() called automatically\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}\n\n// Custom AutoCloseable implementation\nclass CustomResource implements AutoCloseable {\n    private boolean isOpen = true;\n    \n    void doSomething() throws Exception {\n        if (!isOpen) {\n            throw new Exception(\"Resource is closed!\");\n        }\n        System.out.println(\"Doing something with resource...\");\n    }\n    \n    @Override\n    public void close() throws Exception {\n        System.out.println(\"CustomResource is being closed!\");\n        isOpen = false;\n    }\n}",
     "output": "=== Old Way (finally) ===\nLine: Hello World\n=== try-with-resources ===\nLine: Hello World\n=== Multiple Resources ===\nFile copied successfully!\n=== Custom Resource ===\nDoing something with resource...\nCustomResource is being closed!",
-    "explanation": "try-with-resources automatically closes resources:\n\nWhat it does:\n• Automatically calls close() on resources\n• No more finally blocks for cleanup\n• Cleaner, safer code\n\nRequirements:\n• Resources must implement AutoCloseable (or Closeable)\n• Declared in try parentheses\n• Resources are closed in reverse order\n\nSyntax:\ntry (ResourceType var = new ResourceType()) {\n    // use resource\n} catch (Exception e) {\n    // handle exceptions\n}\n\nMultiple resources:\ntry (ResourceType1 r1 = new ResourceType1();\n     ResourceType2 r2 = new ResourceType2()) {\n    // use resources\n}\n\nBenefits over finally:\n• Less boilerplate code\n• No null checks needed\n• No nested try-catch for close()\n• Resources closed in correct order\n\nAutoCloseable vs Closeable:\n• Closeable (old): throws IOException\n• AutoCloseable (new): throws Exception (more flexible)\n\nCommon AutoCloseable resources:\n• Scanner\n• BufferedReader / BufferedWriter\n• FileReader / FileWriter\n• InputStream / OutputStream\n• JDBC Connection, Statement"
+    "explanation": "Before Java 7, closing a resource — a file, a database connection, anything that needs explicit cleanup — meant a finally block with a null check and its own nested try-catch, just to close it safely. [[term:try-with-resources]] replaces all of that with one line.\n\nDeclare the resource right inside the try's parentheses — try (BufferedReader reader = new BufferedReader(...)) { ... } — and [[key:Java automatically calls close() on it for you the moment the block ends]], whether it ended normally or because an exception got thrown partway through. No finally, no null check, no nested try-catch for the close() call itself.\n\nYou can declare more than one resource in the same parentheses, separated by semicolons, and [[key:they close in the REVERSE order they were opened]] — the last one declared is the first one closed, which matters if one resource depends on another still being open.\n\nThe one requirement: [[warn:whatever you put in those parentheses has to implement AutoCloseable]] (or its older, narrower cousin, Closeable). BufferedReader, Scanner, FileWriter, and most I/O classes already do — and implementing AutoCloseable yourself is just writing one close() method, and now YOUR class works in try-with-resources too.",
+    "openingDialogue": "try-with-resources — automatic cleanup~ 🧹"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        // Using try-with-resources with a class that doesn't implement AutoCloseable\n        try (String s = \"Hello\") {  // String doesn't implement AutoCloseable!\n            System.out.println(s);\n        }\n    }\n}",
     "errorMessage": "Test.java:6: error: incompatible types: String cannot be converted to AutoCloseable\n        try (String s = \"Hello\") {  // String doesn't implement AutoCloseable!\n            ^\n1 error",
-    "explanation": "try-with-resources only works with AutoCloseable resources!\n\nString doesn't implement AutoCloseable, so you can't use it in try-with-resources.\n\nFIX: Only use resources that implement AutoCloseable:\n• BufferedReader ✓\n• Scanner ✓\n• FileReader ✓\n• String ✗\n• Integer ✗\n\nAlways check if a class implements AutoCloseable before using it in try-with-resources.",
-    "fixedCode": null
+    "explanation": "try (String s = \"Hello\") { ... } looks like it should work — it's the same syntax — but String doesn't implement AutoCloseable. There's no close() method on String at all, so Java has nothing to call when the block ends, and refuses to compile rather than silently do nothing.\n\n[[key:try-with-resources only accepts objects that implement AutoCloseable]] — that's not a suggestion, it's a hard requirement enforced at compile time, same as any other interface implementation check.\n\nIf you genuinely just need a value inside a try block without any cleanup behavior, that's what a normal try (or even just a regular variable outside the try) is for — try-with-resources specifically exists for things that NEED closing.",
+    "fixedCode": "class Ticket implements AutoCloseable {\n    String id;\n\n    Ticket(String id) {\n        this.id = id;\n        System.out.println(\"Ticket \" + id + \" opened\");\n    }\n\n    @Override\n    public void close() {\n        System.out.println(\"Ticket \" + id + \" closed\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        try (Ticket t = new Ticket(\"A1\")) {\n            System.out.println(\"Using ticket \" + t.id);\n        }\n    }\n}",
+    "openingDialogue": "Watch what happens when a value doesn't know how to close~"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
-    "openingDialogue": "try-with-resources — automatic cleanup! 🧹"
+    "scaffoldCode": "class Ticket implements {{b1}} {\n    String id;\n\n    Ticket(String id) {\n        this.id = id;\n        System.out.println(\"Ticket \" + id + \" opened\");\n    }\n\n    @Override\n    public void {{b2}}() {\n        System.out.println(\"Ticket \" + id + \" closed\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        {{b3}} (Ticket t = new Ticket(\"A1\")) {\n            System.out.println(\"Using ticket \" + t.id);\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "AutoCloseable"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "close"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "try"
+        ],
+        "caseSensitive": true
+      }
+    ],
+    "openingDialogue": "Let's build a resource that knows how to clean up after itself~"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which statement about try-with-resources is TRUE?\n\nA) Any class can be used inside try-with-resources, no interface required\nB) Resources are closed in the same order they were declared\nC) A resource used in try-with-resources must implement AutoCloseable\nD) try-with-resources removes the need for a catch block entirely",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write a program that:\n1. Uses try-with-resources to create a Scanner reading from a file called \"data.txt\"\n2. Reads and prints all lines from the file\n3. Catches IOException if file not found\n\nNote: For this exercise, assume the file exists with some sample text.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: try-with-resources was added in Java 7 (2011) — meaning for over 15 years, every Java developer had to write the manual finally-with-null-check pattern by hand. It's one of the clearer examples of a language feature that didn't add new capability so much as remove an entire category of resource-leak bugs that used to be extremely common in real Java codebases.",
+    "openingDialogue": "One more thought before you go~"
   },
   "hoverNotes": {}
 }

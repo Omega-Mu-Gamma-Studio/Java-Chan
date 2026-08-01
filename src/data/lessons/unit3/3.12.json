@@ -5,28 +5,57 @@
   "phase1": {
     "code": "import java.io.*;\n\n// Serializable class\nclass Person implements Serializable {\n    // Serial version UID — ensures compatibility\n    private static final long serialVersionUID = 1L;\n    \n    private String name;\n    private int age;\n    private String email;\n    \n    // transient — won't be serialized\n    private transient String password;\n    \n    // Static fields aren't serialized\n    private static String company = \"Acme Corp\";\n    \n    Person(String name, int age, String email, String password) {\n        this.name = name;\n        this.age = age;\n        this.email = email;\n        this.password = password;\n    }\n    \n    @Override\n    public String toString() {\n        return \"Person{name='\" + name + \"', age=\" + age + \n               \", email='\" + email + \"', password='\" + password + \n               \"', company='\" + company + \"'}\";\n    }\n}\n\npublic class SerializationExample {\n    public static void main(String[] args) {\n        Person alice = new Person(\"Alice\", 25, \"alice@email.com\", \"secret123\");\n        \n        System.out.println(\"=== Serialization ===\");\n        System.out.println(\"Original: \" + alice);\n        \n        // Serialize (write to file)\n        String filename = \"person.ser\";\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filename))) {\n            oos.writeObject(alice);\n            System.out.println(\"Object serialized to \" + filename);\n        } catch (IOException e) {\n            System.out.println(\"Serialization error: \" + e.getMessage());\n        }\n        \n        // Deserialize (read from file)\n        System.out.println(\"=== Deserialization ===\");\n        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename))) {\n            Person restored = (Person) ois.readObject();\n            System.out.println(\"Restored: \" + restored);\n            \n            // Check transient field\n            System.out.println(\"Password: \" + restored.toString());\n        } catch (IOException | ClassNotFoundException e) {\n            System.out.println(\"Deserialization error: \" + e.getMessage());\n        }\n        \n        // Serializing multiple objects\n        System.out.println(\"=== Multiple Objects ===\");\n        Person[] people = {\n            new Person(\"Bob\", 30, \"bob@email.com\", \"pass1\"),\n            new Person(\"Charlie\", 35, \"charlie@email.com\", \"pass2\")\n        };\n        \n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"people.ser\"))) {\n            oos.writeObject(people);\n            System.out.println(\"Array serialized!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(\"people.ser\"))) {\n            Person[] restoredPeople = (Person[]) ois.readObject();\n            System.out.println(\"Restored array:\");\n            for (Person p : restoredPeople) {\n                System.out.println(\"  \" + p);\n            }\n        } catch (IOException | ClassNotFoundException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "output": "=== Serialization ===\nOriginal: Person{name='Alice', age=25, email='alice@email.com', password='secret123', company='Acme Corp'}\nObject serialized to person.ser\n=== Deserialization ===\nRestored: Person{name='Alice', age=25, email='alice@email.com', password='null', company='Acme Corp'}\n=== Multiple Objects ===\nArray serialized!\nRestored array:\n  Person{name='Bob', age=30, email='bob@email.com', password='null', company='Acme Corp'}\n  Person{name='Charlie', age=35, email='charlie@email.com', password='null', company='Acme Corp'}",
-    "explanation": "Serialization saves objects to a file and restores them later:\n\nSerializable interface:\n• Marker interface (no methods)\n• Tells Java: \"this object can be saved\"\n\nKey concepts:\n• serialVersionUID — version identifier (controls compatibility)\n• transient — fields NOT serialized (sensitive data)\n• static fields — NOT serialized (belong to class)\n\nObjectOutputStream:\n• writeObject(obj) — serializes an object\n• Can serialize any Serializable object\n• Supports primitive types too\n\nObjectInputStream:\n• readObject() — deserializes an object\n• Returns Object (needs casting)\n\nWhat gets serialized:\n• Non-transient instance fields\n• Primitives and Serializable objects\n\nWhat doesn't get serialized:\n• transient fields\n• static fields\n• Non-Serializable objects\n\nBest practices:\n• Always define serialVersionUID\n• Mark sensitive data as transient\n• Consider security implications\n\nWhen to use serialization:\n• Save game state\n• Cache objects\n• Send objects over network\n• Store user sessions"
+    "explanation": "Everything we've saved to disk so far has been text or bytes we manually constructed. [[term:Serialization]] does something different — it takes a whole object, exactly as it exists in memory, and converts it into a form that can be written to a file and reconstructed later as a real, working object again.\n\nThe only requirement is that the class implements [[term:Serializable]] — and it's a genuinely unusual interface, because it has zero methods to implement. [[key:it's a marker interface — its whole job is just telling Java \"objects of this class are allowed to be serialized\"]], nothing more.\n\n[[term:ObjectOutputStream]].writeObject(obj) does the actual serializing, and [[term:ObjectInputStream]].readObject() reverses it — though notice readObject() returns a plain Object, so [[key:you always need to cast it back to the real type]], like (Person) ois.readObject().\n\nTwo field modifiers change what actually gets saved. [[term:transient]] fields are deliberately EXCLUDED from serialization — exactly what you want for something like a password that shouldn't end up sitting in a file on disk. [[warn:static fields are never serialized either, for a different reason]] — they belong to the CLASS, not to any individual object, so there's no per-object copy to save in the first place.\n\nOne more thing worth setting up now, even before it causes a problem: [[key:serialVersionUID is a version marker you should always define explicitly]] — private static final long serialVersionUID = 1L;. Without it, Java auto-generates one based on the class's exact structure, and if that structure ever changes even slightly, old serialized files can suddenly fail to deserialize because the auto-generated ID no longer matches.",
+    "openingDialogue": "Serialization — freeze objects and bring them back~ ❄️"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\n// Missing Serializable interface\nclass Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"person.ser\"))) {\n            Person p = new Person(\"Alice\", 25);\n            oos.writeObject(p);  // ERROR!\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "errorMessage": "Exception in thread \"main\" java.io.NotSerializableException: Person\n        at java.base/java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1185)\n        at java.base/java.io.ObjectOutputStream.writeObject(ObjectOutputStream.java:349)\n        at Test.main(Test.java:16)",
-    "explanation": "NotSerializableException! Person doesn't implement Serializable, so it can't be serialized.\n\nFIX: Implement Serializable:\n\nclass Person implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int age;\n    // ...\n}\n\nAll objects in the object graph must be Serializable. If any field isn't Serializable, serialization fails.\n\nFor non-serializable fields, use 'transient'.",
-    "fixedCode": null
+    "explanation": "Person never implements Serializable, so the moment oos.writeObject(p) tries to actually serialize it, Java discovers there's no permission slip on file for this class and throws NotSerializableException at runtime.\n\n[[warn:this is checked at runtime, not compile time]] — the code compiles just fine; the failure only shows up the instant you actually try to serialize an object of a class that isn't marked Serializable.\n\n[[key:the fix is exactly what the marker interface exists for]]: class Person implements Serializable { ... }. And it's worth knowing this rule extends deeper than just the top-level object — every field's type inside Person also needs to be Serializable (or marked transient), because serialization has to be able to save the ENTIRE object graph, not just the outermost layer.",
+    "fixedCode": "import java.io.*;\n\nclass Person implements Serializable {\n    private static final long serialVersionUID = 1L;\n    String name;\n    int age;\n\n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) throws IOException {\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"person.ser\"))) {\n            Person p = new Person(\"Alice\", 25);\n            oos.writeObject(p);\n        }\n    }\n}",
+    "openingDialogue": "Watch what happens when an \"exception\" — wait, when a class forgets to sign up for serialization~"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
-    "openingDialogue": "Serialization — freeze objects and bring them back! ❄️"
+    "scaffoldCode": "import java.io.*;\n\nclass Note {{b1}} Serializable {\n    private static final long serialVersionUID = 1L;\n    String text;\n    transient String draftPassword;\n\n    Note(String text, String draftPassword) {\n        this.text = text;\n        this.draftPassword = draftPassword;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) throws Exception {\n        Note note = new Note(\"Buy milk\", \"secret\");\n\n        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(\"note.ser\"))) {\n            oos.{{b2}}(note);\n        }\n\n        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(\"note.ser\"))) {\n            Note restored = ({{b3}}) ois.readObject();\n            System.out.println(restored.text + \" / \" + restored.draftPassword);\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "implements"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "writeObject"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "Note"
+        ],
+        "caseSensitive": true
+      }
+    ],
+    "openingDialogue": "Let's save an object to disk and bring it back~"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which field is correctly excluded from an object's serialized form?\n\nA) A regular private instance field\nB) A field marked transient\nC) A field with a public getter\nD) The first field declared in the class",
+      "validationPattern": {
+        "mcqAnswer": "B"
+      }
+    },
     "selfChallenge": "Create a Student class that:\n• Implements Serializable\n• Has fields: name, id, gpa\n• Has a transient field: password\n• Has serialVersionUID = 1L\n\nIn main:\n1. Create a Student object\n2. Serialize it to \"student.ser\"\n3. Deserialize it back\n4. Print both the original and restored objects\n\nNote: The transient field should be null after deserialization.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: Java's ObjectOutputStream format is notoriously version-fragile and has been a recurring source of real security vulnerabilities — deserializing untrusted data (readObject() on a file or stream you don't fully control) has been exploited in several major real-world attacks, which is part of why many modern Java codebases avoid built-in serialization in favor of formats like JSON for anything crossing a trust boundary.",
+    "openingDialogue": "One more thought before you go~"
   },
   "hoverNotes": {}
 }

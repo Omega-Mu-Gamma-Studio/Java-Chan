@@ -232,8 +232,38 @@ process as Unit 1:
   cross-checked against declared `blanks` arrays (all match); `npm run
   build` clean.
 
-**Units 3–5 (45 lessons) — not started**, aside from the existing 3.4
-pilot lesson. Next up per §4.3's per-unit sequencing.
+**Unit 3 (Exception Handling & File I/O, 15 lessons) — DONE.** 3.4 was the
+original pilot lesson. 3.1–3.3, 3.5–3.15 authored in this pass, same
+process as Units 1 and 2:
+- Phase 1 explanations rewritten in full voice. The unit's own framing —
+  "everything up to now assumed things go right; this unit is about
+  surviving when that trust turns out to be misplaced" — was established
+  in 3.1 and referenced back to explicitly in 3.15's review, giving the
+  unit the same one-continuous-thread feel as Units 1 and 2. Streams are
+  introduced (3.7) with an explicit callback to "everything up to now has
+  been about handling things going WRONG — this is about getting data in
+  and out," marking the unit's internal exceptions→I/O pivot for the
+  reader.
+- Phase 2 explanations rewritten in voice; existing `brokenCode`/
+  `errorMessage` left as-is (technically correct already).
+  `phase2.fixedCode` authored for all 14 (all were `null` pre-pass).
+- Phase 3 `scaffoldCode`/`blanks` authored for every coding lesson.
+  3.1, 3.6, and 3.15 (conceptual lessons — intro, built-in exception
+  catalog, unit review) stay stubbed on purpose, same precedent as
+  1.1/1.2/2.15.
+- Phase 4 MCQs authored for 3.2, 3.3, 3.5, 3.7–3.14 (3.1, 3.4, 3.6, 3.15
+  already had one from earlier work). Existing `selfChallenge` prompts
+  left untouched.
+- Phase 5 trivia authored for all 15 lessons.
+- Verification: all 15 lesson JSONs valid; scaffold blank markers
+  cross-checked against declared `blanks` arrays (all match); `npm run
+  build` clean; `npx eslint .` shows the same pre-existing baseline (9
+  errors / 3 warnings in `JavaChan.jsx`, `useLesson.js`, `XPDisplay.jsx`,
+  `Shop.jsx`, `storageService.js`, `patternMatcher.js`) with nothing new
+  introduced by this pass.
+
+**Units 4–5 (30 lessons) — not started.** Next up per §4.3's per-unit
+sequencing.
 
 ### Step 5 — Suite-wide propagation (§4.5, deferred)
 PlusPlus-Chan, Go-Chan, Kotlin-Chan, Python-Chan, Rust-Chan share this

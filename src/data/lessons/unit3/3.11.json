@@ -5,28 +5,57 @@
   "phase1": {
     "code": "import java.io.*;\n\npublic class FileClassExample {\n    public static void main(String[] args) {\n        // Creating File objects\n        File file = new File(\"test.txt\");\n        File directory = new File(\"myfolder\");\n        \n        // 1. File metadata\n        System.out.println(\"=== File Metadata ===\");\n        try {\n            if (file.exists()) {\n                System.out.println(\"Name: \" + file.getName());\n                System.out.println(\"Absolute path: \" + file.getAbsolutePath());\n                System.out.println(\"Parent: \" + file.getParent());\n                System.out.println(\"Size: \" + file.length() + \" bytes\");\n                System.out.println(\"Last modified: \" + file.lastModified());\n                System.out.println(\"Can read: \" + file.canRead());\n                System.out.println(\"Can write: \" + file.canWrite());\n                System.out.println(\"Is file: \" + file.isFile());\n                System.out.println(\"Is directory: \" + file.isDirectory());\n            } else {\n                System.out.println(\"File doesn't exist!\");\n            }\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // 2. Creating files and directories\n        System.out.println(\"=== Creating ===\");\n        try {\n            // Create a directory\n            if (!directory.exists()) {\n                boolean created = directory.mkdir();\n                System.out.println(\"Directory created: \" + created);\n            }\n            \n            // Create a file\n            File newFile = new File(\"myfolder/newfile.txt\");\n            if (!newFile.exists()) {\n                boolean created = newFile.createNewFile();\n                System.out.println(\"File created: \" + created);\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // 3. Listing directory contents\n        System.out.println(\"=== Listing Directory ===\");\n        File currentDir = new File(\".\");  // Current directory\n        String[] files = currentDir.list();\n        if (files != null) {\n            System.out.println(\"Files in current directory:\");\n            for (String name : files) {\n                File f = new File(name);\n                if (f.isDirectory()) {\n                    System.out.println(\"📁 \" + name + \"/\");\n                } else {\n                    System.out.println(\"📄 \" + name + \" (\" + f.length() + \" bytes)\");\n                }\n            }\n        }\n        \n        // 4. File operations: rename and delete\n        System.out.println(\"=== Operations ===\");\n        try {\n            // Rename file\n            File oldFile = new File(\"myfolder/newfile.txt\");\n            File newFile2 = new File(\"myfolder/renamed.txt\");\n            if (oldFile.exists()) {\n                boolean renamed = oldFile.renameTo(newFile2);\n                System.out.println(\"File renamed: \" + renamed);\n            }\n            \n            // Delete file\n            File toDelete = new File(\"myfolder/renamed.txt\");\n            if (toDelete.exists()) {\n                boolean deleted = toDelete.delete();\n                System.out.println(\"File deleted: \" + deleted);\n            }\n            \n            // Delete directory (must be empty)\n            File dirToDelete = new File(\"myfolder\");\n            if (dirToDelete.exists() && dirToDelete.isDirectory()) {\n                String[] contents = dirToDelete.list();\n                if (contents == null || contents.length == 0) {\n                    boolean deleted = dirToDelete.delete();\n                    System.out.println(\"Directory deleted: \" + deleted);\n                } else {\n                    System.out.println(\"Directory not empty, can't delete!\");\n                }\n            }\n        } catch (SecurityException e) {\n            System.out.println(\"Security error: \" + e.getMessage());\n        }\n        \n        // 5. Path operations\n        System.out.println(\"=== Path Operations ===\");\n        File path = new File(\"parent\" + File.separator + \"child\" + File.separator + \"file.txt\");\n        System.out.println(\"Path: \" + path.getPath());\n        System.out.println(\"File separator: \" + File.separator);\n        System.out.println(\"Path separator: \" + File.pathSeparator);\n    }\n}",
     "output": "=== File Metadata ===\nFile doesn't exist!\n=== Creating ===\nDirectory created: true\nFile created: true\n=== Listing Directory ===\nFiles in current directory:\n📁 .git/\n📄 .gitignore (... bytes)\n📁 myfolder/\n📄 test.txt (... bytes)\n=== Operations ===\nFile renamed: true\nFile deleted: true\nDirectory deleted: true\n=== Path Operations ===\nPath: parent\\child\\file.txt\nFile separator: \\\nPath separator: ;",
-    "explanation": "The File class represents file and directory paths:\n\nCreating File objects:\n• new File(\"filename\") — relative path\n• new File(\"/absolute/path\") — absolute path\n• new File(\"parent\", \"child\") — path from parts\n\nFile methods:\n• exists() — checks if file exists\n• createNewFile() — creates empty file\n• mkdir() — creates single directory\n• mkdirs() — creates nested directories\n• delete() — deletes file/directory\n• renameTo(File) — renames file\n• list() — lists files in directory\n• listFiles() — returns File[]\n\nFile properties:\n• getName() — filename\n• getAbsolutePath() — full path\n• getParent() — parent directory\n• length() — file size in bytes\n• lastModified() — last modified time\n• isFile() / isDirectory() — type check\n• canRead() / canWrite() — permissions\n\nPath separators:\n• File.separator — platform-independent separator (/, \\, etc.)\n• File.pathSeparator — list separator (;, :)\n\nWarning: delete() only works on empty directories!\nWarning: renameTo() might fail between different filesystems!"
+    "explanation": "Everything so far has been about moving data INTO and OUT OF files. The [[term:File]] class is different — it's about the file itself as an object: does it exist, how big is it, can you read it, and operations like creating, renaming, and deleting.\n\n[[key:creating a File object doesn't create an actual file on disk]] — new File(\"test.txt\") just builds a Java object that REPRESENTS that path; the real file might exist, might not, and you won't know until you ask. exists() checks; createNewFile() actually creates an empty file if it doesn't exist yet; mkdir() does the same for a single directory.\n\nThere's a whole set of metadata methods worth knowing: getName(), getAbsolutePath(), length() (size in bytes), lastModified(), and the permission checks canRead()/canWrite(). isFile() and isDirectory() let you tell which kind of thing you're actually looking at, since a File object can represent either.\n\n[[warn:two operations are worth extra caution]]: delete() only works on EMPTY directories — a directory with anything still inside it won't delete, full stop, no exceptions. And both delete() and renameTo() return a boolean rather than throwing an exception on failure, which means [[key:it's entirely possible to silently fail unless you actually check the return value]] — file.delete() can just quietly return false and leave the file exactly where it was.\n\nFile.separator and File.pathSeparator exist for a reason worth internalizing early: [[key:file paths look different across operating systems]] — Windows uses \\, everything else uses /. Using File.separator instead of hardcoding either one keeps your code working the same way regardless of where it runs.",
+    "openingDialogue": "File operations — create, explore, delete~ 📂"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        File file = new File(\"test.txt\");\n        \n        // Trying to delete a file that's open\n        try (FileWriter fw = new FileWriter(file)) {\n            fw.write(\"Hello\");\n            // File is still open\n        }\n        \n        // Delete while file might still be open\n        boolean deleted = file.delete();\n        System.out.println(\"Deleted: \" + deleted);\n    }\n}",
     "errorMessage": "Deleted: false\n\n(No error — but the file WASN'T deleted! delete() returned false.)",
-    "explanation": "delete() returns false when it can't delete the file. In this case, the file might still be open or locked.\n\nEven though try-with-resources closes the file, the OS might have a lock on it.\n\nFIX: Check return value and handle failure:\nif (file.delete()) {\n    System.out.println(\"File deleted!\");\n} else {\n    System.out.println(\"Failed to delete file!\");\n}\n\nOr use Files.delete() which throws exception on failure:\nFiles.delete(file.toPath());  // Throws IOException on failure\n\nAlways check return values of file operations!",
-    "fixedCode": null
+    "explanation": "delete() ran, but it returned false — the file genuinely wasn't deleted, and there's no exception or crash to warn you. Even though the try-with-resources block closed the FileWriter, the operating system can sometimes hold onto a lock on a recently-closed file for a moment longer, and delete() simply fails quietly when that happens.\n\n[[warn:delete() and renameTo() both return a boolean instead of throwing on failure]] — which means [[key:you have to explicitly check that return value, or a failed delete looks exactly like a successful one]] from the code's perspective.\n\nThe safer pattern: if (file.delete()) { ... success ... } else { ... handle the failure ... }. Or, for something more fail-loud, the newer NIO Files.delete() throws a real exception on failure instead of returning a silent boolean.",
+    "fixedCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) throws IOException {\n        File file = new File(\"test.txt\");\n\n        try (FileWriter fw = new FileWriter(file)) {\n            fw.write(\"Hello\");\n        }\n\n        boolean deleted = file.delete();\n        if (deleted) {\n            System.out.println(\"File deleted!\");\n        } else {\n            System.out.println(\"Failed to delete file!\");\n        }\n    }\n}",
+    "openingDialogue": "Watch what happens when delete() fails silently~"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
-    "openingDialogue": "File operations — create, explore, delete! 📂"
+    "scaffoldCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        {{b1}} file = new File(\"notes.txt\");\n\n        System.out.println(\"Exists: \" + file.{{b2}}());\n\n        if (file.exists()) {\n            System.out.println(\"Size: \" + file.length());\n            boolean deleted = file.{{b3}}();\n            System.out.println(\"Deleted: \" + deleted);\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "File"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "exists"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "delete"
+        ],
+        "caseSensitive": true
+      }
+    ],
+    "openingDialogue": "Let's check a file's own metadata~"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "Which statement about the File class is TRUE?\n\nA) new File(\"test.txt\") immediately creates an empty file on disk\nB) delete() throws an exception if it fails\nC) delete() only works on empty directories\nD) File.separator is the same string on every operating system",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write a program that:\n1. Creates a directory called \"data\" (use mkdir())\n2. Creates a file called \"data/info.txt\" (use createNewFile())\n3. Checks if the file exists and prints its size\n4. Lists all files in the \"data\" directory\n5. Deletes the file and then the directory",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: the File class dates back to Java 1.0, and its quiet return-a-boolean-instead-of-throwing design is actually one of the biggest reasons Java introduced the entirely separate NIO Files API years later — silent failure turned out to be a genuinely common source of production bugs, and Files.delete() throwing a real IOException on failure was a deliberate fix.",
+    "openingDialogue": "One more thought before you go~"
   },
   "hoverNotes": {}
 }

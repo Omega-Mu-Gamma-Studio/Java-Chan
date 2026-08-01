@@ -5,28 +5,57 @@
   "phase1": {
     "code": "import java.io.*;\n\npublic class ByteStreamExample {\n    public static void main(String[] args) {\n        // Writing bytes to a file\n        System.out.println(\"=== Writing bytes ===\");\n        byte[] data = {65, 66, 67, 68, 69}; // A, B, C, D, E\n        \n        try (FileOutputStream fos = new FileOutputStream(\"bytes.bin\")) {\n            fos.write(data);\n            System.out.println(\"Bytes written: \" + data.length);\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Reading bytes from a file\n        System.out.println(\"=== Reading bytes ===\");\n        try (FileInputStream fis = new FileInputStream(\"bytes.bin\")) {\n            int byteRead;\n            System.out.print(\"Bytes read: \");\n            while ((byteRead = fis.read()) != -1) {\n                System.out.print(byteRead + \" \");\n            }\n            System.out.println();\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n        \n        // Reading bytes into an array\n        System.out.println(\"=== Reading into array ===\");\n        try (FileInputStream fis = new FileInputStream(\"bytes.bin\")) {\n            byte[] buffer = new byte[10];\n            int bytesRead = fis.read(buffer);\n            \n            System.out.println(\"Bytes read: \" + bytesRead);\n            System.out.print(\"Data: \");\n            for (int i = 0; i < bytesRead; i++) {\n                System.out.print((char) buffer[i] + \" \");\n            }\n            System.out.println();\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n        \n        // Copying a file using byte streams\n        System.out.println(\"=== Copying file ===\");\n        try (FileInputStream fis = new FileInputStream(\"source.txt\");\n             FileOutputStream fos = new FileOutputStream(\"destination.txt\")) {\n            byte[] buffer = new byte[1024];\n            int bytesRead;\n            while ((bytesRead = fis.read(buffer)) != -1) {\n                fos.write(buffer, 0, bytesRead);\n            }\n            System.out.println(\"File copied successfully!\");\n        } catch (IOException e) {\n            System.out.println(\"Error copying: \" + e.getMessage());\n        }\n    }\n}",
     "output": "=== Writing bytes ===\nBytes written: 5\n=== Reading bytes ===\nBytes read: 65 66 67 68 69 \n=== Reading into array ===\nBytes read: 5\nData: A B C D E \n=== Copying file ===\nFile copied successfully!",
-    "explanation": "Byte streams handle raw binary data:\n\nInputStream (base class for reading bytes):\n• FileInputStream — reads bytes from a file\n\nOutputStream (base class for writing bytes):\n• FileOutputStream — writes bytes to a file\n\nKey methods:\n• read() — reads single byte (returns -1 at end)\n• read(byte[] buffer) — reads bytes into array\n• write(byte[] data) — writes bytes\n• write(byte[] data, int offset, int length) — writes partial array\n\nWhen to use byte streams:\n• Reading/writing binary files (images, audio, videos)\n• Any file where you need raw bytes\n\nImportant:\n• Always close resources (use try-with-resources)\n• read() returns -1 when end of file is reached\n• Byte streams work with ANY file type\n\nByte vs Character streams:\n• Byte streams: raw bytes, any file\n• Character streams: text files, handles encoding"
+    "explanation": "Everything up to now has been about handling things going WRONG. Streams are about something different: getting data in and out of your program — specifically, in and out of files — and [[term:byte streams]] are the most fundamental way to do it.\n\nA [[term:byte stream]] moves raw bytes, one at a time or in chunks, with zero interpretation of what those bytes actually mean. [[term:FileInputStream]] reads bytes IN from a file; [[term:FileOutputStream]] writes bytes OUT. That's genuinely all either one knows how to do — there's no concept of \"text\" or \"encoding\" anywhere in a byte stream, just raw numbers.\n\nread() reads exactly one byte and returns it as an int — [[key:and returns -1 specifically to signal \"there's nothing left to read\"]], which is why every byte-stream reading loop looks like while ((byteRead = fis.read()) != -1). read(byte[] buffer) is the faster cousin — it fills a whole array in one call instead of looping one byte at a time, which matters a lot for anything bigger than a few bytes.\n\n[[warn:because byte streams have no idea what encoding means, they're the wrong tool for text]] — use them for genuinely binary data: images, audio, video, any file where \"raw bytes\" IS the actual content, not a stand-in for readable characters. We'll get to the text-specific version, character streams, next.\n\nOne habit to build right now, before it becomes a bad one: [[key:always close a stream when you're done with it]] — an open file handle that never gets released can lock the file or exhaust the OS's limit on open files.",
+    "openingDialogue": "Byte streams — reading and writing raw data~ 💾"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        FileInputStream fis = null;\n        try {\n            fis = new FileInputStream(\"data.bin\");\n            int data = fis.read();\n            System.out.println(\"Data: \" + data);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        } finally {\n            // Forgot to close fis!\n        }\n    }\n}",
     "errorMessage": "(No error shown — but resources leak! The file remains open.)",
-    "explanation": "You forgot to close the FileInputStream! This causes a resource leak.\n\nEven though the program ends, leaving files open can cause:\n• File locks (can't delete/modify file)\n• Too many open files (system limit)\n• Memory leaks\n\nFIX: Close in finally block:\nfinally {\n    if (fis != null) {\n        try {\n            fis.close();\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n    }\n}\n\nEven better: use try-with-resources!\n\ntry (FileInputStream fis = new FileInputStream(\"data.bin\")) {\n    // auto-closed!\n}",
-    "fixedCode": null
+    "explanation": "fis never gets closed. The finally block is there, but it's empty — the comment even says so. That means the file stays open even after the program's logically done with it.\n\n[[warn:this doesn't crash anything, which is exactly what makes it dangerous]] — no error message, no stack trace, nothing that tells you something's wrong. The cost shows up later: the file might stay locked, or if this pattern repeats across a long-running program, you can eventually hit the OS's limit on how many files can be open at once.\n\n[[key:the fix, and honestly the better habit going forward, is try-with-resources]] — instead of a manual finally block with a null check, try (FileInputStream fis = new FileInputStream(\"data.bin\")) { ... } closes fis automatically the instant the block ends, no matter how it ends.",
+    "fixedCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (FileInputStream fis = new FileInputStream(\"data.bin\")) {\n            int data = fis.read();\n            System.out.println(\"Data: \" + data);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
+    "openingDialogue": "Watch what happens when a stream never gets closed~"
   },
   "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
-    "openingDialogue": "Byte streams — reading and writing raw data! 💾"
+    "scaffoldCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) throws IOException {\n        byte[] data = {72, 73};\n\n        try ({{b1}} fos = new FileOutputStream(\"greeting.bin\")) {\n            fos.{{b2}}(data);\n        }\n\n        try (FileInputStream fis = new FileInputStream(\"greeting.bin\")) {\n            int b;\n            while ((b = fis.{{b3}}()) != -1) {\n                System.out.print(b + \" \");\n            }\n        }\n    }\n}",
+    "blanks": [
+      {
+        "id": "b1",
+        "answer": [
+          "FileOutputStream"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b2",
+        "answer": [
+          "write"
+        ],
+        "caseSensitive": true
+      },
+      {
+        "id": "b3",
+        "answer": [
+          "read"
+        ],
+        "caseSensitive": true
+      }
+    ],
+    "openingDialogue": "Let's move some raw bytes ourselves~"
   },
   "xpReward": 10,
   "phase4": {
-    "mcq": null,
+    "mcq": {
+      "question": "What does read() return when a byte stream reaches the end of a file?\n\nA) 0\nB) null\nC) -1\nD) It throws an exception",
+      "validationPattern": {
+        "mcqAnswer": "C"
+      }
+    },
     "selfChallenge": "Write a program that:\n1. Creates an array of bytes: {10, 20, 30, 40, 50}\n2. Writes these bytes to a file called \"numbers.bin\" using FileOutputStream\n3. Reads the bytes back using FileInputStream\n4. Prints each byte with its decimal value\n\nUse try-with-resources for both operations.",
     "openingDialogue": null
   },
   "phase5": {
-    "trivia": null,
-    "openingDialogue": null
+    "trivia": "[[fun:Fun fact]]: byte streams are the oldest I/O classes in Java, dating back to Java 1.0 in 1996 — character streams (Reader/Writer) weren't added until 1.1, specifically because the original design underestimated how much text-encoding handling real programs would need.",
+    "openingDialogue": "One more thought before you go~"
   },
   "hoverNotes": {}
 }

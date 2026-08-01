@@ -1,32 +1,71 @@
 {
-  "id": "3.4",
-  "title": "Custom Exceptions",
-  "type": "coding",
-  "phase1": {
-    "code": "// Custom checked exception (extends Exception)\nclass InsufficientFundsException extends Exception {\n    // Constructor with message\n    public InsufficientFundsException(String message) {\n        super(message);\n    }\n    \n    // Constructor with message and cause\n    public InsufficientFundsException(String message, Throwable cause) {\n        super(message, cause);\n    }\n}\n\n// Custom unchecked exception (extends RuntimeException)\nclass NegativeAmountException extends RuntimeException {\n    public NegativeAmountException(String message) {\n        super(message);\n    }\n}\n\nclass BankAccount {\n    private String accountNumber;\n    private double balance;\n    \n    BankAccount(String accountNumber, double initialBalance) {\n        this.accountNumber = accountNumber;\n        this.balance = initialBalance;\n    }\n    \n    public void withdraw(double amount) throws InsufficientFundsException {\n        if (amount < 0) {\n            throw new NegativeAmountException(\"Cannot withdraw negative amount!\");\n        }\n        \n        if (amount > balance) {\n            throw new InsufficientFundsException(\n                \"Insufficient funds! Balance: $\" + balance + \", Requested: $\" + amount\n            );\n        }\n        \n        balance -= amount;\n        System.out.println(\"Withdrew $\" + amount + \". New balance: $\" + balance);\n    }\n    \n    public void deposit(double amount) {\n        if (amount < 0) {\n            throw new NegativeAmountException(\"Cannot deposit negative amount!\");\n        }\n        balance += amount;\n        System.out.println(\"Deposited $\" + amount + \". New balance: $\" + balance);\n    }\n    \n    public double getBalance() {\n        return balance;\n    }\n}\n\npublic class CustomExceptionExample {\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(\"12345\", 500);\n        \n        System.out.println(\"Initial balance: $\" + account.getBalance());\n        \n        // Deposit — NegativeAmountException (unchecked)\n        try {\n            account.deposit(-100);\n        } catch (NegativeAmountException e) {\n            System.out.println(\"Deposit error: \" + e.getMessage());\n        }\n        \n        // Withdraw — InsufficientFundsException (checked)\n        try {\n            account.withdraw(1000);\n        } catch (InsufficientFundsException e) {\n            System.out.println(\"Withdrawal error: \" + e.getMessage());\n            System.out.println(\"Current balance: $\" + account.getBalance());\n        } catch (NegativeAmountException e) {\n            System.out.println(\"Withdrawal error: \" + e.getMessage());\n        }\n        \n        // Successful withdrawal\n        try {\n            account.withdraw(200);\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        System.out.println(\"Final balance: $\" + account.getBalance());\n    }\n}",
-    "output": "Initial balance: $500.0\nDeposit error: Cannot deposit negative amount!\nWithdrawal error: Insufficient funds! Balance: $500.0, Requested: $1000.0\nCurrent balance: $500.0\nWithdrew $200.0. New balance: $300.0\nFinal balance: $300.0",
-    "explanation": "Custom exceptions let you create domain-specific error types:\n\nWhy create custom exceptions?\n• Clearer error messages\n• Domain-specific error types\n• Better error handling with specific catches\n\nTypes of custom exceptions:\n\n1. Checked (extends Exception):\n   • Must be handled or declared\n   • For recoverable errors\n   • Example: InsufficientFundsException\n\n2. Unchecked (extends RuntimeException):\n   • No handling required\n   • For programming errors\n   • Example: NegativeAmountException\n\nCreating a custom exception:\n• Extend Exception or RuntimeException\n• Call super(message) in constructor\n• Can add custom fields/methods\n\nBest practices:\n• Provide meaningful error messages\n• Use checked for recoverable errors\n• Use unchecked for programming errors\n• Include cause for chaining\n\nNaming convention: [ErrorType]Exception (e.g., InsufficientFundsException)"
-  },
-  "phase2": {
-    "brokenCode": "// Forgetting to extend Exception or RuntimeException\nclass MyException {\n    private String message;\n    \n    MyException(String message) {\n        this.message = message;\n    }\n}\n\nclass Validator {\n    void validate(int value) throws MyException {  // ERROR!\n        if (value < 0) {\n            throw new MyException(\"Invalid value\");\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        try {\n            v.validate(-5);\n        } catch (MyException e) {  // ERROR!\n            System.out.println(e.getMessage());\n        }\n    }\n}",
-    "errorMessage": "MyException.java:9: error: cannot find symbol\n    void validate(int value) throws MyException {  // ERROR!\n                                    ^\n  symbol:   class MyException\n  location: class Validator\nMyException.java:11: error: incompatible types: MyException cannot be converted to Throwable\n            throw new MyException(\"Invalid value\");\n            ^\n2 errors",
-    "explanation": "MyException doesn't extend Throwable (Exception or RuntimeException), so it can't be thrown!\n\nCustom exceptions MUST extend Exception or RuntimeException (or their subclasses).\n\nFIX: class MyException extends Exception\n\nOr: class MyException extends RuntimeException\n\nAlways extend the proper parent class!",
-    "fixedCode": null
-  },
-  "phase3": {
-    "scaffoldCode": null,
-    "blanks": [],
-    "openingDialogue": "Custom exceptions — your own error language! 🎨"
-  },
-  "xpReward": 10,
-  "phase4": {
-    "mcq": null,
-    "selfChallenge": "Create a custom exception class AgeException (extends Exception).\n\nCreate a Person class with:\n• Fields: name, age\n• Constructor validates:\n  - If age < 0 or age > 150 → throw AgeException\n• Method: vote() — can only vote if age >= 18 → throw AgeException if not\n\nIn main, test with valid and invalid ages.",
-    "openingDialogue": null
-  },
-  "phase5": {
-    "trivia": null,
-    "openingDialogue": null
-  },
-  "hoverNotes": {}
+    "id": "3.4",
+    "title": "Custom Exceptions",
+    "type": "coding",
+    "phase1": {
+        "code": "// Custom checked exception (extends Exception)\nclass InsufficientFundsException extends Exception {\n    // Constructor with message\n    public InsufficientFundsException(String message) {\n        super(message);\n    }\n    \n    // Constructor with message and cause\n    public InsufficientFundsException(String message, Throwable cause) {\n        super(message, cause);\n    }\n}\n\n// Custom unchecked exception (extends RuntimeException)\nclass NegativeAmountException extends RuntimeException {\n    public NegativeAmountException(String message) {\n        super(message);\n    }\n}\n\nclass BankAccount {\n    private String accountNumber;\n    private double balance;\n    \n    BankAccount(String accountNumber, double initialBalance) {\n        this.accountNumber = accountNumber;\n        this.balance = initialBalance;\n    }\n    \n    public void withdraw(double amount) throws InsufficientFundsException {\n        if (amount < 0) {\n            throw new NegativeAmountException(\"Cannot withdraw negative amount!\");\n        }\n        \n        if (amount > balance) {\n            throw new InsufficientFundsException(\n                \"Insufficient funds! Balance: $\" + balance + \", Requested: $\" + amount\n            );\n        }\n        \n        balance -= amount;\n        System.out.println(\"Withdrew $\" + amount + \". New balance: $\" + balance);\n    }\n    \n    public void deposit(double amount) {\n        if (amount < 0) {\n            throw new NegativeAmountException(\"Cannot deposit negative amount!\");\n        }\n        balance += amount;\n        System.out.println(\"Deposited $\" + amount + \". New balance: $\" + balance);\n    }\n    \n    public double getBalance() {\n        return balance;\n    }\n}\n\npublic class CustomExceptionExample {\n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(\"12345\", 500);\n        \n        System.out.println(\"Initial balance: $\" + account.getBalance());\n        \n        // Deposit — NegativeAmountException (unchecked)\n        try {\n            account.deposit(-100);\n        } catch (NegativeAmountException e) {\n            System.out.println(\"Deposit error: \" + e.getMessage());\n        }\n        \n        // Withdraw — InsufficientFundsException (checked)\n        try {\n            account.withdraw(1000);\n        } catch (InsufficientFundsException e) {\n            System.out.println(\"Withdrawal error: \" + e.getMessage());\n            System.out.println(\"Current balance: $\" + account.getBalance());\n        } catch (NegativeAmountException e) {\n            System.out.println(\"Withdrawal error: \" + e.getMessage());\n        }\n        \n        // Successful withdrawal\n        try {\n            account.withdraw(200);\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        System.out.println(\"Final balance: $\" + account.getBalance());\n    }\n}",
+        "output": "Initial balance: $500.0\nDeposit error: Cannot deposit negative amount!\nWithdrawal error: Insufficient funds! Balance: $500.0, Requested: $1000.0\nCurrent balance: $500.0\nWithdrew $200.0. New balance: $300.0\nFinal balance: $300.0",
+        "explanation": "So far every error you've caught has been one Java already knew about — ArrayIndexOutOfBounds, NullPointerException, that kind of thing. But what happens when the thing going wrong is specific to YOUR blueprint, not something Java has a name for yet? [[key:That's exactly what a custom exception is for]] — you get to invent the error, in your own words, for your own program.\n\nLook at BankAccount below. \"Insufficient funds\" isn't a Java concept — it's a banking concept. So instead of throwing some generic error and making the person reading it guess what actually happened, we build InsufficientFundsException specifically for this situation. Same idea with NegativeAmountException — Java has no built-in opinion about whether -100 is a valid amount of money, so we teach it one.\n\nBuilding a custom exception is simpler than it looks: you extend either [[term:Exception]] or [[term:RuntimeException]], and call super(message) in your constructor so the built-in error machinery still works underneath. That's really it — everything else is optional extra structure.\n\nNow, WHICH one you extend actually matters, and this is the part worth sitting with:\n\n[[term:Checked exceptions]] (extends Exception) are for things that can genuinely happen even when the code is correct — a file might not exist, an account might legitimately run low on funds. Java forces whoever calls your method to either handle it or admit they're passing the responsibility along (that's the throws keyword you see on withdraw()). It's Java insisting: \"you don't get to pretend this can't happen.\"\n\n[[term:Unchecked exceptions]] (extends RuntimeException) are for programmer mistakes — passing -100 as an amount isn't something that \"just happens,\" it's a bug in whoever called deposit(). Java doesn't force anyone to catch these, because the real fix is writing correct code, not writing a catch block.\n\n[[warn:Mixing these up is a genuinely common mistake]]: using unchecked for things that really can happen in normal operation (so nobody's forced to handle them, and your app crashes in production) or using checked for pure programmer errors (so everyone has to write pointless try/catch for something that should've just been fixed in the code).\n\nOne more habit worth building now: name your exception after what actually went wrong — InsufficientFundsException, not Error1 or BankException. Whoever catches it later will thank you, and that whoever is often future-you.",
+        "openingDialogue": "Time to invent your own vocabulary for what can go wrong~"
+    },
+    "phase2": {
+        "brokenCode": "// Forgetting to extend Exception or RuntimeException\nclass MyException {\n    private String message;\n    \n    MyException(String message) {\n        this.message = message;\n    }\n}\n\nclass Validator {\n    void validate(int value) throws MyException {  // ERROR!\n        if (value < 0) {\n            throw new MyException(\"Invalid value\");\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        try {\n            v.validate(-5);\n        } catch (MyException e) {  // ERROR!\n            System.out.println(e.getMessage());\n        }\n    }\n}",
+        "errorMessage": "MyException.java:9: error: cannot find symbol\n    void validate(int value) throws MyException {  // ERROR!\n                                    ^\n  symbol:   class MyException\n  location: class Validator\nMyException.java:11: error: incompatible types: MyException cannot be converted to Throwable\n            throw new MyException(\"Invalid value\");\n            ^\n2 errors",
+        "explanation": "MyException never actually extends Exception or RuntimeException — it's just a plain class that happens to have the word \"Exception\" in its name. [[warn:Java doesn't care what you NAME a class]] — it only cares what it actually extends.\n\nThat's why both throws MyException and catch (MyException e) fail to compile: as far as Java is concerned, MyException isn't a Throwable at all, so it's not legal to throw or catch it — same as trying to throw a String or an int.\n\n[[key:Custom exceptions MUST extend Exception or RuntimeException]] (or one of their subclasses) — there's no way around this part, it's what makes Java's throw/catch machinery recognize your class as an exception at all.",
+        "fixedCode": "class MyException extends Exception {\n    public MyException(String message) {\n        super(message);\n    }\n}\n\nclass Validator {\n    void validate(int value) throws MyException {\n        if (value < 0) {\n            throw new MyException(\"Invalid value\");\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        try {\n            v.validate(-5);\n        } catch (MyException e) {\n            System.out.println(e.getMessage());\n        }\n    }\n}",
+        "openingDialogue": "Watch what happens when an \"exception\" forgets to actually BE one~"
+    },
+    "phase3": {
+        "scaffoldCode": "class OutOfStockException {{b1}} Exception {\n    public OutOfStockException(String message) {\n        {{b2}}(message);\n    }\n}\n\nclass Inventory {\n    int itemsLeft;\n\n    Inventory(int itemsLeft) {\n        this.itemsLeft = itemsLeft;\n    }\n\n    void sell(int amount) {{b3}} OutOfStockException {\n        if (amount > itemsLeft) {\n            {{b4}} new OutOfStockException(\"Not enough stock!\");\n        }\n        itemsLeft -= amount;\n    }\n}",
+        "blanks": [
+            {
+                "id": "b1",
+                "answer": [
+                    "extends"
+                ],
+                "caseSensitive": true
+            },
+            {
+                "id": "b2",
+                "answer": [
+                    "super"
+                ],
+                "caseSensitive": true
+            },
+            {
+                "id": "b3",
+                "answer": [
+                    "throws"
+                ],
+                "caseSensitive": true
+            },
+            {
+                "id": "b4",
+                "answer": [
+                    "throw"
+                ],
+                "caseSensitive": true
+            }
+        ],
+        "openingDialogue": "Let's give a shop its own error vocabulary, together."
+    },
+    "xpReward": 10,
+    "phase4": {
+        "mcq": {
+            "question": "Which pair correctly matches the exception type to when you'd use it?\n\nA) Checked (extends Exception) for programmer bugs; Unchecked (extends RuntimeException) for things that can legitimately happen\nB) Checked (extends Exception) for things that can legitimately happen; Unchecked (extends RuntimeException) for programmer bugs\nC) It doesn't matter which one you extend, as long as the name ends in \"Exception\"\nD) Custom exceptions don't need to extend anything, Java infers it from the name",
+            "validationPattern": {
+                "mcqAnswer": "B"
+            }
+        },
+        "selfChallenge": "Create a custom exception class AgeException (extends Exception).\n\nCreate a Person class with:\n• Fields: name, age\n• Constructor validates:\n  - If age < 0 or age > 150 → throw AgeException\n• Method: vote() — can only vote if age >= 18 → throw AgeException if not\n\nIn main, test with valid and invalid ages.",
+        "openingDialogue": null
+    },
+    "phase5": {
+        "trivia": "[[fun:Fun fact]]: Java's checked-exception rule is actually a famous point of disagreement among language designers — most other major languages (Python, JavaScript, C#, even Kotlin, which otherwise runs on the same JVM as Java) skipped checked exceptions entirely. Some engineers love that Java forces you to acknowledge what can go wrong; others find it forces a lot of boilerplate try/catch for errors nobody has a good way to handle anyway. Now that you've built one of each kind yourself, you get to have an informed opinion about which side you're on.",
+        "openingDialogue": "Before you go — a little language-design drama~"
+    },
+    "hoverNotes": {
+        "InsufficientFundsException": "A checked exception (extends Exception) — something that can legitimately happen even in correct code, so Java forces callers to handle or declare it.",
+        "NegativeAmountException": "An unchecked exception (extends RuntimeException) — signals a programmer mistake, so Java doesn't force every caller to catch it."
+    }
 }

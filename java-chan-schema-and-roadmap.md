@@ -94,18 +94,60 @@ new §4.6 in `java-chan-next-update.md`.
   (`i < arr.length` vs `i<arr.length`) plus multi-answer and
   case-insensitive cases.
 
+### Step 2c — Inline emphasis markup (addendum, §4.7)
+Not in the original proposal — requested during the voice pilot itself,
+documented as new §4.7 in `java-chan-next-update.md`.
+
+- **`src/utils/emphasisParser.js`** — parses `[[term:...]]` / `[[warn:...]]` /
+  `[[key:...]]` / `[[fun:...]]` tags out of explanation/trivia strings into
+  plain `{category, text}` parts. Split into its own file (not inside the
+  component) so `EmphasisText.jsx` only exports the component —
+  `react-refresh/only-export-components` flagged this on first pass, fixed
+  by mirroring the existing `blankValidator.js` / `ScaffoldEditor.jsx` split.
+- **`src/components/lesson/EmphasisText.jsx` + `.css`** — renders tagged
+  text as nested spans, NOT `dangerouslySetInnerHTML` (no injection surface,
+  unlike `CodeBlock`'s HTML-string tokenize path). Four distinct
+  color/weight treatments, mapped onto the existing theme palette in
+  `globals.css` rather than new colors.
+- Wired into `LessonCanvas.jsx` for Phase 1 explanation, Phase 2
+  explanation, and Phase 5 trivia — the three places that render authored
+  *teaching* prose. Deliberately left OUT of Phase 4's MCQ question and
+  self-challenge prompt (testing prose, not teaching prose — see §4.7 for
+  the reasoning).
+- No schema change — this is markup inside existing string fields, not a
+  new lesson JSON key.
+
 ---
 
 ## Not done yet
 
-### Step 3 — Voice pilot (§3)
-Draft 2–3 lessons in full target voice (one early/conceptual, one
-mid-unit/coding, one later/harder-unit) and get those approved as the tone
-bar before touching the rest. This also means **actually authoring**
-`scaffoldCode`/`blanks` for those lessons' Phase 3, `phase4.mcq` where a new
-one is warranted, and `phase5.trivia` — the pilot lessons are where the
-stub gets filled in for real, everything else stays stubbed until its unit
-comes up.
+### Step 3 — Voice pilot (§3) — IN PROGRESS
+Three lessons drafted in full target voice, chosen per the doc's
+early/mid/later spread:
+
+- **1.1 — "What is Java?"** (early/conceptual) — Phase 1 rewritten around a
+  running "I build things in a workshop" / blueprints-and-objects metaphor
+  that's meant to carry forward into later OOP lessons, not just this one.
+  Phase 4 MCQ and Phase 5 trivia (the Oak → Java naming story) authored.
+  Emphasis tags applied throughout.
+- **2.5 — "Abstract Classes"** (mid-unit/coding) — Phase 1/2 voice pass,
+  `phase3.scaffoldCode`/`blanks` authored (4 blanks: `abstract`, `extends`,
+  `super`, the area formula), `phase2.fixedCode` added, Phase 4 MCQ and
+  Phase 5 trivia authored, lesson-specific `hoverNotes` added for `Circle`/
+  `Rectangle`.
+- **3.4 — "Custom Exceptions"** (later/harder) — same treatment; Phase 3
+  scaffold covers `extends`/`super`/`throws`/`throw` on a fresh
+  (non-repeated) example so the pilot doesn't just reuse Shape/BankAccount
+  everywhere. `hoverNotes` for the checked/unchecked exception pair.
+
+Each lesson's `scaffoldCode`/`blanks` were cross-checked programmatically
+(blank IDs in the scaffold string match blank IDs declared in `blanks`)
+before being considered done. All three build clean, lint clean, and all 75
+lesson JSONs still parse.
+
+**Still needed before Step 3 is fully closed:** your review of whether the
+voice actually lands — per §3, the bar is "do all three sound like the
+same teacher," not each judged in isolation.
 
 ### Step 4 — Full 75-lesson rewrite
 Sequenced by unit once the pilot voice is approved, per §4.3. Each lesson

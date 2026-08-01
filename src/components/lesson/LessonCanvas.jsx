@@ -7,6 +7,7 @@ import { checkAllBlanks } from '../../utils/blankValidator';
 import { calculateEarnedXP } from '../../utils/xpCalculator';
 import { useSound } from '../../hooks/useSound';
 import CodeBlock from './CodeBlock';
+import EmphasisText from './EmphasisText';
 import ScaffoldEditor from './ScaffoldEditor';
 import PhaseIndicator from './PhaseIndicator';
 import './LessonCanvas.css';
@@ -170,7 +171,7 @@ const LessonCanvas = ({ onComplete }) => {
             exit={{ opacity: 0, x: 20 }}
           >
             <h2 className="phase-heading phase-heading--work">▶ Learn It With Me</h2>
-            <p className="phase-explanation">{phase1?.explanation}</p>
+            <EmphasisText text={phase1?.explanation} />
             {phase1?.code && (
               <CodeBlock code={phase1.code} label="Working Code" hoverNotes={hoverNotes} />
             )}
@@ -199,7 +200,7 @@ const LessonCanvas = ({ onComplete }) => {
             exit={{ opacity: 0, x: 20 }}
           >
             <h2 className="phase-heading phase-heading--break">✕ See the Code</h2>
-            <p className="phase-explanation">{phase2?.explanation}</p>
+            <EmphasisText text={phase2?.explanation} />
             {phase2?.brokenCode && (
               <CodeBlock code={phase2.brokenCode} label="Broken Code" hoverNotes={hoverNotes} />
             )}
@@ -360,9 +361,7 @@ const LessonCanvas = ({ onComplete }) => {
             exit={{ opacity: 0, x: 20 }}
           >
             <h2 className="phase-heading phase-heading--trivia">✨ Fun Facts &amp; Trivia</h2>
-            <p className="phase-explanation">
-              {phase5?.trivia || "More lore on this one coming soon~"}
-            </p>
+            <EmphasisText text={phase5?.trivia || "More lore on this one coming soon~"} />
             <button className="btn btn-primary" onClick={() => onComplete?.()}>
               Finish Lesson ✓
             </button>

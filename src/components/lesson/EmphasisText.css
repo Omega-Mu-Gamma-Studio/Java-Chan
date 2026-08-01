@@ -1,0 +1,42 @@
+/**
+ * EmphasisText.css
+ *
+ * Four emphasis categories, each mapped to an existing theme color so this
+ * stays visually consistent with the rest of the app rather than introducing
+ * a new palette. Each category is a genuinely different treatment (color +
+ * weight, sometimes style), not just "bold" repeated four times — the point
+ * is a skimming reader can tell the categories apart at a glance.
+ */
+
+.emphasis-text {
+  display: contents;
+}
+
+/* [[term:...]] — new vocabulary, first appearance of a concept name.
+   Blue, since it reads as "informational" rather than urgent. */
+.emphasis-term {
+  color: var(--color-blue-light);
+  font-weight: 600;
+}
+
+/* [[warn:...]] — gotchas, common mistakes, "this bites people."
+   Warm/error-adjacent so it reads as "pay attention" without being alarming. */
+.emphasis-warn {
+  color: var(--color-warning);
+  font-weight: 700;
+}
+
+/* [[key:...]] — the one idea in this paragraph worth remembering.
+   Pink, matching the mascot's own accent color — "this is the important bit." */
+.emphasis-key {
+  color: var(--color-pink-light);
+  font-weight: 700;
+}
+
+/* [[fun:...]] — trivia / lighter aside, distinct from the teaching voice.
+   Purple + italic so Phase 5's trivia beat reads as tonally separate. */
+.emphasis-fun {
+  color: var(--color-purple-light);
+  font-style: italic;
+  font-weight: 600;
+}

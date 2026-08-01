@@ -205,6 +205,45 @@ Two additions decided during implementation, not in the original proposal above:
 
 ---
 
+## 4.7 Addendum — Inline emphasis markup, the "Geronimo Stilton effect" (§4.7)
+A second post-signoff addition, requested during the voice pilot: lesson explanation and
+trivia text can now carry inline emphasis tags that render as distinct colored/weighted
+spans, the way Geronimo Stilton novels shift font treatment for high-impact words mid-sentence.
+The goal is the same: a skimming reader's eye should catch the important word without
+rereading the whole paragraph — a highlighter built into the prose itself, not a separate
+callout box.
+
+**Tag vocabulary — four categories, not one:**
+A single "highlight" color would just be bold text with extra steps. Four categories were
+chosen so each carries a distinct meaning at a glance:
+
+| Tag | Meaning | Treatment |
+|---|---|---|
+| `[[term:...]]` | New vocabulary — first time a concept name appears | Blue, semi-bold |
+| `[[warn:...]]` | Gotchas / common mistakes / "this bites people" | Gold, bold |
+| `[[key:...]]` | The one idea in this paragraph worth remembering | Pink (mascot's accent color), bold |
+| `[[fun:...]]` | Trivia / lighter aside, distinct from teaching voice | Purple, italic |
+
+**Implementation, in line with the "safe by construction" bar the rest of the engine holds
+to:** this is deliberately NOT `dangerouslySetInnerHTML`. Lesson JSON is authored content, but
+the parser (`src/utils/emphasisParser.js`) turns tagged text into plain React children (nested
+spans), the same way `CodeBlock`'s `tokenize()` composes — just without the HTML-string step,
+so there's no injection surface even in principle. `EmphasisText.jsx` is a drop-in replacement
+for the old `<p className="phase-explanation">{text}</p>` pattern and is now used everywhere
+that pattern rendered *authored* prose: Phase 1 and Phase 2 explanations, and Phase 5 trivia.
+
+**Deliberately NOT applied to Phase 4** (MCQ question text, self-challenge prompt): those are
+testing prose, not teaching prose, and an emphasis tag inside an MCQ's options risks visually
+leaking the correct answer, or cluttering a bullet-point requirements list. The boundary is
+intentional — emphasis lives in the lessons *teaching* something, not the parts *checking*
+whether it landed.
+
+New fields: none at the schema level — this is markup *inside* existing string fields
+(`phase1.explanation`, `phase2.explanation`, `phase5.trivia`), so no lesson JSON needed a new
+key, only re-authoring of the string content itself where emphasis is warranted.
+
+---
+
 ## 5. Decisions from review pass
 
 1. **Tone across units:** Confirmed — Java-chan's tone stays consistently caring and patient

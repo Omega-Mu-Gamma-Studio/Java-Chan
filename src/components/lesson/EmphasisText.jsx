@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import { parseEmphasis } from '../../utils/emphasisParser';
 import './EmphasisText.css';
 
@@ -37,6 +38,32 @@ const CATEGORY_CLASS = {
   fun: 'emphasis-fun',
 };
 
+// Each category gets its own little "personality" of motion, same spirit as
+// the four distinct visual treatments in the CSS — not just one bounce reused
+// four times. Rotation stays small so text never becomes hard to read.
+const CATEGORY_MOTION = {
+  term: {
+    initial: { opacity: 0, scale: 0.9, rotate: -1 },
+    animate: { opacity: 1, scale: 1, rotate: 0 },
+    hover: { scale: 1.06, rotate: -1 },
+  },
+  warn: {
+    initial: { opacity: 0, scale: 0.85, rotate: 0 },
+    animate: { opacity: 1, scale: 1, rotate: 0 },
+    hover: { scale: 1.1, rotate: [0, -3, 3, 0] },
+  },
+  key: {
+    initial: { opacity: 0, scale: 0.85 },
+    animate: { opacity: 1, scale: 1 },
+    hover: { scale: 1.1 },
+  },
+  fun: {
+    initial: { opacity: 0, scale: 0.9, rotate: -8 },
+    animate: { opacity: 1, scale: 1, rotate: -4 },
+    hover: { scale: 1.08, rotate: -8 },
+  },
+};
+
 /**
  * Renders explanation/trivia text with emphasis tags parsed into styled
  * spans. Drop-in replacement for <p className="phase-explanation">{text}</p>.
@@ -53,15 +80,22 @@ const EmphasisText = ({ text, className = '' }) => {
         <p key={pIdx} className="phase-explanation">
           {para.split('\n').map((line, lIdx, arr) => (
             <span key={lIdx}>
-              {parseEmphasis(line).map((part, partIdx) =>
-                typeof part === 'string' ? (
-                  part
-                ) : (
-                  <span key={partIdx} className={CATEGORY_CLASS[part.category]}>
+              {parseEmphasis(line).map((part, partIdx) => {
+                if (typeof part === 'string') return part;
+                const motionProps = CATEGORY_MOTION[part.category];
+                return (
+                  <motion.span
+                    key={partIdx}
+                    className={CATEGORY_CLASS[part.category]}
+                    initial={motionProps.initial}
+                    animate={motionProps.animate}
+                    whileHover={motionProps.hover}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                  >
                     {part.text}
-                  </span>
-                )
-              )}
+                  </motion.span>
+                );
+              })}
               {lIdx < arr.length - 1 && <br />}
             </span>
           ))}

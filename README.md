@@ -20,23 +20,44 @@ Built by [Omega Mu Gamma Studio](https://github.com/Omega-Mu-Gamma-Studio) — J
 
 ## What is Java-chan?
 
-Java-chan is a browser-based Java learning app where an anime mascot character guides students through the full CS22301 OOP syllabus. Every lesson follows a fixed three-phase model — working code, broken code, then you try — with an expressive character who **reacts to your progress**, escalates her hints when you're stuck, and celebrates when you get it right.
+Java-chan is a browser-based Java learning app where an anime mascot character teaches the full CS22301 OOP syllabus **in her own voice** — not a textbook explanation with her commentary stapled to the end. Every lesson runs through a five-phase arc, from a worked example through scaffolded practice to a self-directed challenge, with an expressive character who **reacts to your progress**, escalates her hints when you're stuck, and celebrates when you get it right.
 
-No abstract theory walls. No cold error messages. No account required. Just Java and a very opinionated tutor.
+No abstract theory walls. No cold error messages. No account required. Just Java and a very opinionated tutor who sounds like the same person from lesson 1 to lesson 75.
 
 ---
 
 ## The Teaching Model
 
-Every single lesson — all 75 of them — follows this exact structure:
+Every single lesson — all 75 of them — runs through this five-phase arc:
 
 | Phase | Name | What Happens |
 |-------|------|----|
-| **1** | See It Work | Java-chan shows working code, the output, and explains what's happening line by line |
-| **2** | See It Break | Same code, deliberately broken — she explains the error, what caused it, and why it matters |
-| **3** | You Try | Student writes code or fills in blanks; pattern-based validation gives immediate feedback |
+| **1** | Learn It With Me | Java-chan walks through working code and explains it — in her voice, not a bullet-list definition with a remark tacked on |
+| **2** | See the Code | Same idea, deliberately broken — she explains the bug and why it matters, with an optional "Show Me the Fix" reveal for the corrected version |
+| **3** | Code It With Me | Fill-in-the-blank scaffolded coding — most of the program is given, you fill the specific blanks that test the lesson's idea |
+| **4** | Challenge | A quick MCQ check, plus a self-directed prompt to attempt the full thing in your own IDE (honor system — not graded in-browser) |
+| **5** | Fun Facts & Trivia | A closing lore/trivia beat in her voice — no grading, just flavor and a reason to remember it |
 
-Validation is regex/pattern-based — no code execution in the browser. For full programs, students run their code in their own IDE. This keeps the app lightweight and deployable anywhere.
+Phase 3's blanks are checked against a short accepted-answers list (whitespace-normalized, case-sensitive by default) — no regex needed anymore. Phase 4's MCQ is exact-match. The self-challenge in Phase 4 is intentionally never validated in-browser — no fake Java interpreter, no compiler in your browser tab. This keeps the app lightweight and deployable anywhere.
+
+Code blocks also carry **hover tooltips** on keywords and API calls — a shared glossary covers common Java terms everywhere, and each lesson can add its own notes for anything unique to its example.
+
+Lesson prose itself carries inline emphasis for four distinct moments — new vocabulary, gotchas, the one idea worth remembering, and lighter trivia asides — each with its own font treatment, color, and motion, so a skimming eye catches what matters without rereading the paragraph.
+
+---
+
+## The Emphasis System — "the Geronimo Stilton effect"
+
+Explanation and trivia text can tag words inline, and each tag renders as a distinct typographic event, not just a color swap:
+
+| Tag | Meaning | Treatment |
+|-----|---------|-----------|
+| `[[term:...]]` | New vocabulary, first appearance | Rounded display font + hand-drawn wavy underline |
+| `[[warn:...]]` | Gotchas, common mistakes | Gold, bold, larger, with a ⚠ mark |
+| `[[key:...]]` | The one idea worth remembering | Pink, bold, with a highlighter-marker stroke behind it |
+| `[[fun:...]]` | Trivia / lighter aside | Purple, italic, stamped in at a slight tilt with a ✨ |
+
+All four pop in on mount and give a small hover bounce, each with its own motion so the categories feel distinct beyond color. `prefers-reduced-motion` drops the animation while keeping color/font/icon distinctions intact. This markup lives inside authored lesson text (`phase1.explanation`, `phase2.explanation`, `phase5.trivia`) and is parsed into plain React children — never `dangerouslySetInnerHTML` — so there's no injection surface even though the content is JSON-authored.
 
 ---
 
@@ -77,9 +98,12 @@ All five units are complete, published, and available from day one.
 ## Features
 
 ### 🎓 Learning System
-- **Three-phase lesson structure** — See It Work → See It Break → You Try, on every lesson, no exceptions
+- **Five-phase lesson structure** — Learn It With Me → See the Code → Code It With Me → Challenge → Fun Facts & Trivia, on every lesson, no exceptions
+- **Voice-first content** — the explanation itself is written as Java-chan teaching, not a neutral textbook paragraph with her commentary appended
 - **Contextual hint escalation** — hint appears at 2 wrong attempts, solution unlocks at 5
-- **Pattern-based validation** — instant feedback without a server or code execution engine
+- **List-based blank checking + exact-match MCQ** — instant feedback without a server or a real code execution engine
+- **Hover glossary on code tokens** — a shared keyword glossary plus per-lesson overrides for anything unique to that lesson's example
+- **Inline emphasis tags** — four distinct typographic treatments for vocabulary, warnings, key ideas, and trivia inside lesson prose
 - **Full lesson navigation** — collapsible sidebar with per-lesson completion tracking
 
 ### 🎮 Progression & Rewards
@@ -234,12 +258,13 @@ Java-Chan/
 │   │   ├── character/JavaChan.jsx  # Sprite renderer + Domain Expansion overlay; reads spriteOverrides
 │   │   ├── layout/AppLayout.jsx    # Root shell; applies wallpaper/theme, mounts topbar + JavaChan
 │   │   ├── home/MeetMySisters.jsx  # Cross-studio sibling rail on the Home page
-│   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator
+│   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator (5 tabs), ScaffoldEditor, EmphasisText
 │   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar, MusicPlayer
 │   │
 │   ├── data/
-│   │   ├── lessons/                # 75 JSON lesson files (unit1–5, lessons 1–15)
+│   │   ├── lessons/                # 75 JSON lesson files (unit1–5, lessons 1–15), 5-phase schema
 │   │   ├── units/                  # 5 unit JSON files (id, title, lesson list)
+│   │   ├── keywordGlossary.js       # Shared hover-tooltip glossary for common Java keywords/types
 │   │   └── shopItems.js            # All cosmetic definitions (themes, outfits, downloadables)
 │   │
 │   ├── hooks/
@@ -264,7 +289,9 @@ Java-Chan/
 │   │
 │   └── utils/
 │       ├── xpCalculator.js         # XP thresholds, level math, earned XP calculation
-│       ├── patternMatcher.js       # Regex-based answer validation engine
+│       ├── blankValidator.js       # Phase 3 fill-in-the-blank checking (list-based, not regex)
+│       ├── patternMatcher.js       # Phase 4 MCQ exact-match validation
+│       ├── emphasisParser.js       # Parses [[term:]]/[[warn:]]/[[key:]]/[[fun:]] tags into React children
 │       └── javaHighlighter.js      # Syntax highlighting for code blocks
 ```
 
@@ -280,34 +307,47 @@ Lesson JSON files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Each file fol
 {
   "id": "1.1",
   "title": "What is Java?",
-  "xp": 10,
-  "phases": [
-    {
-      "phase": 1,
-      "title": "See It Work",
-      "dialogue": "Java-chan's explanation text here",
-      "code": "public class Main { ... }",
-      "output": "Hello, World!"
+  "type": "conceptual",
+  "xpReward": 10,
+  "phase1": {
+    "code": "public class Main { ... }",
+    "output": "Hello, World!",
+    "explanation": "Written in Java-chan's voice, not a neutral definition — [[term:new word]], [[warn:a gotcha]], [[key:the one idea to remember]] can all appear inline.",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase2": {
+    "brokenCode": "public class Main { ... broken ... }",
+    "errorMessage": "Error message text",
+    "explanation": "Why it broke, in her voice.",
+    "fixedCode": "public class Main { ... corrected ... }",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase3": {
+    "scaffoldCode": "public class Main { ___BLANK_b1___ }",
+    "blanks": [
+      { "id": "b1", "answer": ["i++", "i += 1"], "caseSensitive": true }
+    ],
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase4": {
+    "mcq": {
+      "question": "MCQ prompt with options A–D",
+      "validationPattern": { "mcqAnswer": "C" }
     },
-    {
-      "phase": 2,
-      "title": "See It Break",
-      "dialogue": "Here's what happens when...",
-      "code": "public class Main { ... broken code ... }",
-      "error": "Error message"
-    },
-    {
-      "phase": 3,
-      "title": "You Try",
-      "dialogue": "Your turn!",
-      "prompt": "What keyword starts a Java class definition?",
-      "answer": "class",
-      "hint": "It's a reserved word in Java.",
-      "solution": "class"
-    }
-  ]
+    "selfChallenge": "Go build this yourself in your own IDE — not graded, honor system",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase5": {
+    "trivia": "[[fun:Fun fact]]: closing lore/trivia beat, no grading attached.",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "hoverNotes": {
+    "someToken": "Lesson-specific hover explanation, overrides the shared glossary for this token"
+  }
 }
 ```
+
+`blanks[].answer` is always an array (covers multi-answer cases like `i++` vs `i += 1`), comparison normalizes whitespace before checking, and `caseSensitive` defaults to `true` since Java itself is case-sensitive. The number of blanks isn't fixed — it's an authoring judgment call per lesson. Common keywords go in the shared `src/data/keywordGlossary.js`; anything unique to one lesson's example goes in that lesson's own `hoverNotes`.
 
 ### Adding a New Outfit
 
@@ -327,7 +367,8 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 ## Roadmap
 
 ### Phase 1 (Current) ✅
-- All 75 lessons authored and published
+- All 75 lessons rewritten around a five-phase engine and voice-first content — the explanation *is* Java-chan teaching, not textbook prose with her commentary appended
+- Hover glossary (shared + per-lesson `hoverNotes`) and inline emphasis tags (`term`/`warn`/`key`/`fun`) across lesson prose
 - Full cosmetics system — 5 app themes, 12 outfits (all with real sprite art), 10 downloadable wallpapers
 - XP/leveling, shop, expressions, domain expansion
 - Meet My Sisters cross-studio rail, background music with volume control
@@ -338,6 +379,7 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 - User accounts and cross-device sync
 - Progress stored server-side (the store already has a `_resetForMigration` hook and storage adapter pattern ready for this)
 - Instructor view: class-wide completion dashboards
+- Suite-wide rollout of the five-phase engine to sibling Chan apps, pending validation here
 - No frontend rewrite required — only the storage layer changes
 
 ---
@@ -356,7 +398,7 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 Java-chan is one of the flagship tools from Omega Mu Gamma Studio — a student-built suite of open-source engineering and CS education tools.
 
-**The Chan series** (anime-guided programming tutors, same three-phase teaching model):
+**The Chan series** (anime-guided programming tutors sharing the same lesson engine — Java-chan is the pilot for the five-phase, voice-first rewrite; see Roadmap):
 
 | Tool | Language |
 |------|----------|

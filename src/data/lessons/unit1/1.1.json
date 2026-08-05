@@ -3,9 +3,63 @@
     "title": "What is Java?",
     "type": "conceptual",
     "phase1": {
+        "intro": "Okay, first things first — what even IS Java?\n\nI'm basically running a workshop where everything I build uses the same language. James Gosling and his team created it back in 1995 at Sun Microsystems, and their whole obsession was one rule: whatever you build here should work everywhere, not just on the machine that built it.\n\nSo — where do you want to start?",
+        "topics": [
+            {
+                "id": "wora",
+                "buttonText": "How does my code run on any computer?",
+                "dialogue": [
+                    "That rule I mentioned has a name — [[term:WORA]]: Write Once, Run Anywhere.\n\nHere's how it actually works: you write your code, and instead of turning it directly into instructions for YOUR specific computer, it gets compiled into something called [[term:bytecode]] — a kind of universal blueprint.",
+                    "Then any machine with a [[term:JVM]] (Java Virtual Machine) installed can read that blueprint and run it — whether it's Windows, Mac, Linux, or, I promise I'm not exaggerating, an actual internet-connected fridge somewhere.\n\nThe JVM is what makes [[term:platform independence]] possible. One blueprint, any machine."
+                ],
+                "stickyNote": {
+                    "term": "WORA / Platform Independence",
+                    "flavor": "🌍 the promise that your code isn't picky about computers",
+                    "definition": "Write Once, Run Anywhere — Java compiles to bytecode, which any JVM can run regardless of operating system."
+                }
+            },
+            {
+                "id": "oop",
+                "buttonText": "Why does Java call everything an object?",
+                "dialogue": [
+                    "I build with [[key:objects, not just instructions]].\n\nAlmost everything you'll write with me is a blueprint — we call it a [[term:class]] — for some kind of object. A BankAccount, a Shape, a Person. You design the blueprint once, then make as many objects from it as you want.",
+                    "Think of it like a cookie cutter. The class is the cutter; the objects are the cookies. Same shape, different dough. This blueprint-first way of thinking is called [[term:Object-Oriented Programming]], and it's the backbone of how Java works — and honestly, how most modern languages think now."
+                ],
+                "stickyNote": {
+                    "term": "Object-Oriented Programming (OOP)",
+                    "flavor": "🍪 classes are cookie cutters, objects are the cookies",
+                    "definition": "A programming style where you define classes (blueprints) and create objects from them. Java is built around this idea from the ground up."
+                }
+            },
+            {
+                "id": "types",
+                "buttonText": "Why does Java make me declare variable types?",
+                "dialogue": [
+                    "I label everything before I use it. Java is [[term:strongly typed]] — it wants to know a variable's type upfront, before you're allowed to use it.\n\n[[warn:Feels strict at first]]. It really does. But it's actually Java double-checking your work before you get too far in.",
+                    "If you try to put a word where a number goes, Java catches it immediately — not after you've already run the program and confused a user. The compiler is just a very thorough editor who won't let you submit a draft with obvious errors."
+                ],
+                "stickyNote": {
+                    "term": "Strongly Typed",
+                    "flavor": "🏷️ Java reads the label before opening the box",
+                    "definition": "Every variable must have a declared type. Java checks types at compile time, catching type mismatches before the program ever runs."
+                }
+            },
+            {
+                "id": "gc",
+                "buttonText": "Who cleans up memory after I'm done?",
+                "dialogue": [
+                    "This one's my favorite, because the answer is: not you.\n\nJava has [[term:garbage collection]]. Once you're done using something — a variable, an object, whatever — you just stop using it. The JVM quietly figures out that nothing's referring to it anymore, and clears it out of memory for you.",
+                    "In older languages like C, forgetting to clean up your memory yourself was one of the most common ways programs went wrong. Java just... removed that whole category of mistake. [[key:You focus on what to build. The JVM handles the cleanup.]]"
+                ],
+                "stickyNote": {
+                    "term": "Garbage Collection",
+                    "flavor": "🗑️ the JVM is your silent cleanup crew",
+                    "definition": "Automatic memory management — the JVM detects objects that are no longer referenced and reclaims their memory, so you don't have to."
+                }
+            }
+        ],
         "code": "",
         "output": "",
-        "explanation": "Okay, first things first — what even IS Java?\n\nThink of it like this: I'm basically running a workshop where I build things, and every single tool and blueprint I use is written in Java. James Gosling and his team built the language back in 1995 at Sun Microsystems, and the one rule they cared about most was: whatever you build here should work everywhere, not just on the one machine you built it on.\n\nThat rule has a name — [[term:WORA]], Write Once, Run Anywhere. Here's how it actually works: you write your code, and instead of turning it directly into instructions for YOUR specific computer, it gets compiled into something called [[term:bytecode]] — a kind of universal blueprint. Then any machine with a [[term:JVM]] (Java Virtual Machine) installed can read that blueprint and run it, whether it's Windows, Mac, Linux, or — I promise I'm not exaggerating — an actual internet-connected fridge somewhere.\n\nA few things about how I like to build with Java, since these will come up constantly:\n\nI build with [[key:objects, not just instructions]]. Almost everything you'll write with me is a blueprint (we call it a [[term:class]]) for some kind of object — a BankAccount, a Shape, a Person. You design the blueprint once, then make as many objects from it as you want.\n\nI label everything before I use it. Java is [[term:strongly typed]] — it wants to know a variable's type up front, before you're allowed to use it. [[warn:Feels strict at first]]. It's actually just Java double-checking your work before you get too far in.\n\nI don't clean up after myself, and neither do you — the JVM does. Java has [[term:garbage collection]], which means once you're done with something, you can just stop using it, and the JVM quietly clears it out of memory for you.\n\nAnd that WORA thing I mentioned? That's the [[term:platform independence]] part — the JVM is what makes it possible.\n\nWe're following the CS22301 syllabus together, so we're doing this in order: OOP ideas first — the blueprints-and-objects way of thinking — and then we'll go deeper into how Java actually pulls it off under the hood.",
         "openingDialogue": "Welcome to the workshop~ First things first: let's talk about what we're actually building with. ☕"
     },
     "phase2": {

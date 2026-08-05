@@ -1,0 +1,242 @@
+/* ============================================================
+   Phase1SplitScreen.css
+   Split-screen Phase 1 layout:
+     Left  — dialogue beats (the story/metaphor)
+     Right — sticky notes panel (the citable reference)
+   Per java-chan-phase1-split-screen-update.md §2.1
+   ============================================================ */
+
+/* ---- Outer split wrapper ---- */
+.phase1-split {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 24px;
+  align-items: start;
+  min-height: 400px;
+}
+
+@media (max-width: 820px) {
+  .phase1-split {
+    grid-template-columns: 1fr;
+  }
+  /* On mobile, notes panel moves below dialogue */
+  .phase1-split__notes {
+    order: -1;
+  }
+}
+
+/* ---- Left: Dialogue panel ---- */
+.phase1-split__dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dialogue-stream {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dialogue-beat {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-left: 3px solid var(--color-pink);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+}
+
+.dialogue-beat .emphasis-text p {
+  margin: 0;
+  line-height: 1.75;
+  font-size: 0.95rem;
+  color: var(--color-text);
+}
+
+/* ---- Topic picker ---- */
+.topic-picker {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.topic-picker__prompt {
+  font-size: 0.88rem;
+  color: var(--color-pink-light);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin: 0;
+}
+
+.topic-picker__options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topic-btn {
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border-accent);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-ui);
+  font-size: 0.88rem;
+  font-weight: 600;
+  padding: 10px 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+              box-shadow var(--transition-fast);
+  line-height: 1.4;
+}
+
+.topic-btn:hover {
+  background: var(--color-surface-2);
+  border-color: var(--color-pink);
+  box-shadow: 0 0 0 2px var(--color-pink-glow);
+  color: var(--color-pink-light);
+}
+
+.topic-btn:active {
+  transform: scale(0.98);
+}
+
+/* ---- Done state ---- */
+.phase1-done {
+  background: linear-gradient(135deg, var(--color-surface) 0%, var(--color-surface-2) 100%);
+  border: 1px solid var(--color-border-accent);
+  border-radius: var(--radius-lg);
+  padding: 20px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.phase1-done__message {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
+/* ---- Right: Notes panel ---- */
+.phase1-split__notes {
+  position: sticky;
+  top: 24px;
+}
+
+.notes-panel {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-height: 200px;
+}
+
+.notes-panel__heading {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  color: var(--color-pink-light);
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.notes-panel__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px 12px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.notes-panel__empty-icon {
+  font-size: 1.6rem;
+  opacity: 0.5;
+}
+
+/* ---- Sticky notes stack ---- */
+.notes-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sticky-note {
+  background: #fef9e0;            /* warm paper yellow — intentional break from dark theme */
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: 2px 3px 12px rgba(0, 0, 0, 0.35),
+              0 1px 3px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform-origin: top center;
+  position: relative;
+}
+
+/* Tape strip at top of each note */
+.sticky-note::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 40px;
+  height: 16px;
+  background: rgba(255, 235, 150, 0.6);
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.sticky-note__flavor {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #7a6a30;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.sticky-note__term {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  color: #2a2010;
+  letter-spacing: 0.01em;
+}
+
+.sticky-note__definition {
+  margin: 0;
+  font-size: 0.82rem;
+  color: #3a3020;
+  line-height: 1.55;
+}
+
+.sticky-note__visual {
+  margin-top: 6px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.15);
+  padding-top: 8px;
+  font-size: 0.8rem;
+  color: #5a4a20;
+}
+
+/* Reduced motion — drop rotation and spring, keep fade */
+@media (prefers-reduced-motion: reduce) {
+  .sticky-note {
+    transform: none !important;
+  }
+  .topic-btn {
+    transition: none;
+  }
+}

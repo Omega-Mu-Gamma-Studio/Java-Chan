@@ -8,6 +8,7 @@ import { calculateEarnedXP } from '../../utils/xpCalculator';
 import { useSound } from '../../hooks/useSound';
 import CodeBlock from './CodeBlock';
 import EmphasisText from './EmphasisText';
+import Phase1SplitScreen from './Phase1SplitScreen';
 import ScaffoldEditor from './ScaffoldEditor';
 import PhaseIndicator from './PhaseIndicator';
 import './LessonCanvas.css';
@@ -171,22 +172,34 @@ const LessonCanvas = ({ onComplete }) => {
             exit={{ opacity: 0, x: 20 }}
           >
             <h2 className="phase-heading phase-heading--work">▶ Learn It With Me</h2>
-            <EmphasisText text={phase1?.explanation} />
-            {phase1?.code && (
-              <CodeBlock code={phase1.code} label="Working Code" hoverNotes={hoverNotes} />
+
+            {/* Split-screen path: new topics[] schema (§2.1 of split-screen update) */}
+            {phase1?.topics?.length > 0 ? (
+              <Phase1SplitScreen
+                phase1={phase1}
+                onDone={() => handlePhaseChange(2)}
+              />
+            ) : (
+              /* Legacy path: single-paragraph explanation — lessons not yet migrated */
+              <>
+                <EmphasisText text={phase1?.explanation} />
+                {phase1?.code && (
+                  <CodeBlock code={phase1.code} label="Working Code" hoverNotes={hoverNotes} />
+                )}
+                {phase1?.output && (
+                  <div className="output-block">
+                    <span className="output-label">Output</span>
+                    <pre>{phase1.output}</pre>
+                  </div>
+                )}
+                <button
+                  className="btn btn-primary"
+                  onClick={() => handlePhaseChange(2)}
+                >
+                  Next: See the Code →
+                </button>
+              </>
             )}
-            {phase1?.output && (
-              <div className="output-block">
-                <span className="output-label">Output</span>
-                <pre>{phase1.output}</pre>
-              </div>
-            )}
-            <button
-              className="btn btn-primary"
-              onClick={() => handlePhaseChange(2)}
-            >
-              Next: See the Code →
-            </button>
           </motion.div>
         )}
 

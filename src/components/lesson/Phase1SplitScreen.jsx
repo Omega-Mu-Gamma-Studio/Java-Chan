@@ -57,16 +57,20 @@ const DialogueBeat = ({ text }) => (
 
 const Phase1SplitScreen = ({ phase1, lessonId, onDone }) => {
   const topics = phase1?.topics;
-  if (!topics?.length) return null;
 
+  // All hooks run unconditionally, before the early-return below — calling
+  // them after `if (!topics?.length) return null` breaks React's hook-order
+  // invariant if this component ever re-renders with a different topics
+  // length (e.g. lesson data refetched, or a shared instance across lessons).
   const { pinNote } = useJournalStore();
-
   const [activeBeats, setActiveBeats] = useState([
-    { type: 'intro', text: phase1.intro },
+    { type: 'intro', text: phase1?.intro },
   ]);
   const [pinnedNotes, setPinnedNotes] = useState([]);
-  const [remainingTopics, setRemainingTopics] = useState(topics);
+  const [remainingTopics, setRemainingTopics] = useState(topics || []);
   const [done, setDone] = useState(false);
+
+  if (!topics?.length) return null;
 
   const pickTopic = (topic) => {
     const newBeats = topic.dialogue.map((text) => ({ type: 'beat', text }));

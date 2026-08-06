@@ -113,7 +113,8 @@ const useJournalStore = create(
 
       /** Remove a single note (e.g. user deletes it from Journal UI). */
       removeNote: (id) => {
-        const { [id]: _removed, ...rest } = get().notes;
+        const rest = { ...get().notes };
+        delete rest[id];
         set({ notes: rest });
       },
 

@@ -2,36 +2,70 @@ import './CodeBlock.css';
 
 /**
  * CodeBlock.jsx
- * 
+ *
  * Renders syntax-highlighted Java code.
  * Uses a pure CSS approach with <span> tokens.
- * 
- * For Phase 1, we do simple keyword-based tokenization.
- * The tokenizer lives in utils/javaHighlighter.js
  *
  * Hover tooltips: any word matching the shared keyword glossary (or a
- * lesson-specific override passed via `hoverNotes`) gets a CSS tooltip —
- * see javaHighlighter.js's `notes` param and CodeBlock.css's
- * `.hoverable-token` rules.
+ * lesson-specific override passed via `hoverNotes`) gets a CSS tooltip.
+ *
+ * Click-to-pin (§2.3 of split-screen update): when `enableClickToPin` is true,
+ * clicking a `.hoverable-token` span pins it as a sticky note in the Journal.
+ * Mobile-compatible successor to CSS-only hover tooltips.
  */
 
+import { useRef } from 'react';
 import { tokenize } from '../../utils/javaHighlighter';
 import { KEYWORD_GLOSSARY } from '../../data/keywordGlossary';
+import useJournalStore from '../../store/journalStore';
 
-const CodeBlock = ({ code = '', label = '', showLineNumbers = true, hoverNotes = {} }) => {
+const CodeBlock = ({
+  code = '',
+  label = '',
+  showLineNumbers = true,
+  hoverNotes = {},
+  lessonId = null,
+  enableClickToPin = false,
+}) => {
   if (!code || code.trim() === '' || code.startsWith('// No code')) {
     return null;
   }
 
   const lines = code.split('\n');
-  // Lesson-specific notes win over the shared glossary for the same token —
-  // lets a lesson override or add hover text for a method unique to its example.
   const notes = { ...KEYWORD_GLOSSARY, ...hoverNotes };
+  const { pinFromCode, hasTerm } = useJournalStore();
+
+  const handleCodeClick = (e) => {
+    if (!enableClickToPin) return;
+    const span = e.target.closest('.hoverable-token');
+    if (!span) return;
+
+    const term = span.textContent;
+    const definition = span.getAttribute('data-tooltip');
+    if (!term || !definition) return;
+
+    if (hasTerm(term)) {
+      span.classList.add('token-already-pinned');
+      setTimeout(() => span.classList.remove('token-already-pinned'), 900);
+      return;
+    }
+
+    pinFromCode({ term, definition }, lessonId);
+    span.classList.add('token-pinned-flash');
+    setTimeout(() => span.classList.remove('token-pinned-flash'), 900);
+  };
 
   return (
     <div className="code-block">
-      {label && <div className="code-block-label">{label}</div>}
-      <pre className="code-block-pre">
+      {label && (
+        <div className="code-block-label">
+          {label}
+          {enableClickToPin && (
+            <span className="code-block-pin-hint">click a highlighted word to pin it →</span>
+          )}
+        </div>
+      )}
+      <pre className="code-block-pre" onClick={handleCodeClick}>
         <code>
           {lines.map((line, lineIdx) => (
             <div key={lineIdx} className="code-line">

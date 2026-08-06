@@ -5,6 +5,8 @@ import BottomBar from '../ui/BottomBar';
 import MusicPlayer from '../ui/MusicPlayer';
 import JavaChan from '../character/JavaChan';
 import AnimatedBg from './AnimatedBg';
+import Journal from '../ui/Journal';
+import useJournalStore from '../../store/journalStore';
 import { useProgress } from '../../hooks/useProgress';
 import { getShopItem } from '../../data/shopItems';
 import './AppLayout.css';
@@ -22,7 +24,9 @@ import './AppLayout.css';
  */
 const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [journalOpen, setJournalOpen] = useState(false);
   const { equippedWallpaper } = useProgress();
+  const noteCount = Object.keys(useJournalStore((s) => s.notes)).length;
   const wallpaper = getShopItem(equippedWallpaper);
   const themeClass = wallpaper?.themeClass || '';
 
@@ -63,9 +67,21 @@ const AppLayout = () => {
         </span>
 
         <div className="topbar-actions">
+          <button
+            className="journal-btn"
+            onClick={() => setJournalOpen(true)}
+            aria-label="Open journal"
+          >
+            📓
+            {noteCount > 0 && (
+              <span className="journal-btn__badge">{noteCount}</span>
+            )}
+          </button>
           <MusicPlayer />
         </div>
       </header>
+
+      <Journal isOpen={journalOpen} onClose={() => setJournalOpen(false)} />
 
       {/* Main content — React Router renders pages here */}
       <main className="main-content" style={wallpaperStyle}>

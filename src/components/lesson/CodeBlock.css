@@ -98,3 +98,51 @@
   opacity: 1;
   transform: translateX(-50%) translateY(-8px);
 }
+
+/* ---- Click-to-pin interactions (Phase 2, §2.3) ---- */
+.code-block-pre[onClick],
+.code-block-pre:has(.hoverable-token) {
+  cursor: default;
+}
+
+.hoverable-token {
+  cursor: pointer;
+}
+
+/* Flash green when successfully pinned */
+@keyframes pin-flash {
+  0%   { background: var(--color-success-glow); box-shadow: 0 0 0 2px var(--color-success); }
+  100% { background: transparent; box-shadow: none; }
+}
+
+.token-pinned-flash {
+  border-radius: 3px;
+  animation: pin-flash 0.9s ease forwards;
+}
+
+/* Flash amber when already in Journal */
+@keyframes already-pinned {
+  0%   { background: rgba(255, 204, 110, 0.3); box-shadow: 0 0 0 2px var(--color-warning); }
+  100% { background: transparent; box-shadow: none; }
+}
+
+.token-already-pinned {
+  border-radius: 3px;
+  animation: already-pinned 0.9s ease forwards;
+}
+
+/* Pin hint label in code-block header */
+.code-block-pin-hint {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: var(--color-text-muted);
+  letter-spacing: 0.02em;
+  font-style: italic;
+}
+
+.code-block-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

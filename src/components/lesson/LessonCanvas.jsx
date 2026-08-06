@@ -11,6 +11,7 @@ import EmphasisText from './EmphasisText';
 import Phase1SplitScreen from './Phase1SplitScreen';
 import ScaffoldEditor from './ScaffoldEditor';
 import PhaseIndicator from './PhaseIndicator';
+import useJournalStore from '../../store/journalStore';
 import './LessonCanvas.css';
 
 const HINT_THRESHOLD     = 2;  // show hint after N wrong attempts
@@ -30,6 +31,7 @@ const LessonCanvas = ({ onComplete }) => {
     toggleSelfChallenge, isSelfChallengeCompleted,
   } = useProgressStore();
   const { play } = useSound();
+  const { backfillNote } = useJournalStore();
 
   const [showSolution, setShowSolution] = useState(false);
   const [showFix, setShowFix] = useState(false);
@@ -54,6 +56,16 @@ const LessonCanvas = ({ onComplete }) => {
     setShowFix(false);
     setUsedHint(false);
     setUsedSolution(false);
+
+    // Backfill any Phase 1 topics the student skipped (§2.2 backfill rule).
+    // Runs every time we advance past Phase 1 so the Journal is never left
+    // with holes — the no-op guard in backfillNote prevents duplicates.
+    if (phase > 1 && phase1?.topics?.length) {
+      phase1.topics.forEach((topic) => {
+        backfillNote({ id: topic.id, ...topic.stickyNote }, lessonId, 'backfill');
+      });
+    }
+
     if (phase === 1) {
       setExpression('idle');          // teaching.png — hands out, explaining
       setDialogue(phase1?.openingDialogue || null);
@@ -177,6 +189,7 @@ const LessonCanvas = ({ onComplete }) => {
             {phase1?.topics?.length > 0 ? (
               <Phase1SplitScreen
                 phase1={phase1}
+                lessonId={lessonId}
                 onDone={() => handlePhaseChange(2)}
               />
             ) : (
@@ -215,7 +228,13 @@ const LessonCanvas = ({ onComplete }) => {
             <h2 className="phase-heading phase-heading--break">✕ See the Code</h2>
             <EmphasisText text={phase2?.explanation} />
             {phase2?.brokenCode && (
-              <CodeBlock code={phase2.brokenCode} label="Broken Code" hoverNotes={hoverNotes} />
+              <CodeBlock
+                code={phase2.brokenCode}
+                label="Broken Code"
+                hoverNotes={hoverNotes}
+                lessonId={lessonId}
+                enableClickToPin
+              />
             )}
             {phase2?.errorMessage && (
               <div className="error-block">
@@ -232,7 +251,13 @@ const LessonCanvas = ({ onComplete }) => {
                   {showFix ? 'Hide the Fix' : 'Show Me the Fix ✓'}
                 </button>
                 {showFix && (
-                  <CodeBlock code={phase2.fixedCode} label="Fixed Code" hoverNotes={hoverNotes} />
+                  <CodeBlock
+                    code={phase2.fixedCode}
+                    label="Fixed Code"
+                    hoverNotes={hoverNotes}
+                    lessonId={lessonId}
+                    enableClickToPin
+                  />
                 )}
               </>
             )}

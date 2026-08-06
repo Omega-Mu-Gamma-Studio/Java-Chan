@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import EmphasisText from './EmphasisText';
+import useJournalStore from '../../store/journalStore';
 import './Phase1SplitScreen.css';
 
 /**
@@ -54,9 +55,11 @@ const DialogueBeat = ({ text }) => (
   </motion.div>
 );
 
-const Phase1SplitScreen = ({ phase1, onDone }) => {
+const Phase1SplitScreen = ({ phase1, lessonId, onDone }) => {
   const topics = phase1?.topics;
   if (!topics?.length) return null;
+
+  const { pinNote } = useJournalStore();
 
   const [activeBeats, setActiveBeats] = useState([
     { type: 'intro', text: phase1.intro },
@@ -66,15 +69,15 @@ const Phase1SplitScreen = ({ phase1, onDone }) => {
   const [done, setDone] = useState(false);
 
   const pickTopic = (topic) => {
-    // Add dialogue beats for this topic
     const newBeats = topic.dialogue.map((text) => ({ type: 'beat', text }));
-
-    // Add the "what next?" prompt if there are more topics left after this one
     const remaining = remainingTopics.filter((t) => t.id !== topic.id);
 
     setActiveBeats((prev) => [...prev, ...newBeats]);
     setPinnedNotes((prev) => [...prev, topic.stickyNote]);
     setRemainingTopics(remaining);
+
+    // Persist to Journal store — no-op if already there from a prior visit
+    pinNote({ id: topic.id, ...topic.stickyNote }, lessonId, 'phase1');
 
     if (remaining.length === 0) {
       setDone(true);

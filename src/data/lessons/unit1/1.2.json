@@ -3,9 +3,50 @@
   "title": "Setting Up & Your First Program",
   "type": "conceptual",
   "phase1": {
+    "intro": "Alright, before we build anything, let's get your workbench set up.\n\nThere are three things you need before you can write Java with me. Where do you want to start?",
+    "topics": [
+      {
+        "id": "jdk",
+        "buttonText": "What do I actually need installed?",
+        "dialogue": [
+          "First up — the [[term:JDK]], the Java Development Kit. Think of it as your whole toolbox in one install.\n\nIt bundles the compiler, [[term:javac]], plus the runtime you need to actually execute what you build.",
+          "No JDK, no javac, no compiling — full stop. [[warn:A JRE alone isn't enough]] — that only runs finished programs, it can't build yours.\n\nOnce it's installed, open your terminal and check `java -version` and `javac -version`. Both need to answer before anything else here matters."
+        ],
+        "stickyNote": {
+          "term": "JDK (Java Development Kit)",
+          "flavor": "🧰 your whole toolbox in one install",
+          "definition": "Bundles the javac compiler and the runtime needed to build and run Java programs. A JRE alone can't compile code."
+        }
+      },
+      {
+        "id": "ide",
+        "buttonText": "What should I write my code in?",
+        "dialogue": [
+          "Second — somewhere to actually write this stuff. Any text editor technically works, but you'll want an [[term:IDE]].\n\nIntelliJ IDEA, Eclipse, and VS Code are the three you'll run into constantly.",
+          "[[key:IntelliJ Community Edition and VS Code are both free and won't overwhelm you on day one]] — that's genuinely where I'd start if I were you. Pick one, don't overthink it."
+        ],
+        "stickyNote": {
+          "term": "IDE",
+          "flavor": "✍️ where the toolbox actually gets used",
+          "definition": "Integrated Development Environment — a code editor built for writing, running, and debugging programs. IntelliJ Community and VS Code are both free starting points."
+        }
+      },
+      {
+        "id": "compile-run",
+        "buttonText": "Why does running code feel like two steps?",
+        "dialogue": [
+          "Third — and this one trips people up constantly, so pay attention. Building a Java program is [[key:always two separate steps, never one]].\n\nRemember the blueprint-and-object idea? Same shape here: `javac` takes your `.java` file and turns it into `.class` bytecode — that's finishing the blueprint.",
+          "Then `java` hands that blueprint to the JVM, which actually builds and runs the thing. [[warn:Writing the code and running the code are not the same step]] — you always compile first, then run."
+        ],
+        "stickyNote": {
+          "term": "Compile → Run",
+          "flavor": "🏗️ two steps, never one",
+          "definition": "javac compiles your .java file into .class bytecode; java then hands that bytecode to the JVM to run it. Compiling and running are always separate steps."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Alright, before we build anything, let's get your workbench set up.\n\nThere are three things you need before you can write Java with me:\n\nFirst, the [[term:JDK]] — the Java Development Kit. This is your actual toolbox. It bundles the compiler, called [[term:javac]], and the runtime you need to execute what you build.\n\nSecond, somewhere to write the code. Any text editor technically works, but you'll want an [[term:IDE]] — IntelliJ IDEA, Eclipse, or VS Code are the three you'll run into most. [[key:IntelliJ Community Edition and VS Code are both free and won't overwhelm you on day one]] — that's where I'd start if I were you.\n\nThird — and this is the part that trips people up constantly, so pay attention — building a Java program is [[key:always two separate steps, never one]]. Remember that blueprint-and-object idea from last lesson? Same shape here. `javac` takes your `.java` file and turns it into `.class` bytecode — that's you finishing the blueprint. Then `java` hands that blueprint to the JVM, which actually builds and runs the thing. [[warn:Writing the code and running the code are not the same step]] — you always compile first, then run.\n\nOnce you've got a JDK installed, open your terminal and check both `java -version` and `javac -version`. If they both come back with a version number, your workbench is ready. If one's missing, that's the very first thing to fix — nothing else works until it's sorted.",
     "openingDialogue": "Time to set up your workspace! Don't worry, I'll guide you through it step by step~ 🛠️"
   },
   "phase2": {

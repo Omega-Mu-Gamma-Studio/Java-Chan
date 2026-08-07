@@ -3,9 +3,63 @@
   "title": "Data Types & Variables",
   "type": "coding",
   "phase1": {
+    "intro": "Variables are labeled boxes — you already knew that from the moment I said it, but let's actually open a few.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "primitives",
+        "buttonText": "What types of values can a variable hold?",
+        "dialogue": [
+          "Java has eight [[term:primitive]] types built in, but we only need four to get moving: [[term:int]] for whole numbers, [[term:double]] for anything with a decimal.",
+          "[[term:char]] for a single character — always single quotes, `'A'`, never double — and [[term:boolean]] for true/false."
+        ],
+        "stickyNote": {
+          "term": "Primitive Types (int, double, char, boolean)",
+          "flavor": "📦 the four basic box types you'll use constantly",
+          "definition": "int holds whole numbers, double holds decimals, char holds a single character in single quotes, boolean holds true/false."
+        }
+      },
+      {
+        "id": "declaration-shape",
+        "buttonText": "How do I actually declare one?",
+        "dialogue": [
+          "Declaring a variable always follows the same shape: `type name = value;` — the box's label (its type) comes first, then its name, then what's actually inside it.",
+          "For example: `int age = 25;` — `int` is the type, `age` is the name, `25` is the value."
+        ],
+        "stickyNote": {
+          "term": "Variable Declaration",
+          "flavor": "🏷️ label, then name, then contents",
+          "definition": "type name = value; — always in that order: the type, then the variable name, then the assigned value."
+        }
+      },
+      {
+        "id": "naming-rules",
+        "buttonText": "Are there rules for naming variables?",
+        "dialogue": [
+          "[[key:Naming a variable has real rules, not just style preferences]]: it can start with a letter, an underscore, or a dollar sign — never a digit — and it can't be one of Java's reserved words like `int` or `class`.",
+          "Convention-wise, we write variable names in [[term:camelCase]] — `myVariableName`, not `my_variable_name` or `MyVariableName`."
+        ],
+        "stickyNote": {
+          "term": "Variable Naming Rules & camelCase",
+          "flavor": "🐫 humps in the middle, never at the start",
+          "definition": "Names must start with a letter, underscore, or $, never a digit, and can't be reserved words. Convention is camelCase: myVariableName."
+        }
+      },
+      {
+        "id": "string-concat",
+        "buttonText": "How do I print a variable with some text?",
+        "dialogue": [
+          "One more thing worth locking in now: `System.out.println` will happily glue a String and a variable together with `+`.",
+          "That's how `\"Age: \" + age` turns into readable output instead of two separate things sitting next to each other."
+        ],
+        "stickyNote": {
+          "term": "String Concatenation with +",
+          "flavor": "🧵 stitching text and variables together",
+          "definition": "The + operator joins a String with a variable's value into one combined output, e.g. \"Age: \" + age."
+        }
+      }
+    ],
     "code": "public class DataTypesExample {\n    public static void main(String[] args) {\n        // Primitive types\n        int age = 25;\n        double price = 19.99;\n        char grade = 'A';\n        boolean isJavaFun = true;\n        \n        System.out.println(\"Age: \" + age);\n        System.out.println(\"Price: $\" + price);\n        System.out.println(\"Grade: \" + grade);\n        System.out.println(\"Is Java fun? \" + isJavaFun);\n    }\n}",
     "output": "Age: 25\nPrice: $19.99\nGrade: A\nIs Java fun? true",
-    "explanation": "Variables are labeled boxes — you already knew that from the moment I said it, but let's actually open a few.\n\nJava has eight [[term:primitive]] types built in, but we only need four to get moving: [[term:int]] for whole numbers, [[term:double]] for anything with a decimal, [[term:char]] for a single character (always single quotes, `'A'`, never double), and [[term:boolean]] for true/false.\n\nDeclaring one always follows the same shape: `type name = value;` — the box's label (its type) comes first, then its name, then what's actually inside it.\n\n[[key:Naming a variable has real rules, not just style preferences]]: it can start with a letter, an underscore, or a dollar sign, never a digit, and it can't be one of Java's reserved words like `int` or `class`. Convention-wise, we write variable names in [[term:camelCase]] — `myVariableName`, not `my_variable_name` or `MyVariableName`.\n\nOne more thing worth locking in now: `System.out.println` will happily glue a String and a variable together with `+` — that's how `\"Age: \" + age` turns into readable output instead of two separate things sitting next to each other.",
     "openingDialogue": "Variables are like labeled boxes — you put values in them and give them names! 📦"
   },
   "phase2": {

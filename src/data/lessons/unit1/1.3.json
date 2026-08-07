@@ -3,9 +3,63 @@
   "title": "Hello, World!",
   "type": "coding",
   "phase1": {
+    "intro": "Okay — first real program. Let's actually build something.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "class-blueprint",
+        "buttonText": "Where does my code actually live?",
+        "dialogue": [
+          "Every Java program lives inside a [[term:class]] — remember, that's the blueprint idea from lesson one. Here, the blueprint is named `HelloWorld`.",
+          "[[warn:The class name has to match the filename exactly]] — capital letters and all. This blueprint has to live in a file called `HelloWorld.java`."
+        ],
+        "stickyNote": {
+          "term": "Class ↔ Filename Rule",
+          "flavor": "📁 the blueprint's name IS the file's name",
+          "definition": "A public class's name must exactly match its .java filename, including capitalization."
+        }
+      },
+      {
+        "id": "main-method",
+        "buttonText": "How does Java know where to start?",
+        "dialogue": [
+          "Inside that blueprint, Java needs one very specific starting point: `public static void main(String[] args)`. Think of `main` as the front door.",
+          "[[key:This is the exact line Java looks for when it decides where to start running your program]]. Get the spelling or capitalization even slightly wrong, and Java won't find a way in."
+        ],
+        "stickyNote": {
+          "term": "main method",
+          "flavor": "🚪 the front door Java always looks for",
+          "definition": "public static void main(String[] args) is the required entry point every runnable Java program starts from."
+        }
+      },
+      {
+        "id": "println",
+        "buttonText": "How do I actually print something?",
+        "dialogue": [
+          "Once we're inside `main`, the actual work is one line: `System.out.println(\"Hello, World!\")`. `System.out` is your direct line to the console.",
+          "[[term:println]] prints your text and then moves to a new line, ready for whatever prints next."
+        ],
+        "stickyNote": {
+          "term": "System.out.println",
+          "flavor": "📣 your direct line to the console",
+          "definition": "Prints the given text to the console, then moves to a new line so the next output starts fresh."
+        }
+      },
+      {
+        "id": "syntax-basics",
+        "buttonText": "What rules should I lock in early?",
+        "dialogue": [
+          "A couple of things to lock in now, because they'll matter every single lesson from here. Java is [[warn:case-sensitive]] — `String` and `string` are not the same thing, ever.",
+          "And every single statement ends with a semicolon `;`. Miss one, and the compiler stops cold — which, conveniently, is exactly what we're about to watch happen next."
+        ],
+        "stickyNote": {
+          "term": "Case Sensitivity & Semicolons",
+          "flavor": "⚠️ the two rules that break code the most",
+          "definition": "Java is case-sensitive (String ≠ string), and every statement must end with a semicolon."
+        }
+      }
+    ],
     "code": "public class HelloWorld {\n    public static void main(String[] args) {\n        System.out.println(\"Hello, World!\");\n    }\n}",
     "output": "Hello, World!",
-    "explanation": "Okay — first real program. Let's actually build something.\n\nEvery Java program lives inside a [[term:class]] — remember, that's the blueprint idea from lesson one. Here, the blueprint is named `HelloWorld`, and [[warn:the class name has to match the filename exactly]] — this blueprint has to live in a file called `HelloWorld.java`, capital letters and all.\n\nInside that blueprint, Java needs one very specific starting point: `public static void main(String[] args)`. Think of `main` as the front door — [[key:this is the exact line Java looks for when it decides where to start running your program]]. Get the spelling or capitalization even slightly wrong, and Java won't find a way in.\n\nOnce we're inside `main`, the actual work is one line: `System.out.println(\"Hello, World!\")`. `System.out` is your direct line to the console, and [[term:println]] prints your text and then moves to a new line, ready for whatever prints next.\n\nA couple of things to lock in early, because they'll matter every single lesson from here: Java is [[warn:case-sensitive]] — `String` and `string` are not the same thing, ever — and every single statement ends with a semicolon `;`. Miss one, and the compiler stops cold, which — conveniently — is exactly what we're about to watch happen next.",
     "openingDialogue": "Ah, the classic! Let me show you your very first Java program~ ✨"
   },
   "phase2": {

@@ -6,7 +6,7 @@ import MusicPlayer from '../ui/MusicPlayer';
 import JavaChan from '../character/JavaChan';
 import AnimatedBg from './AnimatedBg';
 import Journal from '../ui/Journal';
-import useJournalStore from '../../store/journalStore';
+import JournalBook from '../ui/JournalBook';
 import { useProgress } from '../../hooks/useProgress';
 import { getShopItem } from '../../data/shopItems';
 import './AppLayout.css';
@@ -26,7 +26,6 @@ const AppLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [journalOpen, setJournalOpen] = useState(false);
   const { equippedWallpaper } = useProgress();
-  const noteCount = Object.keys(useJournalStore((s) => s.notes)).length;
   const wallpaper = getShopItem(equippedWallpaper);
   const themeClass = wallpaper?.themeClass || '';
 
@@ -67,16 +66,6 @@ const AppLayout = () => {
         </span>
 
         <div className="topbar-actions">
-          <button
-            className="journal-btn"
-            onClick={() => setJournalOpen(true)}
-            aria-label="Open journal"
-          >
-            📓
-            {noteCount > 0 && (
-              <span className="journal-btn__badge">{noteCount}</span>
-            )}
-          </button>
           <MusicPlayer />
         </div>
       </header>
@@ -90,6 +79,10 @@ const AppLayout = () => {
 
       {/* Bottom bar */}
       <BottomBar />
+
+      {/* Journal entry point — an oversized book in the space above
+          Java-chan, replacing the old topbar icon (see JournalBook.jsx) */}
+      <JournalBook onOpen={() => setJournalOpen(true)} />
 
       {/* Java-chan character — always visible */}
       <JavaChan />

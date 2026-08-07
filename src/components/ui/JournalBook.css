@@ -1,0 +1,180 @@
+/* ============================================================
+   JournalBook.css
+   An oversized closed book sitting in the space directly above
+   Java-chan (fixed bottom-right column). Replaces the old small
+   topbar journal icon as the journal's primary entry point.
+   ============================================================ */
+
+.journal-book {
+  /* Leather + gold palette, kept local since it's a one-off
+     "physical object" treatment distinct from the app's UI chrome —
+     mirrors the cream/brown palette already used on sticky notes. */
+  --book-leather:      #4a2417;
+  --book-leather-dark: #2e1610;
+  --book-leather-light:#6b3521;
+  --book-gold:         #d9b25c;
+  --book-gold-dim:     rgba(217, 178, 92, 0.55);
+  --book-page:         #f6ecd2;
+
+  position: fixed;
+  right: 18px;
+  bottom: calc(var(--bottombar-height) + var(--javachan-height) + 118px);
+  width: 132px;
+  height: 158px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  z-index: 19; /* just under Java-chan's own widget (20) so her sprite can overlap the spine slightly */
+  perspective: 600px;
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.45));
+}
+
+/* ---- Page edges peeking from behind the cover ---- */
+.journal-book__pages {
+  position: absolute;
+  inset: 3px 2px 3px 10px;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      var(--book-page) 0px,
+      var(--book-page) 2px,
+      #e9dcb8 2px,
+      #e9dcb8 3px
+    );
+  border-radius: 3px 6px 6px 3px;
+  box-shadow: inset -2px 0 4px rgba(0, 0, 0, 0.15);
+}
+
+/* ---- Front cover ---- */
+.journal-book__cover {
+  position: absolute;
+  inset: 0;
+  border-radius: 4px 8px 8px 4px;
+  background:
+    linear-gradient(155deg, var(--book-leather-light) 0%, var(--book-leather) 45%, var(--book-leather-dark) 100%);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(217, 178, 92, 0.18),
+    inset 0 2px 6px rgba(255, 255, 255, 0.08),
+    inset 0 -10px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Spine shadow along the left bound edge */
+.journal-book__cover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 12px;
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.5), transparent);
+}
+
+/* Decorative gold double-rule border, like an embossed cover */
+.journal-book__band {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--book-gold-dim);
+  border-radius: 2px 6px 6px 2px;
+  pointer-events: none;
+}
+
+.journal-book__emblem {
+  font-size: 1.9rem;
+  line-height: 1;
+  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.4));
+  margin-top: 2px;
+}
+
+.journal-book__title {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  letter-spacing: 0.16em;
+  color: var(--book-gold);
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+.journal-book__sub {
+  font-family: var(--font-ui);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(217, 178, 92, 0.65);
+  text-transform: uppercase;
+}
+
+.journal-book__corner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--book-gold-dim);
+  opacity: 0.8;
+}
+
+.journal-book__corner--tl {
+  top: 5px;
+  left: 5px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.journal-book__corner--br {
+  bottom: 5px;
+  right: 5px;
+  border-left: none;
+  border-top: none;
+}
+
+/* ---- Note-count bookmark ribbon ---- */
+.journal-book__ribbon {
+  position: absolute;
+  top: -4px;
+  right: 20px;
+  min-width: 22px;
+  height: 30px;
+  padding-top: 5px;
+  background: var(--color-pink);
+  color: #fff;
+  font-family: var(--font-ui);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-align: center;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 78%, 0 100%);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Small screens: shrink and pull closer so it never crowds
+   the sprite or runs off the top of shorter viewports ---- */
+@media (max-width: 480px), (max-height: 680px) {
+  .journal-book {
+    width: 96px;
+    height: 116px;
+    right: 12px;
+    bottom: calc(var(--bottombar-height) + var(--javachan-height) + 84px);
+  }
+
+  .journal-book__emblem {
+    font-size: 1.4rem;
+  }
+
+  .journal-book__title {
+    font-size: 0.72rem;
+  }
+
+  .journal-book__sub {
+    display: none;
+  }
+
+  .journal-book__ribbon {
+    right: 14px;
+    height: 24px;
+    font-size: 0.64rem;
+  }
+}

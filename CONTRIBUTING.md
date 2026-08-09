@@ -2,6 +2,8 @@
 
 Thanks for your interest! Java-chan is an open-source project from Omega Mu Gamma Studio. Here's how to contribute effectively.
 
+By participating, you're expected to follow the [Code of Conduct](./CODE_OF_CONDUCT.md). Found a security issue rather than a regular bug? See [SECURITY.md](./SECURITY.md) instead of opening a public issue.
+
 ---
 
 ## What We're Accepting
@@ -48,54 +50,84 @@ npm run build   # Make sure the production build succeeds
 
 ## Lesson JSON Format
 
-Lesson files live at `src/data/lessons/unit{N}/{N}.{M}.json`. The required structure:
+Lesson files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Every lesson has five top-level
+phase objects (`phase1`–`phase5`), not a `phases` array. The required structure:
 
 ```json
 {
   "id": "1.1",
   "title": "Lesson Title",
-  "xp": 10,
-  "phases": [
-    {
-      "phase": 1,
-      "title": "See It Work",
-      "dialogue": "Explanation from Java-chan.",
-      "code": "// Working Java code",
-      "output": "Expected output"
-    },
-    {
-      "phase": 2,
-      "title": "See It Break",
-      "dialogue": "Here is the error, and here's why.",
-      "code": "// Same code, deliberately broken",
-      "error": "CompilationError: ..."
-    },
-    {
-      "phase": 3,
-      "title": "You Try",
-      "dialogue": "Your turn!",
-      "prompt": "The question or fill-in-the-blank",
-      "answer": "expected_answer",
-      "hint": "A gentle nudge.",
-      "solution": "The full correct answer"
-    }
-  ]
+  "type": "conceptual",
+  "xpReward": 10,
+  "phase1": {
+    "intro": "A short lead-in in her voice, ending in a prompt for which topic to open first.",
+    "topics": [
+      {
+        "id": "short-kebab-id",
+        "buttonText": "The question this topic answers, as the student would ask it",
+        "dialogue": ["First beat.", "Second beat."],
+        "stickyNote": {
+          "term": "The term this topic covers",
+          "flavor": "🔑 a short emoji + tag line",
+          "definition": "Plain-English definition — this is what gets pinned to the student's Journal."
+        }
+      }
+    ],
+    "code": "// Working Java code",
+    "output": "Expected output",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase2": {
+    "brokenCode": "// Same code, deliberately broken",
+    "errorMessage": "Error message text",
+    "explanation": "Why it broke, in her voice.",
+    "fixedCode": "// The corrected version, or null if not authored yet",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase3": {
+    "scaffoldCode": "public class Main { {{b1}} }",
+    "blanks": [{ "id": "b1", "answer": ["i < arr.length"], "caseSensitive": true }],
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase4": {
+    "mcq": { "question": "MCQ prompt with options A–D", "validationPattern": { "mcqAnswer": "C" } },
+    "selfChallenge": "Go build this yourself in your own IDE — not graded, honor system",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "phase5": {
+    "trivia": "[[fun:Fun fact]]: closing lore/trivia beat, no grading attached.",
+    "openingDialogue": "Her line when this phase opens"
+  },
+  "hoverNotes": {}
 }
 ```
 
-Phase 3 `answer` is matched by `src/utils/patternMatcher.js`. It supports exact match, case-insensitive match, and simple regex patterns. Check that file before writing answers.
+Phase 1 is a click-to-pin split screen, not a paragraph — `topics[]` is a list of 2–3 sub-ideas
+(don't pad to a round number; some lessons genuinely only have 2), each with its own `dialogue[]`
+beats and a `stickyNote` that gets saved into the student's cross-lesson Journal. Keep
+`stickyNote.definition` accurate and self-contained — it's read out of the lesson's context once
+pinned.
+
+Phase 3 `blanks[].answer` is checked by `src/utils/blankValidator.js` — always an array (covers
+multi-answer cases like `i++` vs `i += 1`), whitespace-normalized before comparing, and
+`caseSensitive` defaults to `true`. Phase 4's `mcq.validationPattern` is checked by
+`src/utils/patternMatcher.js` and is exact-match — no regex on either phase.
 
 ---
 
-## Inline Emphasis Tags (`phase1.explanation`, `phase2.explanation`, `phase5.trivia`)
+## Inline Emphasis Tags (`phase1.intro`, `phase1.topics[].dialogue`, `phase2.explanation`, `phase5.trivia`)
 
-These three fields aren't rendered as plain text — they go through `EmphasisText.jsx`, which
+None of these fields are rendered as plain text — they go through `EmphasisText.jsx`, which
 parses inline tags into distinctly styled spans (color, font, icon, and a little motion — the
 "Geronimo Stilton effect," see `java-chan-next-update.md` §4.7–§4.8 for the full design
-rationale). **Every explanation/trivia string should use these tags where the vocabulary below
-calls for one.** Plain, untagged prose in these fields is treated as unfinished content, not a
-valid style choice — a PR that adds or rewrites lesson explanation/trivia text without tags
-where warranted will be asked to add them before merge.
+rationale). This includes every string inside `phase1.topics[].dialogue` individually, not just
+`phase1.intro` — tag each beat on its own merits. **Every explanation/trivia/dialogue string
+should use these tags where the vocabulary below calls for one.** Plain, untagged prose in these
+fields is treated as unfinished content, not a valid style choice — a PR that adds or rewrites
+lesson prose without tags where warranted will be asked to add them before merge.
+
+`stickyNote.term`/`.flavor`/`.definition` are the one exception — they're rendered as a card, not
+parsed prose, so don't use `[[...]]` tags inside them.
 
 | Tag | Use it for | Don't use it for |
 |---|---|---|

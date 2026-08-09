@@ -346,3 +346,59 @@ started, not scoped yet. With Step 4 now closed (all 75 Java-Chan lessons
 across 5 units authored in the new voice/structure), the validation
 prerequisite is met; propagation to siblings is still a separate,
 studio-level decision per §4.5, not started by this pass.
+
+---
+
+## Done (continued)
+
+### Step 6 — Phase 1 split-screen migration (companion doc:
+`java-chan-phase1-split-screen-update.md`) — DONE
+
+Phase 1 moved from one scrollable `explanation` string to a click-to-pin split
+screen: `intro` + `topics[]` (each with `id`, `buttonText`, `dialogue[]`, and a
+`stickyNote`), plus `openingDialogue`. The engine side of this (LessonCanvas,
+the topic-button UI, sticky-note rendering, `journalStore.js` /
+`Journal.jsx` / `JournalBook.jsx` for the cross-lesson Journal) was already
+built and live on lessons 1.1–1.4 before this pass started; this step is the
+**content migration** of the remaining 71 lessons onto that schema.
+
+- **1.5 authored first as a pilot**, voice-checked against the 1.1–1.4 bar
+  before continuing — same sequencing discipline as Step 4's unit pilots.
+- **1.6–1.15 (rest of Unit 1), then Units 2–5 in full** authored in one
+  continuous pass once the pilot was approved. Every lesson's old
+  `explanation` string was split into 2–3 `topics[]` (2 where the source
+  explanation genuinely only had two distinct ideas — not padded to a round
+  number), each carrying forward the CONTRIBUTING.md emphasis-tag rules on
+  every `dialogue[]` beat individually.
+- No new claims introduced anywhere — every `topics[].dialogue` and
+  `stickyNote.definition` traces back to that lesson's original
+  `explanation` text; this was a restructuring pass, not a rewrite of
+  content.
+- `code`/`output` carried over unchanged on all 71 lessons. `hoverNotes`
+  also left untouched — deprecating it in favor of sticky notes (as
+  discussed in the split-screen doc) is a separate decision, not made as
+  part of this migration.
+- **Verification**: all 75 lesson JSONs (including the pre-existing
+  1.1–1.4) programmatically checked for the `{intro, topics, code, output,
+  openingDialogue}` shape on `phase1`, and each `topics[]` entry checked for
+  `{id, buttonText, dialogue, stickyNote}` with `stickyNote` checked for
+  `{term, flavor, definition}`. All pass.
+
+### Step 6b — `unlockedUnits` stale-state fix (bugfix, not scoped in either
+update doc)
+
+Found while reviewing Step 6: `progressStore.js`'s `unlockedUnits` already
+defaulted to `[1, 2, 3, 4, 5]` in code (all units unlocked, per the existing
+comment), but the store is `persist`-backed to `localStorage`. Any browser
+that had saved state from before that default existed (or from manual
+testing with fewer units unlocked) would have that stale value permanently
+override the new default, since `persist` merges saved state over the
+in-code default rather than the other way around.
+
+- Added `version: 1` and a `migrate` step to the store's persist config
+  that normalizes `unlockedUnits` back to `[1, 2, 3, 4, 5]` on load,
+  regardless of what was previously saved.
+- Scoped to just this one field — doesn't touch `completedLessons`, `xp`,
+  or anything else a returning student would want kept.
+- If a future Phase 1 change needs another reset of persisted state, bump
+  `version` again and extend (or replace) the `migrate` function.

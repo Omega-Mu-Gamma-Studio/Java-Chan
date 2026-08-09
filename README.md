@@ -32,7 +32,7 @@ Every single lesson — all 75 of them — runs through this five-phase arc:
 
 | Phase | Name | What Happens |
 |-------|------|----|
-| **1** | Learn It With Me | Java-chan walks through working code and explains it — in her voice, not a bullet-list definition with a remark tacked on |
+| **1** | Learn It With Me | A split-screen: Java-chan talks through the idea in short dialogue beats on one side, and clicking a topic pins a citable sticky note on the other. The student picks which topic to open first — it's not one long scroll |
 | **2** | See the Code | Same idea, deliberately broken — she explains the bug and why it matters, with an optional "Show Me the Fix" reveal for the corrected version |
 | **3** | Code It With Me | Fill-in-the-blank scaffolded coding — most of the program is given, you fill the specific blanks that test the lesson's idea |
 | **4** | Challenge | A quick MCQ check, plus a self-directed prompt to attempt the full thing in your own IDE (honor system — not graded in-browser) |
@@ -43,6 +43,12 @@ Phase 3's blanks are checked against a short accepted-answers list (whitespace-n
 Code blocks also carry **hover tooltips** on keywords and API calls — a shared glossary covers common Java terms everywhere, and each lesson can add its own notes for anything unique to its example.
 
 Lesson prose itself carries inline emphasis for four distinct moments — new vocabulary, gotchas, the one idea worth remembering, and lighter trivia asides — each with its own font treatment, color, and motion, so a skimming eye catches what matters without rereading the paragraph.
+
+### 📖 Phase 1's Split Screen & the Journal
+
+Phase 1 isn't a single scrollable explanation — it's a click-to-pin split screen. Each lesson's `phase1.topics[]` gives the student a row of buttons (one per sub-topic); clicking one plays Java-chan's `dialogue` beats for that topic on one side and pins a `stickyNote` (term, a one-line flavor tag, and a plain-English definition) on the other. Students choose their own order through the material instead of reading top to bottom.
+
+Every sticky note a student pins also gets filed into their **Journal** — a persistent, cross-lesson collection of every term they've clicked on, browsable independently of any single lesson (`Journal.jsx`, `JournalBook.jsx`, backed by `journalStore.js`). It's a standing glossary the student builds for themselves as they go, not something authored up front.
 
 ---
 
@@ -57,7 +63,7 @@ Explanation and trivia text can tag words inline, and each tag renders as a dist
 | `[[key:...]]` | The one idea worth remembering | Pink, bold, with a highlighter-marker stroke behind it |
 | `[[fun:...]]` | Trivia / lighter aside | Purple, italic, stamped in at a slight tilt with a ✨ |
 
-All four pop in on mount and give a small hover bounce, each with its own motion so the categories feel distinct beyond color. `prefers-reduced-motion` drops the animation while keeping color/font/icon distinctions intact. This markup lives inside authored lesson text (`phase1.explanation`, `phase2.explanation`, `phase5.trivia`) and is parsed into plain React children — never `dangerouslySetInnerHTML` — so there's no injection surface even though the content is JSON-authored.
+All four pop in on mount and give a small hover bounce, each with its own motion so the categories feel distinct beyond color. `prefers-reduced-motion` drops the animation while keeping color/font/icon distinctions intact. This markup lives inside authored lesson text — `phase1.topics[].dialogue` strings and `phase1.intro`, `phase2.explanation`, `phase5.trivia` — and is parsed into plain React children — never `dangerouslySetInnerHTML` — so there's no injection surface even though the content is JSON-authored.
 
 ---
 
@@ -259,7 +265,7 @@ Java-Chan/
 │   │   ├── layout/AppLayout.jsx    # Root shell; applies wallpaper/theme, mounts topbar + JavaChan
 │   │   ├── home/MeetMySisters.jsx  # Cross-studio sibling rail on the Home page
 │   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator (5 tabs), ScaffoldEditor, EmphasisText
-│   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar, MusicPlayer
+│   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar, MusicPlayer, Journal/JournalBook
 │   │
 │   ├── data/
 │   │   ├── lessons/                # 75 JSON lesson files (unit1–5, lessons 1–15), 5-phase schema
@@ -285,7 +291,8 @@ Java-Chan/
 │   │
 │   ├── store/
 │   │   ├── progressStore.js        # Zustand store: XP, level, outfits, progress
-│   │   └── lessonStore.js          # Zustand store: active lesson state, expression state
+│   │   ├── lessonStore.js          # Zustand store: active lesson state, expression state
+│   │   └── journalStore.js         # Zustand store: sticky notes the student has pinned, across lessons
 │   │
 │   └── utils/
 │       ├── xpCalculator.js         # XP thresholds, level math, earned XP calculation
@@ -310,9 +317,24 @@ Lesson JSON files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Each file fol
   "type": "conceptual",
   "xpReward": 10,
   "phase1": {
+    "intro": "A short lead-in, in her voice, ending in a prompt for which topic to open first.",
+    "topics": [
+      {
+        "id": "short-kebab-id",
+        "buttonText": "The question this topic answers, as the student would ask it",
+        "dialogue": [
+          "First beat — [[term:new word]] can appear inline here.",
+          "Second beat — [[warn:a gotcha]] or [[key:the one idea to remember]] work the same way."
+        ],
+        "stickyNote": {
+          "term": "The term this topic is about",
+          "flavor": "🔑 a short emoji + tag line",
+          "definition": "Plain-English definition — this is what gets pinned to the student's Journal."
+        }
+      }
+    ],
     "code": "public class Main { ... }",
     "output": "Hello, World!",
-    "explanation": "Written in Java-chan's voice, not a neutral definition — [[term:new word]], [[warn:a gotcha]], [[key:the one idea to remember]] can all appear inline.",
     "openingDialogue": "Her line when this phase opens"
   },
   "phase2": {
@@ -347,6 +369,8 @@ Lesson JSON files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Each file fol
 }
 ```
 
+`phase1.topics[]` isn't a fixed length either — most lessons land on 2–3, matching however many genuinely distinct ideas that lesson's old-style explanation actually contained; don't pad to a round number. Each topic's `dialogue[]` is a list of short beats, not one paragraph — split anywhere a skimming reader would naturally pause. `stickyNote.definition` is the one that gets saved to the student's Journal, so keep it accurate and self-contained; it'll be read out of context from the rest of the lesson.
+
 `blanks[].answer` is always an array (covers multi-answer cases like `i++` vs `i += 1`), comparison normalizes whitespace before checking, and `caseSensitive` defaults to `true` since Java itself is case-sensitive. The number of blanks isn't fixed — it's an authoring judgment call per lesson. Common keywords go in the shared `src/data/keywordGlossary.js`; anything unique to one lesson's example goes in that lesson's own `hoverNotes`.
 
 ### Adding a New Outfit
@@ -368,6 +392,7 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 ### Phase 1 (Current) ✅
 - All 75 lessons rewritten around a five-phase engine and voice-first content — the explanation *is* Java-chan teaching, not textbook prose with her commentary appended
+- Phase 1 rebuilt as a click-to-pin split screen across all 75 lessons — student-chosen topic order, dialogue beats, and sticky notes that feed a persistent, cross-lesson Journal
 - Hover glossary (shared + per-lesson `hoverNotes`) and inline emphasis tags (`term`/`warn`/`key`/`fun`) across lesson prose
 - Full cosmetics system — 5 app themes, 12 outfits (all with real sprite art), 10 downloadable wallpapers
 - XP/leveling, shop, expressions, domain expansion
@@ -438,5 +463,7 @@ You may use, modify, and share this software for **noncommercial purposes** only
 **The character art, sprites, and visual assets for Java-chan are also proprietary.** They may not be reproduced, redistributed, or used outside this project without explicit permission.
 
 For commercial licensing inquiries, contact Omega Mu Gamma Studio.
+
+Found a security issue? See [SECURITY.md](./SECURITY.md) rather than opening a public issue. Contributing? See [CONTRIBUTING.md](./CONTRIBUTING.md) and our [Code of Conduct](./CODE_OF_CONDUCT.md).
 
 © 2026 Omega Mu Gamma Studio

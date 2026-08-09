@@ -3,9 +3,50 @@
   "title": "Control Flow — if/else",
   "type": "coding",
   "phase1": {
+    "intro": "Decisions in Java come down to two tools: if/else, and switch.\n\nWhich one do you want to dig into first?",
+    "topics": [
+      {
+        "id": "if-else-order",
+        "buttonText": "Why does the order of my if/else checks matter?",
+        "dialogue": [
+          "`if`/`else` chains check conditions top to bottom, and [[warn:order actually matters]] — once one branch's condition is true, Java runs it and skips every branch below, even if a later condition would also technically be true.",
+          "That's why grade checks always go from highest threshold to lowest: `score >= 90` has to be checked before `score >= 80`, or a 95 would incorrectly land in the B bracket."
+        ],
+        "stickyNote": {
+          "term": "if/else Chain Ordering",
+          "flavor": "🪜 highest threshold first, or it never gets checked",
+          "definition": "if/else branches are checked top to bottom; the first true condition runs and skips the rest. Range checks must go from most to least specific."
+        }
+      },
+      {
+        "id": "switch-break",
+        "buttonText": "How does switch work, and why does break matter?",
+        "dialogue": [
+          "`switch` is the cleaner tool when you're checking one variable against several specific values instead of ranges. Each `case` is a possible match, and [[key:break is what stops execution from falling into the next case]].",
+          "[[warn:Forget a break, and Java just keeps running straight into the next case's code]] — which is almost never what you want."
+        ],
+        "stickyNote": {
+          "term": "switch & break",
+          "flavor": "🚦 break is what stops the fall-through",
+          "definition": "switch checks a variable against specific case values. Without break, execution falls through into the next case's code instead of stopping."
+        }
+      },
+      {
+        "id": "case-stacking",
+        "buttonText": "Can two case values share the same code?",
+        "dialogue": [
+          "One clean trick you'll see in switch statements: stacking cases with no code between them, like `case 6: case 7:`, lets both values share the exact same block below."
+        ],
+        "stickyNote": {
+          "term": "Stacked Cases",
+          "flavor": "🧱 two labels, one shared block",
+          "definition": "Writing case 6: case 7: with no code between them lets both values fall through to share the same block of code."
+        }
+      }
+    ],
     "code": "import java.util.Scanner;\n\npublic class IfElseExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your grade (0-100): \");\n        int score = scanner.nextInt();\n        \n        if (score >= 90) {\n            System.out.println(\"Grade: A — Excellent!\");\n        } else if (score >= 80) {\n            System.out.println(\"Grade: B — Good job!\");\n        } else if (score >= 70) {\n            System.out.println(\"Grade: C — Not bad!\");\n        } else if (score >= 60) {\n            System.out.println(\"Grade: D — Need some work!\");\n        } else {\n            System.out.println(\"Grade: F — Keep trying!\");\n        }\n        \n        // Switch statement\n        System.out.print(\"Enter a day number (1-7): \");\n        int day = scanner.nextInt();\n        \n        switch (day) {\n            case 1:\n                System.out.println(\"Monday\");\n                break;\n            case 2:\n                System.out.println(\"Tuesday\");\n                break;\n            case 3:\n                System.out.println(\"Wednesday\");\n                break;\n            case 4:\n                System.out.println(\"Thursday\");\n                break;\n            case 5:\n                System.out.println(\"Friday\");\n                break;\n            case 6:\n            case 7:\n                System.out.println(\"Weekend!\");\n                break;\n            default:\n                System.out.println(\"Invalid day!\");\n        }\n        \n        scanner.close();\n    }\n}",
     "output": "Enter your grade (0-100): 85\nGrade: B — Good job!\nEnter a day number (1-7): 6\nWeekend!",
-    "explanation": "Decisions in Java come down to two tools: `if`/`else`, and `switch`.\n\n`if`/`else` chains check conditions top to bottom, and [[warn:order actually matters]] — once one branch's condition is true, Java runs it and skips every branch below, even if a later condition would also technically be true. That's why grade checks always go from highest threshold to lowest: `score >= 90` has to be checked before `score >= 80`, or a 95 would incorrectly land in the B bracket.\n\n`switch` is the cleaner tool when you're checking one variable against several specific values instead of ranges. Each `case` is a possible match, and [[key:break is what stops execution from falling into the next case]] — [[warn:forget a break, and Java just keeps running straight into the next case's code]], which is almost never what you want.\n\nOne clean trick you'll see in switch statements: stacking cases with no code between them, like `case 6: case 7:`, lets both values share the exact same block below."
+    "openingDialogue": "Decisions boil down to two tools — if/else for conditions, switch for matching one variable against specific values. 🔀"
   },
   "phase2": {
     "brokenCode": "import java.util.Scanner;\n\npublic class IfElseExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter your grade (0-100): \");\n        int score = scanner.nextInt();\n        \n        if (score >= 90) \n            System.out.println(\"Grade: A — Excellent!\");\n            System.out.println(\"You're a star!\");  // Problem!\n        else if (score >= 80) {\n            System.out.println(\"Grade: B — Good job!\");\n        }\n        scanner.close();\n    }\n}",

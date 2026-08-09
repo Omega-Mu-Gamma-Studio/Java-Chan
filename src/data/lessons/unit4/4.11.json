@@ -3,9 +3,49 @@
   "title": "Creating Threads",
   "type": "coding",
   "phase1": {
+    "intro": "Time to actually hire a second worker.\n\nWhich way of creating a thread do you want to see first?",
+    "topics": [
+      {
+        "id": "three-ways-to-create",
+        "buttonText": "What are the three ways to hand Java a thread's work?",
+        "dialogue": [
+          "[[key:There are three ways to hand Java a thread's worth of work]]: extend Thread and override `run()`; implement Runnable and pass it to a Thread; or skip the class entirely with a lambda, since Runnable is a functional interface.",
+          "[[warn:Runnable is generally preferred over extending Thread]] — Java only allows single inheritance, and Runnable keeps \"this is a thread\" and \"this is the work\" as separate ideas."
+        ],
+        "stickyNote": {
+          "term": "Three Ways to Create a Thread",
+          "flavor": "🧵 extend Thread, implement Runnable, or use a lambda",
+          "definition": "extend Thread + override run(); implement Runnable + pass to a Thread; or a lambda (Runnable is functional). Runnable is generally preferred."
+        }
+      },
+      {
+        "id": "run-vs-start",
+        "buttonText": "What happens if I call run() instead of start()?",
+        "dialogue": [
+          "[[warn:The single most common new mistake here is calling run() instead of start()]] — run() just calls the method directly, on whatever thread called it. [[key:start() is the one that actually asks the JVM to spin up a new thread]] — call run() by accident and it runs sequentially on the main thread, no error, just quietly not-actually-multithreaded."
+        ],
+        "stickyNote": {
+          "term": "run() vs start()",
+          "flavor": "🚫 run() is just a method call, start() spins up a thread",
+          "definition": "run() executes directly on the calling thread — no new thread. start() actually creates a new thread and runs the work on it."
+        }
+      },
+      {
+        "id": "thread-properties",
+        "buttonText": "What do setName(), setPriority(), and setDaemon() do?",
+        "dialogue": [
+          "[[fun:A couple of thread properties worth knowing]]: `setName()` gives a thread a readable label, `setPriority()` hints how eagerly the scheduler should favor it, and `setDaemon(true)` marks it as background work the JVM shouldn't wait around for."
+        ],
+        "stickyNote": {
+          "term": "Thread Properties",
+          "flavor": "🏷️ name, priority hint, and daemon status",
+          "definition": "setName() labels a thread. setPriority() hints (not guarantees) scheduling priority. setDaemon(true) means the JVM can exit without waiting for it."
+        }
+      }
+    ],
     "code": "public class ThreadCreationExample {\n    public static void main(String[] args) {\n        System.out.println(\"Main thread starting...\");\n        \n        // 1. Extending Thread class\n        System.out.println(\"=== Extending Thread ===\");\n        MyThread thread1 = new MyThread(\"Thread-1\");\n        thread1.start();  // NOT run()!\n        \n        // 2. Implementing Runnable\n        System.out.println(\"=== Implementing Runnable ===\");\n        MyRunnable runnable = new MyRunnable(\"Thread-2\");\n        Thread thread2 = new Thread(runnable);\n        thread2.start();\n        \n        // 3. Lambda (Java 8+)\n        System.out.println(\"=== Lambda Runnable ===\");\n        Thread thread3 = new Thread(() -> {\n            for (int i = 1; i <= 3; i++) {\n                System.out.println(\"Lambda-Thread: \" + i);\n                sleep(100);\n            }\n        });\n        thread3.start();\n        \n        // 4. Multiple threads\n        System.out.println(\"=== Multiple Threads ===\");\n        for (int i = 0; i < 3; i++) {\n            Thread t = new Thread(() -> {\n                System.out.println(\"Thread \" + Thread.currentThread().getName() + \" running\");\n            });\n            t.setName(\"Worker-\" + i);\n            t.start();\n        }\n        \n        // 5. Thread methods\n        System.out.println(\"=== Thread Methods ===\");\n        Thread thread4 = new Thread(() -> {\n            System.out.println(\"Thread \" + Thread.currentThread().getName() + \" is running\");\n        });\n        thread4.setName(\"MyThread\");\n        thread4.setPriority(Thread.MAX_PRIORITY);  // 1-10\n        System.out.println(\"Name: \" + thread4.getName());\n        System.out.println(\"Priority: \" + thread4.getPriority());\n        System.out.println(\"State: \" + thread4.getState());\n        thread4.start();\n        System.out.println(\"State after start: \" + thread4.getState());\n        \n        // 6. Daemon threads\n        System.out.println(\"=== Daemon Thread ===\");\n        Thread daemon = new Thread(() -> {\n            for (int i = 0; i < 10; i++) {\n                System.out.println(\"Daemon: \" + i);\n                sleep(50);\n            }\n        });\n        daemon.setDaemon(true);  // Program exits without waiting for daemon\n        daemon.start();\n        \n        // Main thread continues\n        System.out.println(\"Main thread ending...\");\n    }\n    \n    static void sleep(long ms) {\n        try {\n            Thread.sleep(ms);\n        } catch (InterruptedException e) {\n            Thread.currentThread().interrupt();\n        }\n    }\n}\n\n// Method 1: Extend Thread\nclass MyThread extends Thread {\n    MyThread(String name) {\n        super(name);\n    }\n    \n    @Override\n    public void run() {\n        for (int i = 0; i < 3; i++) {\n            System.out.println(getName() + \": \" + i);\n            try {\n                Thread.sleep(200);\n            } catch (InterruptedException e) {\n                System.out.println(getName() + \" interrupted\");\n            }\n        }\n        System.out.println(getName() + \" finished\");\n    }\n}\n\n// Method 2: Implement Runnable\nclass MyRunnable implements Runnable {\n    private String name;\n    \n    MyRunnable(String name) {\n        this.name = name;\n    }\n    \n    @Override\n    public void run() {\n        for (int i = 0; i < 3; i++) {\n            System.out.println(name + \": \" + i);\n            try {\n                Thread.sleep(150);\n            } catch (InterruptedException e) {\n                System.out.println(name + \" interrupted\");\n            }\n        }\n        System.out.println(name + \" finished\");\n    }\n}",
     "output": "Main thread starting...\n=== Extending Thread ===\n=== Implementing Runnable ===\n=== Lambda Runnable ===\nThread-1: 0\nLambda-Thread: 1\nThread-2: 0\nThread-1: 1\nThread-2: 1\nLambda-Thread: 2\nThread-1: 2\nThread-1 finished\nThread-2: 2\nThread-2 finished\nLambda-Thread: 3\n=== Multiple Threads ===\nThread Worker-0 running\nThread Worker-1 running\nThread Worker-2 running\n=== Thread Methods ===\nName: MyThread\nPriority: 10\nState: NEW\nState after start: RUNNABLE\nThread MyThread is running\n=== Daemon Thread ===\nDaemon: 0\nMain thread ending...\nDaemon: 1\nDaemon: 2\nDaemon: 3\nDaemon: 4\nDaemon: 5\nDaemon: 6\nDaemon: 7\nDaemon: 8\nDaemon: 9",
-    "explanation": "Time to actually hire a second worker. [[key:there are three ways to hand Java a thread's worth of work, and they all boil down to the same question: what should run when this thread starts?]]\n\nMethod 1 — extend Thread and override run():\n\nclass MyThread extends Thread {\n    public void run() {\n        System.out.println(\"Working...\");\n    }\n}\nnew MyThread().start();\n\nMethod 2 — implement Runnable and pass it to a Thread:\n\nThread t = new Thread(new MyRunnable());\nt.start();\n\nMethod 3 — skip the class entirely with a lambda, since Runnable is a functional interface: new Thread(() -> System.out.println(\"Working...\")).start();\n\n[[warn:Runnable is generally preferred over extending Thread]] — Java only allows single inheritance, so extending Thread burns your one shot at extending anything else, and it also blurs two separate ideas (\"this is a thread\" and \"this is the work to do\") into one class. Runnable keeps them separate: the work is just a task, and any Thread can be handed that task to run.\n\n[[warn:the single most common new mistake here is calling run() instead of start()]] — run() just calls the method directly, on whatever thread called it, same as calling any other method. [[key:start() is the one that actually asks the JVM to spin up a new thread]] and run the work on it. Call run() by accident and your code executes fine, sequentially, on the main thread — no error, no crash, just quietly not-actually-multithreaded, which makes it one of the sneakier bugs to notice.\n\n[[fun:a couple of thread properties worth knowing]]: setName() gives a thread a readable label instead of the default \"Thread-0\", setPriority() hints (doesn't guarantee) how eagerly the scheduler should favor it, and setDaemon(true) marks a thread as background work the JVM shouldn't wait around for — the program can exit even while a daemon thread is still running."
+    "openingDialogue": "Three ways to create a thread — but the real trap is calling run() when you meant start(). 🧵"
   },
   "phase2": {
     "brokenCode": "public class Test {\n    public static void main(String[] args) {\n        MyThread t = new MyThread();\n        \n        // Calling run() instead of start()\n        t.run();  // Runs on main thread!\n        t.run();  // Still on main thread, not parallel!\n    }\n}\n\nclass MyThread extends Thread {\n    @Override\n    public void run() {\n        System.out.println(\"Thread: \" + Thread.currentThread().getName());\n    }\n}",

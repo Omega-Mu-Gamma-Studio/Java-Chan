@@ -3,10 +3,50 @@
   "title": "Buffered Streams",
   "type": "coding",
   "phase1": {
+    "intro": "FileReader and FileWriter work fine, but every single read() or write() call can mean an actual trip to the disk. Buffered streams fix this.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "bufferedreader",
+        "buttonText": "What does BufferedReader actually add?",
+        "dialogue": [
+          "[[term:BufferedReader]] wraps an existing Reader — `new BufferedReader(new FileReader(\"file.txt\"))` — and reads big chunks into an in-memory buffer, so most read() calls just pull from memory instead of hitting the disk again.",
+          "It also hands you `readLine()`, a genuinely convenient method the raw FileReader never had."
+        ],
+        "stickyNote": {
+          "term": "BufferedReader",
+          "flavor": "💾 fewer disk trips, plus readLine()",
+          "definition": "BufferedReader wraps a Reader, buffering reads into memory to reduce disk trips, and adds readLine() for reading a full line at once."
+        }
+      },
+      {
+        "id": "bufferedwriter-wrap-pattern",
+        "buttonText": "What's the wrap-to-extend pattern about?",
+        "dialogue": [
+          "[[term:BufferedWriter]] collects your writes in memory and flushes them to disk in bigger batches, plus gives you `newLine()`.",
+          "[[key:Wrapping one stream inside another to add functionality]] is a pattern worth recognizing on its own — BufferedReader doesn't replace FileReader, it wraps it, adding buffering and readLine() on top."
+        ],
+        "stickyNote": {
+          "term": "BufferedWriter & the Wrap Pattern",
+          "flavor": "🎁 wrapping a stream to add functionality on top",
+          "definition": "BufferedWriter batches writes and adds newLine(). Buffered streams follow a wrap-to-extend pattern seen throughout Java's I/O classes."
+        }
+      },
+      {
+        "id": "readline-null-check",
+        "buttonText": "Why does readLine() return null instead of an empty string?",
+        "dialogue": [
+          "[[warn:readLine() returns null, specifically, when it hits the end of the file]] — not an empty string, null. [[key:That's why every BufferedReader reading loop checks for null]]: `while ((line = br.readLine()) != null)`."
+        ],
+        "stickyNote": {
+          "term": "readLine() Null Check",
+          "flavor": "🚫 null means end of file, not empty string",
+          "definition": "readLine() returns null (not an empty string) at end of file — reading loops must check for null, not for empty content."
+        }
+      }
+    ],
     "code": "import java.io.*;\n\npublic class BufferedStreamExample {\n    public static void main(String[] args) {\n        // Writing with buffered writer\n        System.out.println(\"=== Writing with BufferedWriter ===\");\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(\"buffered.txt\"))) {\n            bw.write(\"Hello, World!\");\n            bw.newLine();  // Platform-independent new line\n            bw.write(\"Buffered streams are faster!\");\n            bw.newLine();\n            bw.write(\"They reduce disk I/O operations.\");\n            System.out.println(\"Written 3 lines!\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Reading with buffered reader\n        System.out.println(\"=== Reading with BufferedReader ===\");\n        try (BufferedReader br = new BufferedReader(new FileReader(\"buffered.txt\"))) {\n            String line;\n            int lineNum = 1;\n            while ((line = br.readLine()) != null) {\n                System.out.println(\"Line \" + lineNum + \": \" + line);\n                lineNum++;\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n        \n        // Performance comparison\n        System.out.println(\"=== Performance comparison ===\");\n        long startTime = System.currentTimeMillis();\n        \n        // Without buffering (slow)\n        try (FileWriter fw = new FileWriter(\"unbuffered.txt\")) {\n            for (int i = 0; i < 10000; i++) {\n                fw.write(\"Line \" + i + \"\\n\");\n            }\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n        \n        long midTime = System.currentTimeMillis();\n        \n        // With buffering (fast)\n        try (BufferedWriter bw = new BufferedWriter(new FileWriter(\"buffered.txt\"))) {\n            for (int i = 0; i < 10000; i++) {\n                bw.write(\"Line \" + i);\n                bw.newLine();\n            }\n        } catch (IOException e) {\n            e.printStackTrace();\n        }\n        \n        long endTime = System.currentTimeMillis();\n        System.out.println(\"Unbuffered: \" + (midTime - startTime) + \"ms\");\n        System.out.println(\"Buffered: \" + (endTime - midTime) + \"ms\");\n        \n        // Wrapping streams\n        System.out.println(\"=== Wrapping ===\");\n        // BufferedReader can wrap any Reader\n        try (BufferedReader br = new BufferedReader(new FileReader(\"buffered.txt\"))) {\n            String firstLine = br.readLine();\n            System.out.println(\"First line: \" + firstLine);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",
     "output": "=== Writing with BufferedWriter ===\nWritten 3 lines!\n=== Reading with BufferedReader ===\nLine 1: Hello, World!\nLine 2: Buffered streams are faster!\nLine 3: They reduce disk I/O operations.\n=== Performance comparison ===\nUnbuffered: 25ms\nBuffered: 5ms\n=== Wrapping ===\nFirst line: Hello, World!",
-    "explanation": "FileReader and FileWriter work fine, but every single read() or write() call can mean an actual trip to the disk — and disk access is slow compared to memory, by a lot. [[term:Buffered streams]] fix this by grouping many small operations into fewer, bigger ones.\n\n[[term:BufferedReader]] wraps an existing Reader — new BufferedReader(new FileReader(\"file.txt\")) — and reads big chunks into an in-memory buffer, so most of your actual read() calls are just pulling from memory instead of hitting the disk again. It also hands you readLine(), a genuinely convenient method the raw FileReader never had, which reads an entire line at once and returns it as a String.\n\n[[term:BufferedWriter]] does the same job in reverse — it collects your writes in memory and flushes them to disk in bigger batches, plus it gives you newLine(), which writes whatever line separator is correct for the current platform instead of you hardcoding \\n.\n\nThis is a pattern worth recognizing on its own, beyond just these two classes: [[key:wrapping one stream inside another to add functionality]]. BufferedReader doesn't replace FileReader — it wraps it, adding buffering and readLine() on top of whatever FileReader already does. You'll see this same wrap-to-extend pattern again and again in Java's I/O classes.\n\n[[warn:readLine() returns null, specifically, when it hits the end of the file]] — not an empty string, null. [[key:that's why every BufferedReader reading loop checks for null, not for an empty line]]: while ((line = br.readLine()) != null).",
-    "openingDialogue": "Buffered streams — speed and convenience~ ⚡"
+    "openingDialogue": "Buffered streams wrap a Reader or Writer to cut disk trips — and readLine()'s null return marks end of file. 💾"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (BufferedReader br = new BufferedReader(new FileReader(\"test.txt\"))) {\n            // Forgetting to check for null\n            String line;\n            while (true) {\n                line = br.readLine();\n                System.out.println(line);  // NullPointerException!\n            }\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",

@@ -3,9 +3,48 @@
   "title": "Layouts — VBox & HBox",
   "type": "coding",
   "phase1": {
+    "intro": "VBox and HBox are the two simplest shelving units in the storefront, and you'll reach for them more than anything else.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "vbox-hbox-basics",
+        "buttonText": "What's the actual difference between VBox and HBox?",
+        "dialogue": [
+          "VBox stacks its children top to bottom, HBox lays them out left to right — same class of layout, just a different axis."
+        ],
+        "stickyNote": {
+          "term": "VBox & HBox",
+          "flavor": "↕️↔️ same layout, different axis",
+          "definition": "VBox stacks children vertically (top to bottom). HBox lays them out horizontally (left to right)."
+        }
+      },
+      {
+        "id": "spacing-vs-padding",
+        "buttonText": "What's the difference between spacing and padding?",
+        "dialogue": [
+          "`setSpacing(10)` puts 10px [[key:between each child]] — not around the outside. `setPadding(new Insets(10))` is the opposite: space [[key:around the edges of the container itself]]. [[warn:Spacing is between children, padding is around the whole box]] — the single most common layout confusion in JavaFX."
+        ],
+        "stickyNote": {
+          "term": "Spacing vs Padding",
+          "flavor": "📏 between children vs. around the box",
+          "definition": "setSpacing() adds space between sibling children. setPadding() adds space around the container's own edges — easy to confuse."
+        }
+      },
+      {
+        "id": "nesting-layouts",
+        "buttonText": "How do I build a real, complex layout?",
+        "dialogue": [
+          "The real power move is nesting: a VBox can hold an HBox as one of its children, which can hold another VBox, and so on. [[fun:Almost every real JavaFX screen is just VBoxes and HBoxes nested inside each other]] three or four layers deep, long before you need GridPane or BorderPane."
+        ],
+        "stickyNote": {
+          "term": "Nesting VBox & HBox",
+          "flavor": "🪆 layers of boxes inside boxes",
+          "definition": "Real JavaFX layouts nest VBoxes and HBoxes inside each other several layers deep — the go-to approach before reaching for GridPane or BorderPane."
+        }
+      }
+    ],
     "code": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.HBox;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class LayoutsExample extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // 1. VBox — vertical layout\n        System.out.println(\"=== VBox ===\");\n        VBox vbox = new VBox();\n        vbox.setSpacing(10);\n        vbox.setPadding(new Insets(10));\n        vbox.setAlignment(Pos.CENTER);\n        \n        Label label1 = new Label(\"Label 1\");\n        Label label2 = new Label(\"Label 2\");\n        Label label3 = new Label(\"Label 3\");\n        Button button1 = new Button(\"Click Me\");\n        \n        vbox.getChildren().addAll(label1, label2, label3, button1);\n        \n        // 2. HBox — horizontal layout\n        System.out.println(\"=== HBox ===\");\n        HBox hbox = new HBox();\n        hbox.setSpacing(15);\n        hbox.setPadding(new Insets(10));\n        hbox.setAlignment(Pos.CENTER);\n        \n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n        \n        hbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        // 3. Nested layouts\n        System.out.println(\"=== Nested Layouts ===\");\n        VBox mainLayout = new VBox(15);\n        mainLayout.setPadding(new Insets(20));\n        mainLayout.setAlignment(Pos.CENTER);\n        \n        Label title = new Label(\"Welcome to JavaFX Layouts!\");\n        title.setStyle(\"-fx-font-size: 20px; -fx-font-weight: bold;\");\n        \n        HBox buttonRow = new HBox(10);\n        buttonRow.setAlignment(Pos.CENTER);\n        buttonRow.getChildren().addAll(\n            new Button(\"Save\"),\n            new Button(\"Cancel\"),\n            new Button(\"Delete\")\n        );\n        \n        VBox infoBox = new VBox(5);\n        infoBox.setAlignment(Pos.CENTER);\n        infoBox.getChildren().addAll(\n            new Label(\"Name: John Doe\"),\n            new Label(\"Email: john@example.com\"),\n            new Label(\"Phone: (123) 456-7890\")\n        );\n        \n        mainLayout.getChildren().addAll(title, infoBox, buttonRow);\n        \n        // Creating multiple scenes\n        VBox root = new VBox(20);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        root.getChildren().addAll(\n            new Label(\"VBox Example (Vertical)\"),\n            vbox,\n            new Label(\"HBox Example (Horizontal)\"),\n            hbox,\n            new Label(\"Nested Layouts\"),\n            mainLayout\n        );\n        \n        Scene scene = new Scene(root, 600, 700);\n        \n        primaryStage.setTitle(\"Layouts: VBox & HBox\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
     "output": "(Window appears with VBox, HBox, and nested layouts)",
-    "explanation": "[[term:VBox]] and [[term:HBox]] are the two simplest shelving units in the storefront, and you'll reach for them more than anything else in this unit: VBox stacks its children top to bottom, HBox lays them out left to right. Same class of layout, just a different axis.\n\nBoth take the same handful of setup calls. setSpacing(10) puts 10px of breathing room [[key:between each child]] — not around the outside, between siblings. setPadding(new Insets(10)) is the opposite: space [[key:around the edges of the container itself]], between the box's own border and its contents. Mixing those two up is the single most common layout confusion in JavaFX, so it's worth saying twice: [[warn:spacing is between children, padding is around the whole box]]. setAlignment() (Pos.CENTER, Pos.TOP_LEFT, Pos.BOTTOM_RIGHT, and so on) controls where children sit inside whatever extra room the box has.\n\nThe real power move is nesting: a VBox can hold an HBox as one of its children, which can hold another VBox, and so on — which is exactly how you build a real storefront window. In this lesson's code, the outer VBox holds a title Label, an infoBox (a small VBox of its own), and a buttonRow (an HBox) — a vertical stack where one of the \"shelves\" happens to be a horizontal row of buttons. [[fun:almost every real JavaFX screen is just VBoxes and HBoxes nested inside each other]] three or four layers deep, long before you ever need GridPane or BorderPane."
+    "openingDialogue": "VBox and HBox are the workhorse layouts — vertical or horizontal, with spacing between children and padding around the box. 📏"
   },
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox vbox = new VBox();\n        // Forgetting to set spacing\n        // vbox.setSpacing(10);\n        \n        Button btn1 = new Button(\"Button 1\");\n        Button btn2 = new Button(\"Button 2\");\n        Button btn3 = new Button(\"Button 3\");\n        \n        // Forgetting to add children\n        // vbox.getChildren().addAll(btn1, btn2, btn3);\n        \n        Scene scene = new Scene(vbox, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",

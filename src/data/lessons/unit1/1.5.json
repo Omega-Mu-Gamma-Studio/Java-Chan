@@ -3,9 +3,51 @@
   "title": "Type Casting & Literals",
   "type": "coding",
   "phase1": {
+    "intro": "Casting is just moving a value from one box type to another — but the two directions don't play by the same rules.\n\nWhich direction do you want to poke at first?",
+    "topics": [
+      {
+        "id": "widening",
+        "buttonText": "What happens going from a smaller type to a bigger one?",
+        "dialogue": [
+          "[[term:Widening]] is the easy direction — `int` into `double`, `char` into `int`. Java does it automatically, no permission needed.",
+          "[[key:You can't lose information going from a smaller type to a bigger one]] — a whole number like `100` fits perfectly fine inside a decimal box, it just picks up a trailing `.0`."
+        ],
+        "stickyNote": {
+          "term": "Widening (Implicit Casting)",
+          "flavor": "⬆️ moving into a bigger box, no questions asked",
+          "definition": "Automatic conversion from a smaller type to a larger one (int → double, char → int) — Java does this without an explicit cast."
+        }
+      },
+      {
+        "id": "narrowing",
+        "buttonText": "What about going the other way — big to small?",
+        "dialogue": [
+          "[[term:Narrowing]] is the direction that needs your explicit permission — `double` into `int` won't happen unless you write `(int) pi` yourself.",
+          "That permission requirement exists because [[warn:narrowing can genuinely throw information away]] — `3.14159` becomes `3`, and that `.14159` isn't rounded, it's just chopped off."
+        ],
+        "stickyNote": {
+          "term": "Narrowing (Explicit Casting)",
+          "flavor": "✂️ squeezing into a smaller box, something's gotta go",
+          "definition": "Manual conversion from a larger type to a smaller one, written as (type)value — e.g. (int) pi. Can lose data, so Java requires the explicit cast."
+        }
+      },
+      {
+        "id": "literals",
+        "buttonText": "What's the deal with 0xFF and 0b1010 in my code?",
+        "dialogue": [
+          "Those are [[term:literals]] — fixed values written directly into your code. `0xFF` is a [[term:hexadecimal]] literal (255 in plain decimal), and `0b1010` is a [[term:binary]] literal (10 in decimal).",
+          "`'A'` and `\"Hello\"` are your char and String literals too — and one detail worth remembering: [[key:String isn't technically a primitive, it's a class]], Java just lets you write it with literal syntax because you'd want to use it constantly otherwise."
+        ],
+        "stickyNote": {
+          "term": "Literals (hex, binary, char, String)",
+          "flavor": "🔢 values written straight into the code, no variable required",
+          "definition": "A literal is a fixed value in source code — 0xFF (hex), 0b1010 (binary), 'A' (char), or \"Hello\" (String). String is a class, not a primitive, despite the literal syntax."
+        }
+      }
+    ],
     "code": "public class CastingExample {\n    public static void main(String[] args) {\n        // Widening (implicit) — safe, automatic\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        // Narrowing (explicit) — can lose data!\n        double pi = 3.14159;\n        int roughPi = (int) pi;\n        System.out.println(\"double to int: \" + roughPi);\n        \n        // Literals\n        int hex = 0xFF;        // hexadecimal\n        int binary = 0b1010;   // binary\n        char letter = 'A';     // char literal\n        String text = \"Hello\"; // String literal\n        \n        System.out.println(\"Hex: \" + hex);\n        System.out.println(\"Binary: \" + binary);\n    }\n}",
     "output": "int to double: 100.0\ndouble to int: 3\nHex: 255\nBinary: 10",
-    "explanation": "Casting is just moving a value from one box type to another — but which direction you're going in changes how careful you need to be.\n\n[[term:Widening]] (implicit casting) is the easy direction: `int` into `double`, `char` into `int`. Java does this automatically because [[key:you can't lose information going from a smaller type to a bigger one]] — a whole number fits perfectly fine inside a decimal type.\n\n[[term:Narrowing]] is the direction that needs your explicit permission: `double` into `int`. You have to write `(int) pi` yourself, because [[warn:narrowing can genuinely throw information away]] — `3.14159` becomes `3`, and that `.14159` is just gone, not rounded, just chopped off.\n\nWhile we're here — [[term:literals]] are just fixed values written directly into your code. `0xFF` is a [[term:hexadecimal]] literal (255 in plain decimal), `0b1010` is a [[term:binary]] literal (10 in decimal), and `'A'` / `\"Hello\"` are your char and String literals. And one detail worth remembering: [[key:String isn't technically a primitive, it's a class]] — Java just lets you write it with literal syntax because you'd want to use it constantly otherwise."
+    "openingDialogue": "Casting moves a value between box types — going small-to-big is automatic, going big-to-small takes your explicit say-so. 📦"
   },
   "phase2": {
     "brokenCode": "public class CastingExample {\n    public static void main(String[] args) {\n        int num = 100;\n        double bigNum = num;\n        System.out.println(\"int to double: \" + bigNum);\n        \n        double pi = 3.14159;\n        int roughPi = pi;  // Missing cast!\n        System.out.println(\"double to int: \" + roughPi);\n    }\n}",

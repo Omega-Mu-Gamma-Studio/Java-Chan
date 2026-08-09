@@ -3,9 +3,48 @@
   "title": "FXML — Wiring Controllers",
   "type": "coding",
   "phase1": {
+    "intro": "Last lesson explained what FXML is; this one wires it to real, running behavior.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "fxid-and-fxml-annotation",
+        "buttonText": "How does an fx:id actually connect to a Java field?",
+        "dialogue": [
+          "`fx:controller=\"MyController\"` on the root tag tells FXMLLoader which class to instantiate. `fx:id=\"nameField\"` names an element. In the controller, [[term:@FXML]] before a field — `@FXML private TextField nameField;` — tells FXMLLoader [[key:\"inject the node with this fx:id into this field once loaded\"]]. Field names must match fx:id exactly."
+        ],
+        "stickyNote": {
+          "term": "fx:id & @FXML",
+          "flavor": "🔌 fx:id in FXML, matching field name with @FXML",
+          "definition": "fx:controller sets the controller class; fx:id names an element in FXML. @FXML on a matching field name injects that node once loaded."
+        }
+      },
+      {
+        "id": "initialize-method",
+        "buttonText": "What does the @FXML initialize() method do?",
+        "dialogue": [
+          "A method annotated `@FXML void initialize()` runs automatically right after every @FXML field has been injected — the natural place to set up initial state, since you're guaranteed every field is already wired by the time it runs."
+        ],
+        "stickyNote": {
+          "term": "@FXML initialize()",
+          "flavor": "🏁 runs after every field is already wired",
+          "definition": "@FXML void initialize() runs automatically once all @FXML fields are injected — the right place to set initial state."
+        }
+      },
+      {
+        "id": "controller-constructor-rule",
+        "buttonText": "Are there any rules about the controller's constructor?",
+        "dialogue": [
+          "[[warn:The controller class needs a public no-argument constructor]] (or none declared, which Java provides for free) — FXMLLoader constructs it via reflection behind the scenes, and reflection can't call a constructor that demands arguments it has no way to supply."
+        ],
+        "stickyNote": {
+          "term": "Controller Constructor Rule",
+          "flavor": "🏗️ no-arg constructor required for reflection",
+          "definition": "A controller class needs a public no-argument constructor (or none declared) since FXMLLoader instantiates it via reflection."
+        }
+      }
+    ],
     "code": "// --- FXML File: example.fxml ---\n/*\n<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n\n<?import javafx.scene.control.*?>\n<?import javafx.scene.layout.*?>\n\n<VBox xmlns=\"http://javafx.com/javafx/17\"\n      xmlns:fx=\"http://javafx.com/fxml/1\"\n      fx:controller=\"ExampleController\"\n      alignment=\"CENTER\" spacing=\"15\"\n      style=\"-fx-padding: 20;\">\n\n    <Label fx:id=\"titleLabel\" text=\"Welcome to FXML!\" style=\"-fx-font-size: 20px; -fx-font-weight: bold;\" />\n\n    <TextField fx:id=\"nameField\" promptText=\"Enter your name...\" maxWidth=\"200\" />\n    <TextField fx:id=\"messageField\" promptText=\"Enter a message...\" maxWidth=\"200\" />\n\n    <Button fx:id=\"submitButton\" text=\"Submit\" />\n\n    <Label fx:id=\"resultLabel\" text=\"Waiting for input...\" style=\"-fx-font-size: 14px; -fx-text-fill: #666;\" />\n\n</VBox>\n*/\n\n// --- Controller Class ---\nimport javafx.fxml.FXML;\nimport javafx.scene.control.Button;\nimport javafx.scene.control.Label;\nimport javafx.scene.control.TextField;\n\npublic class ExampleController {\n    @FXML\n    private Label titleLabel;\n\n    @FXML\n    private TextField nameField;\n\n    @FXML\n    private TextField messageField;\n\n    @FXML\n    private Button submitButton;\n\n    @FXML\n    private Label resultLabel;\n\n    // Called automatically after FXML is loaded\n    @FXML\n    private void initialize() {\n        // Initialization code\n        resultLabel.setText(\"Ready!\");\n\n        // Optional: Set up initial UI state\n        submitButton.setDisable(true);\n\n        // Add listeners\n        nameField.textProperty().addListener((obs, oldVal, newVal) -> {\n            checkFields();\n        });\n        messageField.textProperty().addListener((obs, oldVal, newVal) -> {\n            checkFields();\n        });\n    }\n\n    private void checkFields() {\n        boolean hasName = !nameField.getText().trim().isEmpty();\n        boolean hasMessage = !messageField.getText().trim().isEmpty();\n        submitButton.setDisable(!(hasName && hasMessage));\n    }\n\n    // Event handler method\n    @FXML\n    private void handleSubmitButton() {\n        String name = nameField.getText();\n        String message = messageField.getText();\n        resultLabel.setText(\"Hello, \" + name + \"! Your message: \" + message);\n        resultLabel.setStyle(\"-fx-text-fill: green; -fx-font-weight: bold;\");\n\n        // Clear fields\n        nameField.clear();\n        messageField.clear();\n        submitButton.setDisable(true);\n    }\n}\n\n// --- Main Application ---\nimport javafx.application.Application;\nimport javafx.fxml.FXMLLoader;\nimport javafx.scene.Parent;\nimport javafx.scene.Scene;\nimport javafx.stage.Stage;\n\npublic class FXMLApp extends Application {\n    @Override\n    public void start(Stage primaryStage) throws Exception {\n        // Load FXML file\n        FXMLLoader loader = new FXMLLoader(getClass().getResource(\"example.fxml\"));\n        Parent root = loader.load();\n\n        Scene scene = new Scene(root, 400, 400);\n\n        primaryStage.setTitle(\"FXML Example\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n\n        // Access controller if needed\n        ExampleController controller = loader.getController();\n        // Can call methods on controller\n    }\n\n    public static void main(String[] args) {\n        launch(args);\n    }\n}\n\n// --- Multiple Controllers Example ---\n// FXML file: main.fxml with fx:controller=\"MainController\"\n// Can also include other FXML files\n\n/*\n<BorderPane xmlns=\"http://javafx.com/javafx/17\"\n            xmlns:fx=\"http://javafx.com/fxml/1\"\n            fx:controller=\"MainController\">\n\n    <top>\n        <Label text=\"Main Application\" />\n    </top>\n    <center>\n        <fx:include fx:id=\"sidePanel\" source=\"sidebar.fxml\" />\n    </center>\n</BorderPane>\n*/",
     "output": "(Window with working form — enter name and message, submit button enables, label updates)",
-    "explanation": "Last lesson explained what FXML is; this one wires it to real, running behavior — a controller class actually connected to the layout it controls.\n\nTwo pieces do all the work. In the FXML file, fx:controller=\"MyController\" on the root tag tells FXMLLoader which class to instantiate as the controller, and fx:id=\"nameField\" on any element gives it a name the controller can refer to. In the Java controller class, [[term:@FXML]] before a field declaration — @FXML private TextField nameField; — tells FXMLLoader [[key:\"inject the node with this fx:id into this field once the FXML is loaded\"]]. The field names have to match the fx:id values exactly; there's no other link between them.\n\nThere's one more optional hook worth knowing: a method annotated @FXML void initialize() runs automatically right after every @FXML field has been injected — the natural place to set up initial state (disable a button until a field has text, populate a ComboBox's starting options) since you're guaranteed every field is already wired by the time it runs.\n\n[[warn:the controller class needs a public no-argument constructor]] (or none declared at all, which Java provides for free) — FXMLLoader constructs it via reflection behind the scenes, and reflection can't call a constructor that demands arguments it has no way to supply."
+    "openingDialogue": "@FXML fields inject matching fx:id nodes, initialize() runs once they're all wired, and the controller needs a no-arg constructor. 🔌"
   },
   "phase2": {
     "brokenCode": "// --- FXML: wrong.fxml ---\n/*\n<VBox fx:controller=\"WrongController\">\n    <Label fx:id=\"label\" text=\"Hello\" />\n</VBox>\n*/\n\n// --- Controller ---\npublic class WrongController {\n    // Forgetting @FXML annotation\n    private Label label;\n\n    // Method without @FXML\n    private void handleEvent() {\n        label.setText(\"Clicked\");\n    }\n}\n\n// --- Main ---\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) throws Exception {\n        Parent root = FXMLLoader.load(getClass().getResource(\"wrong.fxml\"));\n        // label will be null!\n    }\n}",

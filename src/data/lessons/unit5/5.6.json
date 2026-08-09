@@ -3,9 +3,48 @@
   "title": "Event Handling",
   "type": "coding",
   "phase1": {
+    "intro": "Every control you met last lesson has been inert. This lesson is where the storefront starts responding to the customer.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "setonaction-lambda",
+        "buttonText": "How does setOnAction() actually work with lambdas?",
+        "dialogue": [
+          "[[term:setOnAction()]] takes an [[term:EventHandler]] — a [[term:functional interface]] (one abstract method, handle(ActionEvent e)) — so you can hand it a lambda instead: `button.setOnAction(e -> label.setText(\"Clicked!\"))`. [[key:That's the same lambda syntax you used for Comparator and Runnable back in Unit 4]]."
+        ],
+        "stickyNote": {
+          "term": "setOnAction() & Lambdas",
+          "flavor": "⚡ EventHandler is functional — lambdas fit right in",
+          "definition": "setOnAction() takes an EventHandler (a functional interface), so a lambda like e -> label.setText(...) works directly, same as Comparator/Runnable."
+        }
+      },
+      {
+        "id": "beyond-clicks",
+        "buttonText": "What if I need to react to more than just a click?",
+        "dialogue": [
+          "TextField has `setOnAction()` too (fires on Enter), but for continuous typing you'd listen to its `textProperty()` instead — a property listener fires on every keystroke, not just once. Checkboxes typically get watched the same way, through their own *Property() listener."
+        ],
+        "stickyNote": {
+          "term": "Property Listeners vs setOnAction()",
+          "flavor": "⌨️ every keystroke, not just Enter or a click",
+          "definition": "setOnAction() fires once per click or Enter. A *Property() listener (like textProperty()) fires continuously, e.g. on every keystroke."
+        }
+      },
+      {
+        "id": "one-handler-per-control",
+        "buttonText": "Can I have multiple handlers on the same control?",
+        "dialogue": [
+          "[[warn:One handler per control]] — calling setOnAction() a second time on the same button replaces the first handler, it doesn't add a second one. If you need multiple things to happen on one click, they all belong inside the same lambda body."
+        ],
+        "stickyNote": {
+          "term": "One Handler Per Control",
+          "flavor": "1️⃣ setOnAction() replaces, doesn't stack",
+          "definition": "Calling setOnAction() again on the same control replaces the previous handler rather than adding a second one — combine logic in one lambda."
+        }
+      }
+    ],
     "code": "import javafx.application.Application;\nimport javafx.geometry.Insets;\nimport javafx.geometry.Pos;\nimport javafx.scene.Scene;\nimport javafx.scene.control.*;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class EventHandlingExample extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        VBox root = new VBox(15);\n        root.setPadding(new Insets(20));\n        root.setAlignment(Pos.CENTER);\n        \n        Label resultLabel = new Label(\"Waiting for action...\");\n        resultLabel.setStyle(\"-fx-font-size: 16px;\");\n        \n        // 1. Button click event\n        Button button = new Button(\"Click Me!\");\n        button.setOnAction(e -> {\n            resultLabel.setText(\"Button clicked!\");\n            resultLabel.setStyle(\"-fx-text-fill: green; -fx-font-weight: bold;\");\n        });\n        \n        // 2. TextField events\n        TextField textField = new TextField();\n        textField.setPromptText(\"Type something...\");\n        textField.setMaxWidth(200);\n        \n        // Key press event\n        textField.setOnKeyPressed(e -> {\n            resultLabel.setText(\"Key pressed: \" + e.getCode());\n        });\n        \n        // Enter key event\n        textField.setOnAction(e -> {\n            String text = textField.getText();\n            resultLabel.setText(\"Entered: \" + text);\n        });\n        \n        // 3. CheckBox event\n        CheckBox checkBox = new CheckBox(\"Enable feature\");\n        checkBox.setOnAction(e -> {\n            if (checkBox.isSelected()) {\n                resultLabel.setText(\"Feature ENABLED\");\n            } else {\n                resultLabel.setText(\"Feature DISABLED\");\n            }\n        });\n        \n        // 4. RadioButton events\n        ToggleGroup radioGroup = new ToggleGroup();\n        RadioButton radio1 = new RadioButton(\"Option A\");\n        RadioButton radio2 = new RadioButton(\"Option B\");\n        RadioButton radio3 = new RadioButton(\"Option C\");\n        radio1.setToggleGroup(radioGroup);\n        radio2.setToggleGroup(radioGroup);\n        radio3.setToggleGroup(radioGroup);\n        \n        radioGroup.selectedToggleProperty().addListener((obs, oldVal, newVal) -> {\n            if (newVal != null) {\n                RadioButton selected = (RadioButton) newVal;\n                resultLabel.setText(\"Selected: \" + selected.getText());\n            }\n        });\n        \n        VBox radioBox = new VBox(5);\n        radioBox.getChildren().addAll(radio1, radio2, radio3);\n        \n        // 5. ComboBox event\n        ComboBox<String> comboBox = new ComboBox<>();\n        comboBox.getItems().addAll(\"Item 1\", \"Item 2\", \"Item 3\");\n        comboBox.setValue(\"Select...\");\n        \n        comboBox.setOnAction(e -> {\n            String selected = comboBox.getValue();\n            resultLabel.setText(\"ComboBox selected: \" + selected);\n        });\n        \n        // 6. ListView event\n        ListView<String> listView = new ListView<>();\n        listView.getItems().addAll(\"Apple\", \"Banana\", \"Orange\", \"Grape\");\n        listView.setMaxWidth(150);\n        listView.setPrefHeight(100);\n        \n        listView.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {\n            if (newVal != null) {\n                resultLabel.setText(\"Selected fruit: \" + newVal);\n            }\n        });\n        \n        // 7. Slider event\n        Slider slider = new Slider(0, 100, 50);\n        slider.setShowTickLabels(true);\n        slider.setMaxWidth(300);\n        \n        slider.valueProperty().addListener((obs, oldVal, newVal) -> {\n            resultLabel.setText(\"Slider value: \" + String.format(\"%.0f\", newVal.doubleValue()));\n        });\n        \n        // 8. Clear button\n        Button clearBtn = new Button(\"Clear\");\n        clearBtn.setOnAction(e -> {\n            resultLabel.setText(\"Cleared!\");\n            textField.clear();\n            comboBox.setValue(\"Select...\");\n            listView.getSelectionModel().clearSelection();\n            slider.setValue(50);\n        });\n        \n        root.getChildren().addAll(\n            resultLabel,\n            button,\n            textField,\n            checkBox,\n            radioBox,\n            comboBox,\n            listView,\n            slider,\n            clearBtn\n        );\n        \n        Scene scene = new Scene(root, 500, 600);\n        \n        primaryStage.setTitle(\"Event Handling\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
     "output": "(Window with interactive controls that update the label when events occur)",
-    "explanation": "Every control you met last lesson has been inert — a button that looks clickable but does nothing when clicked. This lesson is where the storefront starts responding to the customer.\n\n[[term:setOnAction()]] is the method almost every control shares for \"do this when the user interacts with me.\" It takes an [[term:EventHandler]] — and since EventHandler is a [[term:functional interface]] (one abstract method, handle(ActionEvent e)), you can hand it a lambda instead of writing a whole anonymous class: button.setOnAction(e -> label.setText(\"Clicked!\")). [[key:that's the same lambda syntax you used for Comparator and Runnable back in Unit 4]] — JavaFX just gives you a lot more functional interfaces to plug lambdas into.\n\nNot every control's interesting moment is a click, though. TextField has setOnAction() too (fires on Enter), but for continuous typing you'd listen to its textProperty() instead — a property listener fires on every keystroke, not just once. Checkboxes and toggle-style controls typically get watched the same way, through their own *Property() listener rather than an action event.\n\n[[warn:one handler per control]] — calling setOnAction() a second time on the same button replaces the first handler, it doesn't add a second one. If you need multiple things to happen on one click, they all belong inside the same lambda body."
+    "openingDialogue": "setOnAction() takes a lambda and makes a control actually respond — but calling it twice replaces the handler, it doesn't stack. ⚡"
   },
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Button;\nimport javafx.scene.layout.VBox;\nimport javafx.stage.Stage;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        Button button = new Button(\"Click\");\n        \n        // Forgetting to use lambda correctly\n        button.setOnAction(e -> {\n            // This code never runs because the lambda isn't assigned correctly\n        });\n        \n        VBox root = new VBox(button);\n        Scene scene = new Scene(root, 300, 200);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",

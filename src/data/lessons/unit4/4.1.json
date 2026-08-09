@@ -3,9 +3,48 @@
   "title": "Collections Framework Overview",
   "type": "conceptual",
   "phase1": {
+    "intro": "Every object you've built since Unit 1 has been living alone — one at a time. The moment you need more than one of something, you need somewhere to put them.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "no-best-container",
+        "buttonText": "Why isn't there just one \"best\" container?",
+        "dialogue": [
+          "Think of the storage room out back — shelves, bins, filing cabinets. [[warn:There's no single \"best\" container]]. A shelf that stays in load order is great until you need to find one item fast. Every collection in Java is a trade-off someone already thought through — your job is learning which trade-off fits which job."
+        ],
+        "stickyNote": {
+          "term": "No \"Best\" Container",
+          "flavor": "🗄️ every collection is a deliberate trade-off",
+          "definition": "There's no single best collection — each one (List, Set, Map, and their implementations) trades speed, order, or uniqueness differently."
+        }
+      },
+      {
+        "id": "list-set-map-shapes",
+        "buttonText": "What are the three main shapes — List, Set, Map?",
+        "dialogue": [
+          "[[term:List]] — ordered, allows duplicates, a numbered shelf where position matters. [[term:Set]] — no duplicates, membership is the whole point, a guest list. [[term:Map]] — key-value pairs, a filing cabinet you look things up in by label."
+        ],
+        "stickyNote": {
+          "term": "List, Set & Map",
+          "flavor": "🗂️ ordered shelf, guest list, filing cabinet",
+          "definition": "List: ordered, allows duplicates. Set: no duplicates, membership-focused. Map: key-value pairs, looked up by label."
+        }
+      },
+      {
+        "id": "interfaces-vs-implementations",
+        "buttonText": "Why are ArrayList and HashSet different from List and Set?",
+        "dialogue": [
+          "[[fun:Every one of these is an interface, not a class]] — List, Set, and Map are promises about behavior, and ArrayList, LinkedList, HashSet, TreeMap are the actual storage rooms that keep those promises, each built differently under the hood."
+        ],
+        "stickyNote": {
+          "term": "Interfaces vs Implementations",
+          "flavor": "🤝 List is a promise, ArrayList keeps it",
+          "definition": "List/Set/Map are interfaces — behavior promises. ArrayList/HashSet/TreeMap etc. are concrete implementations that fulfill those promises differently."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Every object you've built since Unit 1 has been living alone — one Student, one BankAccount, one Shape at a time. [[key:the moment you need more than one of something, you need somewhere to put them]], and \"somewhere to put them\" turns out to have a lot more shape to it than a single array ever did.\n\nThink of the workshop again: you've been building objects on the bench one at a time. This unit is about the storage room out back — shelves, bins, filing cabinets — and the honest truth is [[warn:there's no single \"best\" container]]. A shelf that stays in the order you loaded it is great until you need to find one specific item fast. A filing cabinet organized by label is great until you need everything in the order it arrived. Every collection in Java is a trade-off someone already thought through for you — your job is learning which trade-off fits which job.\n\n[[term:The Collections Framework]] is Java's family of storage interfaces, and almost everything sorts into three shapes: [[term:List]] — ordered, allows duplicates, think a numbered shelf where position matters. [[term:Set]] — no duplicates, membership is the whole point, think a guest list where being on it once is all that matters. [[term:Map]] — key-value pairs, think a filing cabinet where you look things up by label, not by digging through everything.\n\n[[fun:every one of these is an interface, not a class]] — List, Set, and Map are promises about behavior, and ArrayList, LinkedList, HashSet, TreeMap and the rest are the actual storage rooms that keep those promises, each built differently under the hood. The rest of this unit walks the storage room shelf by shelf — by the end, \"which container do I reach for\" should be a fast, confident answer, not a guess."
+    "openingDialogue": "The Collections Framework is Java's family of storage interfaces — List, Set, and Map, each a different trade-off for a different job. 🗄️"
   },
   "phase2": {
     "brokenCode": "",

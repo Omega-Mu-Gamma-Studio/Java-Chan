@@ -3,9 +3,49 @@
   "title": "Stack, Queue & Deque",
   "type": "coding",
   "phase1": {
+    "intro": "Last stop in the storage room, and it's less about what you're storing and more about which end you're allowed to touch.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "stack-lifo",
+        "buttonText": "What makes a Stack LIFO?",
+        "dialogue": [
+          "[[term:Stack]] is [[term:LIFO]] — Last In, First Out — `push()` adds to the top, `pop()` removes from the top, and you can never reach underneath. Undo history and recursive call tracking follow this exact shape."
+        ],
+        "stickyNote": {
+          "term": "Stack (LIFO)",
+          "flavor": "📚 push/pop the top, never reach underneath",
+          "definition": "Stack is LIFO: push() adds to the top, pop() removes from the top — the shape behind undo history and recursion."
+        }
+      },
+      {
+        "id": "queue-fifo",
+        "buttonText": "What makes a Queue FIFO?",
+        "dialogue": [
+          "[[term:Queue]] is [[term:FIFO]] — First In, First Out — `offer()` adds to the back, `poll()` removes from the front, so whatever went in first comes out first. A checkout line: fairness by arrival order."
+        ],
+        "stickyNote": {
+          "term": "Queue (FIFO)",
+          "flavor": "🚶 offer at the back, poll from the front",
+          "definition": "Queue is FIFO: offer() adds to the back, poll() removes from the front — fairness by arrival order, like a checkout line."
+        }
+      },
+      {
+        "id": "deque-and-priorityqueue",
+        "buttonText": "What's special about Deque and PriorityQueue?",
+        "dialogue": [
+          "[[term:Deque]] can do both ends at once, and [[warn:Deque can fully imitate both Stack and Queue]] — which is why Java's docs steer you toward ArrayDeque over the old Stack class.",
+          "[[fun:One more specialist]]: PriorityQueue isn't FIFO at all — `poll()` always returns the smallest element by natural order or a Comparator, regardless of insertion order."
+        ],
+        "stickyNote": {
+          "term": "Deque & PriorityQueue",
+          "flavor": "🎭 both-ends flexibility, or priority over arrival order",
+          "definition": "Deque can act as both Stack and Queue (ArrayDeque is preferred). PriorityQueue's poll() returns the smallest element by order, ignoring arrival."
+        }
+      }
+    ],
     "code": "import java.util.*;\n\npublic class StackQueueExample {\n    public static void main(String[] args) {\n        // 1. Stack (LIFO — Last In, First Out)\n        System.out.println(\"=== Stack (LIFO) ===\");\n        Stack<String> stack = new Stack<>();\n        \n        // Push — add to top\n        stack.push(\"First\");\n        stack.push(\"Second\");\n        stack.push(\"Third\");\n        System.out.println(\"Stack: \" + stack);\n        \n        // Peek — look at top without removing\n        System.out.println(\"Peek: \" + stack.peek());\n        \n        // Pop — remove and return top\n        System.out.println(\"Pop: \" + stack.pop());\n        System.out.println(\"After pop: \" + stack);\n        System.out.println(\"Is empty? \" + stack.isEmpty());\n        \n        // 2. Queue (FIFO — First In, First Out)\n        System.out.println(\"=== Queue (FIFO) ===\");\n        // Using LinkedList as Queue\n        Queue<String> queue = new LinkedList<>();\n        \n        // Offer — add to end\n        queue.offer(\"First\");\n        queue.offer(\"Second\");\n        queue.offer(\"Third\");\n        System.out.println(\"Queue: \" + queue);\n        \n        // Peek — look at front without removing\n        System.out.println(\"Peek: \" + queue.peek());\n        \n        // Poll — remove and return front\n        System.out.println(\"Poll: \" + queue.poll());\n        System.out.println(\"After poll: \" + queue);\n        System.out.println(\"Is empty? \" + queue.isEmpty());\n        \n        // 3. Deque (Double-ended queue)\n        System.out.println(\"=== Deque (Double-ended) ===\");\n        Deque<String> deque = new LinkedList<>();\n        \n        // Add to both ends\n        deque.addFirst(\"First\");\n        deque.addLast(\"Second\");\n        deque.addFirst(\"Zero\");\n        System.out.println(\"Deque: \" + deque);\n        \n        // Remove from both ends\n        System.out.println(\"Remove First: \" + deque.removeFirst());\n        System.out.println(\"Remove Last: \" + deque.removeLast());\n        System.out.println(\"After removals: \" + deque);\n        \n        // 4. ArrayDeque (more efficient than LinkedList for stack/queue)\n        System.out.println(\"=== ArrayDeque ===\");\n        // As a stack\n        Deque<String> arrayStack = new ArrayDeque<>();\n        arrayStack.push(\"A\");\n        arrayStack.push(\"B\");\n        arrayStack.push(\"C\");\n        System.out.println(\"ArrayDeque as stack: \" + arrayStack);\n        System.out.println(\"Pop: \" + arrayStack.pop());\n        \n        // As a queue\n        Deque<Integer> arrayQueue = new ArrayDeque<>();\n        arrayQueue.offer(10);\n        arrayQueue.offer(20);\n        arrayQueue.offer(30);\n        System.out.println(\"ArrayDeque as queue: \" + arrayQueue);\n        System.out.println(\"Poll: \" + arrayQueue.poll());\n        System.out.println(\"After poll: \" + arrayQueue);\n        \n        // 5. PriorityQueue (sorted order)\n        System.out.println(\"=== PriorityQueue ===\");\n        PriorityQueue<Integer> pq = new PriorityQueue<>();\n        pq.offer(30);\n        pq.offer(10);\n        pq.offer(20);\n        pq.offer(5);\n        System.out.println(\"PriorityQueue: \" + pq);\n        \n        System.out.println(\"Poll in order:\");\n        while (!pq.isEmpty()) {\n            System.out.print(pq.poll() + \" \");\n        }\n        System.out.println();\n        \n        // 6. Usage examples\n        System.out.println(\"=== Use Cases ===\");\n        System.out.println(\"Stack: Undo operations, back navigation, parsing\");\n        System.out.println(\"Queue: Task scheduling, print jobs, message processing\");\n        System.out.println(\"Deque: Sliding window, palindrome checking\");\n        System.out.println(\"PriorityQueue: Task prioritization, Dijkstra's algorithm\");\n        \n        // 7. When to use\n        System.out.println(\"=== Recommendations ===\");\n        System.out.println(\"Stack: Use ArrayDeque over Stack (faster, more efficient)\");\n        System.out.println(\"Queue: Use ArrayDeque over LinkedList for Queue\");\n        System.out.println(\"Deque: Use ArrayDeque over LinkedList when you need both ends\");\n        System.out.println(\"PriorityQueue: Use for sorted access\");\n    }\n}",
     "output": "=== Stack (LIFO) ===\nStack: [First, Second, Third]\nPeek: Third\nPop: Third\nAfter pop: [First, Second]\nIs empty? false\n=== Queue (FIFO) ===\nQueue: [First, Second, Third]\nPeek: First\nPoll: First\nAfter poll: [Second, Third]\nIs empty? false\n=== Deque (Double-ended) ===\nDeque: [Zero, First, Second]\nRemove First: Zero\nRemove Last: Second\nAfter removals: [First]\n=== ArrayDeque ===\nArrayDeque as stack: [C, B, A]\nPop: C\nArrayDeque as queue: [10, 20, 30]\nPoll: 10\nAfter poll: [20, 30]\n=== PriorityQueue ===\nPriorityQueue: [5, 10, 20, 30]\nPoll in order:\n5 10 20 30 \n=== Use Cases ===\nStack: Undo operations, back navigation, parsing\nQueue: Task scheduling, print jobs, message processing\nDeque: Sliding window, palindrome checking\nPriorityQueue: Task prioritization, Dijkstra's algorithm\n=== Recommendations ===\nStack: Use ArrayDeque over Stack (faster, more efficient)\nQueue: Use ArrayDeque over LinkedList for Queue\nDeque: Use ArrayDeque over LinkedList when you need both ends\nPriorityQueue: Use for sorted access",
-    "explanation": "Last stop in the storage room, and it's less about *what* you're storing and more about *which end you're allowed to touch*. [[key:Stack, Queue, and Deque aren't really about storage capacity — they're access-pattern restrictions on top of storage you already know]].\n\n[[term:Stack]] is [[term:LIFO]] — Last In, First Out — push() adds to the top, pop() removes from the top, and you can never reach underneath. Picture a stack of trays: you only ever add or take from the top one. Undo history, back-button navigation, and how recursive method calls are tracked all follow this exact shape.\n\n[[term:Queue]] is [[term:FIFO]] — First In, First Out — offer() adds to the back, poll() removes from the front, so whatever went in first comes out first. That's a line at a checkout counter, or a print job queue: fairness by arrival order.\n\n[[term:Deque]] (\"deck\" — double-ended queue) can do both ends at once: addFirst()/addLast(), removeFirst()/removeLast(). [[warn:Deque can fully imitate both Stack and Queue]] — push()/pop() for stack behavior, offer()/poll() for queue behavior — which is exactly why Java's own docs steer you toward ArrayDeque over the old Stack class and over LinkedList-as-Queue: one flexible, faster implementation instead of two older, slower ones kept around mostly for legacy compatibility.\n\n[[fun:one more specialist worth knowing]]: PriorityQueue isn't FIFO at all — poll() always returns the smallest element by natural order (or by a Comparator you supply), regardless of insertion order. Same offer()/poll() vocabulary as Queue, completely different rule for what comes out next — useful the moment \"process these in priority order\" matters more than \"process these in arrival order.\""
+    "openingDialogue": "Stack, Queue, and Deque are access-pattern restrictions, not storage types — LIFO, FIFO, or both ends at once. 📚"
   },
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        Stack<Integer> stack = new Stack<>();\n        \n        // Pop from empty stack\n        System.out.println(stack.pop());  // ERROR!\n    }\n}",

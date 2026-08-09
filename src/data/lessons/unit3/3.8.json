@@ -3,10 +3,49 @@
   "title": "Character Streams",
   "type": "coding",
   "phase1": {
+    "intro": "Byte streams treat everything as raw numbers — which is exactly wrong for text. Character streams handle that translation for you.\n\nWhat should we look at first?",
+    "topics": [
+      {
+        "id": "filereader-filewriter",
+        "buttonText": "How are FileReader/FileWriter different from byte streams?",
+        "dialogue": [
+          "[[term:FileReader]] and [[term:FileWriter]] are the character-stream equivalents of FileInputStream/FileOutputStream — but instead of raw bytes, they work in actual characters (and Strings), decoding and encoding as needed behind the scenes.",
+          "`write(text)` takes a whole String directly; you don't manually convert it to bytes first."
+        ],
+        "stickyNote": {
+          "term": "FileReader & FileWriter",
+          "flavor": "🔤 work in characters, not raw bytes",
+          "definition": "FileReader/FileWriter are character-stream equivalents of byte streams — they decode/encode text automatically instead of moving raw bytes."
+        }
+      },
+      {
+        "id": "filewriter-modes",
+        "buttonText": "What's the difference between overwriting and appending?",
+        "dialogue": [
+          "[[key:FileWriter has two constructor modes worth knowing]]: `new FileWriter(\"file.txt\")` overwrites the file completely, while `new FileWriter(\"file.txt\", true)` — that second true — appends to whatever's already there instead of replacing it."
+        ],
+        "stickyNote": {
+          "term": "FileWriter Modes",
+          "flavor": "✍️ overwrite by default, append with true",
+          "definition": "new FileWriter(path) overwrites the file. new FileWriter(path, true) appends to existing content instead."
+        }
+      },
+      {
+        "id": "write-int-trap",
+        "buttonText": "What's the surprising trap with write(int)?",
+        "dialogue": [
+          "[[warn:One genuinely surprising trap]]: `FileWriter.write(int)` doesn't write the NUMBER as text — it writes the CHARACTER that number represents. `fw.write(65)` writes the letter 'A' (ASCII 65), not \"65\". Convert first with `String.valueOf(65)` if you want the digits."
+        ],
+        "stickyNote": {
+          "term": "write(int) Trap",
+          "flavor": "🔤 writes the character, not the number",
+          "definition": "FileWriter.write(65) writes the character 'A' (ASCII 65), not the text \"65\" — convert with String.valueOf() to write digits."
+        }
+      }
+    ],
     "code": "import java.io.*;\n\npublic class CharacterStreamExample {\n    public static void main(String[] args) {\n        // Writing characters to a file\n        System.out.println(\"=== Writing characters ===\");\n        String text = \"Hello, World!\\nJava is fun.\\nCharacter streams handle text.\";\n        \n        try (FileWriter fw = new FileWriter(\"text.txt\")) {\n            fw.write(text);\n            System.out.println(\"Text written: \" + text.length() + \" characters\");\n        } catch (IOException e) {\n            System.out.println(\"Error writing: \" + e.getMessage());\n        }\n        \n        // Reading characters from a file\n        System.out.println(\"=== Reading characters ===\");\n        try (FileReader fr = new FileReader(\"text.txt\")) {\n            int charRead;\n            System.out.print(\"Content: \");\n            while ((charRead = fr.read()) != -1) {\n                System.out.print((char) charRead);\n            }\n            System.out.println();\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n        \n        // Reading into a character array\n        System.out.println(\"=== Reading into array ===\");\n        try (FileReader fr = new FileReader(\"text.txt\")) {\n            char[] buffer = new char[50];\n            int charsRead = fr.read(buffer);\n            System.out.println(\"Chars read: \" + charsRead);\n            System.out.print(\"Content: \" + new String(buffer, 0, charsRead));\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n        \n        // Appending to a file\n        System.out.println(\"=== Appending ===\");\n        try (FileWriter fw = new FileWriter(\"text.txt\", true)) {  // true = append\n            fw.write(\"\\nThis line is appended!\");\n            System.out.println(\"Appended successfully!\");\n        } catch (IOException e) {\n            System.out.println(\"Error appending: \" + e.getMessage());\n        }\n        \n        // Reading the final content\n        System.out.println(\"=== Final content ===\");\n        try (FileReader fr = new FileReader(\"text.txt\")) {\n            char[] buffer = new char[200];\n            int charsRead = fr.read(buffer);\n            System.out.println(new String(buffer, 0, charsRead));\n        } catch (IOException e) {\n            System.out.println(\"Error reading: \" + e.getMessage());\n        }\n    }\n}",
     "output": "=== Writing characters ===\nText written: 47 characters\n=== Reading characters ===\nContent: Hello, World!\nJava is fun.\nCharacter streams handle text.\n=== Reading into array ===\nChars read: 47\nContent: Hello, World!\nJava is fun.\nCharacter streams handle text.\n=== Appending ===\nAppended successfully!\n=== Final content ===\nHello, World!\nJava is fun.\nCharacter streams handle text.\nThis line is appended!",
-    "explanation": "Byte streams treat everything as raw numbers — which is exactly wrong for text. A file of English text and a file of Japanese text are both \"just bytes\" as far as FileInputStream is concerned, and turning those bytes back into readable characters correctly depends on knowing the encoding they were written in. [[term:Character streams]] handle that translation for you.\n\n[[term:FileReader]] and [[term:FileWriter]] are the character-stream equivalents of FileInputStream/FileOutputStream — but instead of raw bytes, they work in actual characters (and Strings), decoding and encoding as needed behind the scenes. write(text) takes a whole String directly; you don't manually convert it to bytes first.\n\n[[key:FileWriter has two constructor modes worth knowing]]: new FileWriter(\"file.txt\") overwrites the file completely, while new FileWriter(\"file.txt\", true) — that second true — appends to whatever's already there instead of replacing it. Easy to forget, and the difference between losing a file's old content and keeping it.\n\n[[warn:one genuinely surprising trap]]: FileWriter.write(int) doesn't write the NUMBER as text — it writes the CHARACTER that number represents. fw.write(65) writes the letter 'A' (ASCII 65), not the two characters \"65\". If you actually want the digits, convert first: fw.write(String.valueOf(65));.\n\nSame rule as byte streams: [[key:always close what you open]] — character streams need it just as much, and try-with-resources handles it exactly the same way here too.",
-    "openingDialogue": "Character streams — text handling made easy~ 📝"
+    "openingDialogue": "Character streams decode and encode actual text for you — FileReader and FileWriter, with a couple of easy-to-miss traps. 🔤"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        try (FileWriter fw = new FileWriter(\"test.txt\")) {\n            // Trying to write numbers without converting to String\n            fw.write(65);  // Writes 'A' (not \"65\")\n            fw.write(66);  // Writes 'B'\n            System.out.println(\"Written!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}",

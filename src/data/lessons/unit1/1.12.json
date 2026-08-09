@@ -3,9 +3,51 @@
   "title": "Methods",
   "type": "coding",
   "phase1": {
+    "intro": "A method is a reusable block of code you can call by name instead of retyping it every time you need it.\n\nWhat should we open first?",
+    "topics": [
+      {
+        "id": "method-shape",
+        "buttonText": "What does a method actually look like?",
+        "dialogue": [
+          "The shape is always the same: `static returnType name(parameters) { body }`. The return type tells Java what kind of value comes back out — or `void`, if nothing comes back at all.",
+          "Parameters are the values you hand IN when you call it."
+        ],
+        "stickyNote": {
+          "term": "Method Shape",
+          "flavor": "🧩 return type, name, parameters, body",
+          "definition": "static returnType name(parameters) { body } — returnType is void if nothing is returned; parameters are the values passed in."
+        }
+      },
+      {
+        "id": "overloading",
+        "buttonText": "Can two methods share the same name?",
+        "dialogue": [
+          "[[term:Method overloading]] is writing several methods with the same name but different parameter lists — Java tells them apart by looking at what you actually passed in, not by the name alone.",
+          "`add(int a, int b)` and `add(int a, int b, int c)` can both exist side by side, and Java picks the right one based on how many arguments you give it."
+        ],
+        "stickyNote": {
+          "term": "Method Overloading",
+          "flavor": "👥 same name, different parameter lists",
+          "definition": "Multiple methods sharing a name but differing in parameter list. Java picks the right one based on the arguments passed."
+        }
+      },
+      {
+        "id": "why-methods",
+        "buttonText": "Why bother breaking code into methods at all?",
+        "dialogue": [
+          "[[key:Methods exist for three real reasons]]: you write the logic once instead of copy-pasting it everywhere, you break a big problem into smaller understandable pieces, and a well-named method reads almost like plain English at the call site.",
+          "`factorial(5)` tells you exactly what's happening without needing to look inside it."
+        ],
+        "stickyNote": {
+          "term": "Why Methods Exist",
+          "flavor": "📖 write once, break it down, read like English",
+          "definition": "Methods avoid repeated code, break big problems into pieces, and make call sites self-explanatory — e.g. factorial(5)."
+        }
+      }
+    ],
     "code": "public class MethodsExample {\n    public static void main(String[] args) {\n        // Calling methods\n        System.out.println(\"Sum of 5 and 3: \" + add(5, 3));\n        System.out.println(\"Sum of 7, 8, and 9: \" + add(7, 8, 9));\n        System.out.println(\"Factorial of 5: \" + factorial(5));\n        sayHello(\"Alice\");\n        \n        // Method overloading\n        System.out.println(\"Area of circle (radius 3): \" + area(3));\n        System.out.println(\"Area of rectangle (4x5): \" + area(4, 5));\n    }\n    \n    // Method with parameters and return value\n    static int add(int a, int b) {\n        return a + b;\n    }\n    \n    // Method overloading\n    static int add(int a, int b, int c) {\n        return a + b + c;\n    }\n    \n    // Method with a loop\n    static int factorial(int n) {\n        int result = 1;\n        for (int i = 2; i <= n; i++) {\n            result *= i;\n        }\n        return result;\n    }\n    \n    // Void method (returns nothing)\n    static void sayHello(String name) {\n        System.out.println(\"Hello, \" + name + \"!\");\n    }\n    \n    // Another overloaded method\n    static double area(double radius) {\n        return Math.PI * radius * radius;\n    }\n    \n    static int area(int length, int width) {\n        return length * width;\n    }\n}",
     "output": "Sum of 5 and 3: 8\nSum of 7, 8, and 9: 24\nFactorial of 5: 120\nHello, Alice!\nArea of circle (radius 3): 28.274333882308138\nArea of rectangle (4x5): 20",
-    "explanation": "A method is a reusable block of code you can call by name instead of retyping it every time you need it.\n\nThe shape is always the same: `static returnType name(parameters) { body }`. The return type tells Java what kind of value comes back out — or `void`, if nothing comes back at all. Parameters are the values you hand IN when you call it.\n\n[[term:Method overloading]] is writing several methods with the same name but different parameter lists — Java tells them apart by looking at what you actually passed in, not by the name alone. `add(int a, int b)` and `add(int a, int b, int c)` can both exist side by side, and Java picks the right one based on how many arguments you give it.\n\n[[key:Methods exist for three real reasons]]: you write the logic once instead of copy-pasting it everywhere, you break a big problem into smaller understandable pieces, and a well-named method reads almost like plain English at the call site — `factorial(5)` tells you exactly what's happening without needing to look inside it."
+    "openingDialogue": "A method is a reusable, callable block of code — same shape every time, and overloadable by parameter list. 🧰"
   },
   "phase2": {
     "brokenCode": "public class MethodsExample {\n    public static void main(String[] args) {\n        System.out.println(\"Sum: \" + add(5, 3));\n    }\n    \n    // Forgetting to declare return type\n    static add(int a, int b) {\n        return a + b;\n    }\n}",

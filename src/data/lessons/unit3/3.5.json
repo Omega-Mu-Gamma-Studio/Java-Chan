@@ -3,10 +3,49 @@
   "title": "try-with-resources",
   "type": "coding",
   "phase1": {
+    "intro": "Before Java 7, closing a resource meant a finally block with a null check and its own nested try-catch. try-with-resources replaces all of that with one line.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "try-with-resources-basics",
+        "buttonText": "How does try-with-resources actually work?",
+        "dialogue": [
+          "Declare the resource right inside the try's parentheses — `try (BufferedReader reader = new BufferedReader(...)) { ... }` — and [[key:Java automatically calls close() on it for you the moment the block ends]], whether it ended normally or via exception.",
+          "No finally, no null check, no nested try-catch for the close() call itself."
+        ],
+        "stickyNote": {
+          "term": "try-with-resources",
+          "flavor": "🔚 auto-closes when the block ends, no matter what",
+          "definition": "try (Resource r = ...) { ... } automatically calls close() on r when the block ends, normally or via exception."
+        }
+      },
+      {
+        "id": "multiple-resources",
+        "buttonText": "Can I close more than one resource this way?",
+        "dialogue": [
+          "You can declare more than one resource in the same parentheses, separated by semicolons, and [[key:they close in the REVERSE order they were opened]] — the last one declared is the first one closed."
+        ],
+        "stickyNote": {
+          "term": "Multiple Resources",
+          "flavor": "🔄 last opened, first closed",
+          "definition": "Multiple resources in one try-with-resources close in reverse order of declaration — the last declared closes first."
+        }
+      },
+      {
+        "id": "autocloseable-requirement",
+        "buttonText": "What does something need to work in try-with-resources?",
+        "dialogue": [
+          "[[warn:Whatever you put in those parentheses has to implement AutoCloseable]] (or its older cousin, Closeable). BufferedReader, Scanner, FileWriter already do — and implementing AutoCloseable yourself is just writing one close() method."
+        ],
+        "stickyNote": {
+          "term": "AutoCloseable Requirement",
+          "flavor": "✅ one close() method to join the club",
+          "definition": "Only classes implementing AutoCloseable (or Closeable) can be used in try-with-resources — implementing it means writing one close() method."
+        }
+      }
+    ],
     "code": "import java.io.*;\nimport java.util.Scanner;\n\npublic class TryWithResourcesExample {\n    public static void main(String[] args) {\n        // OLD way (pre-Java 7) — manual resource management\n        System.out.println(\"=== Old Way (finally) ===\");\n        BufferedReader reader = null;\n        try {\n            reader = new BufferedReader(new FileReader(\"example.txt\"));\n            String line = reader.readLine();\n            System.out.println(\"Line: \" + line);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        } finally {\n            try {\n                if (reader != null) {\n                    reader.close();  // Must close manually!\n                }\n            } catch (IOException e) {\n                e.printStackTrace();\n            }\n        }\n        \n        // NEW way (Java 7+) — try-with-resources\n        System.out.println(\"=== try-with-resources ===\");\n        try (BufferedReader reader2 = new BufferedReader(new FileReader(\"example.txt\"))) {\n            String line = reader2.readLine();\n            System.out.println(\"Line: \" + line);\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        // Resources automatically closed!\n        \n        // Multiple resources\n        System.out.println(\"=== Multiple Resources ===\");\n        try (BufferedReader br = new BufferedReader(new FileReader(\"input.txt\"));\n             BufferedWriter bw = new BufferedWriter(new FileWriter(\"output.txt\"))) {\n            String line;\n            while ((line = br.readLine()) != null) {\n                bw.write(line);\n                bw.newLine();\n            }\n            System.out.println(\"File copied successfully!\");\n        } catch (IOException e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        // Both resources are closed automatically!\n        \n        // Custom AutoCloseable resource\n        System.out.println(\"=== Custom Resource ===\");\n        try (CustomResource resource = new CustomResource()) {\n            resource.doSomething();\n            // resource.close() called automatically\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n    }\n}\n\n// Custom AutoCloseable implementation\nclass CustomResource implements AutoCloseable {\n    private boolean isOpen = true;\n    \n    void doSomething() throws Exception {\n        if (!isOpen) {\n            throw new Exception(\"Resource is closed!\");\n        }\n        System.out.println(\"Doing something with resource...\");\n    }\n    \n    @Override\n    public void close() throws Exception {\n        System.out.println(\"CustomResource is being closed!\");\n        isOpen = false;\n    }\n}",
     "output": "=== Old Way (finally) ===\nLine: Hello World\n=== try-with-resources ===\nLine: Hello World\n=== Multiple Resources ===\nFile copied successfully!\n=== Custom Resource ===\nDoing something with resource...\nCustomResource is being closed!",
-    "explanation": "Before Java 7, closing a resource — a file, a database connection, anything that needs explicit cleanup — meant a finally block with a null check and its own nested try-catch, just to close it safely. [[term:try-with-resources]] replaces all of that with one line.\n\nDeclare the resource right inside the try's parentheses — try (BufferedReader reader = new BufferedReader(...)) { ... } — and [[key:Java automatically calls close() on it for you the moment the block ends]], whether it ended normally or because an exception got thrown partway through. No finally, no null check, no nested try-catch for the close() call itself.\n\nYou can declare more than one resource in the same parentheses, separated by semicolons, and [[key:they close in the REVERSE order they were opened]] — the last one declared is the first one closed, which matters if one resource depends on another still being open.\n\nThe one requirement: [[warn:whatever you put in those parentheses has to implement AutoCloseable]] (or its older, narrower cousin, Closeable). BufferedReader, Scanner, FileWriter, and most I/O classes already do — and implementing AutoCloseable yourself is just writing one close() method, and now YOUR class works in try-with-resources too.",
-    "openingDialogue": "try-with-resources — automatic cleanup~ 🧹"
+    "openingDialogue": "try-with-resources auto-closes anything AutoCloseable the moment the block ends — reverse order, no finally needed. 🔚"
   },
   "phase2": {
     "brokenCode": "import java.io.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        // Using try-with-resources with a class that doesn't implement AutoCloseable\n        try (String s = \"Hello\") {  // String doesn't implement AutoCloseable!\n            System.out.println(s);\n        }\n    }\n}",

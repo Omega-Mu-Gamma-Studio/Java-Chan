@@ -3,9 +3,50 @@
   "title": "Inner Classes",
   "type": "coding",
   "phase1": {
+    "intro": "A class can live inside another class, and Java gives you four flavors depending on how tightly coupled you want it.\n\nWhich flavor first?",
+    "topics": [
+      {
+        "id": "inner-vs-static-nested",
+        "buttonText": "What's the difference between a regular inner class and a static nested class?",
+        "dialogue": [
+          "A plain [[term:inner class]] — no `static` — [[key:has full access to the outer object's fields, even private ones]], but you need an actual outer instance to create one: `outer.new InnerClass()`.",
+          "A [[term:static nested class]] drops that requirement — [[key:no outer instance needed, but it also loses access to the outer object's instance members]]. Create one with `new Outer.StaticNestedClass()`."
+        ],
+        "stickyNote": {
+          "term": "Inner vs Static Nested Class",
+          "flavor": "🔗 tied to an instance vs. fully independent",
+          "definition": "A regular inner class needs an outer instance (outer.new Inner()) and can access its private fields. A static nested class needs none, but loses that access."
+        }
+      },
+      {
+        "id": "local-anonymous",
+        "buttonText": "What are local and anonymous inner classes?",
+        "dialogue": [
+          "A [[term:local inner class]] is defined right inside a method body, and [[key:it only exists and is only usable within that one method]].",
+          "An [[term:anonymous inner class]] skips naming entirely — you write the whole class body inline, on the spot, usually to implement an interface or extend a class for exactly one use, like a `Runnable`."
+        ],
+        "stickyNote": {
+          "term": "Local & Anonymous Inner Classes",
+          "flavor": "👻 scoped to one method, or nameless entirely",
+          "definition": "A local inner class exists only within the method it's defined in. An anonymous inner class has no name and is written inline for a single use."
+        }
+      },
+      {
+        "id": "choosing-between-them",
+        "buttonText": "How do I choose which one to use?",
+        "dialogue": [
+          "[[key:Picking between them comes down to coupling]]: use a regular inner class when it's genuinely tied to a specific outer instance, static nested when it isn't, and anonymous for quick one-off implementations you'll never reuse."
+        ],
+        "stickyNote": {
+          "term": "Choosing an Inner Class Type",
+          "flavor": "🎯 pick by how tightly coupled it needs to be",
+          "definition": "Regular inner class = tied to an outer instance. Static nested = not tied. Anonymous = quick one-off implementation."
+        }
+      }
+    ],
     "code": "class OuterClass {\n    private String message = \"Hello from Outer\";\n    private static String staticMessage = \"Static message\";\n    \n    // 1. Non-static inner class (inner class)\n    class InnerClass {\n        void display() {\n            // Can access outer class private members\n            System.out.println(\"Inner: \" + message);\n            System.out.println(\"Inner: \" + staticMessage);\n            outerMethod();\n        }\n    }\n    \n    // 2. Static nested class\n    static class StaticNestedClass {\n        void display() {\n            // Can't access instance members of outer class\n            // System.out.println(message); // ERROR! Can't access non-static\n            System.out.println(\"Static Nested: \" + staticMessage);\n        }\n    }\n    \n    void outerMethod() {\n        System.out.println(\"Outer method called\");\n    }\n    \n    // 3. Local inner class (inside a method)\n    void localInnerExample() {\n        class LocalInner {\n            void display() {\n                System.out.println(\"Local inner class\");\n            }\n        }\n        \n        LocalInner local = new LocalInner();\n        local.display();\n    }\n    \n    // 4. Anonymous inner class\n    Runnable getRunnable() {\n        return new Runnable() {\n            @Override\n            public void run() {\n                System.out.println(\"Anonymous inner class running\");\n            }\n        };\n    }\n}\n\npublic class InnerClassesExample {\n    public static void main(String[] args) {\n        OuterClass outer = new OuterClass();\n        \n        // Create inner class instance\n        OuterClass.InnerClass inner = outer.new InnerClass();\n        inner.display();\n        \n        System.out.println(\"---\");\n        \n        // Create static nested class instance\n        OuterClass.StaticNestedClass staticNested = new OuterClass.StaticNestedClass();\n        staticNested.display();\n        \n        System.out.println(\"---\");\n        \n        outer.localInnerExample();\n        \n        System.out.println(\"---\");\n        \n        Runnable runnable = outer.getRunnable();\n        runnable.run();\n    }\n}",
     "output": "Inner: Hello from Outer\nInner: Static message\nOuter method called\n---\nStatic Nested: Static message\n---\nLocal inner class\n---\nAnonymous inner class running",
-    "explanation": "A class can live inside another class, and Java gives you four flavors depending on how tightly coupled you want it.\n\nA plain [[term:inner class]] — `class InnerClass` written directly inside `OuterClass`, no `static` — [[key:has full access to the outer object's fields, even private ones]], but that access comes at a cost: you need an actual outer instance to create one, written as `outer.new InnerClass()`.\n\nA [[term:static nested class]] drops that requirement — [[key:no outer instance needed, but it also loses access to the outer object's instance members]], since there's no specific outer object it's tied to. Create one with `new Outer.StaticNestedClass()`.\n\nA [[term:local inner class]] is defined right inside a method body, and [[key:it only exists and is only usable within that one method]] — useful for a helper that genuinely has no reason to exist anywhere else.\n\nAnd an [[term:anonymous inner class]] skips naming entirely — you write the whole class body inline, on the spot, usually to implement an interface or extend a class for exactly one use, like the `Runnable` in the example.\n\n[[key:Picking between them comes down to coupling]]: use a regular inner class when it's genuinely tied to a specific outer instance, static nested when it isn't, and anonymous for quick one-off implementations you'll never reuse."
+    "openingDialogue": "Java gives you four flavors of class-inside-a-class, each trading off a different amount of coupling to the outer class. 🪆"
   },
   "phase2": {
     "brokenCode": "class Outer {\n    String message = \"Hello\";\n    \n    static class Inner {\n        void display() {\n            // Trying to access instance variable from static context\n            System.out.println(message);  // ERROR!\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Outer.Inner inner = new Outer.Inner();\n        inner.display();\n    }\n}",

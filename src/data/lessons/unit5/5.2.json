@@ -3,9 +3,48 @@
   "title": "Your First JavaFX Window",
   "type": "coding",
   "phase1": {
+    "intro": "This is opening day — the smallest possible version of the whole JavaFX pipeline, actually wired up and running.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "building-from-inside-out",
+        "buttonText": "What order do I actually build things in?",
+        "dialogue": [
+          "Inside start(), you build the window from the inside out: create your content first (a Label), then a layout container ([[term:StackPane]], which stacks children on top of each other and centers them by default), then wrap that in a Scene with a pixel width and height."
+        ],
+        "stickyNote": {
+          "term": "Building Inside-Out",
+          "flavor": "🧱 content → layout → Scene",
+          "definition": "A JavaFX window is built inside-out: create the content nodes, put them in a layout container (like StackPane), then wrap that in a Scene."
+        }
+      },
+      {
+        "id": "three-calls-to-open",
+        "buttonText": "What are the three calls that actually open the window?",
+        "dialogue": [
+          "`primaryStage.setTitle()` puts text in the title bar, `primaryStage.setScene(scene)` hangs your display in the window, and `primaryStage.show()` is the one that actually makes it visible — [[warn:forget show() and you'll have built a perfectly valid Scene that nobody ever sees]]."
+        ],
+        "stickyNote": {
+          "term": "setTitle/setScene/show",
+          "flavor": "👁️ show() is what actually makes it visible",
+          "definition": "setTitle() labels the window, setScene() attaches the Scene, and show() is the call that finally displays it — forgetting show() leaves nothing visible."
+        }
+      },
+      {
+        "id": "swapping-layouts",
+        "buttonText": "What changes if I use a VBox instead of a StackPane?",
+        "dialogue": [
+          "The second class, SecondJavaFXWindow, swaps StackPane for a [[term:VBox]] — same three-piece pipeline (nodes → layout → Scene), just a different shelf shape. That's the pattern for the rest of the unit: the pipeline never changes, only the layout and nodes do."
+        ],
+        "stickyNote": {
+          "term": "Swapping Layout Containers",
+          "flavor": "🔄 same pipeline, different shelf shape",
+          "definition": "The nodes → layout → Scene pipeline stays the same regardless of which layout container (StackPane, VBox, etc.) you choose."
+        }
+      }
+    ],
     "code": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\nimport javafx.stage.Stage;\n\npublic class FirstJavaFXWindow extends Application {\n    \n    @Override\n    public void start(Stage primaryStage) {\n        // Create a Label (text node)\n        Label label = new Label(\"Hello, JavaFX!\");\n        \n        // Create a layout container\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        \n        // Create a Scene\n        Scene scene = new Scene(root, 400, 300);\n        \n        // Set up the Stage\n        primaryStage.setTitle(\"My First JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}\n\n// Alternative: Using VBox for vertical layout\nclass SecondJavaFXWindow extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Create multiple controls\n        Label label1 = new Label(\"Welcome to JavaFX!\");\n        Label label2 = new Label(\"This is a second label.\");\n        \n        // VBox arranges nodes vertically\n        javafx.scene.layout.VBox root = new javafx.scene.layout.VBox(10);\n        root.getChildren().addAll(label1, label2);\n        \n        Scene scene = new Scene(root, 400, 300);\n        \n        primaryStage.setTitle(\"Second JavaFX Window\");\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n    \n    public static void main(String[] args) {\n        launch(args);\n    }\n}",
     "output": "(Window appears with text: 'Hello, JavaFX!')",
-    "explanation": "This is opening day for the storefront — the smallest possible version of the whole pipeline from Unit 5.1, actually wired up and running.\n\nEvery JavaFX app starts the same way: extend [[term:Application]], override start(Stage primaryStage), and call launch(args) from main(). [[key:launch() is what constructs the Stage and hands it to start() — you never new up a Stage yourself]]. Inside start(), you build the window from the inside out: create your content first (here, a single Label), then a layout container to hold it (a [[term:StackPane]], which — true to its name — stacks its children on top of each other and centers them by default), then wrap that container in a Scene with a pixel width and height.\n\nFrom there it's three calls and the doors are open: primaryStage.setTitle() puts text in the window's title bar, primaryStage.setScene(scene) hangs your display in the storefront window, and primaryStage.show() is the one that actually makes it visible — [[warn:forget show() and you'll have built a perfectly valid Scene that nobody ever sees]], because the app runs and exits with no visible error.\n\nThe second class at the bottom, SecondJavaFXWindow, swaps StackPane for a [[term:VBox]] — same three-piece pipeline (nodes → layout → Scene), just a different shelf shape. That's the pattern for the rest of this unit: the pipeline never changes, only the layout and the nodes inside it do."
+    "openingDialogue": "Every JavaFX app follows the same pipeline — nodes, then a layout container, then a Scene — and show() is what finally makes it visible. 🧱"
   },
   "phase2": {
     "brokenCode": "import javafx.application.Application;\nimport javafx.scene.Scene;\nimport javafx.scene.control.Label;\nimport javafx.scene.layout.StackPane;\n\npublic class Test extends Application {\n    @Override\n    public void start(Stage primaryStage) {\n        // Forgot to import javafx.stage.Stage\n        // Or using wrong import\n        Label label = new Label(\"Hello\");\n        StackPane root = new StackPane();\n        root.getChildren().add(label);\n        Scene scene = new Scene(root, 400, 300);\n        primaryStage.setScene(scene);\n        primaryStage.show();\n    }\n}",

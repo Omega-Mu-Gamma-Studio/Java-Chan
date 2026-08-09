@@ -3,9 +3,49 @@
   "title": "Thread Synchronization",
   "type": "coding",
   "phase1": {
+    "intro": "Two workers, same counter, same increment button — and this is where things get genuinely dangerous.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "race-condition",
+        "buttonText": "What actually is a race condition?",
+        "dialogue": [
+          "[[key:value++ looks like one instruction, but it's actually three]]: read the current value, add one, write it back. If two threads both read at the same instant, one increment vanishes silently. That's a [[term:race condition]].",
+          "[[warn:No exception gets thrown]] — the program runs, prints a number, and that number is simply wrong, and might be wrong only sometimes."
+        ],
+        "stickyNote": {
+          "term": "Race Condition",
+          "flavor": "🎲 timing-dependent bugs with no exception",
+          "definition": "A race condition happens when value++ (read-add-write) overlaps between threads, silently losing an increment — no exception, wrong result."
+        }
+      },
+      {
+        "id": "synchronized-basics",
+        "buttonText": "How does synchronized actually fix it?",
+        "dialogue": [
+          "[[term:synchronized]] marks a method or block as something only one thread can be inside at a time. Every object has a built-in lock, and entering synchronized code means acquiring that lock first — any other thread that tries simply waits its turn."
+        ],
+        "stickyNote": {
+          "term": "synchronized",
+          "flavor": "🔒 one thread at a time, everyone else waits",
+          "definition": "synchronized marks a method or block so only one thread can execute it at a time, using the object's built-in lock."
+        }
+      },
+      {
+        "id": "method-vs-block-sync",
+        "buttonText": "When should I synchronize a block instead of the whole method?",
+        "dialogue": [
+          "[[warn:Synchronizing the whole method locks the entire object]], even for code that doesn't need it — a synchronized block, `synchronized(lock) { ... }`, locks only what's inside the braces. [[fun:Static synchronized methods lock on the Class object itself]] instead of an instance."
+        ],
+        "stickyNote": {
+          "term": "Synchronized Method vs Block",
+          "flavor": "🎯 lock just what needs it",
+          "definition": "synchronized on a whole method locks the entire object. synchronized(lock) { ... } locks only that block — usually the finer-grained choice."
+        }
+      }
+    ],
     "code": "public class SynchronizationExample {\n    public static void main(String[] args) throws InterruptedException {\n        // Without synchronization (race condition)\n        System.out.println(\"=== Without Synchronization ===\");\n        Counter badCounter = new Counter();\n        \n        Thread t1 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                badCounter.increment();  // Not synchronized!\n            }\n        });\n        Thread t2 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                badCounter.increment();  // Not synchronized!\n            }\n        });\n        \n        t1.start();\n        t2.start();\n        t1.join();\n        t2.join();\n        \n        System.out.println(\"Expected: 2000, Got: \" + badCounter.getValue());\n        \n        // With synchronization\n        System.out.println(\"=== With Synchronization ===\");\n        SynchronizedCounter goodCounter = new SynchronizedCounter();\n        \n        Thread t3 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                goodCounter.increment();  // Synchronized!\n            }\n        });\n        Thread t4 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                goodCounter.increment();  // Synchronized!\n            }\n        });\n        \n        t3.start();\n        t4.start();\n        t3.join();\n        t4.join();\n        \n        System.out.println(\"Expected: 2000, Got: \" + goodCounter.getValue());\n        \n        // Synchronized block (more granular)\n        System.out.println(\"=== Synchronized Block ===\");\n        CounterWithBlock counterBlock = new CounterWithBlock();\n        \n        Thread t5 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                counterBlock.increment();\n            }\n        });\n        Thread t6 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                counterBlock.increment();\n            }\n        });\n        \n        t5.start();\n        t6.start();\n        t5.join();\n        t6.join();\n        \n        System.out.println(\"Expected: 2000, Got: \" + counterBlock.getValue());\n        \n        // Synchronized static method\n        System.out.println(\"=== Static Synchronization ===\");\n        Thread t7 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                StaticCounter.increment();\n            }\n        });\n        Thread t8 = new Thread(() -> {\n            for (int i = 0; i < 1000; i++) {\n                StaticCounter.increment();\n            }\n        });\n        \n        t7.start();\n        t8.start();\n        t7.join();\n        t8.join();\n        \n        System.out.println(\"Static counter: \" + StaticCounter.getValue());\n    }\n}\n\n// Unsynchronized counter\nclass Counter {\n    private int value = 0;\n    \n    void increment() {\n        value++;  // Not thread-safe!\n    }\n    \n    int getValue() {\n        return value;\n    }\n}\n\n// Synchronized method\nclass SynchronizedCounter {\n    private int value = 0;\n    \n    // Only one thread can access this at a time\n    synchronized void increment() {\n        value++;  // Thread-safe!\n    }\n    \n    synchronized int getValue() {\n        return value;\n    }\n}\n\n// Synchronized block\nclass CounterWithBlock {\n    private int value = 0;\n    private final Object lock = new Object();\n    \n    void increment() {\n        // Synchronize only the critical section\n        synchronized (lock) {\n            value++;\n        }\n    }\n    \n    int getValue() {\n        synchronized (lock) {\n            return value;\n        }\n    }\n}\n\n// Static synchronization\nclass StaticCounter {\n    private static int value = 0;\n    \n    static synchronized void increment() {\n        value++;\n    }\n    \n    static int getValue() {\n        return value;\n    }\n}",
     "output": "=== Without Synchronization ===\nExpected: 2000, Got: 1547\n=== With Synchronization ===\nExpected: 2000, Got: 2000\n=== Synchronized Block ===\nExpected: 2000, Got: 2000\n=== Static Synchronization ===\nStatic counter: 2000",
-    "explanation": "Two workers, same counter, same increment button — and this is where things get genuinely dangerous. [[key:value++ looks like one instruction, but it's actually three: read the current value, add one, write it back]]. If two threads both read the value at the same instant, both add one to the same starting number, and both write back — one increment just vanished, silently.\n\nThat's a [[term:race condition]]: the correctness of the result depends on timing that's completely out of your control. [[warn:no exception gets thrown]] — the program runs, finishes, prints a number, and that number is simply wrong. Worse, it might be wrong only sometimes, because whether the collision actually happens depends on exact timing that varies run to run — which makes race conditions some of the hardest bugs to reproduce on purpose.\n\n[[term:synchronized]] is the fix: it marks a method or a block as something only one thread can be inside at a time. Every object has a built-in lock, and entering a synchronized method or block means acquiring that lock first — any other thread that tries shows up and simply waits its turn.\n\nsynchronized void increment() {\n    value++;  // now safe — only one thread in here at a time\n}\n\n[[warn:synchronizing the whole method locks the entire object]], even for code that doesn't need it — a synchronized block, synchronized(lock) { ... }, locks only what's inside the braces, which is usually the better tool once a method does more than just the critical section. [[fun:static synchronized methods lock on the Class object itself instead of an instance]] — since a static method has no particular instance to lock on, the whole class becomes the shared checkpoint."
+    "openingDialogue": "Two threads incrementing the same value can silently lose an increment — a race condition — and synchronized is the fix. 🔒"
   },
   "phase2": {
     "brokenCode": "public class Test {\n    private static int counter = 0;\n    \n    public static void main(String[] args) throws Exception {\n        Thread t1 = new Thread(() -> {\n            for (int i = 0; i < 100000; i++) {\n                // Forgetting to synchronize\n                counter++;\n            }\n        });\n        Thread t2 = new Thread(() -> {\n            for (int i = 0; i < 100000; i++) {\n                counter++;\n            }\n        });\n        \n        t1.start();\n        t2.start();\n        t1.join();\n        t2.join();\n        \n        System.out.println(\"Counter: \" + counter);  // Not 200000!\n    }\n}",

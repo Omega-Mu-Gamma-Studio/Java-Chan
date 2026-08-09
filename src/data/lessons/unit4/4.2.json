@@ -3,9 +3,48 @@
   "title": "ArrayList",
   "type": "coding",
   "phase1": {
+    "intro": "ArrayList is the shelf you reach for by default — a resizable version of the plain array you've been using since day one.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "arraylist-under-hood",
+        "buttonText": "What's actually happening under the hood?",
+        "dialogue": [
+          "Underneath, it's still just an array. [[key:That's exactly why get(index) is so fast — O(1), straight to the slot]] — but it's an array Java manages for you: when it fills up, ArrayList quietly allocates a bigger array and copies everything over."
+        ],
+        "stickyNote": {
+          "term": "ArrayList Internals",
+          "flavor": "📏 an array Java grows for you automatically",
+          "definition": "ArrayList is backed by a real array. get(index) is O(1). When full, ArrayList allocates a bigger array and copies elements over, invisibly."
+        }
+      },
+      {
+        "id": "arraylist-operation-costs",
+        "buttonText": "Why is inserting in the middle slower than appending?",
+        "dialogue": [
+          "`add(element)` appends to the end (usually O(1)). `add(index, element)` inserts in the middle, which means [[warn:everything after that index has to shift over one slot]] — O(n), not free. `get(index)` and `set(index, element)` are always O(1)."
+        ],
+        "stickyNote": {
+          "term": "ArrayList Operation Costs",
+          "flavor": "⏱️ append is fast, middle insertion shifts everything",
+          "definition": "add() at the end is ~O(1). add(index, ...) in the middle is O(n) since elements after it must shift. get()/set() are always O(1)."
+        }
+      },
+      {
+        "id": "when-to-use-arraylist",
+        "buttonText": "When should I actually reach for it?",
+        "dialogue": [
+          "It keeps insertion order, allows duplicates, and allows null. [[fun:When in doubt between ArrayList and the other List you're about to meet next lesson, start here]] — it's the right call for the vast majority of \"I need an ordered list\" situations."
+        ],
+        "stickyNote": {
+          "term": "When to Use ArrayList",
+          "flavor": "✅ the default choice for an ordered list",
+          "definition": "ArrayList keeps insertion order, allows duplicates and null, and is the right default choice for most ordered-list needs."
+        }
+      }
+    ],
     "code": "import java.util.*;\n\npublic class ArrayListExample {\n    public static void main(String[] args) {\n        // Creating ArrayLists\n        System.out.println(\"=== Creating ===\");\n        ArrayList<String> names = new ArrayList<>();\n        ArrayList<Integer> numbers = new ArrayList<>(Arrays.asList(10, 20, 30));\n        \n        // Adding elements\n        System.out.println(\"=== Adding ===\");\n        names.add(\"Alice\");\n        names.add(\"Bob\");\n        names.add(\"Charlie\");\n        names.add(1, \"Diana\");  // Insert at index 1\n        System.out.println(\"After adding: \" + names);\n        \n        // Accessing elements\n        System.out.println(\"=== Accessing ===\");\n        System.out.println(\"First name: \" + names.get(0));\n        System.out.println(\"Size: \" + names.size());\n        \n        // Iterating\n        System.out.println(\"=== For-each loop ===\");\n        for (String name : names) {\n            System.out.println(\"  \" + name);\n        }\n        \n        System.out.println(\"=== For loop with index ===\");\n        for (int i = 0; i < names.size(); i++) {\n            System.out.println(\"  Index \" + i + \": \" + names.get(i));\n        }\n        \n        // Removing elements\n        System.out.println(\"=== Removing ===\");\n        names.remove(2);  // Remove by index\n        names.remove(\"Alice\");  // Remove by object\n        System.out.println(\"After removing: \" + names);\n        \n        // Checking contents\n        System.out.println(\"=== Checking ===\");\n        System.out.println(\"Contains 'Bob'? \" + names.contains(\"Bob\"));\n        System.out.println(\"Index of 'Bob': \" + names.indexOf(\"Bob\"));\n        System.out.println(\"Is empty? \" + names.isEmpty());\n        \n        // ArrayList with different types\n        System.out.println(\"=== Numbers ===\");\n        numbers.add(40);\n        numbers.add(50);\n        System.out.println(\"Numbers: \" + numbers);\n        \n        // Null handling\n        System.out.println(\"=== Null values ===\");\n        ArrayList<String> nullable = new ArrayList<>();\n        nullable.add(null);\n        nullable.add(\"Hello\");\n        nullable.add(null);\n        System.out.println(\"With nulls: \" + nullable);\n        System.out.println(\"Size: \" + nullable.size());\n        \n        // ArrayList to array\n        System.out.println(\"=== To Array ===\");\n        String[] array = names.toArray(new String[0]);\n        System.out.println(\"Array: \" + Arrays.toString(array));\n        \n        // Clear\n        System.out.println(\"=== Clear ===\");\n        names.clear();\n        System.out.println(\"After clear: \" + names);\n        System.out.println(\"Size: \" + names.size());\n        System.out.println(\"Is empty? \" + names.isEmpty());\n    }\n}",
     "output": "=== Creating ===\n=== Adding ===\nAfter adding: [Alice, Diana, Bob, Charlie]\n=== Accessing ===\nFirst name: Alice\nSize: 4\n=== For-each loop ===\n  Alice\n  Diana\n  Bob\n  Charlie\n=== For loop with index ===\n  Index 0: Alice\n  Index 1: Diana\n  Index 2: Bob\n  Index 3: Charlie\n=== Removing ===\nAfter removing: [Alice, Charlie]\n=== Checking ===\nContains 'Bob'? false\nIndex of 'Bob': -1\nIs empty? false\n=== Numbers ===\nNumbers: [10, 20, 30, 40, 50]\n=== Null values ===\nWith nulls: [null, Hello, null]\nSize: 3\n=== To Array ===\nArray: [Alice, Charlie]\n=== Clear ===\nAfter clear: []\nSize: 0\nIs empty? true",
-    "explanation": "[[term:ArrayList]] is the shelf you reach for by default — a resizable version of the plain array you've been using since day one, minus the part where you had to know the size up front.\n\nUnderneath, it's still just an array. [[key:that's exactly why get(index) is so fast — O(1), straight to the slot]] — but it's an array Java manages for you: when it fills up, ArrayList quietly allocates a bigger array behind the scenes and copies everything over. You never see that happen; you just call add() and it works.\n\nadd(element) appends to the end (fast — usually O(1)). add(index, element) inserts in the middle, which means [[warn:everything after that index has to shift over one slot]] — that's O(n), not free. remove() has the same story in reverse. get(index) and set(index, element) are always O(1) — that random-access speed is ArrayList's whole reason to exist.\n\nIt keeps insertion order, allows duplicates, and allows null — none of that is an accident, it's just \"array, but it grows.\" [[fun:when in doubt between ArrayList and the other List you're about to meet next lesson, start here]] — it's the right call for the vast majority of \"I need an ordered list\" situations, and you only reach for the alternative when the shape of your access pattern actually calls for it."
+    "openingDialogue": "ArrayList is a resizable array — O(1) random access, O(n) middle insertion, and the default List for most situations. 📏"
   },
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>();\n        list.add(\"A\");\n        list.add(\"B\");\n        \n        // Removing while iterating\n        for (String s : list) {\n            if (s.equals(\"A\")) {\n                list.remove(s);  // ERROR!\n            }\n        }\n        System.out.println(list);\n    }\n}",

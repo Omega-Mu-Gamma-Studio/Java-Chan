@@ -3,9 +3,50 @@
   "title": "Final Keyword",
   "type": "coding",
   "phase1": {
+    "intro": "final shows up in three different places, and it means \"locked\" in a slightly different way each time.\n\nWhich one do you want to look at first?",
+    "topics": [
+      {
+        "id": "final-variable",
+        "buttonText": "What does final mean on a variable?",
+        "dialogue": [
+          "A `final` variable [[key:can only be assigned once]] — after that single assignment, any attempt to reassign it is a compile error. That's exactly why `static final` is Java's standard pattern for a real constant, like `PI`."
+        ],
+        "stickyNote": {
+          "term": "final Variable",
+          "flavor": "1️⃣ one assignment, ever",
+          "definition": "A final variable can be assigned exactly once. Any later reassignment is a compile error."
+        }
+      },
+      {
+        "id": "final-method-class",
+        "buttonText": "What about final on methods and classes?",
+        "dialogue": [
+          "A `final` method [[warn:can never be overridden by any subclass]] — once you mark `cannotOverride()` final on Parent, every subclass is stuck with that exact implementation forever.",
+          "A `final` class [[warn:can never be extended by anything at all]]. `String` is famously final because [[key:Java's designers wanted String's behavior to be completely predictable, and letting anyone subclass it would break that guarantee]]."
+        ],
+        "stickyNote": {
+          "term": "final Method & Class",
+          "flavor": "🚫 no overriding, no extending",
+          "definition": "A final method can never be overridden by a subclass. A final class can never be extended at all — String is a classic example."
+        }
+      },
+      {
+        "id": "final-vs-static",
+        "buttonText": "How is final different from static?",
+        "dialogue": [
+          "[[key:Don't confuse final with static]] — they solve different problems. `static` is about WHERE something lives (on the class, shared, not per-object); `final` is about WHETHER it can change.",
+          "An [[term:immutable class]] typically combines both: every field `final`, no setters, and often the whole class marked `final` too."
+        ],
+        "stickyNote": {
+          "term": "final vs static",
+          "flavor": "🆚 where it lives vs. whether it can change",
+          "definition": "static concerns WHERE a member lives (shared on the class). final concerns WHETHER it can change (locked value, method, or class)."
+        }
+      }
+    ],
     "code": "// final class — can't be extended\nfinal class ImmutableClass {\n    // final variable — must be initialized once\n    final int value;\n    \n    // Static final constant\n    static final double PI = 3.14159;\n    \n    ImmutableClass(int value) {\n        this.value = value;  // Initialized in constructor\n    }\n    \n    void display() {\n        System.out.println(\"Value: \" + value);\n        System.out.println(\"PI: \" + PI);\n        // value = 10;  // ERROR! Can't modify final variable\n        // PI = 3.0;    // ERROR! Can't modify final constant\n    }\n}\n\n// Can't extend a final class\n// class SubClass extends ImmutableClass { } // ERROR!\n\n// Regular class with final methods\nclass Parent {\n    // final method — can't be overridden\n    final void cannotOverride() {\n        System.out.println(\"This method is final!\");\n    }\n    \n    void canOverride() {\n        System.out.println(\"This method can be overridden\");\n    }\n}\n\nclass Child extends Parent {\n    @Override\n    void canOverride() {\n        System.out.println(\"Overridden successfully!\");\n    }\n    \n    // Can't override final method\n    /*\n    @Override\n    void cannotOverride() {  // ERROR!\n        System.out.println(\"Trying to override\");\n    }\n    */\n}\n\npublic class FinalExample {\n    public static void main(String[] args) {\n        // final local variables\n        final int MAX_ATTEMPTS = 3;\n        // MAX_ATTEMPTS = 5;  // ERROR! Can't modify\n        \n        System.out.println(\"Max attempts: \" + MAX_ATTEMPTS);\n        \n        ImmutableClass obj = new ImmutableClass(42);\n        obj.display();\n        \n        // obj.value = 100;  // ERROR! Can't modify\n        \n        Child child = new Child();\n        child.canOverride();\n        child.cannotOverride();  // Uses parent's final version\n    }\n}",
     "output": "Max attempts: 3\nValue: 42\nPI: 3.14159\nOverridden successfully!\nThis method is final!",
-    "explanation": "[[term:final]] shows up in three different places, and it means \"locked\" in a slightly different way each time.\n\nA `final` variable [[key:can only be assigned once]] — after that single assignment, any attempt to reassign it is a compile error. That's exactly why `static final` is Java's standard pattern for a real constant, like `PI` in the example.\n\nA `final` method [[warn:can never be overridden by any subclass]] — once you mark `cannotOverride()` final on Parent, every subclass is stuck with that exact implementation forever, no exceptions.\n\nA `final` class [[warn:can never be extended by anything at all]] — no subclasses, period. `String` is famously final for exactly this reason: [[key:Java's designers wanted String's behavior to be completely predictable, and letting anyone subclass it would break that guarantee]].\n\n[[key:Don't confuse final with static]] — they solve different problems. `static` is about WHERE something lives (on the class, shared, not per-object); `final` is about WHETHER it can change (locked after first assignment, or locked against being overridden/extended). An [[term:immutable class]] typically combines both: every field `final`, no setters, and often the whole class marked `final` too, so nobody can subclass their way around the immutability."
+    "openingDialogue": "final locks three different things — a variable's value, a method against overriding, or a whole class against extension. 🔒"
   },
   "phase2": {
     "brokenCode": "final class Parent {\n    int value = 5;\n}\n\nclass Child extends Parent {  // ERROR! Can't extend final class\n    void display() {\n        System.out.println(\"Child\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Child child = new Child();\n    }\n}",

@@ -3,9 +3,48 @@
   "title": "Intro to JavaFX",
   "type": "conceptual",
   "phase1": {
+    "intro": "You've spent four units building the inside of a workshop nobody's ever seen. Unit 5 builds the storefront.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "stage-scene-scenegraph",
+        "buttonText": "What are Stage, Scene, and Scene Graph?",
+        "dialogue": [
+          "Every JavaFX app has three pieces mapping onto the storefront: the [[term:Stage]] is the building itself — one per app, created before your code even runs. The [[term:Scene]] is whatever's arranged in the window right now. A [[term:Scene Graph]] is the arrangement itself: a tree of nodes, root holding children holding their own children."
+        ],
+        "stickyNote": {
+          "term": "Stage, Scene & Scene Graph",
+          "flavor": "🏢 the building, the display, and the arrangement tree",
+          "definition": "Stage = the window itself. Scene = what's currently displayed. Scene Graph = the tree structure of nodes (root → children → grandchildren)."
+        }
+      },
+      {
+        "id": "application-launch",
+        "buttonText": "How does a JavaFX app actually start?",
+        "dialogue": [
+          "To open the shop, you extend [[term:Application]] and override `start(Stage primaryStage)`. Build your Scene, call `primaryStage.setScene(scene)`, then `primaryStage.show()`. [[warn:You never call start() yourself]] — `main()` calls `launch(args)`, which constructs the Stage and calls start() for you."
+        ],
+        "stickyNote": {
+          "term": "Application & launch()",
+          "flavor": "🚪 launch() builds the Stage and calls start() for you",
+          "definition": "extend Application, override start(Stage), call launch(args) from main(). You never call start() directly — launch() does that."
+        }
+      },
+      {
+        "id": "javafx-thread",
+        "buttonText": "Why can't I update the UI from any thread I want?",
+        "dialogue": [
+          "JavaFX runs its own dedicated thread — the [[term:JavaFX Application Thread]] — and [[warn:every UI update has to happen on it]]. Do background work off-thread and hand results back with `Platform.runLater()` — touching the window from another thread risks freezing or corrupting mid-render."
+        ],
+        "stickyNote": {
+          "term": "JavaFX Application Thread",
+          "flavor": "🧵 all UI updates must happen on this one thread",
+          "definition": "JavaFX UI updates must happen on its dedicated Application Thread. Background work should hand results back via Platform.runLater()."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "You've spent four units building the inside of a workshop nobody's ever seen. Every object, every class hierarchy, every exception handler, every ArrayList and background worker — all of it has been talking to you through [[term:System.out.println]], a single line of text in a black terminal. That's a workshop with no front window.\n\n[[key:Unit 5 builds the storefront]] — the glass window and the shelves where customers who've never seen your code can actually walk up, click a button, and use what you built. That's what a [[term:GUI]] (Graphical User Interface) is, and [[term:JavaFX]] is the toolkit we're using to build one.\n\nEvery JavaFX app has the same three pieces, and they map directly onto the storefront: the [[term:Stage]] is the building itself — one per running app, created for you before your code even runs. The [[term:Scene]] is whatever's currently arranged in the window — the furniture, the signage, everything a customer sees right now. And a [[term:Scene Graph]] is just the arrangement itself: a tree of nodes, where the root holds children, which can hold their own children — a display case inside a shelf inside the window.\n\nTo open the shop, you extend [[term:Application]] and override start(Stage primaryStage) — Java hands you the empty building and says \"do something with it.\" You build your Scene, call primaryStage.setScene(scene), then primaryStage.show() — and the doors open. [[warn:you never call start() yourself]] — main() calls launch(args), and launch() is what constructs the Stage and calls start() for you. Skip launch() and nothing happens; there's no building to put a window in.\n\nOne more thing worth knowing before you touch a single control: JavaFX runs its own dedicated thread — the [[term:JavaFX Application Thread]] — and [[warn:every UI update has to happen on it]]. If you kick off a long background task (a file download, a big calculation), do the work off-thread and hand the result back with Platform.runLater() — touching the window directly from another thread is a recipe for a UI that freezes or corrupts mid-render.\n\n[[fun:JavaFX replaced an older toolkit called Swing]], which is still around and still works, but hasn't seen active feature development in years — Swing built windows the old, heavyweight way; JavaFX is hardware-accelerated, supports CSS styling, and lets you design the storefront in a separate file (FXML) instead of hand-nailing every shelf in Java code. We'll get there in a few lessons."
+    "openingDialogue": "Unit 5 builds the storefront — Stage, Scene, and the JavaFX Application Thread that all UI updates must run on. 🏢"
   },
   "phase2": {
     "brokenCode": "",

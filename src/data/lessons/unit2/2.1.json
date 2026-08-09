@@ -3,9 +3,50 @@
   "title": "Inheritance Basics",
   "type": "coding",
   "phase1": {
+    "intro": "Time to make the blueprint idea actually branch.\n\nWhat do you want to look at first?",
+    "topics": [
+      {
+        "id": "extends-basics",
+        "buttonText": "How does one class build on another?",
+        "dialogue": [
+          "[[term:Inheritance]] lets one class build on top of another instead of starting from scratch. `class Dog extends Animal` means [[key:Dog automatically gets everything Animal already has]] — its fields, its methods — without you retyping a single line of it."
+        ],
+        "stickyNote": {
+          "term": "Inheritance (extends)",
+          "flavor": "🌳 one class builds on another, no retyping",
+          "definition": "class Dog extends Animal gives Dog all of Animal's fields and methods automatically."
+        }
+      },
+      {
+        "id": "superclass-subclass",
+        "buttonText": "What are superclass, subclass, and IS-A?",
+        "dialogue": [
+          "`Animal` is the [[term:superclass]] (the parent, the more general blueprint), and `Dog`/`Cat` are [[term:subclass]]es (the children, more specific versions).",
+          "The relationship is called [[term:IS-A]]: a Dog IS-A Animal, a Cat IS-A Animal — which is exactly why `dog instanceof Animal` comes back true."
+        ],
+        "stickyNote": {
+          "term": "Superclass, Subclass & IS-A",
+          "flavor": "👪 parent, child, and the relationship between them",
+          "definition": "Superclass = parent/general blueprint. Subclass = child/specific version. IS-A describes the relationship (Dog IS-A Animal)."
+        }
+      },
+      {
+        "id": "super-constructor",
+        "buttonText": "How does super(...) fit into a subclass constructor?",
+        "dialogue": [
+          "Inside a subclass's constructor, `super(name, age)` calls the parent's constructor first, [[warn:and it has to be the very first line]] — you're letting Animal finish setting up its own fields before Dog adds anything of its own.",
+          "[[key:Why bother]] with all this? Code reuse (write eat()/sleep() once), extensibility (add bark() on Dog without touching Animal), and a clean hierarchy. One real limit: [[warn:Java only allows single inheritance]] — a class extends exactly one parent, never two."
+        ],
+        "stickyNote": {
+          "term": "super(...) & Single Inheritance",
+          "flavor": "☝️ must be first, and only one parent allowed",
+          "definition": "super(...) calls the parent constructor and must be the first line. Java allows a class to extend only one parent class."
+        }
+      }
+    ],
     "code": "// Parent class (superclass)\nclass Animal {\n    String name;\n    int age;\n    \n    Animal(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    void eat() {\n        System.out.println(name + \" is eating.\");\n    }\n    \n    void sleep() {\n        System.out.println(name + \" is sleeping.\");\n    }\n}\n\n// Child class (subclass) - inherits from Animal\nclass Dog extends Animal {\n    String breed;\n    \n    Dog(String name, int age, String breed) {\n        super(name, age);  // Call parent constructor\n        this.breed = breed;\n    }\n    \n    void bark() {\n        System.out.println(name + \" says: Woof! Woof!\");\n    }\n}\n\n// Another subclass\nclass Cat extends Animal {\n    Cat(String name, int age) {\n        super(name, age);\n    }\n    \n    void meow() {\n        System.out.println(name + \" says: Meow~\");\n    }\n}\n\npublic class InheritanceExample {\n    public static void main(String[] args) {\n        Dog dog = new Dog(\"Rex\", 3, \"German Shepherd\");\n        Cat cat = new Cat(\"Whiskers\", 2);\n        \n        // Dog has access to Animal methods\n        dog.eat();\n        dog.sleep();\n        dog.bark();\n        \n        System.out.println(\"---\");\n        \n        // Cat has access to Animal methods\n        cat.eat();\n        cat.sleep();\n        cat.meow();\n        \n        // IS-A relationship\n        System.out.println(\"Dog is an Animal? \" + (dog instanceof Animal));\n        System.out.println(\"Cat is an Animal? \" + (cat instanceof Animal));\n    }\n}",
     "output": "Rex is eating.\nRex is sleeping.\nRex says: Woof! Woof!\n---\nWhiskers is eating.\nWhiskers is sleeping.\nWhiskers says: Meow~\nDog is an Animal? true\nCat is an Animal? true",
-    "explanation": "Time to make the blueprint idea actually branch.\n\n[[term:Inheritance]] lets one class build on top of another instead of starting from scratch. `class Dog extends Animal` means [[key:Dog automatically gets everything Animal already has]] — its fields, its methods — without you retyping a single line of it.\n\nIn this pairing, `Animal` is the [[term:superclass]] (the parent, the more general blueprint), and `Dog`/`Cat` are [[term:subclass]]es (the children, more specific versions). The relationship is what's called [[term:IS-A]]: a Dog IS-A Animal, a Cat IS-A Animal — which is exactly why `dog instanceof Animal` comes back true.\n\nInside a subclass's constructor, `super(name, age)` calls the parent's constructor first, [[warn:and it has to be the very first line]] — you're letting Animal finish setting up its own fields before Dog adds anything of its own on top.\n\n[[key:Why bother]]? Code reuse — write `eat()` and `sleep()` once on Animal, and every subclass gets them for free. Extensibility — add a `bark()` on Dog without touching Animal at all. And a clean hierarchy — Animal branching into Dog and Cat mirrors how you'd actually think about the relationship.\n\nOne real limit worth knowing early: [[warn:Java only allows single inheritance]] — a class can extend exactly one parent, never two. We'll get to how interfaces work around that limitation soon."
+    "openingDialogue": "Inheritance lets a class build on another — extends, IS-A, and super() calling the parent constructor first. 🌳"
   },
   "phase2": {
     "brokenCode": "// Missing 'extends' keyword!\nclass Dog extends Animal {\n    String breed;\n    \n    Dog(String name, int age, String breed) {\n        super(name, age);  // Error! Animal doesn't exist in this context\n        this.breed = breed;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog(\"Rex\", 3, \"German Shepherd\");\n    }\n}",

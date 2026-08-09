@@ -3,9 +3,48 @@
   "title": "Intro to Multithreading",
   "type": "conceptual",
   "phase1": {
+    "intro": "The storage room is organized. Every program up to this point has still been one worker doing one thing at a time.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "process-vs-thread",
+        "buttonText": "What's the difference between a process and a thread?",
+        "dialogue": [
+          "A running Java program is a [[term:process]] — its own chunk of memory, isolated from every other program. A [[term:thread]] is a worker inside that process. [[fun:Every program you've written so far has had exactly one thread — the main thread]]."
+        ],
+        "stickyNote": {
+          "term": "Process vs Thread",
+          "flavor": "🏢 the building vs. the workers inside it",
+          "definition": "A process is an isolated running program with its own memory. A thread is a worker inside that process — every program so far has had just one, the main thread."
+        }
+      },
+      {
+        "id": "what-threads-share",
+        "buttonText": "What do multiple threads actually share?",
+        "dialogue": [
+          "[[warn:The part that makes this genuinely new is what they share]]: every thread gets its own stack, but they all share the same heap — the same objects, the same collections. Two workers reaching into the same storage bin at the same instant is exactly the danger."
+        ],
+        "stickyNote": {
+          "term": "What Threads Share",
+          "flavor": "⚠️ separate stacks, shared heap",
+          "definition": "Each thread has its own stack (local variables) but all threads share the same heap (objects, fields) — the source of concurrency danger."
+        }
+      },
+      {
+        "id": "why-multithread",
+        "buttonText": "Why bother with multithreading at all?",
+        "dialogue": [
+          "[[key:Why bother, then?]] Parallelism — genuinely doing independent work at once on a multi-core CPU — and responsiveness — keeping the main thread free while a slow task runs elsewhere. [[warn:More threads is not automatically faster]] — coordinating between them has a real cost of its own."
+        ],
+        "stickyNote": {
+          "term": "Why Multithreading",
+          "flavor": "⚡ parallelism and responsiveness, not automatic speed",
+          "definition": "Multithreading enables parallelism (true simultaneous work) and responsiveness (main thread stays free) — but more threads isn't automatically faster."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "The storage room is organized. Every program up to this point, though, has still been one worker in that workshop, doing one thing at a time, start to finish. [[key:multithreading is what happens when you put more than one worker in the workshop at once, all reaching for the same shelves]] — and that's a genuinely different kind of programming, not just \"the same code, faster.\"\n\nA running Java program is a [[term:process]] — its own chunk of memory, isolated from every other program on the machine. A [[term:thread]] is a worker inside that process. [[fun:every program you've written so far has had exactly one thread — the main thread]] — main() runs top to bottom on it, one instruction after another, and that's been the entire mental model since Unit 1.\n\nMultithreading means multiple threads running inside the same process, and [[warn:the part that makes this genuinely new is what they share]]: every thread gets its own stack (its own local variables, its own call history), but they all share the same heap — the same objects, the same instance fields, the same collections you spent this whole unit organizing. Two workers reaching into the same storage bin at the same instant is exactly the kind of situation ordinary single-threaded code was never written to survive.\n\n[[key:why bother, then?]] Two real reasons: parallelism — genuinely doing independent work at the same time on a multi-core CPU, like processing four image files simultaneously instead of one after another — and responsiveness — keeping an app's main thread free to react to input while a slow task (a big file download, a database query) runs somewhere else instead of freezing everything. [[warn:more threads is not automatically faster]] — on a single core, threads don't run truly simultaneously at all, they take turns so quickly it looks simultaneous, and coordinating between them (which the rest of this unit covers) has a real cost of its own."
+    "openingDialogue": "Multithreading puts multiple workers in the same process, sharing the same heap — powerful, but genuinely riskier than one worker at a time. ⚡"
   },
   "phase2": {
     "brokenCode": "",

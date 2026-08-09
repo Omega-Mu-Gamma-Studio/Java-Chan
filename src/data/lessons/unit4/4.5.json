@@ -3,9 +3,48 @@
   "title": "HashMap & TreeMap",
   "type": "coding",
   "phase1": {
+    "intro": "A List finds things by position, a Set finds things by asking \"is this in here,\" and a Map finds things by label.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "map-put-get",
+        "buttonText": "How do put() and get() actually work?",
+        "dialogue": [
+          "[[key:put(key, value) files something under a label, and get(key) retrieves it]] — both O(1) average case for HashMap. Put the same key in twice and the second put() overwrites the value, since keys are unique the same way Set elements are."
+        ],
+        "stickyNote": {
+          "term": "put() & get()",
+          "flavor": "📁 file it under a label, retrieve by the label",
+          "definition": "put(key, value) stores/overwrites under a key; get(key) retrieves it. HashMap does both O(1) average — keys stay unique."
+        }
+      },
+      {
+        "id": "hashmap-vs-treemap",
+        "buttonText": "What's the difference between HashMap and TreeMap?",
+        "dialogue": [
+          "[[term:HashMap]] gives no ordering guarantee, same trade-off as HashSet. [[term:TreeMap]] keeps its keys sorted at all times — O(log n) instead of O(1), in exchange for `firstKey()`, `lastKey()`, `floorKey()`, `ceilingKey()`."
+        ],
+        "stickyNote": {
+          "term": "HashMap vs TreeMap",
+          "flavor": "🌳 unordered and fast vs. sorted and structured",
+          "definition": "HashMap: O(1) average, no order guarantee. TreeMap: O(log n), keys always sorted, with firstKey()/lastKey()/floorKey()/ceilingKey()."
+        }
+      },
+      {
+        "id": "missing-key-and-counting",
+        "buttonText": "What happens when I get() a missing key?",
+        "dialogue": [
+          "[[warn:get() on a missing key returns null, not an exception]] — easy to forget. `getOrDefault(key, fallback)` sidesteps it. [[fun:A HashMap is also one of the cleanest ways to count things]] — `map.put(word, map.getOrDefault(word, 0) + 1)` builds a frequency table in one line."
+        ],
+        "stickyNote": {
+          "term": "Missing Keys & Counting",
+          "flavor": "🔢 null on a miss; getOrDefault() avoids it",
+          "definition": "get() returns null for a missing key. getOrDefault(key, fallback) avoids that — and pairs nicely with put() to build frequency counts."
+        }
+      }
+    ],
     "code": "import java.util.*;\n\npublic class MapExample {\n    public static void main(String[] args) {\n        // HashMap — key-value pairs, no order\n        System.out.println(\"=== HashMap ===\");\n        HashMap<String, Integer> scores = new HashMap<>();\n        \n        // Adding key-value pairs\n        scores.put(\"Alice\", 95);\n        scores.put(\"Bob\", 87);\n        scores.put(\"Charlie\", 92);\n        scores.put(\"Alice\", 98);  // Duplicate key — overwrites!\n        \n        System.out.println(\"Scores: \" + scores);\n        System.out.println(\"Size: \" + scores.size());  // 3 (not 4)\n        \n        // TreeMap — sorted keys\n        System.out.println(\"=== TreeMap ===\");\n        TreeMap<String, Integer> sortedScores = new TreeMap<>();\n        sortedScores.put(\"Alice\", 95);\n        sortedScores.put(\"Bob\", 87);\n        sortedScores.put(\"Charlie\", 92);\n        sortedScores.put(\"Diana\", 90);\n        \n        System.out.println(\"TreeMap: \" + sortedScores);  // Sorted by key\n        \n        // Accessing values\n        System.out.println(\"=== Accessing ===\");\n        System.out.println(\"Alice's score: \" + scores.get(\"Alice\"));\n        System.out.println(\"Bob's score: \" + scores.get(\"Bob\"));\n        System.out.println(\"Eve's score: \" + scores.getOrDefault(\"Eve\", 0));\n        \n        // Checking keys/values\n        System.out.println(\"=== Checking ===\");\n        System.out.println(\"Contains key 'Alice'? \" + scores.containsKey(\"Alice\"));\n        System.out.println(\"Contains key 'Eve'? \" + scores.containsKey(\"Eve\"));\n        System.out.println(\"Contains value 95? \" + scores.containsValue(95));\n        System.out.println(\"Contains value 100? \" + scores.containsValue(100));\n        \n        // Iterating over entries\n        System.out.println(\"=== Iterating ===\");\n        System.out.println(\"Entry set:\");\n        for (Map.Entry<String, Integer> entry : scores.entrySet()) {\n            System.out.println(\"  \" + entry.getKey() + \" = \" + entry.getValue());\n        }\n        \n        // Iterating over keys\n        System.out.println(\"Keys: \" + scores.keySet());\n        System.out.println(\"Values: \" + scores.values());\n        \n        // Removing entries\n        System.out.println(\"=== Removing ===\");\n        scores.remove(\"Bob\");\n        System.out.println(\"After removing Bob: \" + scores);\n        \n        // TreeMap specific operations\n        System.out.println(\"=== TreeMap Operations ===\");\n        System.out.println(\"First key: \" + sortedScores.firstKey());\n        System.out.println(\"Last key: \" + sortedScores.lastKey());\n        System.out.println(\"Floor key (<= 'Charlie'): \" + sortedScores.floorKey(\"Charlie\"));\n        System.out.println(\"Ceiling key (>= 'Charlie'): \" + sortedScores.ceilingKey(\"Charlie\"));\n        \n        // HashMap performance vs TreeMap\n        System.out.println(\"=== Performance ===\");\n        System.out.println(\"HashMap: O(1) average for get/put\");\n        System.out.println(\"TreeMap: O(log n) for get/put\");\n        \n        // HashMap with custom objects\n        System.out.println(\"=== Custom Keys ===\");\n        HashMap<Person, String> personMap = new HashMap<>();\n        personMap.put(new Person(\"Alice\", 25), \"Student\");\n        personMap.put(new Person(\"Bob\", 30), \"Teacher\");\n        System.out.println(\"Person map size: \" + personMap.size());\n        \n        // Counting with HashMap\n        System.out.println(\"=== Counting ===\");\n        String text = \"apple banana apple orange banana apple\";\n        HashMap<String, Integer> wordCount = new HashMap<>();\n        \n        for (String word : text.split(\" \")) {\n            wordCount.put(word, wordCount.getOrDefault(word, 0) + 1);\n        }\n        System.out.println(\"Word counts: \" + wordCount);\n    }\n}\n\nclass Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    @Override\n    public boolean equals(Object o) {\n        if (this == o) return true;\n        if (o == null || getClass() != o.getClass()) return false;\n        Person person = (Person) o;\n        return age == person.age && Objects.equals(name, person.name);\n    }\n    \n    @Override\n    public int hashCode() {\n        return Objects.hash(name, age);\n    }\n}",
     "output": "=== HashMap ===\nScores: {Alice=98, Bob=87, Charlie=92}\nSize: 3\n=== TreeMap ===\nTreeMap: {Alice=95, Bob=87, Charlie=92, Diana=90}\n=== Accessing ===\nAlice's score: 98\nBob's score: 87\nEve's score: 0\n=== Checking ===\nContains key 'Alice'? true\nContains key 'Eve'? false\nContains value 95? false\nContains value 100? false\n=== Iterating ===\nEntry set:\n  Alice = 98\n  Bob = 87\n  Charlie = 92\nKeys: [Alice, Bob, Charlie]\nValues: [98, 87, 92]\n=== Removing ===\nAfter removing Bob: {Alice=98, Charlie=92}\n=== TreeMap Operations ===\nFirst key: Alice\nLast key: Diana\nFloor key (<= 'Charlie'): Charlie\nCeiling key (>= 'Charlie'): Charlie\n=== Performance ===\nHashMap: O(1) average for get/put\nTreeMap: O(log n) for get/put\n=== Custom Keys ===\nPerson map size: 2\n=== Counting ===\nWord counts: {banana=2, orange=1, apple=3}",
-    "explanation": "A [[term:List]] finds things by position, a [[term:Set]] finds things by asking \"is this in here,\" and a [[term:Map]] finds things by label — you hand it a key, it hands you back the value filed under it. Think of the filing cabinet in the storage room: you don't rifle through every folder, you go straight to the one marked \"Alice.\"\n\n[[key:put(key, value) files something under a label, and get(key) retrieves it]] — both O(1) average case for HashMap, for the same hashing reason HashSet is fast. Put the same key in twice and the second put() doesn't create a duplicate entry, it just overwrites the value already filed there — keys are unique the same way Set elements are unique, because a Map's keys ARE effectively a Set under the hood.\n\n[[term:HashMap]] gives no ordering guarantee, same trade-off as HashSet. [[term:TreeMap]] keeps its keys sorted at all times — O(log n) instead of O(1), in exchange for firstKey(), lastKey(), and range-style lookups like floorKey() and ceilingKey().\n\n[[warn:get() on a missing key returns null, not an exception]] — which is easy to forget and easy to get bitten by three lines later when you try to use that null. getOrDefault(key, fallback) sidesteps the whole problem by handing back a safe fallback instead of null when the key isn't there. [[fun:a HashMap is also one of the cleanest ways to count things]] — loop over a list of words, and map.put(word, map.getOrDefault(word, 0) + 1) turns into a full frequency table in a couple of lines, no separate counting array required."
+    "openingDialogue": "Map files things by label — put() and get() are O(1) in HashMap, sorted but slower in TreeMap, and null on a miss unless you use getOrDefault(). 📁"
   },
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        HashMap<String, Integer> map = new HashMap<>();\n        map.put(\"A\", 1);\n        map.put(\"B\", 2);\n        \n        // Forgetting to check for null\n        Integer value = map.get(\"C\");\n        int result = value + 10;  // NPE!\n        System.out.println(result);\n    }\n}",

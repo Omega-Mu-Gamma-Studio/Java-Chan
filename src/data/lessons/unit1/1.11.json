@@ -3,9 +3,49 @@
   "title": "2D Arrays & Matrices",
   "type": "coding",
   "phase1": {
+    "intro": "A 2D array is really just an array of arrays — each \"row\" is its own array, and the whole thing is a list of those rows.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "2d-declaration",
+        "buttonText": "How do I declare and access a 2D array?",
+        "dialogue": [
+          "Declaring one nests the braces to match: `int[][] matrix = {{1,2,3}, {4,5,6}, {7,8,9}};`. Accessing a single value takes two indexes, row then column: `matrix[row][col]`.",
+          "`matrix.length` gives you the row count, and [[key:matrix[row].length gives you that specific row's column count]] — worth remembering it's per-row, not a single fixed number for the whole grid."
+        ],
+        "stickyNote": {
+          "term": "2D Array Declaration & Access",
+          "flavor": "🏗️ nested braces, nested indexes",
+          "definition": "int[][] matrix = {{...},{...}}; matrix[row][col] accesses a value. matrix.length is row count; matrix[row].length is that row's column count."
+        }
+      },
+      {
+        "id": "nested-loops",
+        "buttonText": "How do I walk through every element?",
+        "dialogue": [
+          "Walking through a 2D array always means [[term:nested loops]]: the outer loop moves row by row, the inner loop moves column by column within whichever row the outer loop is currently on."
+        ],
+        "stickyNote": {
+          "term": "Nested Loops",
+          "flavor": "🧭 outer moves rows, inner moves columns",
+          "definition": "A loop inside a loop — the outer loop steps through rows, the inner loop steps through that row's columns."
+        }
+      },
+      {
+        "id": "jagged-arrays",
+        "buttonText": "Do rows always have to be the same length?",
+        "dialogue": [
+          "Here's something that trips people up the first time they see it: rows don't actually have to be the same length. A [[term:jagged array]] is exactly that — each row can hold a different number of columns, since under the hood, each row really is its own independent array."
+        ],
+        "stickyNote": {
+          "term": "Jagged Array",
+          "flavor": "🪚 rows that don't have to match in length",
+          "definition": "A 2D array where each row is an independently-sized array — rows can have different numbers of columns."
+        }
+      }
+    ],
     "code": "public class TwoDArrayExample {\n    public static void main(String[] args) {\n        // 2D array declaration\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        System.out.println(\"Row count: \" + matrix.length);\n        System.out.println(\"Column count: \" + matrix[0].length);\n        \n        // Accessing elements\n        System.out.println(\"Element at [1][2]: \" + matrix[1][2]);\n        \n        // Printing the matrix\n        System.out.println(\"=== Matrix ===\");\n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < matrix[row].length; col++) {\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();  // New line after each row\n        }\n        \n        // Creating a 2D array with different row sizes (jagged array)\n        int[][] jagged = new int[3][];\n        jagged[0] = new int[]{1, 2};\n        jagged[1] = new int[]{3, 4, 5};\n        jagged[2] = new int[]{6, 7, 8, 9};\n        \n        System.out.println(\"=== Jagged Array ===\");\n        for (int i = 0; i < jagged.length; i++) {\n            for (int j = 0; j < jagged[i].length; j++) {\n                System.out.print(jagged[i][j] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",
     "output": "Row count: 3\nColumn count: 3\nElement at [1][2]: 6\n=== Matrix ===\n1 2 3 \n4 5 6 \n7 8 9 \n=== Jagged Array ===\n1 2 \n3 4 5 \n6 7 8 9",
-    "explanation": "A 2D array is really just an array of arrays — each \"row\" is its own array, and the whole thing is a list of those rows.\n\nDeclaring one nests the braces to match: `int[][] matrix = {{1,2,3}, {4,5,6}, {7,8,9}};`. Accessing a single value takes two indexes, row then column: `matrix[row][col]`.\n\n`matrix.length` gives you the row count, and [[key:matrix[row].length gives you that specific row's column count]] — worth remembering it's per-row, not a single fixed number for the whole grid.\n\nWalking through a 2D array always means [[term:nested loops]]: the outer loop moves row by row, the inner loop moves column by column within whichever row the outer loop is currently on.\n\nAnd here's something that trips people up the first time they see it: rows don't actually have to be the same length. A [[term:jagged array]] is exactly that — each row can hold a different number of columns, since under the hood, each row really is its own independent array."
+    "openingDialogue": "A 2D array is just an array of arrays — rows, columns, and nested loops to walk through the grid. 🔢"
   },
   "phase2": {
     "brokenCode": "public class TwoDArrayExample {\n    public static void main(String[] args) {\n        int[][] matrix = {\n            {1, 2, 3},\n            {4, 5, 6},\n            {7, 8, 9}\n        };\n        \n        // Wrong column length in loop\n        for (int row = 0; row < matrix.length; row++) {\n            for (int col = 0; col < 4; col++) {  // Should be matrix[row].length\n                System.out.print(matrix[row][col] + \" \");\n            }\n            System.out.println();\n        }\n    }\n}",

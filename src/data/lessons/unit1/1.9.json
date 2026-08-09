@@ -3,9 +3,50 @@
   "title": "Loops — for & while",
   "type": "coding",
   "phase1": {
+    "intro": "Three ways to repeat code, and each answers a slightly different question.\n\nWhich loop do you want to meet first?",
+    "topics": [
+      {
+        "id": "for-loop",
+        "buttonText": "When should I reach for a for loop?",
+        "dialogue": [
+          "`for` is your go-to when you already know how many times you're repeating — the whole `for (initialization; condition; increment)` header is really just \"start here, keep going while this is true, do this after every lap.\""
+        ],
+        "stickyNote": {
+          "term": "for Loop",
+          "flavor": "🔁 use it when you know the lap count",
+          "definition": "for (init; condition; increment) — runs init once, repeats while condition is true, runs increment after each iteration."
+        }
+      },
+      {
+        "id": "while-do-while",
+        "buttonText": "What's the difference between while and do-while?",
+        "dialogue": [
+          "`while` is for when you don't know the count up front, just the condition that should keep things going — like adding numbers until some running total passes a threshold.",
+          "`do-while` is the one guaranteed to run at least once, [[key:because it checks its condition AFTER the loop body, not before]] — useful any time you need something to happen at least one time no matter what, like showing a menu before asking whether to repeat it."
+        ],
+        "stickyNote": {
+          "term": "while & do-while",
+          "flavor": "⏳ do-while runs first, checks second",
+          "definition": "while checks its condition before each pass. do-while checks after — guaranteeing the loop body runs at least once."
+        }
+      },
+      {
+        "id": "break-continue",
+        "buttonText": "What do break and continue actually do?",
+        "dialogue": [
+          "Inside any loop, `break` exits the whole loop immediately, and `continue` just skips the rest of THIS lap and jumps to the next one.",
+          "[[warn:while (true) with no break anywhere inside is an infinite loop]] — sometimes intentional, usually not."
+        ],
+        "stickyNote": {
+          "term": "break & continue",
+          "flavor": "⛔ break leaves, continue just skips ahead",
+          "definition": "break exits the loop entirely. continue skips the rest of the current iteration and moves to the next one."
+        }
+      }
+    ],
     "code": "public class LoopsExample {\n    public static void main(String[] args) {\n        // For loop — count from 1 to 5\n        System.out.println(\"=== For Loop ===\");\n        for (int i = 1; i <= 5; i++) {\n            System.out.println(\"Count: \" + i);\n        }\n        \n        // While loop — add numbers until sum > 20\n        System.out.println(\"=== While Loop ===\");\n        int sum = 0;\n        int counter = 1;\n        while (sum <= 20) {\n            sum += counter;\n            System.out.println(\"Adding \" + counter + \", sum = \" + sum);\n            counter++;\n        }\n        \n        // Do-while — runs at least once\n        System.out.println(\"=== Do-While Loop ===\");\n        int num = 0;\n        do {\n            System.out.println(\"This runs at least once! num = \" + num);\n            num++;\n        } while (num < 3);\n        \n        // Break and continue\n        System.out.println(\"=== Break & Continue ===\");\n        for (int i = 1; i <= 10; i++) {\n            if (i == 6) {\n                System.out.println(\"Breaking at \" + i);\n                break;  // Exits loop\n            }\n            if (i % 2 == 0) {\n                continue;  // Skips even numbers\n            }\n            System.out.println(\"Odd number: \" + i);\n        }\n    }\n}",
     "output": "=== For Loop ===\nCount: 1\nCount: 2\nCount: 3\nCount: 4\nCount: 5\n=== While Loop ===\nAdding 1, sum = 1\nAdding 2, sum = 3\nAdding 3, sum = 6\nAdding 4, sum = 10\nAdding 5, sum = 15\nAdding 6, sum = 21\n=== Do-While Loop ===\nThis runs at least once! num = 0\nThis runs at least once! num = 1\nThis runs at least once! num = 2\n=== Break & Continue ===\nOdd number: 1\nOdd number: 3\nOdd number: 5\nBreaking at 6",
-    "explanation": "Three ways to repeat code, and each answers a slightly different question.\n\n`for` is your go-to when you already know how many times you're repeating — the whole `for (initialization; condition; increment)` header is really just \"start here, keep going while this is true, do this after every lap.\"\n\n`while` is for when you don't know the count up front, just the condition that should keep things going — like adding numbers until some running total passes a threshold.\n\n`do-while` is the one guaranteed to run at least once, [[key:because it checks its condition AFTER the loop body, not before]] — useful any time you need something to happen at least one time no matter what, like showing a menu before asking whether to repeat it.\n\nInside any loop, `break` exits the whole loop immediately, and `continue` just skips the rest of THIS lap and jumps to the next one. [[warn:while (true) with no break anywhere inside is an infinite loop]] — sometimes intentional, usually not."
+    "openingDialogue": "for, while, and do-while all repeat code — the question is just whether you know the count, the condition, or need it to run at least once. 🔂"
   },
   "phase2": {
     "brokenCode": "public class LoopsExample {\n    public static void main(String[] args) {\n        int sum = 0;\n        int counter = 1;\n        while (counter <= 5) {\n            sum += counter;\n            System.out.println(\"Sum: \" + sum);\n            // Missing counter increment!\n        }\n        System.out.println(\"Final sum: \" + sum);\n    }\n}",

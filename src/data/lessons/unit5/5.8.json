@@ -3,9 +3,48 @@
   "title": "FXML & Scene Builder Intro",
   "type": "conceptual",
   "phase1": {
+    "intro": "Every window you've built so far has been hand-nailed together in Java. FXML is the alternative.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "fxml-basics",
+        "buttonText": "What actually is FXML?",
+        "dialogue": [
+          "FXML is exactly what the name says: [[term:F]]X [[term:M]]ark[[term:L]]anguage — an XML dialect where each tag is a JavaFX class (`<VBox>`, `<Button>`, `<Label>`) and each attribute is a property. A [[term:FXMLLoader]] reads that file at runtime and builds the exact same scene graph you'd build by hand."
+        ],
+        "stickyNote": {
+          "term": "FXML",
+          "flavor": "📄 the layout as a file, not Java code",
+          "definition": "FXML is an XML dialect where tags map to JavaFX classes and attributes map to properties. FXMLLoader reads it and builds the same scene graph."
+        }
+      },
+      {
+        "id": "fxml-separation",
+        "buttonText": "What's the actual benefit of splitting layout from logic?",
+        "dialogue": [
+          "Your layout lives in one file, your logic lives in a separate [[term:controller]] class, connected by [[term:@FXML]]. [[key:That split means a designer can rearrange the window without touching a line of Java, and a developer can rewrite behavior without touching the layout]] — the same separation encapsulation gave you in Unit 1, applied to UI."
+        ],
+        "stickyNote": {
+          "term": "FXML/Controller Separation",
+          "flavor": "🔀 layout and logic in separate files",
+          "definition": "FXML holds layout; a controller class holds logic, connected via @FXML. This lets layout and behavior change independently."
+        }
+      },
+      {
+        "id": "scene-builder",
+        "buttonText": "What is Scene Builder for?",
+        "dialogue": [
+          "[[term:Scene Builder]] is Oracle's drag-and-drop tool for editing FXML visually instead of hand-typing tags — [[fun:it generates the exact same FXML file a human would write by hand]], it's purely a convenience layer, not a separate technology."
+        ],
+        "stickyNote": {
+          "term": "Scene Builder",
+          "flavor": "🖱️ drag-and-drop, but produces plain FXML",
+          "definition": "Scene Builder is a drag-and-drop visual editor that generates the same FXML a human would hand-write — a convenience layer, not a new technology."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Every window you've built so far has been hand-nailed together in Java: new Label(), new VBox(), getChildren().add(). [[term:FXML]] is the alternative — the interior designer's blueprint, written as its own separate file, instead of construction instructions buried inside your program logic.\n\nFXML is exactly what the name says: [[term:F]]X [[term:M]]ark[[term:L]]anguage — an XML dialect where each tag is a JavaFX class (<VBox>, <Button>, <Label>) and each attribute is a property (text=\"Click Me\"). A [[term:FXMLLoader]] reads that file at runtime and builds the exact same scene graph you'd otherwise build by hand in Java — same Stage, same Scene, same nodes, just described declaratively instead of imperatively constructed.\n\nThe payoff is separation: your layout lives in one file, your logic lives in a separate [[term:controller]] class, connected by the [[term:@FXML]] annotation (which we'll wire up properly next lesson). [[key:that split means a designer can rearrange the window without touching a line of Java, and a developer can rewrite the button's behavior without touching the layout]] — the same kind of clean separation encapsulation gave you back in Unit 1, just applied to UI instead of data.\n\n[[term:Scene Builder]] is Oracle's drag-and-drop tool for editing FXML visually instead of hand-typing tags — [[fun:it generates the exact same FXML file a human would write by hand]], it's purely a convenience layer, not a separate technology."
+    "openingDialogue": "FXML describes layout as a separate file instead of Java code — separating layout from logic, editable by hand or via Scene Builder. 📄"
   },
   "phase2": {
     "brokenCode": "",

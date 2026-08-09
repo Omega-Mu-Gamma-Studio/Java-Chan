@@ -3,10 +3,50 @@
   "title": "throw & throws",
   "type": "coding",
   "phase1": {
+    "intro": "throw and throws look almost identical but do completely different jobs.\n\nWhich one first?",
+    "topics": [
+      {
+        "id": "throw",
+        "buttonText": "What does throw actually do?",
+        "dialogue": [
+          "[[term:throw]] is a statement — it goes INSIDE a method body, and it actively creates and raises an exception right then and there: `throw new IllegalArgumentException(\"Amount cannot be negative!\");`.",
+          "The moment that line runs, execution stops dead and jumps to the nearest matching catch (or up the call stack if there isn't one)."
+        ],
+        "stickyNote": {
+          "term": "throw",
+          "flavor": "⚡ creates and raises an exception, right now",
+          "definition": "throw new SomeException(...); is a statement inside a method that immediately raises an exception, stopping execution at that point."
+        }
+      },
+      {
+        "id": "throws",
+        "buttonText": "What does throws mean on a method signature?",
+        "dialogue": [
+          "[[term:throws]], with an \"s\", is part of a method's SIGNATURE: `public void withdraw(double amount) throws Exception`. It doesn't throw anything itself — it's a warning label saying \"calling me might result in this exception.\"",
+          "[[key:throw creates and raises one specific exception, right now; throws declares a possibility, for whoever calls this method to plan around]]."
+        ],
+        "stickyNote": {
+          "term": "throws",
+          "flavor": "🏷️ a warning label on the method signature",
+          "definition": "throws Exception in a method signature declares a possibility a caller must handle or re-declare — it doesn't raise anything itself."
+        }
+      },
+      {
+        "id": "throw-requires-throwable",
+        "buttonText": "Can I throw anything, like a String?",
+        "dialogue": [
+          "[[warn:throw only ever accepts a genuine Throwable object]] — never a String, an int, or anything else. `throw \"error!\";` simply isn't legal Java; you always need `throw new SomeException(\"error!\");`."
+        ],
+        "stickyNote": {
+          "term": "throw Requires a Throwable",
+          "flavor": "🚫 no Strings, no ints — a real exception object",
+          "definition": "throw only accepts an actual Throwable object, constructed with new — you can never throw a bare String or primitive."
+        }
+      }
+    ],
     "code": "import java.util.Scanner;\n\nclass BankAccount {\n    private double balance;\n    \n    BankAccount(double balance) {\n        this.balance = balance;\n    }\n    \n    // throws — declares that this method might throw an exception\n    public void withdraw(double amount) throws Exception {\n        if (amount < 0) {\n            // throw — actively creates and throws an exception\n            throw new IllegalArgumentException(\"Amount cannot be negative!\");\n        }\n        \n        if (amount > balance) {\n            throw new Exception(\"Insufficient balance! Balance: $\" + balance);\n        }\n        \n        balance -= amount;\n        System.out.println(\"Withdrew $\" + amount + \". New balance: $\" + balance);\n    }\n    \n    public double getBalance() {\n        return balance;\n    }\n}\n\npublic class ThrowThrowsExample {\n    \n    // Propagating exception\n    public static void riskyMethod() throws Exception {\n        throw new Exception(\"Risky operation failed!\");\n    }\n    \n    public static void main(String[] args) {\n        BankAccount account = new BankAccount(1000);\n        Scanner scanner = new Scanner(System.in);\n        \n        System.out.print(\"Enter withdrawal amount: $\");\n        double amount = scanner.nextDouble();\n        \n        try {\n            account.withdraw(amount);\n        } catch (IllegalArgumentException e) {\n            System.out.println(\"Illegal argument: \" + e.getMessage());\n        } catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        \n        // Propagating exception with throws\n        System.out.println(\"--- Propagating exception ---\");\n        try {\n            riskyMethod();\n        } catch (Exception e) {\n            System.out.println(\"Caught propagated exception: \" + e.getMessage());\n        }\n        \n        scanner.close();\n    }\n}",
     "output": "Enter withdrawal amount: $500\nWithdrew $500.0. New balance: $500.0\n--- Propagating exception ---\nCaught propagated exception: Risky operation failed!\n\n--- OR ---\n\nEnter withdrawal amount: $1500\nError: Insufficient balance! Balance: $1000.0\n--- Propagating exception ---\nCaught propagated exception: Risky operation failed!\n\n--- OR ---\n\nEnter withdrawal amount: $-50\nIllegal argument: Amount cannot be negative!\n--- Propagating exception ---\nCaught propagated exception: Risky operation failed!",
-    "explanation": "throw and throws look almost identical but do completely different jobs, and mixing them up is one of the most common early confusions in this unit.\n\n[[term:throw]] is a statement — it goes INSIDE a method body, and it actively creates and raises an exception right then and there: throw new IllegalArgumentException(\"Amount cannot be negative!\");. The moment that line runs, execution stops dead and jumps to the nearest matching catch (or up the call stack if there isn't one nearby).\n\n[[term:throws]], with an \"s\", is completely different — it's part of a method's SIGNATURE, not its body: public void withdraw(double amount) throws Exception. It doesn't throw anything itself; it's a declaration, a warning label on the method that says \"heads up, calling me might result in this exception, so you need to either catch it or declare it yourself.\"\n\n[[key:throw creates and raises one specific exception, right now; throws declares a possibility, for whoever calls this method to plan around]]. A method can throw multiple different kinds of exceptions internally while only declaring throws on the checked ones — unchecked exceptions don't legally require a throws declaration at all, even though you're allowed to add one for documentation.\n\n[[warn:throw only ever accepts a genuine Throwable object]] — never a String, an int, or anything else. throw \"error!\"; simply isn't legal Java; you always need throw new SomeException(\"error!\");, actually constructing an exception object first.",
-    "openingDialogue": "throw and throws — you're in control of what goes wrong~ 🎮"
+    "openingDialogue": "throw actively raises an exception right now; throws just declares that a method might. Easy to confuse, very different jobs. ⚡"
   },
   "phase2": {
     "brokenCode": "class Validator {\n    public void validateAge(int age) {\n        if (age < 0) {\n            // throw without creating exception — ERROR!\n            throw \"Age cannot be negative!\";  // Wrong!\n        }\n        if (age > 150) {\n            throw new IllegalArgumentException();  // No message\n        }\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Validator v = new Validator();\n        v.validateAge(-5);\n    }\n}",

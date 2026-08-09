@@ -3,9 +3,48 @@
   "title": "Unit 5 Review & Course Wrap-Up",
   "type": "conceptual",
   "phase1": {
+    "intro": "The storefront is open. Five units ago this started as a single blueprint — one class, one object. Here's the full arc, front to back.\n\nWhere do you want to start the recap?",
+    "topics": [
+      {
+        "id": "units-1-to-4-recap",
+        "buttonText": "How did Units 1 through 4 build up to this?",
+        "dialogue": [
+          "[[term:Unit 1]] built the blueprint itself — syntax, variables, control flow, class vs object. [[term:Unit 2]] extended that into families of blueprints — inheritance, polymorphism, interfaces. [[term:Unit 3]] was about trust — catching, reporting, recovering from things going wrong. [[term:Unit 4]] stocked the shelves and hired help — Collections and Threads."
+        ],
+        "stickyNote": {
+          "term": "Units 1-4 Recap",
+          "flavor": "🏗️ blueprint, families, trust, and scale",
+          "definition": "Unit 1: syntax and blueprints. Unit 2: inheritance/polymorphism families. Unit 3: exceptions and I/O trust. Unit 4: Collections and Threads at scale."
+        }
+      },
+      {
+        "id": "unit-5-pieces",
+        "buttonText": "How did all of Unit 5's pieces fit together?",
+        "dialogue": [
+          "Stage and Scene gave the storefront a building and window display. Layouts arranged the shelves, Controls stocked them, Event handling made touching them mean something. CSS painted the shop, FXML let you redesign without touching code, Binding put self-updating price tags, ListView/TableView built the catalog board, Alerts gave it a voice, Animation made things move — and the mini-app put it all under one roof."
+        ],
+        "stickyNote": {
+          "term": "Unit 5 Pieces",
+          "flavor": "🏬 building, shelves, controls, and everything that brings them to life",
+          "definition": "Stage/Scene (building), Layouts (shelves), Controls (stock), Events, CSS, FXML, Binding, ListView/TableView, Alerts, Animation — all combined in the mini-app."
+        }
+      },
+      {
+        "id": "what-transfers",
+        "buttonText": "What actually transfers to other frameworks from here?",
+        "dialogue": [
+          "[[fun:From here, the same core ideas keep showing up in bigger shapes]] — Spring Framework does dependency injection and web handling on the same OOP fundamentals; Android's View system will look structurally familiar. [[key:None of what you learned here was toolkit-specific — it was how software gets organized, and that transfers]]."
+        ],
+        "stickyNote": {
+          "term": "What Transfers",
+          "flavor": "🌉 the organizing ideas outlast the specific toolkit",
+          "definition": "The OOP and organizing patterns from this course transfer beyond JavaFX — to Spring, Android, and enterprise Java, which reuse the same fundamentals."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "[[key:the storefront is open]]. Five units ago this started as a single blueprint — one class, one object — sitting in a workshop nobody outside could see. Here's the full arc, one more time, front to back.\n\n[[term:Unit 1]] built the blueprint itself: syntax, variables, control flow, and the core idea that a class is a plan and an object is what you build from it. [[term:Unit 2]] extended that into families of blueprints — inheritance, polymorphism, interfaces — objects that share structure but specialize their own behavior. [[term:Unit 3]] was about trust: what happens when something in the workshop goes wrong, and how to catch, report, and recover from it instead of letting the whole operation crash. [[term:Unit 4]] stocked the shelves and hired help — Collections for organizing everything you'd built, Threads for getting more than one thing done at once.\n\n[[term:Unit 5]] is the part where a customer, who has never once seen a line of your code, gets to walk up and use all of it. Stage and Scene gave the storefront a building and a window display. Layouts (VBox, HBox, GridPane, BorderPane) arranged the shelves. Controls stocked them with things a person could actually touch. Event handling made touching them mean something. CSS painted the shop. FXML let you redesign the window without touching the register's code underneath it. Binding put price tags that update themselves. ListView and TableView built the catalog board. Alerts gave the shop a voice for \"are you sure?\" Animation made the window display move. And the mini-app put every single piece of that under one roof, running.\n\n[[fun:from here, the same core ideas keep showing up in bigger shapes]] — Spring Framework does dependency injection and web request handling on top of the same OOP fundamentals from Units 1–2; Android development uses its own View system that will look structurally familiar the moment you've built a JavaFX layout; enterprise Java leans hard on the same collections and generics you spent Unit 4 on. [[key:none of what you learned here was toolkit-specific — it was how software gets organized, and that transfers]]."
+    "openingDialogue": "The storefront is open — five units of blueprints, families, trust, scale, and now a real interface, all built on ideas that transfer beyond JavaFX. 🏬"
   },
   "phase2": {
     "brokenCode": "",

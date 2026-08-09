@@ -3,9 +3,50 @@
   "title": "Intro to OOP — Classes & Objects",
   "type": "coding",
   "phase1": {
+    "intro": "This is the moment everything from lesson one becomes real code instead of just an idea.\n\nWhere do you want to start — the blueprint, or the objects built from it?",
+    "topics": [
+      {
+        "id": "class-blueprint",
+        "buttonText": "What exactly is a class?",
+        "dialogue": [
+          "A [[term:class]] is the blueprint — here, `Student`. It declares what every Student will have: [[term:fields]] like `name`, `age`, and `gpa` to hold data, and [[term:methods]] like `displayInfo()` to define behavior."
+        ],
+        "stickyNote": {
+          "term": "Class",
+          "flavor": "📐 the blueprint, not the thing itself",
+          "definition": "A class defines the fields (data) and methods (behavior) every object built from it will have. Student is the blueprint here."
+        }
+      },
+      {
+        "id": "objects",
+        "buttonText": "What's the difference between a class and an object?",
+        "dialogue": [
+          "An [[term:object]] is an actual instance built from that blueprint — `alice` and `bob` are both Students, but with their own separate values sitting in their own fields.",
+          "Once alice and bob exist, you reach their fields and methods with dot notation: `alice.name`, `alice.displayInfo()`. Two objects, same blueprint, completely independent data."
+        ],
+        "stickyNote": {
+          "term": "Object",
+          "flavor": "🏠 the actual house built from the blueprint",
+          "definition": "An object is an instance of a class, built via new. Each object has its own independent copy of the class's fields."
+        }
+      },
+      {
+        "id": "constructor-this",
+        "buttonText": "What's the deal with the constructor and this?",
+        "dialogue": [
+          "The [[term:constructor]] is the special method that actually builds a new object: it shares the class's exact name, has no return type at all (not even void), and runs automatically the moment you write `new Student(...)`.",
+          "Inside it, you'll almost always see [[term:this]] show up: `this.name = name;` — [[key:this refers to the object currently being built, and it's how Java tells apart the field from the parameter when they share a name]]."
+        ],
+        "stickyNote": {
+          "term": "Constructor & this",
+          "flavor": "🔨 the method that builds it, and this points at it",
+          "definition": "A constructor shares the class name, has no return type, and runs on new ClassName(...). this refers to the current object, disambiguating field vs. parameter."
+        }
+      }
+    ],
     "code": "// Student.java — the class (blueprint)\nclass Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor\n    Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n    \n    // Method\n    void displayInfo() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n        System.out.println(\"GPA: \" + gpa);\n        System.out.println(\"---\");\n    }\n}\n\n// Main class\npublic class Main {\n    public static void main(String[] args) {\n        // Creating objects (instances)\n        Student alice = new Student(\"Alice\", 20, 3.8);\n        Student bob = new Student(\"Bob\", 22, 3.2);\n        \n        // Accessing fields\n        System.out.println(\"Alice's name: \" + alice.name);\n        \n        // Calling methods\n        alice.displayInfo();\n        bob.displayInfo();\n        \n        // this keyword\n        // Inside the constructor, this refers to the current object\n        // this.name = name; assigns the parameter to the field\n    }\n}",
     "output": "Alice's name: Alice\nName: Alice\nAge: 20\nGPA: 3.8\n---\nName: Bob\nAge: 22\nGPA: 3.2\n---",
-    "explanation": "This is the moment everything from lesson one becomes real code instead of just an idea.\n\nA [[term:class]] is the blueprint — here, `Student`. It declares what every Student will have: [[term:fields]] like `name`, `age`, and `gpa` to hold data, and [[term:methods]] like `displayInfo()` to define behavior.\n\nAn [[term:object]] is an actual instance built from that blueprint — `alice` and `bob` are both Students, but with their own separate values sitting in their own fields.\n\nThe [[term:constructor]] is the special method that actually builds a new object: it shares the class's exact name, has no return type at all (not even void), and runs automatically the moment you write `new Student(...)`.\n\nInside that constructor, you'll almost always see [[term:this]] show up: `this.name = name;` — [[key:this refers to the object currently being built, and it's how Java tells apart the field from the parameter when they share a name]]. Without `this`, Java would have no way to know you meant \"assign the parameter to my field\" rather than just assigning the parameter to itself.\n\nOnce alice and bob exist, you reach their fields and methods with dot notation: `alice.name`, `alice.displayInfo()`. Two objects, same blueprint, completely independent data."
+    "openingDialogue": "Classes are blueprints, objects are instances built from them — and this is where OOP stops being an idea and starts being code. 🏗️"
   },
   "phase2": {
     "brokenCode": "class Student {\n    String name;\n    int age;\n    double gpa;\n    \n    // Constructor missing return type\n    void Student(String name, int age, double gpa) {\n        this.name = name;\n        this.age = age;\n        this.gpa = gpa;\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student alice = new Student(\"Alice\", 20, 3.8);\n    }\n}",

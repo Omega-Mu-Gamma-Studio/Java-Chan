@@ -3,9 +3,51 @@
   "title": "The super Keyword",
   "type": "coding",
   "phase1": {
+    "intro": "You've been calling super(...) since 2.1 — let's actually unpack everything that keyword can do.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "super-constructor-rules",
+        "buttonText": "What exactly does super(...) require?",
+        "dialogue": [
+          "`super(...)` [[key:calls the parent's constructor, and it must be the very first statement in the child's constructor]] — no exceptions. If you don't write it yourself, Java quietly inserts a no-argument `super()` for you.",
+          "That's fine if the parent HAS a no-arg constructor — but [[warn:if it doesn't, you must call super() explicitly with matching arguments]], or the compiler has nothing to fall back on."
+        ],
+        "stickyNote": {
+          "term": "super(...) Rules",
+          "flavor": "1️⃣ must be first, or Java inserts one for you",
+          "definition": "super(...) must be the first statement in a constructor. If omitted, Java inserts a no-arg super() — which fails if the parent has no no-arg constructor."
+        }
+      },
+      {
+        "id": "super-method-field",
+        "buttonText": "What about super.methodName() and super.fieldName?",
+        "dialogue": [
+          "`super.methodName()` lets a subclass call the parent's version of a method it just overrode. Student's `introduce()` calls `super.introduce()` first, then adds its own lines — [[key:that's extending behavior instead of just replacing it]].",
+          "Less common but worth knowing: `super.fieldName` reaches a parent's field directly, useful when a child declares a field with the exact same name."
+        ],
+        "stickyNote": {
+          "term": "super.method() & super.field",
+          "flavor": "➕ extending a parent's behavior instead of replacing it",
+          "definition": "super.methodName() calls the parent's version of an overridden method. super.fieldName accesses a parent field directly when names collide."
+        }
+      },
+      {
+        "id": "constructor-chaining",
+        "buttonText": "What is constructor chaining?",
+        "dialogue": [
+          "[[term:Constructor chaining]] means every constructor call in Java quietly climbs the whole inheritance tree — Student's constructor calls Person's, and Person's would call Object's if you kept following the chain up.",
+          "[[key:Every class in Java ultimately extends Object]], whether you write extends or not."
+        ],
+        "stickyNote": {
+          "term": "Constructor Chaining",
+          "flavor": "⛓️ every constructor climbs to Object eventually",
+          "definition": "Each constructor call climbs the inheritance chain up to its parent's constructor, ultimately reaching Object, which every class extends implicitly."
+        }
+      }
+    ],
     "code": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n        System.out.println(\"Person constructor called\");\n    }\n    \n    void introduce() {\n        System.out.println(\"Hi, I'm \" + name + \". I'm \" + age + \" years old.\");\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    String major;\n    \n    Student(String name, int age, String studentId, String major) {\n        super(name, age);  // Calls parent constructor FIRST\n        this.studentId = studentId;\n        this.major = major;\n        System.out.println(\"Student constructor called\");\n    }\n    \n    @Override\n    void introduce() {\n        super.introduce();  // Call parent's version\n        System.out.println(\"My student ID is \" + studentId);\n        System.out.println(\"I'm majoring in \" + major);\n    }\n}\n\npublic class SuperExample {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\", \"Computer Science\");\n        System.out.println(\"---\");\n        student.introduce();\n    }\n}",
     "output": "Person constructor called\nStudent constructor called\n---\nHi, I'm Alice. I'm 20 years old.\nMy student ID is S12345\nI'm majoring in Computer Science",
-    "explanation": "You've been calling `super(...)` since 2.1 — let's actually unpack everything that keyword can do.\n\nFirst, `super(...)` [[key:calls the parent's constructor, and it must be the very first statement in the child's constructor]] — no exceptions. If you don't write it yourself, Java quietly inserts a no-argument `super()` call for you. That's fine if the parent HAS a no-arg constructor — but [[warn:if it doesn't, you must call super() explicitly with matching arguments]], or the compiler has nothing to fall back on.\n\nSecond, `super.methodName()` lets a subclass call the parent's version of a method it just overrode. Look at Student's `introduce()`: it calls `super.introduce()` first, then adds its own lines on top — [[key:that's extending behavior instead of just replacing it]].\n\nThird — less common, but worth knowing — `super.fieldName` reaches a parent's field directly, useful specifically when a child happens to declare a field with the exact same name.\n\nAnd here's the bigger picture: [[term:constructor chaining]] means every constructor call in Java quietly climbs the whole inheritance tree — Student's constructor calls Person's, and Person's would call Object's if you kept following the chain up, since [[key:every class in Java ultimately extends Object, whether you write extends or not]]."
+    "openingDialogue": "super does three things — calls the parent constructor, calls a parent method, or reaches a parent field — and every chain ends at Object. ⛓️"
   },
   "phase2": {
     "brokenCode": "class Person {\n    String name;\n    int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\nclass Student extends Person {\n    String studentId;\n    \n    Student(String name, int age, String studentId) {\n        // Missing super(name, age);\n        this.studentId = studentId;\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Student student = new Student(\"Alice\", 20, \"S12345\");\n    }\n}",

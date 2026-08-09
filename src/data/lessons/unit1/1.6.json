@@ -3,9 +3,51 @@
   "title": "Operators",
   "type": "coding",
   "phase1": {
+    "intro": "Operators are how you actually DO something with the values sitting in your variables.\n\nWhich family of operators do you want to open first?",
+    "topics": [
+      {
+        "id": "arithmetic",
+        "buttonText": "What do +, -, *, /, and % actually do?",
+        "dialogue": [
+          "[[term:Arithmetic]] operators — `+ - * / %` — do what you'd expect, with one gotcha: [[warn:dividing two ints always gives you an int back, even if the real answer has a decimal]]. `10 / 3` is `3`, not `3.333`.",
+          "That's because Java assumes if both sides are whole numbers, you want a whole number answer. `%`, the [[term:modulo]] operator, gives you the remainder instead — `10 % 3` is `1`."
+        ],
+        "stickyNote": {
+          "term": "Arithmetic Operators (+ - * / %)",
+          "flavor": "➗ int division drops the decimal, no rounding",
+          "definition": "+ - * / do standard math; int / int truncates to an int (10/3 = 3). % (modulo) returns the remainder (10%3 = 1)."
+        }
+      },
+      {
+        "id": "relational-logical",
+        "buttonText": "How do I compare values and combine true/false?",
+        "dialogue": [
+          "[[term:Relational]] operators — `> < >= <= == !=` — compare two values and always hand back a `boolean`.",
+          "[[term:Logical]] operators combine those booleans: `&&` (AND) needs both sides true, `||` (OR) needs at least one side true, and `!` (NOT) just flips whatever it's attached to."
+        ],
+        "stickyNote": {
+          "term": "Relational & Logical Operators",
+          "flavor": "🔀 comparisons come back as booleans, then combine them",
+          "definition": "Relational (> < >= <= == !=) compare values and return boolean. Logical (&& || !) combine booleans: AND, OR, NOT."
+        }
+      },
+      {
+        "id": "ternary",
+        "buttonText": "What's that condition ? a : b thing?",
+        "dialogue": [
+          "That's the [[term:ternary operator]] — `condition ? valueIfTrue : valueIfFalse` — really just an if-else squeezed onto one line.",
+          "`(a > b) ? a : b` reads as \"if a is bigger than b, give me a, otherwise give me b.\" [[key:When operators start mixing together, parentheses aren't optional politeness]] — they're how you make sure Java evaluates things in the order you actually meant."
+        ],
+        "stickyNote": {
+          "term": "Ternary Operator",
+          "flavor": "🎯 an if-else that fits on one line",
+          "definition": "condition ? valueIfTrue : valueIfFalse — a compact one-line if-else. Example: (a > b) ? a : b."
+        }
+      }
+    ],
     "code": "public class OperatorsExample {\n    public static void main(String[] args) {\n        // Arithmetic\n        int a = 10, b = 3;\n        System.out.println(\"a + b = \" + (a + b));\n        System.out.println(\"a - b = \" + (a - b));\n        System.out.println(\"a * b = \" + (a * b));\n        System.out.println(\"a / b = \" + (a / b));\n        System.out.println(\"a % b = \" + (a % b));\n        \n        // Relational\n        System.out.println(\"a > b? \" + (a > b));\n        System.out.println(\"a == b? \" + (a == b));\n        \n        // Logical\n        boolean x = true, y = false;\n        System.out.println(\"x && y = \" + (x && y));\n        System.out.println(\"x || y = \" + (x || y));\n        System.out.println(\"!x = \" + !x);\n        \n        // Ternary\n        int max = (a > b) ? a : b;\n        System.out.println(\"Max: \" + max);\n    }\n}",
     "output": "a + b = 13\na - b = 7\na * b = 30\na / b = 3\na % b = 1\na > b? true\na == b? false\nx && y = false\nx || y = true\n!x = false\nMax: 10",
-    "explanation": "Operators are how you actually DO something with the values sitting in your variables.\n\n[[term:Arithmetic]] operators — `+ - * / %` — do what you'd expect, with one gotcha: [[warn:dividing two ints always gives you an int back, even if the real answer has a decimal]]. `10 / 3` is `3`, not `3.333`, because Java assumes if both sides are whole numbers, you want a whole number answer. `%`, the [[term:modulo]] operator, gives you the remainder instead — `10 % 3` is `1`.\n\n[[term:Relational]] operators — `> < >= <= == !=` — compare two values and always hand back a `boolean`.\n\n[[term:Logical]] operators combine booleans: `&&` (AND) needs both sides true, `||` (OR) needs at least one side true, and `!` (NOT) just flips whatever it's attached to.\n\nAnd then there's the [[term:ternary operator]] — `condition ? valueIfTrue : valueIfFalse` — really just an if-else squeezed onto one line. `(a > b) ? a : b` reads as \"if a is bigger than b, give me a, otherwise give me b.\"\n\n[[key:When operators start mixing together, parentheses aren't optional politeness — they're how you make sure Java evaluates things in the order you actually meant]]."
+    "openingDialogue": "Operators are how you DO something with your variables' values — arithmetic, comparisons, logic, and the one-line if-else. ⚙️"
   },
   "phase2": {
     "brokenCode": "public class OperatorsExample {\n    public static void main(String[] args) {\n        int a = 10, b = 3;\n        System.out.println(\"a / b = \" + a / b);  // Problem!\n        System.out.println(\"a + b = \" + (a + b));\n    }\n}",

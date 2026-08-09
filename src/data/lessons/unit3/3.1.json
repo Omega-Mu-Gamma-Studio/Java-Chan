@@ -3,10 +3,51 @@
   "title": "What Are Exceptions?",
   "type": "conceptual",
   "phase1": {
+    "intro": "Every program you've built so far has quietly assumed things go right. Reality doesn't cooperate that reliably.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "what-is-exception",
+        "buttonText": "What is an exception, actually?",
+        "dialogue": [
+          "[[key:An exception is Java's way of interrupting normal execution the moment something goes wrong]], instead of letting your program silently do the wrong thing or crash somewhere unrelated later.",
+          "Picture driving: normal flow is smooth driving. A flat tire is an exception — annoying, recoverable. The engine catching fire is closer to an [[term:Error]] — something so serious the trip's over, no fixing it mid-drive."
+        ],
+        "stickyNote": {
+          "term": "Exception",
+          "flavor": "🚨 an interruption the moment something goes wrong",
+          "definition": "An exception interrupts normal execution when something goes wrong, rather than letting the program silently misbehave or crash unrelated code later."
+        }
+      },
+      {
+        "id": "checked-vs-unchecked",
+        "buttonText": "What's the difference between checked and unchecked exceptions?",
+        "dialogue": [
+          "Every exception is a Throwable underneath. [[term:Error]] covers genuinely serious problems (OutOfMemoryError, StackOverflowError) your code almost never recovers from. [[term:Exception]] is the family you work with day to day.",
+          "[[term:Checked exceptions]] (IOException, SQLException) are things the compiler forces you to acknowledge, with try-catch or throws. [[term:Unchecked exceptions]] (RuntimeException and below — NullPointerException, ArithmeticException) are optional to handle, and almost always signs of an actual bug."
+        ],
+        "stickyNote": {
+          "term": "Checked vs Unchecked Exceptions",
+          "flavor": "✅ compiler-enforced vs. optional but usually a bug",
+          "definition": "Checked exceptions (IOException, SQLException) must be handled or declared. Unchecked exceptions (RuntimeException family) are optional and usually indicate a bug."
+        }
+      },
+      {
+        "id": "stack-trace",
+        "buttonText": "What am I actually looking at in a stack trace?",
+        "dialogue": [
+          "[[warn:When an exception isn't caught anywhere, Java prints a stack trace and the program crashes]] — and that stack trace is genuinely useful, not just scary red text.",
+          "[[key:The first line names the exception, and the line right under it points at the exact file and line number where it happened]] — that's almost always where to start looking."
+        ],
+        "stickyNote": {
+          "term": "Stack Trace",
+          "flavor": "🔍 first line names it, next line points at it",
+          "definition": "A stack trace printed on an uncaught exception names the exception on the first line and the exact file/line it occurred on the next — start there."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Every program you've built so far has quietly assumed things go right — the file exists, the input's a valid number, the array index is in range. Reality doesn't cooperate that reliably, and [[key:an exception is Java's way of interrupting normal execution the moment something goes wrong]], instead of letting your program silently do the wrong thing or crash somewhere completely unrelated later.\n\nPicture driving somewhere: normal flow is smooth driving. A flat tire is an exception — annoying, but recoverable, you pull over and deal with it. The engine catching fire is closer to an [[term:Error]] — something so serious the trip's over, no fixing it mid-drive.\n\nEvery exception in Java is a Throwable underneath, and the hierarchy branches into two very different families right below that. [[term:Error]] covers genuinely serious problems — OutOfMemoryError, StackOverflowError — that your code almost never recovers from and generally shouldn't try to catch. [[term:Exception]] is the family you actually work with day to day, and it splits again into two categories worth knowing cold:\n\n[[term:Checked exceptions]] — IOException, FileNotFoundException, SQLException — are things the compiler forces you to acknowledge, either with a try-catch or by declaring throws on your method. [[term:Unchecked exceptions]] (RuntimeException and everything under it — NullPointerException, ArrayIndexOutOfBoundsException, ArithmeticException) are optional to handle, and they're almost always signs of an actual bug in the code rather than something that can legitimately happen even when the code is correct.\n\n[[warn:when an exception isn't caught anywhere, Java prints a stack trace and the program crashes]] — and that stack trace is genuinely useful, not just scary red text. [[key:the first line names the exception, and the line right under it points at the exact file and line number where it happened]] — that's almost always where to start looking, before tracing further up the call chain below it.",
-    "openingDialogue": "Exceptions are your program's way of raising a hand and saying something's wrong~ 🚨"
+    "openingDialogue": "An exception interrupts normal execution the moment something goes wrong — some checked by the compiler, some not, all traceable in the stack trace. 🚨"
   },
   "phase2": {
     "brokenCode": "",

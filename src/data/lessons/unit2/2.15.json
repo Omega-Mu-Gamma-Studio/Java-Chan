@@ -3,10 +3,50 @@
   "title": "Unit 2 Review — Design Patterns Intro",
   "type": "conceptual",
   "phase1": {
+    "intro": "🎉 Nice work — that's the whole of Unit 2 in the books! Let's walk back through everything, since this is exactly the kind of unit where the ideas build directly on each other.\n\nWhere do you want to start the recap?",
+    "topics": [
+      {
+        "id": "inheritance-recap",
+        "buttonText": "How did inheritance and polymorphism connect?",
+        "dialogue": [
+          "We started with [[term:inheritance]] — `extends`, the IS-A relationship, `super` reaching up to the parent. From there, [[term:overriding]] let a subclass swap out a parent's behavior entirely.",
+          "[[key:Runtime polymorphism]] meant Java decides which version actually runs based on the object's real type — the same idea whether it's overriding OR the overloading (compile-time polymorphism) you already knew from Unit 1."
+        ],
+        "stickyNote": {
+          "term": "Inheritance & Polymorphism Recap",
+          "flavor": "🔗 extends, override, and two flavors of polymorphism",
+          "definition": "Inheritance (extends, IS-A, super) enables overriding, which enables runtime polymorphism — the object's real type deciding which method runs."
+        }
+      },
+      {
+        "id": "abstraction-recap",
+        "buttonText": "How do abstract classes and interfaces differ again?",
+        "dialogue": [
+          "Then we opened up two ways to build \"incomplete-on-purpose\" blueprints: [[term:abstract classes]], which can hold real state and force subclasses to fill in specific methods, and [[term:interfaces]], pure contracts that a class can sign as many of as it wants — including default and static methods since Java 8."
+        ],
+        "stickyNote": {
+          "term": "Abstract Classes vs Interfaces Recap",
+          "flavor": "📐 shared state vs. pure contract",
+          "definition": "Abstract classes hold shared state and force method implementation. Interfaces are pure contracts, implementable in any number, with default/static methods."
+        }
+      },
+      {
+        "id": "supporting-tools-and-next",
+        "buttonText": "What were the supporting tools, and what's next?",
+        "dialogue": [
+          "The rest of the unit filled in supporting tools: packages, static members, final, inner classes, enums, Object's toString()/equals()/hashCode(), and wrapper classes. [[key:Here's the thread connecting all of it]]: every tool in this unit is really about controlling how much one piece of code can assume about, depend on, or be replaced by another.",
+          "What's next? [[key:Design patterns]] — proven, reusable shapes for solving common structural problems. One idea worth planting early: [[warn:composition over inheritance]] — favoring \"has-a\" relationships over \"is-a\" ones often keeps code more flexible and easier to test."
+        ],
+        "stickyNote": {
+          "term": "Unit 2 Thread & What's Next",
+          "flavor": "🧵 controlling coupling, heading toward design patterns",
+          "definition": "Unit 2's tools all control how tightly classes couple to each other. Next up: design patterns, starting with the idea of composition over inheritance."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "🎉 Nice work — that's the whole of Unit 2 in the books! Let's walk back through everything, since this is exactly the kind of unit where the ideas build directly on each other.\n\nWe started with [[term:inheritance]] — `extends`, the IS-A relationship, `super` reaching up to the parent. From there, [[term:overriding]] let a subclass swap out a parent's behavior entirely, and [[key:runtime polymorphism]] meant Java decides which version actually runs based on the object's real type, not the variable's declared type — that's the same idea whether it's overriding OR the overloading (compile-time polymorphism) you already knew from Unit 1.\n\nThen we opened up two different ways to build \"incomplete-on-purpose\" blueprints: [[term:abstract classes]], which can hold real state and force subclasses to fill in specific methods, and [[term:interfaces]], pure contracts that a class can sign as many of as it wants — including default and static methods since Java 8.\n\nThe rest of the unit filled in supporting tools: [[term:packages]] to organize and avoid naming collisions, [[term:static]] members shared across every instance of a class, [[term:final]] to lock a variable, method, or class against further change, [[term:inner classes]] for code that's tightly scoped to whatever it lives inside, [[term:enums]] for a genuinely fixed, type-safe set of constants, `Object`'s own `toString()`/`equals()`/`hashCode()` that every class inherits whether you touch them or not, and [[term:wrapper classes]] letting primitives act like objects when collections or nullability demand it.\n\n[[key:Here's the thread connecting all of it]]: every single tool in this unit is really about controlling exactly how much one piece of code can assume about, depend on, or be replaced by another. That's the actual skill underneath \"OOP\" — not memorizing keywords, but deciding how tightly or loosely your classes should be coupled to each other.\n\nWhat's next? [[key:Design patterns]] — proven, reusable shapes for solving common structural problems, built entirely out of the tools you now have. One idea worth planting early: [[warn:composition over inheritance]] isn't a rule you learned yet, but it's one of the most repeated pieces of real-world Java advice — favoring \"has-a\" relationships over \"is-a\" ones often keeps code more flexible and easier to test. We'll see exactly why as we go.",
-    "openingDialogue": "Unit 2 complete! Let's review everything and see what's next~ 🎉"
+    "openingDialogue": "Unit 2 in a nutshell: inheritance and polymorphism, two flavors of incomplete blueprints, and the supporting tools that control coupling. 🎉"
   },
   "phase2": {
     "brokenCode": "",

@@ -3,9 +3,50 @@
   "title": "Access Modifiers & Encapsulation",
   "type": "coding",
   "phase1": {
+    "intro": "[[term:Encapsulation]] is about deciding, on purpose, what parts of your blueprint the outside world is allowed to touch.\n\nWhat should we look at first?",
+    "topics": [
+      {
+        "id": "access-modifiers",
+        "buttonText": "What are the four access levels in Java?",
+        "dialogue": [
+          "Java gives you four levels of [[term:access modifier]]s: `public` (anyone, anywhere), `private` (only inside this exact class), `protected` (this package plus subclasses), and no modifier at all, which defaults to package-level access."
+        ],
+        "stickyNote": {
+          "term": "Access Modifiers",
+          "flavor": "🚪 four doors, four levels of who's allowed in",
+          "definition": "public (anywhere), private (same class only), protected (package + subclasses), and no modifier (package-level default)."
+        }
+      },
+      {
+        "id": "getters-setters",
+        "buttonText": "What's the standard private-fields pattern?",
+        "dialogue": [
+          "[[key:The standard pattern is: make every field private, and expose controlled access through public getters and setters]]. A getter just hands back the current value — `getName()` returns `name`.",
+          "A setter is where the real value comes in: it can validate before actually changing anything, like `setAge()` refusing any value outside 0–150 instead of blindly accepting it."
+        ],
+        "stickyNote": {
+          "term": "Getters & Setters",
+          "flavor": "🎛️ private fields, public dials to control them",
+          "definition": "Getters return a field's value; setters assign it, often after validation (e.g. setAge() rejecting values outside 0-150)."
+        }
+      },
+      {
+        "id": "why-encapsulate",
+        "buttonText": "Why go through all this trouble?",
+        "dialogue": [
+          "[[warn:Once a field is private, code outside the class genuinely cannot touch it directly]] — not `person.name`, not `person.age = 99`. That's the entire point: it forces every change through your validation logic.",
+          "Three real reasons to bother: control over what values are allowed in, protection against your object ending up in some invalid state, and the freedom to change how something's stored internally later without breaking anyone else's code."
+        ],
+        "stickyNote": {
+          "term": "Why Encapsulation",
+          "flavor": "🛡️ control, protection, and freedom to change internals later",
+          "definition": "Encapsulation forces changes through validated getters/setters, preventing invalid state and letting internal storage change without breaking callers."
+        }
+      }
+    ],
     "code": "class Person {\n    // Private fields — hidden from outside\n    private String name;\n    private int age;\n    \n    // Constructor\n    Person(String name, int age) {\n        this.name = name;\n        setAge(age);  // Use setter for validation\n    }\n    \n    // Getters (public)\n    public String getName() {\n        return name;\n    }\n    \n    public int getAge() {\n        return age;\n    }\n    \n    // Setters with validation\n    public void setName(String name) {\n        if (name != null && !name.trim().isEmpty()) {\n            this.name = name;\n        } else {\n            System.out.println(\"Invalid name!\");\n        }\n    }\n    \n    public void setAge(int age) {\n        if (age >= 0 && age <= 150) {\n            this.age = age;\n        } else {\n            System.out.println(\"Invalid age! Must be 0-150.\");\n        }\n    }\n    \n    // Public method\n    public void displayInfo() {\n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n    }\n}\n\npublic class EncapsulationExample {\n    public static void main(String[] args) {\n        Person person = new Person(\"Alice\", 25);\n        \n        // Accessing through getters\n        System.out.println(\"Name: \" + person.getName());\n        System.out.println(\"Age: \" + person.getAge());\n        \n        // Using setters\n        person.setName(\"Bob\");\n        person.setAge(30);\n        person.displayInfo();\n        \n        // Trying invalid values\n        person.setAge(-5);   // Invalid!\n        person.setAge(200);  // Invalid!\n        \n        // Can't access private fields directly:\n        // person.name = \"Charlie\";  // ERROR!\n        // person.age = 99;          // ERROR!\n    }\n}",
     "output": "Name: Alice\nAge: 25\nName: Bob, Age: 30\nInvalid age! Must be 0-150.\nInvalid age! Must be 0-150.",
-    "explanation": "[[term:Encapsulation]] is about deciding, on purpose, what parts of your blueprint the outside world is allowed to touch.\n\nJava gives you four levels of [[term:access modifier]]s: `public` (anyone, anywhere), `private` (only inside this exact class), `protected` (this package plus subclasses), and no modifier at all, which defaults to package-level access.\n\n[[key:The standard pattern is: make every field private, and expose controlled access through public getters and setters]]. A getter just hands back the current value — `getName()` returns `name`. A setter is where the real value comes in: it can validate before actually changing anything, like `setAge()` refusing any value outside 0–150 instead of blindly accepting it.\n\n[[warn:Once a field is private, code outside the class genuinely cannot touch it directly]] — not `person.name`, not `person.age = 99`. That's not a limitation, that's the entire point: it forces every change to go through your validation logic instead of letting anything slip in unchecked.\n\nWhy bother with all this? Three real reasons: control over what values are actually allowed in, protection against your object ending up in some invalid state, and the freedom to change how something's stored internally later without breaking anyone else's code that calls your getters and setters."
+    "openingDialogue": "Encapsulation is deciding on purpose what the outside world can touch — private fields, public getters and setters. 🔒"
   },
   "phase2": {
     "brokenCode": "class Person {\n    private String name;\n    private int age;\n    \n    Person(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n}\n\npublic class EncapsulationExample {\n    public static void main(String[] args) {\n        Person person = new Person(\"Alice\", 25);\n        \n        // Trying to access private field directly\n        System.out.println(person.name);\n        person.age = 30;\n    }\n}",

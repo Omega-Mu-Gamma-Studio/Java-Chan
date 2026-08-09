@@ -3,9 +3,50 @@
   "title": "Method Overriding",
   "type": "coding",
   "phase1": {
+    "intro": "Overriding is different from the overloading you've already seen.\n\nWant to start with what overriding actually is, or the polymorphism it unlocks?",
+    "topics": [
+      {
+        "id": "what-is-overriding",
+        "buttonText": "What actually counts as overriding?",
+        "dialogue": [
+          "A subclass takes a method it inherited and [[key:replaces the whole implementation with its own version, same name, same parameters]]. Dog's `makeSound()` has the exact same signature as Animal's, but a completely different body — that's [[term:overriding]].",
+          "The `@Override` annotation isn't required by the compiler, but [[key:it's a safety net worth always using]] — misspell the method name and `@Override` flags it immediately instead of quietly compiling a brand new unrelated method."
+        ],
+        "stickyNote": {
+          "term": "Method Overriding",
+          "flavor": "🔄 same name, same params, new body",
+          "definition": "A subclass replaces a parent method's implementation, keeping the same name and parameters. @Override catches signature mistakes at compile time."
+        }
+      },
+      {
+        "id": "runtime-polymorphism",
+        "buttonText": "What happens when an Animal variable actually holds a Dog?",
+        "dialogue": [
+          "`Animal myDog = new Dog();` stores a Dog inside an Animal-typed variable, and calling `myDog.makeSound()` still runs Dog's version, not Animal's.",
+          "[[term:Runtime polymorphism]] means [[key:Java decides which version of an overridden method to run based on the object's ACTUAL type, not the type of the variable holding it]] — decided while the program runs, not at compile time."
+        ],
+        "stickyNote": {
+          "term": "Runtime Polymorphism",
+          "flavor": "🎭 the object's real type wins, not the variable's",
+          "definition": "When calling an overridden method, Java runs the version matching the object's actual type — decided at runtime, not compile time."
+        }
+      },
+      {
+        "id": "static-no-override",
+        "buttonText": "Can I override a static method?",
+        "dialogue": [
+          "[[warn:You cannot override a static method]]. Static methods belong to the class itself, not to any particular object, so there's no \"actual object type\" for Java to check at runtime in the first place."
+        ],
+        "stickyNote": {
+          "term": "Static Methods Can't Be Overridden",
+          "flavor": "🚫 no object, no runtime type to check",
+          "definition": "Static methods belong to the class, not an object, so there's no object type at runtime for Java to dispatch on — they can't be overridden."
+        }
+      }
+    ],
     "code": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override  // Annotation - tells compiler we're overriding\n    void makeSound() {\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Meow~ Meow~\");\n    }\n}\n\nclass Cow extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Moo! Moo!\");\n    }\n}\n\npublic class OverridingExample {\n    public static void main(String[] args) {\n        Animal animal = new Animal();\n        Dog dog = new Dog();\n        Cat cat = new Cat();\n        Cow cow = new Cow();\n        \n        animal.makeSound();  // Parent method\n        dog.makeSound();     // Overridden\n        cat.makeSound();     // Overridden\n        cow.makeSound();     // Overridden\n        \n        // Runtime polymorphism\n        System.out.println(\"--- Runtime Polymorphism ---\");\n        Animal myDog = new Dog();\n        Animal myCat = new Cat();\n        \n        myDog.makeSound();  // Calls Dog's version (runtime)\n        myCat.makeSound();  // Calls Cat's version (runtime)\n    }\n}",
     "output": "Some generic animal sound\nWoof! Woof!\nMeow~ Meow~\nMoo! Moo!\n--- Runtime Polymorphism ---\nWoof! Woof!\nMeow~ Meow~",
-    "explanation": "Overriding is different from the overloading you've already seen — this time, a subclass takes a method it inherited and [[key:replaces the whole implementation with its own version, same name, same parameters]].\n\nLook at Dog's `makeSound()` — it has the exact same signature as Animal's `makeSound()`, but a completely different body. That's [[term:overriding]]. The `@Override` annotation above it isn't required by the compiler, but [[key:it's a safety net worth always using]] — if you misspell the method name or get the parameters slightly wrong, `@Override` makes the compiler immediately flag it as a mistake instead of quietly compiling a brand new unrelated method.\n\nHere's the part that's genuinely powerful: `Animal myDog = new Dog();` stores a Dog inside an Animal-typed variable, and calling `myDog.makeSound()` still runs Dog's version, not Animal's. [[term:Runtime polymorphism]] means [[key:Java decides which version of an overridden method to run based on the object's ACTUAL type, not the type of the variable holding it]] — and it makes that decision while the program is running, not at compile time.\n\nOne thing that trips people up: [[warn:you cannot override a static method]]. Static methods belong to the class itself, not to any particular object, so there's no \"actual object type\" for Java to check at runtime in the first place."
+    "openingDialogue": "Overriding replaces an inherited method entirely — and it's what makes runtime polymorphism possible. 🎭"
   },
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Some generic animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makesSound() {  // Wrong method name!\n        System.out.println(\"Woof! Woof!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Dog dog = new Dog();\n        dog.makeSound();  // Calls parent method, not the new one\n    }\n}",

@@ -3,9 +3,50 @@
   "title": "Wrapper Classes & Autoboxing",
   "type": "coding",
   "phase1": {
+    "intro": "Every primitive type has a matching wrapper class — int pairs with Integer, double with Double, and so on.\n\nWhat do you want to look at first?",
+    "topics": [
+      {
+        "id": "wrapper-basics",
+        "buttonText": "Why do wrapper classes exist at all?",
+        "dialogue": [
+          "[[key:The wrapper is a real object, while the primitive is just a raw value]] — and that distinction is exactly why wrappers exist at all."
+        ],
+        "stickyNote": {
+          "term": "Wrapper Classes",
+          "flavor": "📦 a real object standing in for a raw value",
+          "definition": "Every primitive has a matching wrapper class (int↔Integer, double↔Double). The wrapper is a real object; the primitive is a raw value."
+        }
+      },
+      {
+        "id": "autoboxing-unboxing",
+        "buttonText": "What are autoboxing and unboxing?",
+        "dialogue": [
+          "[[term:Autoboxing]] is Java automatically converting a primitive into its wrapper for you — `Integer intObj = 42;` looks like assigning an int to an Integer, but Java quietly wraps it behind the scenes.",
+          "[[term:Unboxing]] goes the other direction, automatically pulling the primitive back out of a wrapper when you need it."
+        ],
+        "stickyNote": {
+          "term": "Autoboxing & Unboxing",
+          "flavor": "🔄 Java quietly wraps and unwraps for you",
+          "definition": "Autoboxing automatically converts a primitive into its wrapper object. Unboxing automatically converts the wrapper back into a primitive."
+        }
+      },
+      {
+        "id": "why-wrappers-and-npe-trap",
+        "buttonText": "Why would I want the object version, and what's the trap?",
+        "dialogue": [
+          "[[key:Three real reasons]]: collections like `ArrayList` can only hold objects, wrappers can be `null` (a primitive never can), and wrappers bundle utility methods like `Integer.parseInt(\"123\")`.",
+          "[[warn:But that null possibility is also the trap]]: unboxing a `null` wrapper throws a `NullPointerException`, since Java has no way to represent \"null\" as a raw int."
+        ],
+        "stickyNote": {
+          "term": "Why Wrappers & the null Trap",
+          "flavor": "⚠️ collections and nullability, but null unboxes to a crash",
+          "definition": "Wrappers enable collections of primitives and a real null state, plus utility methods. Unboxing a null wrapper throws NullPointerException."
+        }
+      }
+    ],
     "code": "public class WrapperExample {\n    public static void main(String[] args) {\n        // Wrapper classes provide object representation of primitives\n        // Primitive → Wrapper: Integer, Double, Boolean, Character, etc.\n        \n        // 1. Autoboxing — automatically converts primitive to wrapper\n        System.out.println(\"=== Autoboxing ===\");\n        Integer intObj = 42;  // int → Integer (automatic)\n        Double doubleObj = 3.14;  // double → Double\n        Boolean boolObj = true;   // boolean → Boolean\n        Character charObj = 'A';  // char → Character\n        \n        System.out.println(\"Integer: \" + intObj);\n        System.out.println(\"Double: \" + doubleObj);\n        System.out.println(\"Boolean: \" + boolObj);\n        System.out.println(\"Character: \" + charObj);\n        \n        // 2. Unboxing — automatically converts wrapper to primitive\n        System.out.println(\"=== Unboxing ===\");\n        int intValue = intObj;  // Integer → int (automatic)\n        double doubleValue = doubleObj;  // Double → double\n        boolean boolValue = boolObj;  // Boolean → boolean\n        \n        System.out.println(\"intValue: \" + intValue);\n        System.out.println(\"doubleValue: \" + doubleValue);\n        \n        // 3. Useful wrapper methods\n        System.out.println(\"=== Utility Methods ===\");\n        \n        // Parsing strings to numbers\n        int parsedInt = Integer.parseInt(\"123\");\n        double parsedDouble = Double.parseDouble(\"45.67\");\n        System.out.println(\"Parsed int: \" + parsedInt);\n        System.out.println(\"Parsed double: \" + parsedDouble);\n        \n        // Converting int to String\n        String intStr = Integer.toString(456);\n        System.out.println(\"String: \" + intStr);\n        \n        // Wrapper constants\n        System.out.println(\"Integer max: \" + Integer.MAX_VALUE);\n        System.out.println(\"Integer min: \" + Integer.MIN_VALUE);\n        System.out.println(\"Double max: \" + Double.MAX_VALUE);\n        \n        // 4. Collections use wrappers (can't use primitives)\n        System.out.println(\"=== Collections ===\");\n        java.util.ArrayList<Integer> numbers = new java.util.ArrayList<>();\n        numbers.add(10);   // Autoboxing: int → Integer\n        numbers.add(20);\n        numbers.add(30);\n        \n        for (int num : numbers) {  // Unboxing: Integer → int\n            System.out.println(num);\n        }\n        \n        // 5. null is possible with wrappers (danger!)\n        System.out.println(\"=== null danger ===\");\n        Integer nullable = null;\n        // int x = nullable;  // NullPointerException!\n        System.out.println(\"Can be null: \" + nullable);\n    }\n}",
     "output": "=== Autoboxing ===\nInteger: 42\nDouble: 3.14\nBoolean: true\nCharacter: A\n=== Unboxing ===\nintValue: 42\ndoubleValue: 3.14\n=== Utility Methods ===\nParsed int: 123\nParsed double: 45.67\nString: 456\nInteger max: 2147483647\nInteger min: -2147483648\nDouble max: 1.7976931348623157E308\n=== Collections ===\n10\n20\n30\n=== null danger ===\nCan be null: null",
-    "explanation": "Every primitive type has a matching [[term:wrapper class]] — `int` pairs with `Integer`, `double` with `Double`, `boolean` with `Boolean`, and so on. [[key:The wrapper is a real object, while the primitive is just a raw value]] — and that distinction is exactly why wrappers exist at all.\n\n[[term:Autoboxing]] is Java automatically converting a primitive into its wrapper for you — `Integer intObj = 42;` looks like you're assigning an int to an Integer, but Java quietly wraps it behind the scenes. [[term:Unboxing]] goes the other direction, automatically pulling the primitive back out of a wrapper when you need it.\n\nWhy would you ever want the object version at all? [[key:Three real reasons]]: collections like `ArrayList` and `HashMap` can only hold objects, never raw primitives, so `ArrayList<Integer>` genuinely needs autoboxing to work at all. Wrappers can also be `null`, which a primitive can never be — useful any time \"no value yet\" is a real, meaningful state. And wrappers come bundled with handy utility methods and constants — `Integer.parseInt(\"123\")`, `Integer.MAX_VALUE`, `Integer.toString(456)`.\n\n[[warn:But that null possibility is also the trap]]: unboxing a null wrapper — going from `Integer` back down to `int` when the Integer is actually `null` — throws a `NullPointerException`, since Java has no way to represent \"null\" as a raw int."
+    "openingDialogue": "Wrapper classes let primitives act like objects — autoboxed and unboxed automatically, but null is a real trap when unboxing. 📦"
   },
   "phase2": {
     "brokenCode": "public class Test {\n    public static void main(String[] args) {\n        Integer x = null;\n        \n        // Unboxing a null reference\n        int y = x;  // NullPointerException!\n        \n        System.out.println(y);\n    }\n}",

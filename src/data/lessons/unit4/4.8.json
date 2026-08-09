@@ -3,9 +3,48 @@
   "title": "Iterator & For-Each",
   "type": "coding",
   "phase1": {
+    "intro": "The for-each loop you've used since Unit 1 has never been magic.\n\nWhere should we start?",
+    "topics": [
+      {
+        "id": "for-each-is-sugar",
+        "buttonText": "What is for-each actually doing behind the scenes?",
+        "dialogue": [
+          "[[key:Every for-each loop over a collection is syntactic sugar for grabbing an Iterator and calling hasNext()/next() in a loop]] — the compiler quietly writes that boilerplate for you every single time."
+        ],
+        "stickyNote": {
+          "term": "for-each is Iterator Sugar",
+          "flavor": "🍬 hasNext()/next() written for you",
+          "definition": "for (x : collection) compiles down to grabbing an Iterator and calling hasNext()/next() in a loop — the compiler writes that boilerplate."
+        }
+      },
+      {
+        "id": "iterator-safe-removal",
+        "buttonText": "Why would I use Iterator directly instead of for-each?",
+        "dialogue": [
+          "[[warn:One specific reason: safe removal]]. Mutating a list mid-for-each throws ConcurrentModificationException. `it.remove()` is the one operation allowed to modify the collection while iterating, since the iterator is tracking exactly where you're standing."
+        ],
+        "stickyNote": {
+          "term": "Iterator & Safe Removal",
+          "flavor": "🗑️ the only safe way to remove mid-loop",
+          "definition": "for-each can't safely remove elements (ConcurrentModificationException). Iterator.remove() is the one operation that can, mid-traversal."
+        }
+      },
+      {
+        "id": "listiterator-and-removeif",
+        "buttonText": "What can ListIterator do that a plain Iterator can't?",
+        "dialogue": [
+          "[[term:ListIterator]] extends this further, only on Lists: it can walk backward with `hasPrevious()`/`previous()`, and `add()` or `set()` elements mid-traversal. [[fun:The practical rule of thumb]]: for-each to read, Iterator to remove, ListIterator to insert/replace/walk backward — or `list.removeIf(condition)` for simple filtering in one line."
+        ],
+        "stickyNote": {
+          "term": "ListIterator & removeIf()",
+          "flavor": "↩️ backward walking, plus insert and replace",
+          "definition": "ListIterator (Lists only) can walk backward and add()/set() mid-traversal. list.removeIf(condition) handles simple filtering in one line."
+        }
+      }
+    ],
     "code": "import java.util.*;\n\npublic class IteratorExample {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>(\n            Arrays.asList(\"Apple\", \"Banana\", \"Cherry\", \"Date\", \"Elderberry\")\n        );\n        \n        System.out.println(\"Original: \" + list);\n        \n        // 1. For-each loop (read-only)\n        System.out.println(\"=== For-Each Loop ===\");\n        for (String fruit : list) {\n            System.out.println(\"  \" + fruit);\n        }\n        \n        // 2. Iterator\n        System.out.println(\"=== Iterator ===\");\n        Iterator<String> it = list.iterator();\n        while (it.hasNext()) {\n            String fruit = it.next();\n            System.out.println(\"  \" + fruit);\n        }\n        \n        // 3. Removing while iterating with Iterator\n        System.out.println(\"=== Removing with Iterator ===\");\n        it = list.iterator();\n        while (it.hasNext()) {\n            String fruit = it.next();\n            if (fruit.startsWith(\"A\") || fruit.startsWith(\"D\")) {\n                it.remove();  // Safe removal!\n            }\n        }\n        System.out.println(\"After removing A and D: \" + list);\n        \n        // 4. ListIterator (bidirectional)\n        System.out.println(\"=== ListIterator (forward) ===\");\n        ListIterator<String> listIt = list.listIterator();\n        while (listIt.hasNext()) {\n            String fruit = listIt.next();\n            System.out.println(\"  \" + fruit);\n        }\n        \n        System.out.println(\"=== ListIterator (backward) ===\");\n        while (listIt.hasPrevious()) {\n            String fruit = listIt.previous();\n            System.out.println(\"  \" + fruit);\n        }\n        \n        // 5. ListIterator with modification\n        System.out.println(\"=== ListIterator with Add/Set ===\");\n        listIt = list.listIterator();\n        while (listIt.hasNext()) {\n            String fruit = listIt.next();\n            if (fruit.equals(\"Banana\")) {\n                listIt.set(\"Blueberry\");  // Replace\n            }\n            if (fruit.equals(\"Cherry\")) {\n                listIt.add(\"Cranberry\");  // Insert after\n            }\n        }\n        System.out.println(\"After modifications: \" + list);\n        \n        // 6. For-each with map\n        System.out.println(\"=== For-Each with Map ===\");\n        HashMap<String, Integer> scores = new HashMap<>();\n        scores.put(\"Alice\", 95);\n        scores.put(\"Bob\", 87);\n        scores.put(\"Charlie\", 92);\n        \n        for (Map.Entry<String, Integer> entry : scores.entrySet()) {\n            System.out.println(\"  \" + entry.getKey() + \" = \" + entry.getValue());\n        }\n        \n        // 7. Iterator with primitive array\n        System.out.println(\"=== Array with for-each ===\");\n        int[] numbers = {1, 2, 3, 4, 5};\n        for (int num : numbers) {\n            System.out.print(num + \" \");\n        }\n        System.out.println();\n        \n        // 8. Performance comparison\n        System.out.println(\"=== Iterator vs For-Each ===\");\n        // For-each is syntactic sugar for iterator\n        // Both have same performance\n        // For-each is simpler, but iterator gives more control\n        \n        // 9. ConcurrentModificationException demo\n        System.out.println(\"=== Preventing ConcurrentModification ===\");\n        List<String> list2 = new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\", \"D\"));\n        \n        // BAD: Remove during for-each\n        // for (String s : list2) {\n        //     if (s.equals(\"B\")) {\n        //         list2.remove(s);  // ConcurrentModificationException!\n        //     }\n        // }\n        \n        // GOOD: Use iterator\n        Iterator<String> it2 = list2.iterator();\n        while (it2.hasNext()) {\n            if (it2.next().equals(\"B\")) {\n                it2.remove();  // Safe!\n            }\n        }\n        System.out.println(\"After safe removal: \" + list2);\n        \n        // Alternative: removeIf\n        list2.removeIf(s -> s.equals(\"C\"));\n        System.out.println(\"After removeIf: \" + list2);\n    }\n}",
     "output": "Original: [Apple, Banana, Cherry, Date, Elderberry]\n=== For-Each Loop ===\n  Apple\n  Banana\n  Cherry\n  Date\n  Elderberry\n=== Iterator ===\n  Apple\n  Banana\n  Cherry\n  Date\n  Elderberry\n=== Removing with Iterator ===\nAfter removing A and D: [Banana, Cherry, Elderberry]\n=== ListIterator (forward) ===\n  Banana\n  Cherry\n  Elderberry\n=== ListIterator (backward) ===\n  Elderberry\n  Cherry\n  Banana\n=== ListIterator with Add/Set ===\nAfter modifications: [Banana, Blueberry, Cherry, Cranberry, Elderberry]\n=== For-Each with Map ===\n  Alice = 95\n  Bob = 87\n  Charlie = 92\n=== Array with for-each ===\n1 2 3 4 5 \n=== Iterator vs For-Each ===\n=== Preventing ConcurrentModification ===\nAfter safe removal: [A, C, D]\nAfter removeIf: [A, D]",
-    "explanation": "The for-each loop you've used since Unit 1 — for (String s : list) — has never been magic. [[key:every for-each loop over a collection is syntactic sugar for grabbing an Iterator and calling hasNext()/next() in a loop]] — the compiler quietly writes that boilerplate for you, every single time, like an assistant who's already memorized the same set of steps.\n\nIterator<String> it = list.iterator();\nwhile (it.hasNext()) {\n    String s = it.next();\n    System.out.println(s);\n}\n\nSo why reach for Iterator directly instead of just writing for-each every time? [[warn:one specific reason: safe removal]]. You already saw back in the ArrayList lesson that mutating a list mid-for-each throws ConcurrentModificationException — for-each is a read-only tour of the shelf, it has no mechanism to remove anything mid-walk. it.remove() is different: it's the one operation allowed to modify the collection while iterating, precisely because the iterator is the thing keeping track of exactly where you're standing.\n\n[[term:ListIterator]] extends this further, only on Lists: it can walk backward with hasPrevious()/previous(), and it can add() or set() elements mid-traversal, not just remove them — none of which a plain Iterator or a for-each loop can do.\n\n[[fun:the practical rule of thumb]]: reach for plain for-each when you're only reading the shelf. Reach for Iterator the moment you need to remove elements while walking it. Reach for ListIterator on the rare occasion you need to insert, replace, or walk backward mid-loop. Or skip the manual loop for simple filtering entirely — list.removeIf(condition) does the same safe-removal job in one line."
+    "openingDialogue": "for-each is Iterator in disguise — and when you need to remove or insert mid-loop, Iterator and ListIterator are the real tools. 🍬"
   },
   "phase2": {
     "brokenCode": "import java.util.*;\n\npublic class Test {\n    public static void main(String[] args) {\n        ArrayList<String> list = new ArrayList<>(Arrays.asList(\"A\", \"B\", \"C\"));\n        \n        // Forgot to call next() before remove()\n        Iterator<String> it = list.iterator();\n        while (it.hasNext()) {\n            it.remove();  // ERROR!\n        }\n    }\n}",

@@ -3,10 +3,50 @@
   "title": "Common Built-in Exceptions",
   "type": "conceptual",
   "phase1": {
+    "intro": "You've technically met a few of these already, buried inside other lessons' broken code — this lesson just puts names to faces.\n\nWhich theme do you want to look at first?",
+    "topics": [
+      {
+        "id": "missing-invalid-data",
+        "buttonText": "What causes NullPointerException and NumberFormatException?",
+        "dialogue": [
+          "[[key:Missing or invalid data]]: [[term:NullPointerException]] happens the instant you call a method on a null reference — `String str = null; str.length();` has nothing to call length() on.",
+          "[[term:NumberFormatException]] is its cousin for parsing — `Integer.parseInt(\"123abc\")` fails because that text simply isn't a valid number."
+        ],
+        "stickyNote": {
+          "term": "NullPointerException & NumberFormatException",
+          "flavor": "❓ calling on null, or parsing garbage as a number",
+          "definition": "NullPointerException fires calling a method on null. NumberFormatException fires parsing text that isn't a valid number."
+        }
+      },
+      {
+        "id": "out-of-bounds",
+        "buttonText": "What's the difference between ArrayIndexOutOfBounds and IndexOutOfBounds?",
+        "dialogue": [
+          "[[key:Going out of bounds]]: [[term:ArrayIndexOutOfBoundsException]] for arrays, [[term:IndexOutOfBoundsException]] for Lists like ArrayList — both mean you asked for a position that doesn't actually exist, index 5 in a 3-element array or `list.get(5)` on a 3-element list."
+        ],
+        "stickyNote": {
+          "term": "Out-of-Bounds Exceptions",
+          "flavor": "📏 asking for a position that doesn't exist",
+          "definition": "ArrayIndexOutOfBoundsException (arrays) and IndexOutOfBoundsException (Lists) both fire when accessing an index beyond the collection's actual size."
+        }
+      },
+      {
+        "id": "type-logic-and-checked",
+        "buttonText": "What about ClassCastException, ArithmeticException, and IOException?",
+        "dialogue": [
+          "[[key:Type and logic mistakes]]: [[term:ClassCastException]] fires when a downcast guesses wrong, [[term:ArithmeticException]] covers math errors like dividing by zero, [[term:IllegalArgumentException]] is the one YOU throw for a caller passing an unworkable value.",
+          "On the checked side: [[term:IOException]] and [[term:FileNotFoundException]] cover things going wrong reading/writing files. [[warn:It's worth internalizing the pattern rather than memorizing this list]]: [[key:unchecked exceptions almost always mean a bug in your own code]]."
+        ],
+        "stickyNote": {
+          "term": "Type/Logic & Checked Exceptions",
+          "flavor": "🧠 pattern over memorization",
+          "definition": "ClassCastException (bad downcast), ArithmeticException (math errors), IllegalArgumentException (bad caller input) are unchecked. IOException/FileNotFoundException are checked I/O problems."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "You've technically met a few of these already, buried inside other lessons' broken code — this lesson just puts names to faces and lines them up together so you recognize them fast in the wild.\n\nMost of what you'll hit day to day are unchecked, and they cluster around three themes. The first is [[key:missing or invalid data]]: [[term:NullPointerException]] happens the instant you call a method on a null reference — String str = null; str.length(); has nothing to call length() on. [[term:NumberFormatException]] is its cousin for parsing — Integer.parseInt(\"123abc\") fails because that text simply isn't a valid number.\n\nThe second theme is [[key:going out of bounds]]: [[term:ArrayIndexOutOfBoundsException]] for arrays, [[term:IndexOutOfBoundsException]] for Lists like ArrayList — both mean you asked for a position that doesn't actually exist in the collection, whether that's index 5 in a 3-element array or list.get(5) on a 3-element list.\n\nThe third is [[key:type and logic mistakes]]: [[term:ClassCastException]] fires when a downcast guesses wrong (we saw this back in Unit 2 with Animal/Dog/Cat), [[term:ArithmeticException]] covers math errors like dividing by zero, and [[term:IllegalArgumentException]] is the one YOU throw yourself, for a caller passing in a value your method simply can't work with — a negative age, for instance.\n\nThen there's the checked side, which tends to show up specifically around I/O: [[term:IOException]] and its more specific subclass [[term:FileNotFoundException]] both cover things going wrong while reading or writing files — a missing file, a permission problem, a disk that's suddenly full. [[term:InterruptedException]] is checked too, and shows up when a thread gets interrupted while sleeping or waiting — we'll get there in a later unit.\n\n[[warn:it's worth internalizing the pattern rather than memorizing this list]]: [[key:unchecked exceptions almost always mean a bug in your own code — fix the logic, don't just catch and ignore it]]. Checked exceptions usually mean something legitimately went wrong in the outside world, and THOSE are the ones genuinely worth a real try-catch with a meaningful recovery plan.",
-    "openingDialogue": "Know your enemy — let's learn the most common exceptions~ 🐛"
+    "openingDialogue": "The common built-in exceptions cluster into three themes — missing data, out of bounds, and type/logic mistakes — plus checked I/O exceptions. 🗂️"
   },
   "phase2": {
     "brokenCode": "",

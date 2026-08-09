@@ -3,10 +3,49 @@
   "title": "try-catch-finally",
   "type": "coding",
   "phase1": {
+    "intro": "try-catch-finally is the actual mechanism for catching an exception once it happens, rather than just letting it crash the program.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "try-catch-basics",
+        "buttonText": "How does try and catch actually work?",
+        "dialogue": [
+          "Code that might go wrong lives inside the [[term:try]] block. The moment something inside it throws, Java immediately jumps out of the rest of the try block and looks for a matching [[term:catch]] — it jumps the instant the exception fires.",
+          "[[warn:Order matters — Java checks catch blocks top to bottom and uses the FIRST one that matches]]. [[key:Specific exception types have to come before more general ones]], or the general catch swallows it first."
+        ],
+        "stickyNote": {
+          "term": "try & catch",
+          "flavor": "🎯 first matching catch wins, top to bottom",
+          "definition": "Code that might throw lives in try; matching catch blocks are checked top-to-bottom, so specific types must come before general ones."
+        }
+      },
+      {
+        "id": "finally-block",
+        "buttonText": "What makes finally different from catch?",
+        "dialogue": [
+          "The [[term:finally]] block runs no matter what — whether the try block succeeded, an exception got caught, or even if the catch block itself threw something new. That makes it the right place for cleanup that absolutely has to happen either way, like closing a file."
+        ],
+        "stickyNote": {
+          "term": "finally",
+          "flavor": "🧹 always runs, perfect for cleanup",
+          "definition": "finally runs regardless of what happened in try or catch — the right place for cleanup like closing files or connections."
+        }
+      },
+      {
+        "id": "try-structure-rule",
+        "buttonText": "Can a try block just stand alone?",
+        "dialogue": [
+          "[[key:A try block needs at least a catch or a finally (or both) — it can't stand alone]]. Java won't let you write risky code without some plan for what happens if it goes wrong."
+        ],
+        "stickyNote": {
+          "term": "try Block Structure Rule",
+          "flavor": "📏 needs a catch or a finally, no exceptions",
+          "definition": "A try block must be followed by at least one catch or a finally block — it cannot exist on its own."
+        }
+      }
+    ],
     "code": "import java.util.Scanner;\n\npublic class TryCatchExample {\n    public static void main(String[] args) {\n        Scanner scanner = new Scanner(System.in);\n        \n        try {\n            System.out.print(\"Enter a number: \");\n            int num = scanner.nextInt();\n            \n            int result = 100 / num;\n            System.out.println(\"Result: \" + result);\n            \n            // This might cause an exception if string is invalid\n            int[] arr = {1, 2, 3};\n            System.out.println(\"Array[5]: \" + arr[5]);\n            \n        } catch (ArithmeticException e) {\n            // Catches division by zero\n            System.out.println(\"Error: Cannot divide by zero!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } catch (ArrayIndexOutOfBoundsException e) {\n            // Catches invalid array index\n            System.out.println(\"Error: Array index out of bounds!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } catch (Exception e) {\n            // Catches ANY other exception (should be last)\n            System.out.println(\"Error: Something went wrong!\");\n            System.out.println(\"Message: \" + e.getMessage());\n            \n        } finally {\n            // Always runs — even if exception occurs\n            System.out.println(\"Finally block: Cleanup code here!\");\n            scanner.close();\n        }\n        \n        System.out.println(\"Program continues...\");\n    }\n}",
     "output": "Enter a number: 0\nError: Cannot divide by zero!\nMessage: / by zero\nFinally block: Cleanup code here!\nProgram continues...\n\n--- OR ---\n\nEnter a number: 5\nResult: 20\nError: Array index out of bounds!\nMessage: Index 5 out of bounds for length 3\nFinally block: Cleanup code here!\nProgram continues...",
-    "explanation": "try-catch-finally is the actual mechanism for catching an exception once it happens, rather than just letting it crash the program.\n\nCode that might go wrong lives inside the [[term:try]] block. The moment something inside it throws, Java immediately jumps out of the rest of the try block and looks for a matching [[term:catch]] — it doesn't finish the risky code first, it jumps the instant the exception fires.\n\nYou can stack multiple catch blocks for different exception types, and [[warn:order matters — Java checks them top to bottom and uses the FIRST one that matches]]. That means [[key:specific exception types have to come before more general ones]]; ArithmeticException before Exception, never the other way around, or the general catch would swallow it first and the specific one would never even get a chance to run.\n\nThe [[term:finally]] block is the part that's easy to underrate: it runs no matter what — whether the try block succeeded, an exception got caught, or even if the catch block itself threw something new. That makes it the right place for cleanup that absolutely has to happen either way, like closing a file or a network connection.\n\nOne structural rule to remember: [[key:a try block needs at least a catch or a finally (or both) — it can't stand alone]]. Java won't let you write risky code without some plan for what happens if it goes wrong.",
-    "openingDialogue": "Time to catch exceptions safely, on purpose~ 🎯"
+    "openingDialogue": "try holds risky code, catch handles it when it fails, and finally always runs — the actual mechanism for surviving an exception. 🛠️"
   },
   "phase2": {
     "brokenCode": "import java.util.Scanner;\n\npublic class TryCatchExample {\n    public static void main(String[] args) {\n        try {\n            System.out.print(\"Enter a number: \");\n            int num = new Scanner(System.in).nextInt();\n            int result = 100 / num;\n            System.out.println(\"Result: \" + result);\n        }\n        // Wrong order — generic before specific!\n        catch (Exception e) {\n            System.out.println(\"Error: \" + e.getMessage());\n        }\n        catch (ArithmeticException e) {  // Unreachable!\n            System.out.println(\"Division by zero!\");\n        }\n    }\n}",

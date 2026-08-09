@@ -3,10 +3,49 @@
   "title": "Unit 3 Review — Robust Programs",
   "type": "conceptual",
   "phase1": {
+    "intro": "Take a breath — Unit 3's the one where your programs stopped assuming everything goes right.\n\nWhere do you want to start the recap?",
+    "topics": [
+      {
+        "id": "exception-half-recap",
+        "buttonText": "How did the exception half of the unit fit together?",
+        "dialogue": [
+          "[[term:try-catch-finally]] is the actual catching mechanism, [[term:throw]] creates one exception right now while [[term:throws]] just declares a possibility, and custom exceptions (extends Exception for checked, extends RuntimeException for unchecked) let you invent error types specific to your program's domain."
+        ],
+        "stickyNote": {
+          "term": "Exception Half Recap",
+          "flavor": "🧵 catching, raising, declaring, and inventing your own",
+          "definition": "try-catch-finally catches, throw raises, throws declares, and custom exceptions (extends Exception/RuntimeException) invent domain-specific errors."
+        }
+      },
+      {
+        "id": "io-half-recap",
+        "buttonText": "How did all the I/O layers connect?",
+        "dialogue": [
+          "The I/O half moved through layers, each wrapping the last: byte streams for raw binary data, character streams for text with encoding, buffered streams wrapping either to cut disk trips, and PrintWriter for convenient formatted output. Then File and NIO's Path/Files, and Serialization for saving whole objects. CSV tied it all together as one real-world format."
+        ],
+        "stickyNote": {
+          "term": "I/O Half Recap",
+          "flavor": "🧱 layers wrapping layers, from raw bytes to CSV",
+          "definition": "Byte streams → character streams → buffered streams → PrintWriter, plus File/NIO for file objects and Serialization for whole objects — CSV combines them all."
+        }
+      },
+      {
+        "id": "defensive-mindset",
+        "buttonText": "What's the mindset worth carrying forward?",
+        "dialogue": [
+          "[[warn:The mindset worth carrying forward more than any single class name]]: [[key:assume the file might not be there, the input might be wrong, the disk might be full — and build for that reality instead of hoping around it]]. An empty catch block that swallows an exception silently is almost always worse than a loud crash.",
+          "Next up: Unit 4, Collections & Threads — organizing data at scale, and doing more than one thing at once."
+        ],
+        "stickyNote": {
+          "term": "Defensive Programming Mindset",
+          "flavor": "🛡️ build for failure instead of hoping around it",
+          "definition": "The real lesson: assume files might be missing, input might be wrong, and build for that — an empty, silent catch block is worse than a loud crash."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Take a breath — Unit 3's the one where your programs stopped assuming everything goes right.\n\nEverything up to this unit trusted the world to cooperate: the file's there, the input's valid, nothing runs out of memory. [[key:Unit 3 was about building programs that survive when that trust turns out to be misplaced]] — exceptions for when logic goes wrong, streams for genuinely getting data in and out of files, and a real defensive-programming mindset underneath all of it.\n\nThe exception half: [[term:try-catch-finally]] is the actual catching mechanism, [[term:throw]] creates one exception right now while [[term:throws]] just declares a possibility, and custom exceptions (extends Exception for checked, extends RuntimeException for unchecked) let you invent error types specific to your own program's domain instead of stretching Java's built-in ones to fit.\n\nThe I/O half moved through layers, each one wrapping the last: [[term:byte streams]] for raw binary data, [[term:character streams]] for text with real encoding handling, [[term:buffered streams]] wrapping either one to cut down on slow disk trips, and PrintWriter for genuinely convenient formatted output. Then File and its newer, more fail-loud replacement, NIO's Path/Files, both dealing with files as objects rather than just data flowing through them. Serialization let you save a whole object's state to disk and rebuild it later. CSV tied it all together as one very common real-world format built entirely on top of what you'd already learned.\n\n[[warn:the mindset worth carrying forward more than any single class name]]: [[key:assume the file might not be there, the input might be wrong, the disk might be full — and build for that reality instead of hoping around it]]. An empty catch block that just swallows an exception silently is almost always worse than letting the program crash loudly, because at least a crash tells someone something's actually wrong.\n\nNext up: Unit 4, Collections & Threads — organizing data at scale, and doing more than one thing at once.",
-    "openingDialogue": "Unit 3 complete! You've made your programs robust and reliable~ 🛡️"
+    "openingDialogue": "Unit 3 was about surviving when trust in the world turns out to be misplaced — exceptions, I/O layers, and a defensive mindset. 🛡️"
   },
   "phase2": {
     "brokenCode": "",

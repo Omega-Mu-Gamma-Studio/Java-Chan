@@ -3,9 +3,49 @@
   "title": "Inter-thread Communication",
   "type": "coding",
   "phase1": {
+    "intro": "synchronized stops two workers from colliding — but it doesn't help them actually coordinate.\n\nWhere do you want to start?",
+    "topics": [
+      {
+        "id": "wait-notify",
+        "buttonText": "How do wait() and notify() actually work?",
+        "dialogue": [
+          "[[key:\"Wait until there's something here\" and \"hey, I just added something\"]] — [[term:wait()]] releases the lock and pauses the thread until someone wakes it back up; [[term:notify()]] wakes one waiting thread so it can re-acquire the lock and continue.",
+          "[[warn:Calling wait() or notify() outside a synchronized block throws IllegalMonitorStateException]] — the thread has to actually hold the lock."
+        ],
+        "stickyNote": {
+          "term": "wait() & notify()",
+          "flavor": "⏸️ pause and release, then wake and reacquire",
+          "definition": "wait() releases the lock and pauses until notified. notify() wakes one waiting thread. Both require holding the lock first, or IllegalMonitorStateException fires."
+        }
+      },
+      {
+        "id": "while-not-if",
+        "buttonText": "Why check the condition in a while loop, not an if?",
+        "dialogue": [
+          "[[warn:That while loop around wait(), not an if, is deliberate]] — a woken-up thread doesn't automatically know the condition it was waiting for is still true; it has to check again, because another thread might have grabbed the resource in between."
+        ],
+        "stickyNote": {
+          "term": "while, not if, Around wait()",
+          "flavor": "🔁 re-check the condition after waking",
+          "definition": "A woken thread must re-check its condition in a while loop, not assume it's true (if) — another thread may have changed things in between."
+        }
+      },
+      {
+        "id": "notifyall-vs-notify",
+        "buttonText": "Why is notifyAll() usually the safer default?",
+        "dialogue": [
+          "[[fun:notifyAll() is usually the safer default over notify()]] when more than one thread might be waiting — notify() only wakes one, arbitrarily chosen, which can leave others waiting forever if the wrong one gets picked."
+        ],
+        "stickyNote": {
+          "term": "notifyAll() vs notify()",
+          "flavor": "📢 wake everyone, let each re-check",
+          "definition": "notify() wakes one arbitrary thread, risking starvation. notifyAll() wakes every waiting thread, letting each re-check its own condition."
+        }
+      }
+    ],
     "code": "public class InterThreadCommunicationExample {\n    public static void main(String[] args) {\n        SharedResource resource = new SharedResource();\n        \n        // Producer thread\n        Thread producer = new Thread(() -> {\n            for (int i = 1; i <= 5; i++) {\n                resource.produce(i);\n                try {\n                    Thread.sleep(1000);  // Simulate production time\n                } catch (InterruptedException e) {\n                    e.printStackTrace();\n                }\n            }\n        });\n        \n        // Consumer thread\n        Thread consumer = new Thread(() -> {\n            for (int i = 1; i <= 5; i++) {\n                resource.consume();\n                try {\n                    Thread.sleep(1500);  // Simulate consumption time\n                } catch (InterruptedException e) {\n                    e.printStackTrace();\n                }\n            }\n        });\n        \n        producer.start();\n        consumer.start();\n        \n        try {\n            producer.join();\n            consumer.join();\n        } catch (InterruptedException e) {\n            e.printStackTrace();\n        }\n        \n        System.out.println(\"Producer-consumer complete!\");\n    }\n}\n\nclass SharedResource {\n    private int data;\n    private boolean available = false;\n    \n    // Producer\n    synchronized void produce(int value) {\n        while (available) {\n            try {\n                wait();  // Wait for consumer to consume\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n        \n        data = value;\n        available = true;\n        System.out.println(\"Produced: \" + data);\n        notify();  // Notify consumer\n    }\n    \n    // Consumer\n    synchronized void consume() {\n        while (!available) {\n            try {\n                wait();  // Wait for producer to produce\n            } catch (InterruptedException e) {\n                Thread.currentThread().interrupt();\n            }\n        }\n        \n        System.out.println(\"Consumed: \" + data);\n        available = false;\n        notify();  // Notify producer\n    }\n}\n\n// Alternative: Using wait/notify with multiple producers/consumers\nclass SharedQueue {\n    private final java.util.LinkedList<Integer> queue = new java.util.LinkedList<>();\n    private final int CAPACITY = 3;\n    \n    synchronized void produce(int value) throws InterruptedException {\n        while (queue.size() == CAPACITY) {\n            System.out.println(\"Queue full, producer waiting...\");\n            wait();\n        }\n        \n        queue.add(value);\n        System.out.println(\"Produced: \" + value + \", Queue: \" + queue);\n        notifyAll();  // Notify all waiting threads\n    }\n    \n    synchronized int consume() throws InterruptedException {\n        while (queue.isEmpty()) {\n            System.out.println(\"Queue empty, consumer waiting...\");\n            wait();\n        }\n        \n        int value = queue.removeFirst();\n        System.out.println(\"Consumed: \" + value + \", Queue: \" + queue);\n        notifyAll();  // Notify all waiting threads\n        return value;\n    }\n}",
     "output": "Produced: 1\nConsumed: 1\nProduced: 2\nProduced: 3\nConsumed: 2\nProduced: 4\nConsumed: 3\nProduced: 5\nConsumed: 4\nConsumed: 5\nProducer-consumer complete!",
-    "explanation": "synchronized stops two workers from colliding over the same shelf — but it doesn't help them actually coordinate. A producer worker filling a shelf and a consumer worker emptying it need to talk to each other: [[key:\"wait until there's something here\" and \"hey, I just added something\"]] — that's a different problem than mutual exclusion, and it needs a different tool.\n\n[[term:wait()]] and [[term:notify()]] (both inherited from Object, callable only from inside a synchronized block on that same object) solve it. wait() releases the lock and pauses the thread until someone wakes it back up; notify() wakes one waiting thread back up so it can re-acquire the lock and continue.\n\nsynchronized void produce(int value) {\n    while (available) {\n        wait();  // nothing to do yet — release the lock, pause here\n    }\n    data = value;\n    available = true;\n    notify();  // wake the consumer up\n}\n\n[[warn:calling wait() or notify() outside a synchronized block throws IllegalMonitorStateException]] — the thread has to actually hold the lock for either call to make sense, since wait() is specifically about releasing a lock it currently holds.\n\n[[warn:that while loop around wait(), not an if, is deliberate]] — a woken-up thread doesn't automatically know the condition it was waiting for is still true; it has to check again, because another thread might have grabbed the resource in between. [[fun:notifyAll() is usually the safer default over notify()]] when more than one thread might be waiting — notify() only wakes one, arbitrarily chosen, which can leave others waiting forever if the wrong one gets picked; notifyAll() wakes everyone and lets each re-check its own condition."
+    "openingDialogue": "wait() and notify() let threads actually coordinate, not just avoid colliding — with a while loop guarding every wake-up. ⏸️"
   },
   "phase2": {
     "brokenCode": "class Resource {\n    synchronized void method() {\n        // Forgetting to use wait in a loop\n        if (!condition) {\n            wait();  // Should be while(!condition) { wait(); }\n        }\n    }\n}",

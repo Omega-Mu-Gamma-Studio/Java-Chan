@@ -3,9 +3,51 @@
   "title": "Polymorphism",
   "type": "coding",
   "phase1": {
+    "intro": "Polymorphism literally means \"many forms\" — one name, different behavior depending on context. You've actually already met both flavors of it.\n\nWhich do you want to revisit first?",
+    "topics": [
+      {
+        "id": "two-flavors",
+        "buttonText": "What's the difference between compile-time and runtime polymorphism?",
+        "dialogue": [
+          "[[term:Compile-time polymorphism]] is method overloading — Calculator's three `add()` methods share a name but differ in parameters, and [[key:Java decides which one to call while compiling, based purely on what arguments you wrote]].",
+          "[[term:Runtime polymorphism]] is method overriding — `Animal myAnimal = new Dog();` then `myAnimal.makeSound()` runs Dog's version, and [[key:that decision happens while the program is actually running, based on the object's real type]]."
+        ],
+        "stickyNote": {
+          "term": "Compile-time vs Runtime Polymorphism",
+          "flavor": "🕐 decided at compile time vs decided while running",
+          "definition": "Compile-time polymorphism = overloading, resolved by argument types at compile time. Runtime polymorphism = overriding, resolved by actual object type at runtime."
+        }
+      },
+      {
+        "id": "upcasting",
+        "buttonText": "What is upcasting, and what does it cost me?",
+        "dialogue": [
+          "`Animal myAnimal = new Dog();` is called [[term:upcasting]] — treating a more specific object as its more general type — and Java does it automatically, no cast needed.",
+          "The tradeoff: [[warn:through an Animal-typed variable, you can only call methods Animal actually declares]] — `myAnimal.wagTail()` won't compile, even though the object underneath really is a Dog."
+        ],
+        "stickyNote": {
+          "term": "Upcasting",
+          "flavor": "⬆️ automatic, but you lose access to the subclass's extras",
+          "definition": "Treating a subclass object as its superclass type, done automatically. Only the superclass's declared methods are callable through that reference."
+        }
+      },
+      {
+        "id": "downcasting",
+        "buttonText": "How do I go back from Animal to Dog?",
+        "dialogue": [
+          "Going the other direction is [[term:downcasting]] — converting back from Animal to Dog — and [[warn:this one you have to do explicitly with (Dog)]], because Java can't be sure at compile time it's actually safe.",
+          "That's exactly what `instanceof` is for: checking \"is this really a Dog\" BEFORE you downcast, so you never risk a crash."
+        ],
+        "stickyNote": {
+          "term": "Downcasting & instanceof",
+          "flavor": "⬇️ explicit cast, checked first with instanceof",
+          "definition": "Downcasting converts a superclass reference back to a subclass type, requiring an explicit cast like (Dog). instanceof checks safety beforehand."
+        }
+      }
+    ],
     "code": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n    \n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\nclass Cat extends Animal {\n    @Override\n    void makeSound() {\n        System.out.println(\"Meow!\");\n    }\n    \n    void purr() {\n        System.out.println(\"Purr...\");\n    }\n}\n\npublic class PolymorphismExample {\n    public static void main(String[] args) {\n        // Compile-time polymorphism (method overloading)\n        System.out.println(\"=== Compile-time Polymorphism ===\");\n        Calculator calc = new Calculator();\n        System.out.println(\"Add 2 numbers: \" + calc.add(5, 3));\n        System.out.println(\"Add 3 numbers: \" + calc.add(5, 3, 2));\n        System.out.println(\"Add 2 doubles: \" + calc.add(5.5, 3.3));\n        \n        // Runtime polymorphism (method overriding)\n        System.out.println(\"=== Runtime Polymorphism ===\");\n        Animal myAnimal;\n        \n        myAnimal = new Dog();\n        myAnimal.makeSound();  // Calls Dog's version\n        // myAnimal.wagTail(); // ERROR! Animal reference doesn't know about Dog methods\n        \n        myAnimal = new Cat();\n        myAnimal.makeSound();  // Calls Cat's version\n        \n        // Upcasting\n        System.out.println(\"=== Upcasting ===\");\n        Dog dog = new Dog();\n        Animal animal = dog;  // Upcast (Dog -> Animal) — automatic\n        animal.makeSound();   // Still calls Dog's version\n        \n        // Downcasting (with instanceof check)\n        System.out.println(\"=== Downcasting ===\");\n        Animal someAnimal = new Dog();\n        if (someAnimal instanceof Dog) {\n            Dog dog2 = (Dog) someAnimal;  // Downcast (Animal -> Dog)\n            dog2.wagTail();  // Now we can call Dog-specific methods\n        }\n        \n        if (someAnimal instanceof Cat) {\n            System.out.println(\"This is a Cat\");\n        } else {\n            System.out.println(\"This is NOT a Cat\");\n        }\n    }\n}\n\nclass Calculator {\n    // Overloaded methods (compile-time polymorphism)\n    int add(int a, int b) {\n        return a + b;\n    }\n    \n    int add(int a, int b, int c) {\n        return a + b + c;\n    }\n    \n    double add(double a, double b) {\n        return a + b;\n    }\n}",
     "output": "=== Compile-time Polymorphism ===\nAdd 2 numbers: 8\nAdd 3 numbers: 10\nAdd 2 doubles: 8.8\n=== Runtime Polymorphism ===\nWoof!\nMeow!\n=== Upcasting ===\nWoof!\n=== Downcasting ===\nTail wagging!\nThis is NOT a Cat",
-    "explanation": "[[term:Polymorphism]] literally means \"many forms\" — one name, different behavior depending on context. You've actually already met both flavors of it.\n\n[[term:Compile-time polymorphism]] is method overloading — Calculator's three `add()` methods share a name but differ in parameters, and [[key:Java decides which one to call while compiling, based purely on what arguments you wrote]].\n\n[[term:Runtime polymorphism]] is method overriding — `Animal myAnimal = new Dog();` followed by `myAnimal.makeSound()` runs Dog's version, and [[key:that decision happens while the program is actually running, based on the object's real type]], not the variable's declared type.\n\nThat `Animal myAnimal = new Dog();` line is called [[term:upcasting]] — treating a more specific object as its more general type — and Java does it automatically, no cast needed. The tradeoff: [[warn:through an Animal-typed variable, you can only call methods Animal actually declares]] — `myAnimal.wagTail()` won't compile, even though the object underneath really is a Dog, because the variable's declared type doesn't know wagTail exists.\n\nGoing the other direction is [[term:downcasting]] — converting back from Animal to Dog — and [[warn:this one you have to do explicitly with (Dog)]], because Java can't be sure at compile time it's actually safe. That's exactly what `instanceof` is for: checking \"is this really a Dog\" BEFORE you downcast, so you never risk a crash."
+    "openingDialogue": "Polymorphism has two forms — overloading resolved at compile time, overriding resolved at runtime — plus upcasting and downcasting between types. 🎭"
   },
   "phase2": {
     "brokenCode": "class Animal {\n    void makeSound() {\n        System.out.println(\"Animal sound\");\n    }\n}\n\nclass Dog extends Animal {\n    void makeSound() {\n        System.out.println(\"Woof!\");\n    }\n    \n    void wagTail() {\n        System.out.println(\"Tail wagging!\");\n    }\n}\n\npublic class Test {\n    public static void main(String[] args) {\n        Animal animal = new Dog();\n        \n        // Bad downcast without instanceof\n        Cat cat = (Cat) animal;  // animal is a Dog, not a Cat!\n    }\n}",

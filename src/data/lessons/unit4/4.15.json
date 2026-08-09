@@ -3,10 +3,48 @@
   "title": "Unit 4 Review — Choosing the Right Tool",
   "type": "conceptual",
   "phase1": {
+    "intro": "Two very different rooms in the workshop, and both boil down to the same skill: picking the right tool for a job you can actually describe.\n\nWhere do you want to start the recap?",
+    "topics": [
+      {
+        "id": "storage-questions",
+        "buttonText": "What questions decide which storage tool I need?",
+        "dialogue": [
+          "[[term:For storage]]: Do I need order? (List yes, Set/Map no guarantee unless Tree). Do I need to block duplicates? (Set or Map's keys). Position or label lookup? (List's get(index) vs Map's get(key)). Always sorted, or sort-on-demand? Only touch the ends? (Deque)."
+        ],
+        "stickyNote": {
+          "term": "Storage Decision Questions",
+          "flavor": "🗄️ order, duplicates, lookup style, sorting need",
+          "definition": "Choosing a collection: need order? need to block duplicates? position or label lookup? always sorted or on-demand? only touching the ends?"
+        }
+      },
+      {
+        "id": "concurrency-questions",
+        "buttonText": "What questions decide which concurrency tool I need?",
+        "dialogue": [
+          "[[term:For concurrency]]: Am I sharing mutable state between threads at all? If yes — race condition on a single value (synchronized usually enough) or genuine coordination (wait()/notify())? [[warn:Am I hand-rolling new Thread() for every task, or is this a job for an ExecutorService pool]] — almost always the pool."
+        ],
+        "stickyNote": {
+          "term": "Concurrency Decision Questions",
+          "flavor": "⚙️ shared state, race vs. coordination, pool or not",
+          "definition": "Choosing concurrency tools: is state shared? is it a race condition (synchronized) or coordination (wait/notify)? should this use a thread pool instead of manual threads?"
+        }
+      },
+      {
+        "id": "unit4-throughline",
+        "buttonText": "What's the throughline across the whole unit?",
+        "dialogue": [
+          "[[fun:The throughline across all fifteen lessons]]: every tool in this unit is a trade-off someone already thought through — speed against order, flexibility against safety, simplicity against control. [[key:Knowing the trade-off is the actual skill]] — method names are just vocabulary for a decision you already know how to make."
+        ],
+        "stickyNote": {
+          "term": "Unit 4 Throughline",
+          "flavor": "⚖️ every tool is a trade-off, already thought through",
+          "definition": "Every collection and concurrency tool trades speed, order, flexibility, or safety against something else — knowing the trade-off is the real skill."
+        }
+      }
+    ],
     "code": "",
     "output": "",
-    "explanation": "Two very different rooms in the workshop, and both boil down to the same skill: [[key:picking the right tool for a job you can actually describe]], not memorizing every method on every class.\n\n[[term:For storage]], the questions that actually matter: Do I need order? (List, yes — Set/Map, no guarantee unless it's a Tree variant). Do I need to block duplicates? (Set or Map's keys — never List). Do I look things up by position, or by a label? (List's get(index) vs. Map's get(key)). Do I need it sorted at all times, or is sorting-on-demand fine? (TreeSet/TreeMap's O(log n) cost vs. a HashSet/HashMap plus one sort when you actually need order). Do I only ever touch the ends? (Deque, not a general List).\n\n[[term:For concurrency]], the questions shift: Am I sharing mutable state between threads at all? If not, none of this unit's synchronization machinery is even needed. If yes — is the danger a race condition on a single value (synchronized is usually enough) or genuine coordination between threads, like a producer waiting on a consumer (wait()/notify())? And [[warn:am I about to hand-roll new Thread() for every task, or is this actually a job for an ExecutorService pool]] — almost always the pool, once there's more than a couple of short-lived tasks involved.\n\n[[fun:the throughline across all fifteen lessons]]: every tool in this unit is a trade-off someone already thought through — speed against order, flexibility against safety, simplicity against control. [[key:knowing the trade-off is the actual skill]] — the specific method names are just vocabulary for expressing a decision you already know how to make.",
-    "openingDialogue": "Unit 4 complete! You've mastered collections and threads! 🎉"
+    "openingDialogue": "Unit 4's whole skill is picking the right storage or concurrency tool for a job you can actually describe — not memorizing methods. ⚖️"
   },
   "phase2": {
     "brokenCode": "",

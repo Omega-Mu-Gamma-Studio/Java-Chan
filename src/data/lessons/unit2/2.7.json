@@ -3,9 +3,50 @@
   "title": "Multiple Interfaces",
   "type": "coding",
   "phase1": {
+    "intro": "Now that you know a class can implement several interfaces at once, here's the one wrinkle that comes with it.\n\nWant to see the conflict first, or the flexibility it buys you?",
+    "topics": [
+      {
+        "id": "default-method-conflict",
+        "buttonText": "What happens when two interfaces both define the same default method?",
+        "dialogue": [
+          "Look at FlyingCar: both `Drivable` and `Flyable` provide their own default `honk()`. [[warn:What happens when two interfaces both define a DEFAULT method with the exact same name]]?",
+          "[[key:Java refuses to just silently pick one for you]] — that would be guessing. Instead, FlyingCar is required to override `honk()` itself, using `Drivable.super.honk()` to say \"specifically call Drivable's version,\" or writing entirely new logic."
+        ],
+        "stickyNote": {
+          "term": "Default Method Conflicts",
+          "flavor": "⚔️ Java won't guess, you must resolve it",
+          "definition": "When two implemented interfaces share a default method name, the class must override it explicitly — e.g. Drivable.super.honk() to pick one."
+        }
+      },
+      {
+        "id": "multiple-interface-flexibility",
+        "buttonText": "What's the real benefit of implementing several interfaces?",
+        "dialogue": [
+          "`AmphibiousVehicle implements Drivable, Swimmable` can be treated as EITHER type depending on what a piece of code needs — `Drivable asDrivable = amphib;` only exposes drive-related behavior, `Swimmable asSwimmable = amphib;` only exposes swim-related behavior.",
+          "Same object, different lenses depending on which interface reference you're looking through it with."
+        ],
+        "stickyNote": {
+          "term": "Multiple Interface References",
+          "flavor": "🔍 same object, different lens per interface",
+          "definition": "One object implementing several interfaces can be referenced through any of them, exposing only that interface's methods through that reference."
+        }
+      },
+      {
+        "id": "diamond-problem",
+        "buttonText": "Why doesn't Java have the diamond problem?",
+        "dialogue": [
+          "This is exactly why Java avoids the notorious [[term:diamond problem]] that multiple CLASS inheritance runs into: interfaces don't carry state, only behavior contracts, so [[key:the only real ambiguity that can ever arise is conflicting default methods]] — and Java forces you to resolve that explicitly."
+        ],
+        "stickyNote": {
+          "term": "Diamond Problem",
+          "flavor": "💎 avoided because interfaces carry no state",
+          "definition": "The diamond problem plagues multiple class inheritance with ambiguous state. Java's interfaces carry no state, so the only ambiguity is conflicting default methods, which must be resolved explicitly."
+        }
+      }
+    ],
     "code": "interface Drivable {\n    void drive();\n    \n    default void honk() {\n        System.out.println(\"Beep!\");\n    }\n}\n\ninterface Flyable {\n    void fly();\n    \n    default void honk() {\n        System.out.println(\"Honk from Flyable!\");\n    }\n}\n\ninterface Swimmable {\n    void swim();\n}\n\n// Class implementing multiple interfaces\nclass FlyingCar implements Drivable, Flyable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on roads\");\n    }\n    \n    @Override\n    public void fly() {\n        System.out.println(\"Flying in the sky\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n    \n    // Resolving default method conflict\n    @Override\n    public void honk() {\n        Drivable.super.honk();  // Choose which default to use\n        // Or provide custom: System.out.println(\"Super honk!\");\n    }\n}\n\nclass AmphibiousVehicle implements Drivable, Swimmable {\n    @Override\n    public void drive() {\n        System.out.println(\"Driving on land\");\n    }\n    \n    @Override\n    public void swim() {\n        System.out.println(\"Swimming in water\");\n    }\n}\n\npublic class MultipleInterfacesExample {\n    public static void main(String[] args) {\n        FlyingCar flyingCar = new FlyingCar();\n        flyingCar.drive();\n        flyingCar.fly();\n        flyingCar.swim();\n        flyingCar.honk();\n        \n        System.out.println(\"---\");\n        \n        // Polymorphism with multiple interfaces\n        AmphibiousVehicle amphib = new AmphibiousVehicle();\n        \n        Drivable asDrivable = amphib;\n        Swimmable asSwimmable = amphib;\n        \n        asDrivable.drive();\n        asSwimmable.swim();\n        \n        System.out.println(\"--- Checking instanceof ---\");\n        System.out.println(\"flyingCar instanceof Drivable: \" + (flyingCar instanceof Drivable));\n        System.out.println(\"flyingCar instanceof Flyable: \" + (flyingCar instanceof Flyable));\n        System.out.println(\"flyingCar instanceof Swimmable: \" + (flyingCar instanceof Swimmable));\n    }\n}",
     "output": "Driving on roads\nFlying in the sky\nSwimming in water\nBeep!\n---\nDriving on land\nSwimming in water\n--- Checking instanceof ---\nflyingCar instanceof Drivable: true\nflyingCar instanceof Flyable: true\nflyingCar instanceof Swimmable: true",
-    "explanation": "Now that you know a class can implement several interfaces at once, here's the one wrinkle that comes with it: [[warn:what happens when two of those interfaces both define a DEFAULT method with the exact same name]]?\n\nLook at FlyingCar: both `Drivable` and `Flyable` provide their own default `honk()`. [[key:Java refuses to just silently pick one for you]] — that would be guessing, and Java doesn't guess with ambiguous behavior. Instead, FlyingCar is required to override `honk()` itself and explicitly resolve the conflict, using `Drivable.super.honk()` to say \"specifically call Drivable's version,\" or writing entirely new logic of its own.\n\nThe rest of the flexibility, though, is genuinely useful: `AmphibiousVehicle implements Drivable, Swimmable` can be treated as EITHER type depending on what a piece of code needs — `Drivable asDrivable = amphib;` only exposes drive-related behavior, `Swimmable asSwimmable = amphib;` only exposes swim-related behavior — same object, different lenses depending on which interface reference you're looking through it with.\n\nThis is exactly why Java avoids the notorious [[term:diamond problem]] that multiple CLASS inheritance runs into: interfaces don't carry state, only behavior contracts, so [[key:the only real ambiguity that can ever arise is conflicting default methods]] — and Java forces you to resolve that explicitly instead of letting it silently pick a winner."
+    "openingDialogue": "Implementing multiple interfaces is flexible — until two default methods share a name, and Java makes you resolve it yourself. ⚔️"
   },
   "phase2": {
     "brokenCode": "interface A {\n    default void hello() {\n        System.out.println(\"Hello from A\");\n    }\n}\n\ninterface B {\n    default void hello() {\n        System.out.println(\"Hello from B\");\n    }\n}\n\nclass C implements A, B {\n    // Forgetting to resolve the conflict\n    public static void main(String[] args) {\n        C obj = new C();\n        obj.hello();  // Which one?\n    }\n}",

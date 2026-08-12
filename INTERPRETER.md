@@ -3,7 +3,7 @@
 **Branch:** `feature/java-interpreter`  
 **Tagged baseline:** `v1.0` (Phase 1 — 75 lessons, pattern-based validation, full cosmetics)  
 **Author:** Alberto Felix
-**Status:** Planning / Active Development
+**Status:** Planning / Active Development — see [Current Task Queue](#current-task-queue-milestone-1) for what to pick up next
 
 ---
 
@@ -639,6 +639,52 @@ When you need to add a new Java feature to the interpreter:
 7. **Update the lesson JSON** for any lesson that should now use `executionMode: true` given the new feature. Add `expectedOutput` to those lessons.
 
 8. **Run all existing tests.** Adding a feature should never break existing tests. If it does, something in the shared evaluation path changed in a way that needs investigation.
+
+---
+
+## Current Task Queue (Milestone 1)
+
+This is the build order for the scripting subset. Tasks are listed in dependency order — each one builds on the file(s) the previous task finished, so **don't start a task until the ones above it are checked off**.
+
+**Rules for picking up a task:**
+1. Take the first unchecked `[ ]` task from the top. If you're not sure it's actually free, check this file's git history/blame first — someone may have claimed it mid-session without pushing yet.
+2. **Finish the whole task in one session.** These are sized to be doable in a single sitting — implementation + tests + a passing `npm run test` and `npm run lint`. Don't leave a task half-done and checked off, and don't check off a task you didn't finish.
+3. When done, check the box, add your name and the PR/commit, and update `Status` at the top of this doc if the milestone's Definition of Done is now met.
+4. Commit the checkbox update in the same PR as the code — this file is the source of truth for "what's next," so it has to move in lockstep with the code, not after it.
+
+If a task turns out to be bigger than one session, stop and split it into two sub-tasks in this list rather than pushing through — that keeps the "one task, one session" rule honest for whoever picks it up next.
+
+- [ ] **Task 1 — `Lexer.js`: full tokenizer.** Implement `tokenize()` for every token type listed in §"1. Lexer": literals, keywords, operators (including `++`/`--` and compound assignment), delimiters, line tracking, whitespace/comment skipping, string/char escape handling. Fill in the real tests behind `lexer.test.js`'s `it.todo`s, with fixtures under `__tests__/fixtures/`.
+  _Files: `Lexer.js`, `__tests__/lexer.test.js`_
+
+- [ ] **Task 2 — `Parser.js`: full AST for Phase 1 syntax.** Implement `parse()` via recursive descent for every node in §"2. Parser": class/method declarations, all statement types, the full expression precedence chain, array declarations. Fill in `parser.test.js`.
+  _Files: `Parser.js`, `__tests__/parser.test.js`_ · _Depends on: Task 1_
+
+- [ ] **Task 3 — `Evaluator.js`: expressions and variables.** Wire up arithmetic/comparison/logical operators, variable declaration and assignment, string concatenation, type casting, and `if`/`else if`/`else`/`switch`, using the existing `Environment.js`. Start filling in `evaluator.test.js`.
+  _Files: `Evaluator.js`_ · _Depends on: Task 2_
+
+- [ ] **Task 4 — `Evaluator.js`: loops and control flow.** Implement `for`/`while`/`do-while`, `break`/`continue` via `BREAK_SIGNAL`/`CONTINUE_SIGNAL`, and wire `tick()` into every loop iteration and statement so the timeout guard actually fires. Add the infinite-loop test.
+  _Files: `Evaluator.js`_ · _Depends on: Task 3_
+
+- [ ] **Task 5 — `Evaluator.js`: arrays and static methods.** Implement 1D/2D array creation and indexed access, static method declarations/calls within a class, and `return` via `ReturnSignal`.
+  _Files: `Evaluator.js`_ · _Depends on: Task 4_
+
+- [ ] **Task 6 — `StandardLibrary.js`.** Implement the `STD` registry (`System.out.println`/`print`, all listed `Math.*` methods, the listed `String` instance methods) and `javaToString()` with Java's actual int-vs-double and null/boolean formatting rules.
+  _Files: `StandardLibrary.js`_ · _Depends on: Task 5_
+
+- [ ] **Task 7 — `index.js`: wire the pipeline.** Implement `run()`: Lexer → Parser → Evaluator, catch `InterpreterError` and map it to `{ success, stderr, errorType, errorLine }`, return the full `ExecutionResult` shape.
+  _Files: `index.js`_ · _Depends on: Task 6_
+
+- [ ] **Task 8 — Wire up `SandboxEditor.jsx` and `LessonCanvas.jsx`.** Make the Run button call `run(sourceCode)`, show `stdout`/`stderr` in their panels, diff against `expectedOutput`, and call `onPass`. Add the `phase3?.executionMode` conditional to `LessonCanvas.jsx` per §"Changes to LessonCanvas.jsx" and implement `handleSandboxPass`.
+  _Files: `SandboxEditor.jsx`, `SandboxEditor.css`, `LessonCanvas.jsx`_ · _Depends on: Task 7_
+
+- [ ] **Task 9 — Milestone 1 fixtures and Definition of Done.** Write fixtures for lessons 1.3–1.14 (each confirmed against a real JVM), confirm every one produces matching `stdout`, and verify the rest of Milestone 1's Definition of Done in §"Milestone 1 — The Scripting Subset".
+  _Files: `__tests__/fixtures/unit1/`_ · _Depends on: Task 8_
+
+- [ ] **Task 10 — Migrate lessons 1.3–1.14 to `executionMode`.** Per the Migration Plan table, add `executionMode: true` and `expectedOutput` to those lessons' `phase3` JSON. This is the first real lesson content running on the interpreter.
+  _Files: `src/data/lessons/unit1/*.json`_ · _Depends on: Task 9_
+
+Once Task 10 is checked off, Milestone 1 is done — open a new task list here for Milestone 2 (the object system) before starting on it, following the same one-task-per-session structure.
 
 ---
 

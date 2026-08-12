@@ -5,6 +5,11 @@
  * per escape sequence, plus malformed-input cases.
  *
  * Task 1 — complete implementation.
+ *
+ * Task 2 note: added TokenType.COLON (and the ':' lexer rule) — the
+ * original exhaustive token list in INTERPRETER.md §"1. Lexer" omitted it,
+ * but switch/case is in-scope for Unit 1 and `case 1:` cannot lex without
+ * it. Flagging here since it's a doc gap, not a scope change.
  */
 
 import { describe, it, expect } from 'vitest';
@@ -292,6 +297,7 @@ describe('Lexer — delimiters', () => {
     [';', TokenType.SEMICOLON],
     [',', TokenType.COMMA],
     ['.', TokenType.DOT],
+    [':', TokenType.COLON],
   ];
   it.each(cases)('tokenizes "%s"', (ch, expectedType) => {
     const [tok] = lex(ch);

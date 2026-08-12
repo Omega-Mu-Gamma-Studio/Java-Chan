@@ -6,6 +6,10 @@
  * int-vs-double detection, `++`/`--` matching order, keyword recognition).
  *
  * Task 1 — complete implementation.
+ *
+ * Note: adds TokenType.COLON beyond INTERPRETER.md's listed token set —
+ * the doc's list omitted it, but switch/case needs `:` to lex at all. See
+ * lexer.test.js for the flag on this.
  */
 
 import { InterpreterError, ErrorType } from './InterpreterError.js';
@@ -86,6 +90,7 @@ export const TokenType = {
   SEMICOLON: 'SEMICOLON',
   COMMA: 'COMMA',
   DOT: 'DOT',
+  COLON: 'COLON',
 
   // Meta
   EOF: 'EOF',
@@ -366,6 +371,7 @@ export class Lexer {
         case ';': this.emit(TokenType.SEMICOLON,     ch); break;
         case ',': this.emit(TokenType.COMMA,         ch); break;
         case '.': this.emit(TokenType.DOT,           ch); break;
+        case ':': this.emit(TokenType.COLON,         ch); break;
 
         case '+':
           if (this.match('+'))  this.emit(TokenType.PLUS_PLUS,   '++');

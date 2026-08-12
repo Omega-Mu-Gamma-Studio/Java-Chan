@@ -44,6 +44,7 @@ Before submitting a PR, run:
 ```bash
 npm run lint    # ESLint check
 npm run build   # Make sure the production build succeeds
+npm run test    # Vitest — required if you touched src/interpreter/ (see INTERPRETER.md)
 ```
 
 ---

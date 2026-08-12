@@ -266,7 +266,7 @@ Java-Chan/
 │   │   ├── character/JavaChan.jsx  # Sprite renderer + Domain Expansion overlay; reads spriteOverrides
 │   │   ├── layout/AppLayout.jsx    # Root shell; applies wallpaper/theme, mounts topbar + JavaChan
 │   │   ├── home/MeetMySisters.jsx  # Cross-studio sibling rail on the Home page
-│   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator (5 tabs), ScaffoldEditor, EmphasisText
+│   │   ├── lesson/                 # LessonCanvas, CodeBlock, PhaseIndicator (5 tabs), ScaffoldEditor, SandboxEditor, EmphasisText
 │   │   └── ui/                     # Sidebar, BottomBar, XPDisplay, ProgressBar, MusicPlayer, Journal/JournalBook
 │   │
 │   ├── data/

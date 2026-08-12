@@ -1,0 +1,37 @@
+.sandbox-editor {
+  background: var(--color-surface-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  font-family: var(--font-code);
+  font-size: 0.88rem;
+  margin: 12px 0;
+}
+
+.sandbox-editor__textarea {
+  width: 100%;
+  min-height: 160px;
+  box-sizing: border-box;
+  border: none;
+  resize: vertical;
+  padding: 14px;
+  font-family: var(--font-code);
+  font-size: 0.88rem;
+  background: transparent;
+  color: inherit;
+}
+
+.sandbox-editor__run-btn {
+  margin: 0 14px 14px;
+}
+
+.sandbox-editor__output {
+  padding: 14px;
+  border-top: 1px solid var(--color-border);
+}
+
+.sandbox-editor__placeholder {
+  opacity: 0.6;
+  font-style: italic;
+  margin: 0;
+}

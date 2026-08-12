@@ -34,11 +34,11 @@ Every single lesson — all 75 of them — runs through this five-phase arc:
 |-------|------|----|
 | **1** | Learn It With Me | A split-screen: Java-chan talks through the idea in short dialogue beats on one side, and clicking a topic pins a citable sticky note on the other. The student picks which topic to open first — it's not one long scroll |
 | **2** | See the Code | Same idea, deliberately broken — she explains the bug and why it matters, with an optional "Show Me the Fix" reveal for the corrected version |
-| **3** | Code It With Me | Fill-in-the-blank scaffolded coding — most of the program is given, you fill the specific blanks that test the lesson's idea |
+| **3** | Code It With Me | Two modes depending on the lesson: fill-in-the-blank scaffolded coding (most of the program is given, you fill the specific blanks), or — for execution-mode lessons — a full code editor where you write the program and run it, with real output compared against the expected result |
 | **4** | Challenge | A quick MCQ check, plus a self-directed prompt to attempt the full thing in your own IDE (honor system — not graded in-browser) |
 | **5** | Fun Facts & Trivia | A closing lore/trivia beat in her voice — no grading, just flavor and a reason to remember it |
 
-Phase 3's blanks are checked against a short accepted-answers list (whitespace-normalized, case-sensitive by default) — no regex needed anymore. Phase 4's MCQ is exact-match. The self-challenge in Phase 4 is intentionally never validated in-browser — no fake Java interpreter, no compiler in your browser tab. This keeps the app lightweight and deployable anywhere.
+Phase 3 operates in one of two modes depending on what the lesson is testing. **Fill-in-the-blank mode** (most lessons): blanks are checked against a short accepted-answers list, whitespace-normalized, case-sensitive by default. **Execution mode** (coding lessons): the student writes a complete program, runs it in-browser via Java-chan's built-in Java interpreter, and the output is compared against the lesson's `expectedOutput`. The interpreter is a tree-walking Java subset evaluator — no external API, no server, no JVM installation required. See [`INTERPRETER.md`](./INTERPRETER.md) for the full architecture. Phase 4's MCQ is exact-match. The self-challenge in Phase 4 is never validated in-browser — that's the student's IDE, and the honor system.
 
 Code blocks also carry **hover tooltips** on keywords and API calls — a shared glossary covers common Java terms everywhere, and each lesson can add its own notes for anything unique to its example.
 
@@ -107,7 +107,8 @@ All five units are complete, published, and available from day one.
 - **Five-phase lesson structure** — Learn It With Me → See the Code → Code It With Me → Challenge → Fun Facts & Trivia, on every lesson, no exceptions
 - **Voice-first content** — the explanation itself is written as Java-chan teaching, not a neutral textbook paragraph with her commentary appended
 - **Contextual hint escalation** — hint appears at 2 wrong attempts, solution unlocks at 5
-- **List-based blank checking + exact-match MCQ** — instant feedback without a server or a real code execution engine
+- **Two Phase 3 validation modes** — fill-in-the-blank with list-based answer checking for syntax-recall lessons; real execution with stdout comparison for coding lessons, powered by the built-in Java interpreter
+- **Built-in Java interpreter** — a tree-walking Java subset evaluator running entirely in the browser; no server, no API, no installation required. Covers the scripting subset (variables, control flow, arrays, static methods) with OOP support rolling out progressively
 - **Hover glossary on code tokens** — a shared keyword glossary plus per-lesson overrides for anything unique to that lesson's example
 - **Inline emphasis tags** — four distinct typographic treatments for vocabulary, warnings, key ideas, and trivia inside lesson prose
 - **Full lesson navigation** — collapsible sidebar with per-lesson completion tracking
@@ -191,6 +192,7 @@ A looping background track plays across the whole app, composed by Aaron Felix J
 | State | Zustand 5 | Minimal boilerplate, works with `persist` middleware out of the box |
 | Data | JSON files + localStorage | Zero backend for Phase 1; data adapter ready for Phase 2 |
 | Routing | React Router v7 | File-level page components |
+| Interpreter | Custom tree-walking Java evaluator (`src/interpreter/`) | Zero dependencies, runs entirely in browser, covers the CS22301 Java subset |
 | Hosting | Vercel | Zero-config deployment |
 
 ---
@@ -294,6 +296,17 @@ Java-Chan/
 │   │   ├── lessonStore.js          # Zustand store: active lesson state, expression state
 │   │   └── journalStore.js         # Zustand store: sticky notes the student has pinned, across lessons
 │   │
+│   ├── interpreter/                # Java subset interpreter — see INTERPRETER.md
+│   │   ├── index.js                # Public API: run(sourceCode) → { stdout, stderr, success }
+│   │   ├── Lexer.js                # Tokenizer: source string → token array
+│   │   ├── Parser.js               # Token array → Abstract Syntax Tree
+│   │   ├── Evaluator.js            # AST → output + side effects (tree-walking)
+│   │   ├── Environment.js          # Scope chain for variable lookup
+│   │   ├── JavaObject.js           # Runtime representation of Java objects (Phase 2)
+│   │   ├── StandardLibrary.js      # System.out, Math, String methods — built-in implementations
+│   │   ├── InterpreterError.js     # Structured error type (LexError / ParseError / RuntimeError)
+│   │   └── __tests__/              # Unit tests per module + Java fixture files
+│   │
 │   └── utils/
 │       ├── xpCalculator.js         # XP thresholds, level math, earned XP calculation
 │       ├── blankValidator.js       # Phase 3 fill-in-the-blank checking (list-based, not regex)
@@ -351,6 +364,12 @@ Lesson JSON files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Each file fol
     ],
     "openingDialogue": "Her line when this phase opens"
   },
+  "_phase3_execution_mode_alternative": {
+    "executionMode": true,
+    "scaffoldCode": "public class Main {\n    public static void main(String[] args) {\n        // your code here\n    }\n}",
+    "expectedOutput": "Hello, World!\n",
+    "openingDialogue": "Her line when this phase opens"
+  },
   "phase4": {
     "mcq": {
       "question": "MCQ prompt with options A–D",
@@ -368,6 +387,8 @@ Lesson JSON files live at `src/data/lessons/unit{N}/{N}.{M}.json`. Each file fol
   }
 }
 ```
+
+**Phase 3 has two authoring modes.** The default is fill-in-the-blank (`blanks[]` + `scaffoldCode` with `{{blankId}}` markers). For lessons where the student should write and run a complete program, set `executionMode: true`, provide the starting scaffold, and set `expectedOutput` to the exact string the interpreter should produce (including trailing newlines). The interpreter handles the rest. Not every lesson should be execution mode — see [`INTERPRETER.md`](./INTERPRETER.md) for the migration plan and which lessons belong where.
 
 `phase1.topics[]` isn't a fixed length either — most lessons land on 2–3, matching however many genuinely distinct ideas that lesson's old-style explanation actually contained; don't pad to a round number. Each topic's `dialogue[]` is a list of short beats, not one paragraph — split anywhere a skimming reader would naturally pause. `stickyNote.definition` is the one that gets saved to the student's Journal, so keep it accurate and self-contained; it'll be read out of context from the rest of the lesson.
 
@@ -390,7 +411,7 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 
 ## Roadmap
 
-### Phase 1 (Current) ✅
+### Phase 1 ✅ — Complete
 - All 75 lessons rewritten around a five-phase engine and voice-first content — the explanation *is* Java-chan teaching, not textbook prose with her commentary appended
 - Phase 1 rebuilt as a click-to-pin split screen across all 75 lessons — student-chosen topic order, dialogue beats, and sticky notes that feed a persistent, cross-lesson Journal
 - Hover glossary (shared + per-lesson `hoverNotes`) and inline emphasis tags (`term`/`warn`/`key`/`fun`) across lesson prose
@@ -399,7 +420,23 @@ In the Shop page, **triple-click the Shop title** to toggle the dev cheat:
 - Meet My Sisters cross-studio rail, background music with volume control
 - localStorage persistence, no account required
 
-### Phase 2 (Planned)
+### Phase 2 — In Progress 🔨
+
+#### 2A — The Java Interpreter (`feature/java-interpreter`)
+A custom tree-walking Java subset interpreter built entirely in JavaScript. Zero dependencies. No server. No external API. Students write real Java, run it in the browser, and see real output.
+
+Built in four milestones:
+
+| Milestone | Scope | Status |
+|-----------|-------|--------|
+| M1 — Scripting Subset | Variables, control flow, arrays, static methods, `System.out`, `Math` | 🔨 Active |
+| M2 — Object System | Classes, constructors, `this`, inheritance, `super`, `instanceof` | Planned |
+| M3 — Collections | `ArrayList`, `HashMap`, enhanced for-each | Planned |
+| M4 — Playground | Standalone `/playground` route — free-form Java sandbox, no lesson context | Planned |
+
+See [`INTERPRETER.md`](./INTERPRETER.md) for the full architecture, scope decisions, and contributor guide.
+
+#### 2B — Backend & Accounts
 - PostgreSQL + Express API backend
 - User accounts and cross-device sync
 - Progress stored server-side (the store already has a `_resetForMigration` hook and storage adapter pattern ready for this)

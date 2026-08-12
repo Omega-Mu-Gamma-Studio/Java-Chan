@@ -654,8 +654,9 @@ This is the build order for the scripting subset. Tasks are listed in dependency
 
 If a task turns out to be bigger than one session, stop and split it into two sub-tasks in this list rather than pushing through — that keeps the "one task, one session" rule honest for whoever picks it up next.
 
-- [ ] **Task 1 — `Lexer.js`: full tokenizer.** Implement `tokenize()` for every token type listed in §"1. Lexer": literals, keywords, operators (including `++`/`--` and compound assignment), delimiters, line tracking, whitespace/comment skipping, string/char escape handling. Fill in the real tests behind `lexer.test.js`'s `it.todo`s, with fixtures under `__tests__/fixtures/`.
+- [x] **Task 1 — `Lexer.js`: full tokenizer.** Implement `tokenize()` for every token type listed in §"1. Lexer": literals, keywords, operators (including `++`/`--` and compound assignment), delimiters, line tracking, whitespace/comment skipping, string/char escape handling. Fill in the real tests behind `lexer.test.js`'s `it.todo`s, with fixtures under `__tests__/fixtures/`.
   _Files: `Lexer.js`, `__tests__/lexer.test.js`_
+  _Done: 102 tests passing. Added fixtures: `hello_world.java`, `variables_basic.java`, `for_loop_sum.java`, `array_access.java`, `static_method.java`. Implementation notes: `NUMBER` tokens carry an `isDouble` boolean for int-vs-double formatting in the Evaluator; `true`/`false`/`null` are emitted as `BOOLEAN`/`NULL` literal tokens (not keyword tokens) so the Parser never sees `KEYWORD_TRUE` etc. and can treat them as primary expressions directly. No pre-existing lint errors were introduced._
 
 - [ ] **Task 2 — `Parser.js`: full AST for Phase 1 syntax.** Implement `parse()` via recursive descent for every node in §"2. Parser": class/method declarations, all statement types, the full expression precedence chain, array declarations. Fill in `parser.test.js`.
   _Files: `Parser.js`, `__tests__/parser.test.js`_ · _Depends on: Task 1_

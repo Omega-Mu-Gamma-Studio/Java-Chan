@@ -28,10 +28,67 @@
 .sandbox-editor__output {
   padding: 14px;
   border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .sandbox-editor__placeholder {
   opacity: 0.6;
   font-style: italic;
   margin: 0;
+}
+
+/* Expected-vs-Got mismatch comparison. The output/error panels themselves
+   reuse .output-block/.error-block/.validation-feedback from
+   LessonCanvas.css (already imported by the parent before this component
+   can render) — this file only adds what's new: the diff. */
+.sandbox-editor__diff {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sandbox-editor__diff-block {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.sandbox-editor__diff-block--expected {
+  border-color: var(--color-success);
+}
+
+.sandbox-editor__diff-block--got {
+  border-color: var(--color-warning);
+}
+
+.sandbox-editor__diff-label {
+  display: block;
+  padding: 5px 14px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  font-family: var(--font-ui);
+}
+
+.sandbox-editor__diff-block--expected .sandbox-editor__diff-label {
+  background: rgba(110, 255, 168, 0.1);
+  color: var(--color-success);
+}
+
+.sandbox-editor__diff-block--got .sandbox-editor__diff-label {
+  background: rgba(255, 204, 110, 0.1);
+  color: var(--color-warning);
+}
+
+.sandbox-editor__diff-block pre {
+  padding: 12px 16px;
+  margin: 0;
+  font-family: var(--font-code);
+  font-size: 0.85rem;
+  color: var(--color-text);
+  white-space: pre-wrap;
 }

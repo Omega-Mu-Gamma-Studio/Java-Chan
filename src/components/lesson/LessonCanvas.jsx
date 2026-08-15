@@ -10,6 +10,7 @@ import CodeBlock from './CodeBlock';
 import EmphasisText from './EmphasisText';
 import Phase1SplitScreen from './Phase1SplitScreen';
 import ScaffoldEditor from './ScaffoldEditor';
+import SandboxEditor from './SandboxEditor';
 import PhaseIndicator from './PhaseIndicator';
 import useJournalStore from '../../store/journalStore';
 import './LessonCanvas.css';
@@ -141,6 +142,34 @@ const LessonCanvas = ({ onComplete }) => {
         setDialogue("Oops, not quite~ Check the highlighted blank(s)!");
       }
     }
+  };
+
+  // Phase 3's executionMode grading logic — the interpreter half. SandboxEditor
+  // owns the run/error/mismatch UI and its own fail-path reactions (see its
+  // header comment); it only calls this on a passing run, so this mirrors
+  // just handleSubmitBlanks's success branch: record the attempt, award XP,
+  // complete the lesson, celebrate, and advance to Phase 4.
+  const handleSandboxPass = () => {
+    recordAttempt(lessonId);
+    const currentAttempts = attempts + 1;
+
+    play('success');
+    const xpEarned = calculateEarnedXP({
+      baseXP: xpReward,
+      attempts: currentAttempts,
+      usedHint: false,
+      usedSolution: false,
+    });
+    completeLesson(lessonId, xpEarned);
+    setExpression('domain');
+    queueDialogue([
+      "You got it~! ✨",
+      `+${xpEarned} XP earned!`,
+    ]);
+    setTimeout(() => {
+      setExpression('happy');
+      handlePhaseChange(4);
+    }, 3000);
   };
 
   // Phase 4's MCQ half — separate grading surface from Phase 3, per §4.1/§4.4.
@@ -281,7 +310,13 @@ const LessonCanvas = ({ onComplete }) => {
           >
             <h2 className="phase-heading phase-heading--try">✎ Code It With Me</h2>
 
-            {hasBlanks ? (
+            {phase3?.executionMode ? (
+              <SandboxEditor
+                scaffoldCode={phase3.scaffoldCode}
+                expectedOutput={phase3.expectedOutput}
+                onPass={handleSandboxPass}
+              />
+            ) : hasBlanks ? (
               <>
                 <ScaffoldEditor
                   scaffoldCode={phase3.scaffoldCode}

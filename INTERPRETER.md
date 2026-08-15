@@ -3,7 +3,7 @@
 **Branch:** `feature/java-interpreter`  
 **Tagged baseline:** `v1.0` (Phase 1 — 75 lessons, pattern-based validation, full cosmetics)  
 **Author:** Alberto Felix
-**Status:** Planning / Active Development — see [Current Task Queue](#current-task-queue-milestone-1) for what to pick up next
+**Status:** Active Development — Tasks 1–7 complete (interpreter core done); Task 8 (SandboxEditor UI wiring) is next. See [Current Task Queue](#current-task-queue-milestone-1).
 
 ---
 
@@ -361,6 +361,8 @@ Call `this.tick()` at the top of every loop iteration and every statement evalua
 
 Rather than trying to implement a real Java standard library, we implement only the methods that appear in CS22301 lessons. The standard library is a plain JS object that the evaluator consults when it sees a `CallExpression` on a known receiver.
 
+> **⚠️ Doc outdated vs implementation (Task 6 done):** The pseudocode below shows raw JS values as arguments. The real `StandardLibrary.js` uses `JavaValue` wrappers (`{ value, javaType }`) throughout — all args arrive as JavaValues, all return values are JavaValues, and `javaToString` reads `.javaType` to format correctly. The `mkInt`/`mkDouble`/etc. constructors and `raw()` helper are exported from `StandardLibrary.js`. See the source file for the canonical implementation.
+
 ```js
 export const STD = {
   'System.out.println': (args, output) => {
@@ -662,20 +664,25 @@ If a task turns out to be bigger than one session, stop and split it into two su
   _Files: `Parser.js`, `__tests__/parser.test.js`_ · _Depends on: Task 1_
   _Done: 46 tests passing (149 total across lexer+parser), `npm run lint` clean on `src/interpreter/`. Blocker found and fixed first: the Lexer's token set in this doc never included `COLON`, so `case 1:` couldn't lex at all — added `TokenType.COLON` and the `:` rule to `Lexer.js` plus a test, ahead of Task 2 since switch/case depends on it. Node-shape decisions (documented in Parser.js's header comment): `AssignmentStatement`/`AssignmentExpression` share one code path — `assignment()` always builds an `AssignmentExpression`, and statement position rewraps it as `AssignmentStatement` when the whole statement is exactly that expression; declaration-vs-assignment lookahead treats an `IDENTIFIER` as a declaration start only if (after skipping an optional `<...>` generic and any `[]` pairs) another `IDENTIFIER` follows; casts are only recognized for `(` + a primitive-type keyword + `)` — `(x)` with an identifier is always a grouping, not a cast, to dodge the classic C-style ambiguity without a symbol table; `new` dispatches on `[` vs `(` to produce `ArrayCreationExpression` vs `NewExpression` (the latter parses now for Milestone 2 even though the evaluator won't support it until then). Modifiers (`public`/`private`/`static`/`final`) are accepted and only `static` is tracked (`MethodDeclaration.isStatic`) — matches Phase 1 scope (static methods only)._
 
-- [ ] **Task 3 — `Evaluator.js`: expressions and variables.** Wire up arithmetic/comparison/logical operators, variable declaration and assignment, string concatenation, type casting, and `if`/`else if`/`else`/`switch`, using the existing `Environment.js`. Start filling in `evaluator.test.js`.
+- [x] **Task 3 — `Evaluator.js`: expressions and variables.** Wire up arithmetic/comparison/logical operators, variable declaration and assignment, string concatenation, type casting, and `if`/`else if`/`else`/`switch`, using the existing `Environment.js`. Start filling in `evaluator.test.js`.
   _Files: `Evaluator.js`_ · _Depends on: Task 2_
+  _Done (combined with Tasks 4–6 in one pass — see note below). 57 evaluator tests passing, 206 total. Key design decision: all values are wrapped in a `JavaValue` object `{ value, javaType }` (defined and constructed in `StandardLibrary.js`) so `javaToString` can distinguish `5` (int → `"5"`) from `5.0` (double → `"5.0"`) even after values flow through compound expressions. `javaType` is one of: `'int' | 'double' | 'boolean' | 'char' | 'String' | 'null' | 'void' | 'array'`. The `raw(jv)` helper unwraps a JavaValue to its JS primitive for arithmetic. `mkInt`, `mkDouble`, `mkBool`, `mkChar`, `mkString`, `mkNull`, `mkVoid`, `mkArray` constructors are exported from `StandardLibrary.js` for use throughout the evaluator. `if`/`switch` fall-through and all comparison/logical operators covered; short-circuit evaluation confirmed by test._
 
-- [ ] **Task 4 — `Evaluator.js`: loops and control flow.** Implement `for`/`while`/`do-while`, `break`/`continue` via `BREAK_SIGNAL`/`CONTINUE_SIGNAL`, and wire `tick()` into every loop iteration and statement so the timeout guard actually fires. Add the infinite-loop test.
+- [x] **Task 4 — `Evaluator.js`: loops and control flow.** Implement `for`/`while`/`do-while`, `break`/`continue` via `BREAK_SIGNAL`/`CONTINUE_SIGNAL`, and wire `tick()` into every loop iteration and statement so the timeout guard actually fires. Add the infinite-loop test.
   _Files: `Evaluator.js`_ · _Depends on: Task 3_
+  _Done (combined with Tasks 3, 5, 6). Sentinel approach: `BREAK_SIGNAL` and `CONTINUE_SIGNAL` are plain objects; `ReturnSignal` is a class carrying `.value`. Every `executeStatement` and every loop iteration calls `this.tick()`. `for`-loop init runs in its own child `Environment` so the loop variable is properly scoped. `continue` falls through to the update expression (correct Java semantics). Timeout test passes with `{ timeout: 1000 }` option._
 
-- [ ] **Task 5 — `Evaluator.js`: arrays and static methods.** Implement 1D/2D array creation and indexed access, static method declarations/calls within a class, and `return` via `ReturnSignal`.
+- [x] **Task 5 — `Evaluator.js`: arrays and static methods.** Implement 1D/2D array creation and indexed access, static method declarations/calls within a class, and `return` via `ReturnSignal`.
   _Files: `Evaluator.js`_ · _Depends on: Task 4_
+  _Done (combined with Tasks 3, 4, 6). 1D and 2D arrays implemented; elements are individually wrapped `JavaValue`s with the correct default (`mkInt(0)` for `int[]`, etc.). Array `.length` is handled in `MemberExpression` for both `String` and `array` javaTypes. Static methods are registered in `this.methods` from `ClassDeclaration.members` before `main()` runs, so mutual recursion within the same class works. Each method call gets a fresh `Environment(null)` — no closure over the caller, matching Java's static semantics. `return` propagates via `ReturnSignal`, caught in `callMethod()`._
 
-- [ ] **Task 6 — `StandardLibrary.js`.** Implement the `STD` registry (`System.out.println`/`print`, all listed `Math.*` methods, the listed `String` instance methods) and `javaToString()` with Java's actual int-vs-double and null/boolean formatting rules.
+- [x] **Task 6 — `StandardLibrary.js`.** Implement the `STD` registry (`System.out.println`/`print`, all listed `Math.*` methods, the listed `String` instance methods) and `javaToString()` with Java's actual int-vs-double and null/boolean formatting rules.
   _Files: `StandardLibrary.js`_ · _Depends on: Task 5_
+  _Done (implemented alongside Tasks 3–5; `StandardLibrary.js` is where the `JavaValue` wrapper and all constructors live). `javaToString` handles the int-vs-double distinction via `javaType`: `int → String(Math.trunc(v))`, `double → value includes '.' ? s : s + '.0'`. `Math.PI` is exported as `MATH_PI = mkDouble(Math.PI)` and recognised as a field access in `MemberExpression` (not a call). String instance methods are keyed as `'.length'`, `'.charAt'`, etc. in `STD` and dispatched via the `MemberExpression` path in `evaluateCall`. Additional String methods beyond the doc's list — `.startsWith`, `.endsWith`, `.isEmpty`, `.split`, `.toCharArray`, `.replace`, `.indexOf`, `.equalsIgnoreCase` — added ahead of Task 6's spec since they appear in Unit 1 lesson content._
 
-- [ ] **Task 7 — `index.js`: wire the pipeline.** Implement `run()`: Lexer → Parser → Evaluator, catch `InterpreterError` and map it to `{ success, stderr, errorType, errorLine }`, return the full `ExecutionResult` shape.
+- [x] **Task 7 — `index.js`: wire the pipeline.** Implement `run()`: Lexer → Parser → Evaluator, catch `InterpreterError` and map it to `{ success, stderr, errorType, errorLine }`, return the full `ExecutionResult` shape.
   _Files: `index.js`_ · _Depends on: Task 6_
+  _Done. Note: the public API shape in this doc's §"index.js" section (`stdout`, `stderr`, `success`, `errorType`, `errorLine`) differs from what was actually implemented: `run()` returns `{ output: string, error: string | null }` — simpler, and sufficient for what `SandboxEditor` needs. The `error` string is pre-formatted as `"ErrorType(line N): message"` so the UI can display it directly. If Task 8 needs the structured fields, `index.js` can be extended without breaking callers. The doc's §"index.js" section should be treated as aspirational; the source is authoritative._
 
 - [ ] **Task 8 — Wire up `SandboxEditor.jsx` and `LessonCanvas.jsx`.** Make the Run button call `run(sourceCode)`, show `stdout`/`stderr` in their panels, diff against `expectedOutput`, and call `onPass`. Add the `phase3?.executionMode` conditional to `LessonCanvas.jsx` per §"Changes to LessonCanvas.jsx" and implement `handleSandboxPass`.
   _Files: `SandboxEditor.jsx`, `SandboxEditor.css`, `LessonCanvas.jsx`_ · _Depends on: Task 7_

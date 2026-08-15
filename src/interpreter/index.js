@@ -1,47 +1,39 @@
 /**
- * src/interpreter/index.js
+ * index.js
  *
- * The ONLY file the rest of the app imports from the interpreter. See
- * INTERPRETER.md §"src/interpreter/index.js — the public API". Everything
- * else in this directory (Lexer, Parser, Evaluator, ...) is internal.
+ * Public interpreter entry point. Ties together Lexer → Parser → Evaluator
+ * and returns a { output, error } result object.
  *
- * STUB — not yet implemented. Milestone 1. Currently always returns a
- * not-implemented ExecutionResult so callers can integrate against the
- * real shape before the interpreter itself exists.
+ * See INTERPRETER.md §"index.js (public API)" for the expected shape.
  */
 
-// NOTE: run() will import Lexer, Parser, Evaluator, and InterpreterError
-// once the pipeline below is implemented — left out for now so this file
-// doesn't carry unused imports.
+import { Lexer } from './Lexer.js';
+import { Parser } from './Parser.js';
+import { Evaluator } from './Evaluator.js';
+import { InterpreterError } from './InterpreterError.js';
 
 /**
- * @typedef {object} ExecutionResult
- * @property {string} stdout - everything printed via System.out
- * @property {string} stderr - compiler/runtime error message, if any
- * @property {boolean} success - true if execution completed without error
- * @property {string|null} errorType - 'LexError' | 'ParseError' | 'RuntimeError' | null
- * @property {number|null} errorLine - line number of the error, if known
- */
-
-/**
- * Run a Java source string against the subset interpreter.
+ * Run Java source code through the interpreter.
  *
- * @param {string} sourceCode - the Java source string to execute
+ * @param {string} sourceCode
  * @param {object} [options]
- * @param {string[]} [options.stdin] - pre-seeded input lines for Scanner
- * @param {number} [options.timeout] - max execution time in ms (default: 3000)
- * @returns {ExecutionResult}
+ * @param {number} [options.timeout]  - max operation count (default 100_000)
+ * @param {string[]} [options.stdin]  - pre-seeded Scanner input lines
+ * @returns {{ output: string, error: string | null }}
  */
-// eslint-disable-next-line no-unused-vars -- sourceCode/options used once the pipeline below is implemented
 export function run(sourceCode, options = {}) {
-  // TODO: implement — see INTERPRETER.md for the full Lexer → Parser →
-  // Evaluator pipeline this should wire together. Placeholder below keeps
-  // the return shape correct so SandboxEditor can integrate against it now.
-  return {
-    stdout: '',
-    stderr: 'Interpreter not yet implemented.',
-    success: false,
-    errorType: null,
-    errorLine: null,
-  };
+  try {
+    const tokens  = new Lexer(sourceCode).tokenize();
+    const ast     = new Parser(tokens).parse();
+    const ev      = new Evaluator(options);
+    const output  = ev.run(ast);
+    return { output, error: null };
+  } catch (err) {
+    if (err instanceof InterpreterError) {
+      const loc = err.line ? ` (line ${err.line})` : '';
+      return { output: '', error: `${err.type}${loc}: ${err.message}` };
+    }
+    // Unexpected JS error — surface it cleanly rather than swallowing.
+    return { output: '', error: `InternalError: ${err.message}` };
+  }
 }
